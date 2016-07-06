@@ -13,6 +13,20 @@ Public Class Produit
 
 #Region "Propriétés"
 
+#Region "Unité"
+    Private _Unité As Unités
+    Public Property Unité() As Unités
+        Get
+            Return _Unité
+        End Get
+        Set(ByVal value As Unités)
+            If Object.Equals(value, Me._Unité) Then Exit Property
+            _Unité = value
+            NotifyPropertyChanged(NameOf(Unité))
+        End Set
+    End Property
+#End Region
+
 #Region "Prix (Single)"
     Private _Prix As Single
     Public Property Prix() As Single
@@ -78,3 +92,17 @@ Public Class Produit
 #End Region
 
 End Class
+
+Public Enum Unités
+    ''' <summary>Ensemble</summary>
+    Ens
+
+    ''' <summary>?</summary>
+    PM
+
+    ''' <summary>?</summary>
+    ML
+
+    ''' <summary>Nombre</summary>
+    U
+End Enum

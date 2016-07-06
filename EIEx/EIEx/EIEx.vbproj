@@ -194,6 +194,9 @@
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Vue\Produits.xaml.vb">
+      <DependentUpon>Produits.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vue\UC_Container.Designer.vb">
       <DependentUpon>UC_Container.vb</DependentUpon>
     </Compile>
@@ -242,6 +245,10 @@
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Vue\Produits.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vue\UC_SubContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -251,10 +258,6 @@
     <ProjectReference Include="..\EIEx_Model\EIEx_Model.vbproj">
       <Project>{2e479322-7d9f-48fd-8dff-f452317662be}</Project>
       <Name>EIEx_Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EIEx_Vue\EIEx_Vue.vbproj">
-      <Project>{7c451df5-b5ac-44f8-9288-9df44df29e57}</Project>
-      <Name>EIEx_Vue</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
