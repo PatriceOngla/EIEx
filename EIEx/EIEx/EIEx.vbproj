@@ -184,11 +184,6 @@
   <ItemGroup>
     <AppDesigner Include="My Project\" />
     <Compile Include="Common.vb" />
-    <Compile Include="Model\FamilleDeProduit.vb" />
-    <Compile Include="Model\RéférenceDOuvrage.vb" />
-    <Compile Include="Model\Produit.vb" />
-    <Compile Include="Model\UsageDeProduit.vb" />
-    <Compile Include="Model\Référentiel.vb" />
     <Compile Include="Vue\EIExRibbon.Designer.vb">
       <DependentUpon>EIExRibbon.vb</DependentUpon>
     </Compile>
@@ -196,10 +191,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Vue\ExcelEventManager.vb" />
-    <Compile Include="Model\EIEx.vb" />
-    <Compile Include="Model\EIExObject.vb" />
-    <Compile Include="Model\Bordereau.vb" />
-    <Compile Include="Model\Paramètres.vb" />
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -256,7 +247,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EIEx_Model\EIEx_Model.vbproj">
+      <Project>{2e479322-7d9f-48fd-8dff-f452317662be}</Project>
+      <Name>EIEx_Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIEx_Vue\EIEx_Vue.vbproj">
+      <Project>{7c451df5-b5ac-44f8-9288-9df44df29e57}</Project>
+      <Name>EIEx_Vue</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

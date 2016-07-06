@@ -8,20 +8,6 @@
 
 #Region "Propriétés"
 
-#Region "Nom (String)"
-    Private _Nom As String
-    Public Property Nom() As String
-        Get
-            Return _Nom
-        End Get
-        Set(ByVal value As String)
-            If Object.Equals(value, Me._Nom) Then Exit Property
-            _Nom = value
-            NotifyPropertyChanged(NameOf(Nom))
-        End Set
-    End Property
-#End Region
-
 #Region "Marge (single)"
     Private _Marge As Single
     Public Property Marge() As Single

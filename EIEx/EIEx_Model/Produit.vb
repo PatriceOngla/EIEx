@@ -13,20 +13,6 @@ Public Class Produit
 
 #Region "Propriétés"
 
-#Region "Nom (String)"
-    Private _Nom As String
-    Public Property Nom() As String
-        Get
-            Return _Nom
-        End Get
-        Set(ByVal value As String)
-            If Object.Equals(value, Me._Nom) Then Exit Property
-            _Nom = value
-            NotifyPropertyChanged(NameOf(Nom))
-        End Set
-    End Property
-#End Region
-
 #Region "Prix (Single)"
     Private _Prix As Single
     Public Property Prix() As Single
