@@ -3,6 +3,13 @@
 
 #Region "Constructeurs"
 
+    Public Sub New()
+
+    End Sub
+
+    Public Sub New(Id As Integer)
+        MyBase.New(Id)
+    End Sub
 
 #End Region
 

@@ -10,9 +10,28 @@ Public Class Référentiel
         _FamillesDeProduit = New ObservableCollection(Of FamilleDeProduit)
         _RéférencesDOuvrage = New ObservableCollection(Of RéférenceDOuvrage)
     End Sub
+
+    Public Sub New(Id As Integer)
+        MyBase.New(Id)
+    End Sub
+
 #End Region
 
 #Region "Propriétés"
+
+#Region "DateModif"
+    Private _DateModif As Date
+    Public Property DateModif() As Date
+        Get
+            Return _DateModif
+        End Get
+        Set(ByVal value As Date)
+            If Object.Equals(value, Me._DateModif) Then Exit Property
+            _DateModif = value
+            NotifyPropertyChanged(NameOf(DateModif))
+        End Set
+    End Property
+#End Region
 
 #Region "Produits (ObservableCollection(Of Produit))"
     Private _Produits As ObservableCollection(Of Produit)

@@ -21,8 +21,8 @@ Public Class EIEx
 #End Region
 
 #Region "Bordereaux"
-    Private _Bordereaux As ObservableCollection(Of Bordereau)
-    Public ReadOnly Property Bordereaux() As ObservableCollection(Of Bordereau)
+    Private _Bordereaux As ObservableCollection(Of Bordereau_DAO)
+    Public ReadOnly Property Bordereaux() As ObservableCollection(Of Bordereau_DAO)
         Get
             Return _Bordereaux
         End Get

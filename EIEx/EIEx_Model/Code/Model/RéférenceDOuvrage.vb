@@ -10,8 +10,12 @@ Public Class RéférenceDOuvrage
 #Region "Constructeurs"
     Public Sub New()
         _Libellés = New ObservableCollection(Of String)
-        _UtilisationsDeProduit = New ObservableCollection(Of UsageDeProduit)
+        _UsagesDeProduit = New ObservableCollection(Of UsageDeProduit)
         _MotsClés = New ObservableCollection(Of String)
+    End Sub
+
+    Public Sub New(Id As Integer)
+        MyBase.New(Id)
     End Sub
 
 #End Region
@@ -51,11 +55,11 @@ Public Class RéférenceDOuvrage
     End Sub
 #End Region
 
-#Region "Produits (ObservableCollection(of RéférenceDUtilisationDeProduit))"
-    Private _UtilisationsDeProduit As ObservableCollection(Of UsageDeProduit)
-    Public ReadOnly Property UtilisationsDeProduit() As ObservableCollection(Of UsageDeProduit)
+#Region "UsagesDeProduit "
+    Private _UsagesDeProduit As ObservableCollection(Of UsageDeProduit)
+    Public ReadOnly Property UsagesDeProduit() As ObservableCollection(Of UsageDeProduit)
         Get
-            Return _UtilisationsDeProduit
+            Return _UsagesDeProduit
         End Get
     End Property
 #End Region
@@ -92,7 +96,7 @@ Public Class RéférenceDOuvrage
 
     Public ReadOnly Property TempsDePauseCalculé As Single
         Get
-            Dim r = (From up In UtilisationsDeProduit Select up.Nombre * up.Produit.TempsDePauseUnitaire).Sum()
+            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit.TempsDePauseUnitaire).Sum()
             Return r
         End Get
     End Property
@@ -120,7 +124,7 @@ Public Class RéférenceDOuvrage
 
     Public ReadOnly Property PrixUnitaireCalculé As Single
         Get
-            Dim r = (From up In UtilisationsDeProduit Select up.Nombre * up.Produit.Prix).Sum()
+            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit.Prix).Sum()
             Return r
         End Get
     End Property

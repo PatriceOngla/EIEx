@@ -24,6 +24,7 @@ Public Class UsageDeProduit
         End Set
     End Property
 #End Region
+
 #Region "Nombre (Integer)"
     Private _Nombre As Integer
     Public Property Nombre() As Integer

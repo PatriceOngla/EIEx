@@ -11,7 +11,7 @@ Public Class EIExObject
     End Sub
 
     Public Sub New(Id As Integer)
-
+        Me.Id = Id
     End Sub
 
 #End Region
@@ -19,12 +19,7 @@ Public Class EIExObject
 #Region "Propriétés"
 
 #Region "Id (Integer)"
-    Private _Id As Integer
-    Public ReadOnly Property Id() As Integer
-        Get
-            Return _Id
-        End Get
-    End Property
+    Public ReadOnly Property Id() As Integer?
 #End Region
 
 #Region "Nom (String)"

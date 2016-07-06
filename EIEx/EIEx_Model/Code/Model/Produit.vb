@@ -9,6 +9,10 @@ Public Class Produit
         _MotsClés = New ObservableCollection(Of String)
     End Sub
 
+    Public Sub New(Id As Integer)
+        MyBase.New(Id)
+    End Sub
+
 #End Region
 
 #Region "Propriétés"
@@ -76,6 +80,20 @@ Public Class Produit
         Get
             Return _MotsClés
         End Get
+    End Property
+#End Region
+
+#Region "Famille"
+    Private _Famille As FamilleDeProduit
+    Public Property Famille() As FamilleDeProduit
+        Get
+            Return _Famille
+        End Get
+        Set(ByVal value As FamilleDeProduit)
+            If Object.Equals(value, Me._Famille) Then Exit Property
+            _Famille = value
+            NotifyPropertyChanged(NameOf(Famille))
+        End Set
     End Property
 #End Region
 
