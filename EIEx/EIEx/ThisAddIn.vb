@@ -4,8 +4,6 @@ Public Class ThisAddIn
 
     Private Sub ThisAddIn_Startup() Handles Me.Startup
         Try
-            EIExAddin = Globals.ThisAddIn
-            XL = Globals.ThisAddIn.Application
         Catch ex As ArgumentException
             ManageError(ex, NameOf(ThisAddIn_Startup))
         End Try
@@ -13,7 +11,7 @@ Public Class ThisAddIn
 
     Private Sub ThisAddIn_Shutdown() Handles Me.Shutdown
         Try
-            XL = Nothing
+            ExcelEventManager.CleanUp()
             EIExAddin = Nothing
         Catch ex As ArgumentException
             ManageError(ex, NameOf(ThisAddIn_Shutdown))

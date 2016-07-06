@@ -184,29 +184,38 @@
   <ItemGroup>
     <AppDesigner Include="My Project\" />
     <Compile Include="Common.vb" />
-    <Compile Include="EIExRibbon.Designer.vb">
+    <Compile Include="Model\FamilleDeProduit.vb" />
+    <Compile Include="Model\RéférenceDOuvrage.vb" />
+    <Compile Include="Model\Produit.vb" />
+    <Compile Include="Model\UsageDeProduit.vb" />
+    <Compile Include="Model\Référentiel.vb" />
+    <Compile Include="Vue\EIExRibbon.Designer.vb">
       <DependentUpon>EIExRibbon.vb</DependentUpon>
     </Compile>
-    <Compile Include="EIExRibbon.vb">
+    <Compile Include="Vue\EIExRibbon.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ExcelEventManager.vb" />
+    <Compile Include="Vue\ExcelEventManager.vb" />
+    <Compile Include="Model\EIEx.vb" />
+    <Compile Include="Model\EIExObject.vb" />
+    <Compile Include="Model\Bordereau.vb" />
+    <Compile Include="Model\Paramètres.vb" />
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UC_Container.Designer.vb">
+    <Compile Include="Vue\UC_Container.Designer.vb">
       <DependentUpon>UC_Container.vb</DependentUpon>
     </Compile>
-    <Compile Include="UC_Container.vb">
+    <Compile Include="Vue\UC_Container.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC_SubContainer.xaml.vb">
+    <Compile Include="Vue\UC_SubContainer.xaml.vb">
       <DependentUpon>UC_SubContainer.xaml</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="EIExRibbon.resx">
+    <EmbeddedResource Include="Vue\EIExRibbon.resx">
       <DependentUpon>EIExRibbon.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC_Container.resx">
+    <EmbeddedResource Include="Vue\UC_Container.resx">
       <DependentUpon>UC_Container.vb</DependentUpon>
     </EmbeddedResource>
     <None Include="EIEx_TemporaryKey.pfx" />
@@ -242,11 +251,12 @@
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UC_SubContainer.xaml">
+    <Page Include="Vue\UC_SubContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

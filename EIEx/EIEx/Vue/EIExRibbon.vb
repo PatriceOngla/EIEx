@@ -17,13 +17,12 @@ Public Class EIExRibbon
     End Sub
 
     Private Sub HideOrShowAndAttachPanel(show As Boolean)
-        Dim w = XL.ActiveWindow
-        If w Is Nothing Then
+        If ExcelEventManager.TargetWindow Is Nothing Then
             MsgBox("Aucune fenêtre active.")
         Else
             If EIExTaskPane Is Nothing Then
                 Dim c = New UC_Container()
-                EIExTaskPane = EIExAddin.CustomTaskPanes.Add(c, "EIEx", w)
+                EIExTaskPane = EIExAddin.CustomTaskPanes.Add(c, "EIEx", ExcelEventManager.TargetWindow)
             End If
             EIExTaskPane.Visible = show
             If Not show Then

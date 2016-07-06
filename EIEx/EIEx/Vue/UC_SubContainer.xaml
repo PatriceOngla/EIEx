@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="UC_SubContainer"
+             Name="UCSC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,6 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150">
     <Grid Background="#FFCD0E0E">
-         <Button Margin="20" Content="Cliquer là" Background="#FF79E116" FontSize="16" Click="Button_Click" />   
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TBx_SelectedRange" Text="{Binding ElementName=UCSC, Path=SelectedRange, FallbackValue=SelectedRange}" FontSize="18" />
+        <Button Grid.Row="1" Margin="20" Content="Cliquer là" Background="#FF79E116" FontSize="16" Click="Button_Click" />
     </Grid>
 </UserControl>

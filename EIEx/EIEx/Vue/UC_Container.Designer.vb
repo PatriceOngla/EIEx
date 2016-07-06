@@ -23,19 +23,18 @@ Partial Class UC_Container
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.WPFHost = New System.Windows.Forms.Integration.ElementHost()
-        Me.UC_SubContainer1 = New EIEx.UC_SubContainer()
+        Me.UC_SubContainer1 = New UC_SubContainer()
+
         Me.SuspendLayout()
         '
         'WPFHost
         '
-        Me.WPFHost.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WPFHost.AutoSize = True
         Me.WPFHost.BackColorTransparent = True
-        Me.WPFHost.Location = New System.Drawing.Point(3, 0)
+        Me.WPFHost.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.WPFHost.Location = New System.Drawing.Point(0, 0)
         Me.WPFHost.Name = "WPFHost"
-        Me.WPFHost.Size = New System.Drawing.Size(294, 127)
+        Me.WPFHost.Size = New System.Drawing.Size(150, 150)
         Me.WPFHost.TabIndex = 0
         Me.WPFHost.Text = "ElementHost1"
         Me.WPFHost.Child = Me.UC_SubContainer1
