@@ -6,10 +6,25 @@ Public Class UsageDeProduit
 
 #Region "Constructeurs"
 
+    Friend Sub New(Parent As RéférenceDOuvrage)
+        _Parent = Parent
+    End Sub
+
+    Protected Overrides Sub Init()
+    End Sub
 
 #End Region
 
 #Region "Propriétés"
+
+#Region "Parent (RéférenceDOuvrage)"
+    Private _Parent As RéférenceDOuvrage
+    Public ReadOnly Property Parent() As RéférenceDOuvrage
+        Get
+            Return _Parent
+        End Get
+    End Property
+#End Region
 
 #Region "Produit (Produit)"
     Private _Produit As Produit

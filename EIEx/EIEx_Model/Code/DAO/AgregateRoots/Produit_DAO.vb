@@ -1,7 +1,9 @@
-﻿Imports EIEx_Model
+﻿Imports System.Xml.Serialization
+Imports Utils
 
+<Serializable>
 Public Class Produit_DAO
-    Inherits EIEx_Object_DAO(Of Produit)
+    Inherits AgregateRoot_DAO(Of Produit)
 
 #Region "Constructeurs"
 
@@ -15,36 +17,40 @@ Public Class Produit_DAO
         Me.ReférenceFournisseur = P.ReférenceFournisseur
         Me.TempsDePauseUnitaire = P.TempsDePauseUnitaire
         Me.MotsClés = New List(Of String)(P.MotsClés)
-        Me.Famille = New FamilleDeProduit_DAO(P.Famille)
+        If P.Famille IsNot Nothing Then Me.FamilleId = P.Famille.Id
     End Sub
 
 #End Region
 
 #Region "Propriétés"
 
-    Public Property Unité() As Unités
+    Public Property Unité() As Unités?
 
-    Public Property Prix() As Single
+    Public Property Prix() As Single?
 
+    <XmlAttribute>
     Public Property ReférenceFournisseur() As String
 
     Public Property TempsDePauseUnitaire() As Integer?
 
     Public Property MotsClés() As List(Of String)
 
-    Public Property Famille() As FamilleDeProduit_DAO
+    Public Property FamilleId() As Integer
 
 #End Region
 
 #Region "Méthodes"
 
-    Public Overrides Function UnSerialized_Ex() As Produit
-        Dim r As New Produit
+    Protected Overrides Function UnSerialized_Ex_Ex() As Produit
+        'Dim r = Référentiel.Instance.GetNewProduit(Me.Id)
+        Dim r = Réf.GetProduitById(Me.Id)
+        r = If(r, New Produit(Me.Id))
         r.Unité = Unité
         r.Prix = Prix
         r.ReférenceFournisseur = ReférenceFournisseur
         r.TempsDePauseUnitaire = TempsDePauseUnitaire
         r.MotsClés.AddRange(MotsClés)
+        r.Famille = Réf.GetFamilleById(Me.FamilleId)
         Return r
     End Function
 

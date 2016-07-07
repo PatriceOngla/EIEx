@@ -1,16 +1,29 @@
 ﻿Imports System.Collections.ObjectModel
 
 Public Class Produit
-    Inherits EIExObject
+    Inherits AgregateRoot
 
 #Region "Constructeurs"
 
     Public Sub New()
-        _MotsClés = New ObservableCollection(Of String)
+
     End Sub
 
     Public Sub New(Id As Integer)
         MyBase.New(Id)
+        _MotsClés = New ObservableCollection(Of String)
+    End Sub
+
+    Protected Overrides Sub Init()
+        _MotsClés = New ObservableCollection(Of String)
+    End Sub
+
+    Protected Overrides Sub SetId()
+        Me._Id = Réf.GetNewId(Of Produit)
+    End Sub
+
+    Protected Overrides Sub SEnregistrerDansLeRéférentiel()
+        Réf.EnregistrerRoot(Me)
     End Sub
 
 #End Region
@@ -18,12 +31,12 @@ Public Class Produit
 #Region "Propriétés"
 
 #Region "Unité"
-    Private _Unité As Unités
-    Public Property Unité() As Unités
+    Private _Unité As Unités?
+    Public Property Unité() As Unités?
         Get
             Return _Unité
         End Get
-        Set(ByVal value As Unités)
+        Set(ByVal value As Unités?)
             If Object.Equals(value, Me._Unité) Then Exit Property
             _Unité = value
             NotifyPropertyChanged(NameOf(Unité))
@@ -32,12 +45,12 @@ Public Class Produit
 #End Region
 
 #Region "Prix (Single)"
-    Private _Prix As Single
-    Public Property Prix() As Single
+    Private _Prix As Single?
+    Public Property Prix() As Single?
         Get
             Return _Prix
         End Get
-        Set(ByVal value As Single)
+        Set(ByVal value As Single?)
             If Object.Equals(value, Me._Prix) Then Exit Property
             _Prix = value
             NotifyPropertyChanged(NameOf(Prix))

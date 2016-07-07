@@ -7,6 +7,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EIEx", "EIEx\EIEx.vbproj", 
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EIEx_Model", "EIEx_Model\EIEx_Model.vbproj", "{2E479322-7D9F-48FD-8DFF-F452317662BE}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Utils", "Utils\Utils.vbproj", "{DD23DA99-CA52-4876-A3B7-4B154E5B981F}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UnitTest", "UnitTest\UnitTest.vbproj", "{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{2E479322-7D9F-48FD-8DFF-F452317662BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E479322-7D9F-48FD-8DFF-F452317662BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E479322-7D9F-48FD-8DFF-F452317662BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD23DA99-CA52-4876-A3B7-4B154E5B981F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD23DA99-CA52-4876-A3B7-4B154E5B981F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD23DA99-CA52-4876-A3B7-4B154E5B981F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD23DA99-CA52-4876-A3B7-4B154E5B981F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

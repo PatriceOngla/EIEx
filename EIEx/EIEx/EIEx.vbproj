@@ -259,6 +259,10 @@
       <Project>{2e479322-7d9f-48fd-8dff-f452317662be}</Project>
       <Name>EIEx_Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.vbproj">
+      <Project>{dd23da99-ca52-4876-a3b7-4b154e5b981f}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

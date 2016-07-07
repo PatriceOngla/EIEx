@@ -1,5 +1,4 @@
-﻿Imports EIEx_Model
-
+﻿<Serializable>
 Public Class Paramètres_DAO
     Inherits EIEx_Object_DAO(Of Paramètres)
 
@@ -24,11 +23,12 @@ Public Class Paramètres_DAO
     Public Property AdresseRangeUnité() As String
 
     Public Property AdresseRangePrixUnitaire() As String
+
 #End Region
 
 #Region "Méthodes"
-    Public Overrides Function UnSerialized_Ex() As Paramètres
-        Dim r As New Paramètres(Me.Id)
+    Protected Overrides Function UnSerialized_Ex() As Paramètres
+        Dim r As New Paramètres()
         r.AdresseRangeLibelleOuvrage = AdresseRangeLibelleOuvrage
         r.AdresseRangePrixUnitaire = AdresseRangePrixUnitaire
         r.AdresseRangeUnité = AdresseRangeUnité

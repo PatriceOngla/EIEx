@@ -1,7 +1,7 @@
 ﻿Imports System.Windows
 
 Public Class Bordereau
-    Inherits EIExObject
+    Inherits AgregateRoot
 
 #Region "Constructeurs"
 
@@ -11,6 +11,17 @@ Public Class Bordereau
 
     Public Sub New(Id As Integer)
         MyBase.New(Id)
+    End Sub
+    Protected Overrides Sub Init()
+        _Paramètres = New Paramètres
+    End Sub
+
+    Protected Overrides Sub SetId()
+        Me._Id = Réf.GetNewId(Of Bordereau)
+    End Sub
+
+    Protected Overrides Sub SEnregistrerDansLeRéférentiel()
+        Réf.EnregistrerRoot(Me)
     End Sub
 
 #End Region
@@ -32,7 +43,7 @@ Public Class Bordereau
 #End Region
 
 #Region "Paramètres (Paramètres)"
-    Private _Paramètres = New Paramètres
+    Private _Paramètres As Paramètres
     Public ReadOnly Property Paramètres() As Paramètres
         Get
             Return _Paramètres

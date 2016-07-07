@@ -1,6 +1,9 @@
-﻿
+﻿Imports System.Xml.Serialization
+Imports Utils
+
+<Serializable>
 Public Class RéférenceDOuvrage_DAO
-    Inherits EIEx_Object_DAO(Of RéférenceDOuvrage)
+    Inherits AgregateRoot_DAO(Of RéférenceDOuvrage)
 
 #Region "Constructeurs"
     Public Sub New()
@@ -8,8 +11,6 @@ Public Class RéférenceDOuvrage_DAO
 
     Public Sub New(R As RéférenceDOuvrage)
         MyBase.New(R)
-
-        Me.LibelléPrincipal = R.LibelléPrincipal
 
         Me.Libellés = New List(Of String)(R.Libellés)
 
@@ -28,8 +29,6 @@ Public Class RéférenceDOuvrage_DAO
 
 #Region "Propriétés"
 
-    Public Property LibelléPrincipal() As String
-
     Public Property Libellés() As List(Of String)
 
     Public Property UsagesDeProduit() As List(Of UsageDeProduit_DAO)
@@ -44,9 +43,10 @@ Public Class RéférenceDOuvrage_DAO
 
 #Region "Méthodes"
 
-    Public Overrides Function UnSerialized_Ex() As RéférenceDOuvrage
-        Dim r As New RéférenceDOuvrage
-        r.LibelléPrincipal = Me.LibelléPrincipal
+    Protected Overrides Function UnSerialized_Ex_Ex() As RéférenceDOuvrage
+        ' Dim r = Réf.GetNewRéférenceDOuvrage(Me.Id)
+        Dim r = Réf.GetRéférenceDOuvrageById(Me.Id)
+        r = If(r, New RéférenceDOuvrage(Me.Id))
         r.Libellés.AddRange(Me.Libellés)
         Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()
         r.UsagesDeProduit.AddRange(UsagesDeProduit)

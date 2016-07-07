@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E479322-7D9F-48FD-8DFF-F452317662BE}</ProjectGuid>
+    <ProjectGuid>{DD23DA99-CA52-4876-A3B7-4B154E5B981F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Model</RootNamespace>
-    <AssemblyName>EIEx_Model</AssemblyName>
+    <RootNamespace>Utils</RootNamespace>
+    <AssemblyName>Utils</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>EIEx_Model.xml</DocumentationFile>
+    <DocumentationFile>Utils.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -27,7 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>EIEx_Model.xml</DocumentationFile>
+    <DocumentationFile>Utils.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -63,20 +63,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\DAO\AgregateRoots\Bordereau_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\AgregateRoot_DAO.vb" />
-    <Compile Include="Code\DAO\EIExObject_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\FamilleDeProduit_DAO.vb" />
-    <Compile Include="Code\DAO\Paramètres_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\Produit_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\RéférenceDOuvrage_DAO.vb" />
-    <Compile Include="Code\DAO\Référentiel_DAO.vb" />
-    <Compile Include="Code\DAO\UsageDeProduit_DAO.vb" />
-    <Compile Include="Code\Model\Bordereau.vb" />
-    <Compile Include="Code\Model\EIExData.vb" />
-    <Compile Include="Code\Model\EIExObject.vb" />
-    <Compile Include="Code\Model\FamilleDeProduit.vb" />
-    <Compile Include="Code\Model\AgregateRoot.vb" />
+    <Compile Include="IPersistant.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -92,11 +79,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Code\Model\Paramètres.vb" />
-    <Compile Include="Code\Model\Produit.vb" />
-    <Compile Include="Code\Model\RéférenceDOuvrage.vb" />
-    <Compile Include="Code\Model\Référentiel.vb" />
-    <Compile Include="Code\Model\UsageDeProduit.vb" />
+    <Compile Include="Utils.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -116,12 +99,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Utils\Utils.vbproj">
-      <Project>{dd23da99-ca52-4876-a3b7-4b154e5b981f}</Project>
-      <Name>Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

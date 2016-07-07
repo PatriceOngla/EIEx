@@ -1,4 +1,7 @@
-﻿
+﻿Imports System.Xml.Serialization
+Imports Utils
+
+<Serializable>
 Public Class Référentiel_DAO
     Inherits EIEx_Object_DAO(Of Référentiel)
 
@@ -26,6 +29,7 @@ Public Class Référentiel_DAO
 #End Region
 
 #Region "Propriétés"
+    <XmlAttribute>
     Public Property DateModif() As Date
 
     Public Property Produits() As List(Of Produit_DAO)
@@ -38,22 +42,25 @@ Public Class Référentiel_DAO
 
 #Region "Méthodes"
 
-    Public Overrides Function UnSerialized_Ex() As Référentiel
-        Dim r As New Référentiel
-        'r.Produit = Me.Produit.UnSerialized
-        'r.Nombre = Me.Nombre
-        'Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()
+    Protected Overrides Function UnSerialized_Ex() As Référentiel
+        'Dim r As New Référentiel
+        Dim r = Référentiel.Instance
+        r.Purger
 
         r.DateModif = Me.DateModif
 
-        Dim Produits = From p In Me.Produits Select p.UnSerialized()
-        r.Produits.AddRange(Produits)
+        'Les objets s'enregistrent dans le référentiel dans leur constructeur. 
+        Dim Produits = (From p In Me.Produits Select p.UnSerialized()).OfType(Of Produit)
+        Produits.DoForAll(Sub(p As Produit) Réf.EnregistrerRoot(p))
+        'r.Produits.AddRange(Produits)
 
-        Dim Familles = From f In Me.FamillesDeProduit Select f.UnSerialized()
-        r.FamillesDeProduit.AddRange(Familles)
+        Dim Familles = (From f In Me.FamillesDeProduit Select f.UnSerialized()).OfType(Of FamilleDeProduit)
+        Familles.DoForAll(Sub(f As FamilleDeProduit) Réf.EnregistrerRoot(f))
+        'r.FamillesDeProduit.AddRange(Familles)
 
-        Dim RéférencesDOuvrage = From ro In Me.RéférencesDOuvrage Select ro.UnSerialized()
-        r.RéférencesDOuvrage.AddRange(RéférencesDOuvrage)
+        Dim RéférencesDOuvrage = (From ro In Me.RéférencesDOuvrage Select ro.UnSerialized()).OfType(Of RéférenceDOuvrage)
+        RéférencesDOuvrage.DoForAll(Sub(ro As RéférenceDOuvrage) Réf.EnregistrerRoot(ro))
+        'r.RéférencesDOuvrage.AddRange(RéférencesDOuvrage)
 
         Return r
 

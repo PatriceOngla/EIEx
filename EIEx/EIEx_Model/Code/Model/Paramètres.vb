@@ -2,13 +2,7 @@
     Inherits EIExObject
 
 #Region "Constructeurs"
-
-    Public Sub New()
-
-    End Sub
-
-    Public Sub New(Id As Integer)
-        MyBase.New(Id)
+    Protected Overrides Sub Init()
     End Sub
 
 #End Region
