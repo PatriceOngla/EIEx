@@ -63,20 +63,36 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\DAO\AgregateRoots\Bordereau_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\AgregateRoot_DAO.vb" />
+    <Compile Include="Code\DAO\AgregateRoot_DAO.vb" />
+    <Compile Include="Code\DAO\Référentiel\AgregateRoots\FamilleDeProduit_DAO.vb" />
+    <Compile Include="Code\DAO\Référentiel\AgregateRoots\Produit_DAO.vb" />
+    <Compile Include="Code\DAO\Référentiel\AgregateRoots\RéférenceDOuvrage_DAO.vb" />
+    <Compile Include="Code\DAO\Référentiel\Référentiel_DAO.vb" />
+    <Compile Include="Code\DAO\Référentiel\UsageDeProduit_DAO.vb" />
+    <Compile Include="Code\DAO\Système_DAO.vb" />
+    <Compile Include="Code\DAO\SystèmeItems_DAO.vb" />
     <Compile Include="Code\DAO\EIExObject_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\FamilleDeProduit_DAO.vb" />
-    <Compile Include="Code\DAO\Paramètres_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\Produit_DAO.vb" />
-    <Compile Include="Code\DAO\AgregateRoots\RéférenceDOuvrage_DAO.vb" />
-    <Compile Include="Code\DAO\Référentiel_DAO.vb" />
-    <Compile Include="Code\DAO\UsageDeProduit_DAO.vb" />
-    <Compile Include="Code\Model\Bordereau.vb" />
+    <Compile Include="Code\DAO\Workspace\Items\Bordereau_DAO.vb" />
+    <Compile Include="Code\DAO\Workspace\Items\AgregateRoots\Etude_DAO.vb" />
+    <Compile Include="Code\DAO\Workspace\Items\Paramètres_DAO.vb" />
+    <Compile Include="Code\DAO\Workspace\Workspace_DAO.vb" />
+    <Compile Include="Code\Model\Etude\Bordereau.vb" />
+    <Compile Include="Code\Model\Etude\EntitéDuWorkSpace.vb" />
+    <Compile Include="Code\Model\Etude\Etude.vb" />
+    <Compile Include="Code\Model\Etude\WorkSpace.vb" />
+    <Compile Include="Code\Model\Référentiel\AgregateRootDuRéférentiel.vb" />
+    <Compile Include="Code\Model\Référentiel\EntitéDuRéférentiel.vb" />
+    <Compile Include="Code\Model\Référentiel\FamilleDeProduit.vb" />
+    <Compile Include="Code\Model\Référentiel\Produit.vb" />
+    <Compile Include="Code\Model\Référentiel\RéférenceDOuvrage.vb" />
+    <Compile Include="Code\Model\Référentiel\Référentiel.vb" />
+    <Compile Include="Code\Model\Référentiel\UsageDeProduit.vb" />
+    <Compile Include="Code\Model\Système.vb" />
     <Compile Include="Code\Model\EIExData.vb" />
     <Compile Include="Code\Model\EIExObject.vb" />
-    <Compile Include="Code\Model\FamilleDeProduit.vb" />
     <Compile Include="Code\Model\AgregateRoot.vb" />
+    <Compile Include="Code\Model\Entité.vb" />
+    <Compile Include="Code\Test et debug\Class1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -92,11 +108,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Code\Model\Paramètres.vb" />
-    <Compile Include="Code\Model\Produit.vb" />
-    <Compile Include="Code\Model\RéférenceDOuvrage.vb" />
-    <Compile Include="Code\Model\Référentiel.vb" />
-    <Compile Include="Code\Model\UsageDeProduit.vb" />
+    <Compile Include="Code\Model\Etude\Paramètres.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

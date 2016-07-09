@@ -12,7 +12,7 @@ Imports Model
     End Property
 #End Region
 
-    <TestMethod()> Public Sub TesterSérialisation()
+    <TestMethod()> Public Sub Référentiel_TesterSérialisation()
 
         Assert.IsTrue(Ref IsNot Nothing)
 
@@ -20,7 +20,9 @@ Imports Model
 
         PeuplerRéférentiel(NbObjets)
 
-        EIExData.EnregistrerRéférentiel()
+        EIExData.EnregistrerLeRéférentiel()
+        CopierLeFichier(EIExData.CheminRéférentiel)
+
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
         Assert.IsTrue(Ref.RéférencesDOuvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
@@ -40,6 +42,8 @@ Imports Model
         Assert.IsTrue(Ref.RéférencesDOuvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
+        EIExData.EnregistrerLeRéférentiel()
+
     End Sub
 
     Private Sub PeuplerRéférentiel(NbObjets As Integer)
@@ -56,21 +60,20 @@ Imports Model
     End Sub
 
     Private Function NewProduit(i As Integer) As Produit
-        Dim r = New Produit()
+        Dim r = Ref.GetNewProduit()
         Dim f = Ref.GetFamilleById(i)
         r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.ReférenceFournisseur = "Ref_" & i : r.Famille = f : r.TempsDePauseUnitaire = i
         Return r
     End Function
 
     Private Function NewFamille(i As Integer) As FamilleDeProduit
-        'Dim r = Ref.GetNewFamilleDeProduit
-        Dim r = New FamilleDeProduit
+        Dim r = Ref.GetNewFamilleDeProduit()
         r.Nom = "Famille " & i : r.Marge = i
         Return r
     End Function
 
     Private Function NewRéférenceDOuvrage(i As Integer) As RéférenceDOuvrage
-        Dim r = New RéférenceDOuvrage
+        Dim r = Ref.GetNewRéférenceDOuvrage
         r.Nom = "Ouvrage " & i : r.TempsDePauseUnitaire = i : r.PrixUnitaire = i : r.Libellés.Add("Libellé supplémentaire " & i)
         r.AjouterProduit(i, i)
         Return r

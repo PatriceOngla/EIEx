@@ -1,27 +1,5 @@
-﻿Imports System.Collections.ObjectModel
-
-Public MustInherit Class AgregateRoot
-    Inherits EIExObject
-
-#Region "Constructeurs"
-
-    Public Sub New()
-        Me.SetId()
-        Me.SEnregistrerDansLeRéférentiel()
-    End Sub
-
-    Public Sub New(Id As Integer)
-        Me._Id = Id
-        Me.SEnregistrerDansLeRéférentiel()
-    End Sub
-
-    Protected MustOverride Sub SetId()
-
-    Protected MustOverride Sub SEnregistrerDansLeRéférentiel()
-
-#End Region
-
-#Region "Propriétés"
+﻿Public MustInherit Class AgregateRoot_Base
+    Inherits Entité
 
 #Region "Id (Integer)"
     Protected _Id As Integer?
@@ -31,6 +9,37 @@ Public MustInherit Class AgregateRoot
         End Get
     End Property
 #End Region
+
+End Class
+
+
+''' <typeparam name="TypeAgregateRoot">Le type AgregateRoot lui-même. Permet les appels de méthodes génériques sur <see cref="Système"/></typeparam>
+Public MustInherit Class AgregateRoot(Of TypeAgregateRoot As AgregateRoot_Base)
+    Inherits AgregateRoot_Base
+
+#Region "Constructeurs"
+
+    'Public Sub New()
+    '    Me.SetId()
+    '    Me.SEnregistrerDansLeRéférentiel()
+    'End Sub
+
+    Public Sub New(Id As Integer)
+        Me._Id = Id
+        'Me.SEnregistrerDansLeRéférentiel()
+    End Sub
+
+    'Protected Overridable Sub SetId()
+    '    Me._Id = Système.GetNewId(Of TypeAgregateRoot)
+    'End Sub
+
+    'Protected Overridable Sub SEnregistrerDansLeRéférentiel()
+    '    Système.EnregistrerRoot(Of TypeAgregateRoot)(Me)
+    'End Sub
+
+#End Region
+
+#Region "Propriétés"
 
 #End Region
 
@@ -47,7 +56,6 @@ Public MustInherit Class AgregateRoot
         End Try
     End Function
 #End Region
-
 
 #End Region
 

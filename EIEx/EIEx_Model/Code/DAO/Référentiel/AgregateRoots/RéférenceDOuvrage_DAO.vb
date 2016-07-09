@@ -6,6 +6,7 @@ Public Class RéférenceDOuvrage_DAO
     Inherits AgregateRoot_DAO(Of RéférenceDOuvrage)
 
 #Region "Constructeurs"
+
     Public Sub New()
     End Sub
 
@@ -29,6 +30,18 @@ Public Class RéférenceDOuvrage_DAO
 
 #Region "Propriétés"
 
+#Region "Sys"
+    Private Ref As Référentiel = Référentiel.Instance
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+#End Region
+
+#Region "Données"
+
     Public Property Libellés() As List(Of String)
 
     Public Property UsagesDeProduit() As List(Of UsageDeProduit_DAO)
@@ -41,11 +54,12 @@ Public Class RéférenceDOuvrage_DAO
 
 #End Region
 
+#End Region
+
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex_Ex() As RéférenceDOuvrage
-        ' Dim r = Réf.GetNewRéférenceDOuvrage(Me.Id)
-        Dim r = Réf.GetRéférenceDOuvrageById(Me.Id)
+        Dim r = Ref.GetNewRéférenceDOuvrage(Me.Id)
         r = If(r, New RéférenceDOuvrage(Me.Id))
         r.Libellés.AddRange(Me.Libellés)
         Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()

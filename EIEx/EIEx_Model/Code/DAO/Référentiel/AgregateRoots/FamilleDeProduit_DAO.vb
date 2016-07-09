@@ -18,14 +18,28 @@ Public Class FamilleDeProduit_DAO
 
 #Region "Propriétés"
 
+#Region "Sys"
+    Private Ref As Référentiel = Référentiel.Instance
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+#End Region
+
+#Region "Données"
+
     Public Property Marge() As Single?
+
+#End Region
 
 #End Region
 
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex_Ex() As FamilleDeProduit
-        Dim r = Réf.GetFamilleById(Me.Id)
+        Dim r = Ref.GetNewFamilleDeProduit(Me.Id)
         r = If(r, New FamilleDeProduit(Me.Id))
         r.Marge = Marge
         Return r

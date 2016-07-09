@@ -10,39 +10,29 @@ Public MustInherit Class EIEx_Object_DAO(Of T As {EIExObject})
     End Sub
 
     Public Sub New(Model As T)
+        'Me.Modèle = Model
         Me.Nom = Model.Nom
+        Me.Commentaires = Model.Commentaires
     End Sub
 
 #End Region
 
 #Region "Propriétés"
 
-#Region "Réf (Référentiel)"
-    <XmlIgnore>
-    Public ReadOnly Property Réf() As Référentiel
-        Get
-            Return Référentiel.Instance
-        End Get
-    End Property
+#Region "Modèle"
+    '<XmlIgnore>
+    'Protected ReadOnly Property Modèle() As T
 #End Region
 
-    '<XmlAttribute>
-    'Public Property Id As Integer
+#Region "Sys (Système)"
+    <XmlIgnore>
+    Protected MustOverride ReadOnly Property Sys() As Système
+#End Region
 
     <XmlAttribute>
     Public Property Nom As String
 
-#End Region
-
-#Region "Méthodes"
-
-    Public Function UnSerialized() As T
-        Dim r = UnSerialized_Ex()
-        r.Nom = Me.Nom
-        Return r
-    End Function
-
-    Protected MustOverride Function UnSerialized_Ex() As T
+    Public Property Commentaires As String
 
 #End Region
 

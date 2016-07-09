@@ -2,7 +2,7 @@
 ''' Cette classe est une relation N-N entre <see cref="RéférenceDOuvrage"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
 ''' </summary>
 Public Class UsageDeProduit
-    Inherits EIExObject
+    Inherits EntitéDuRéférentiel
 
 #Region "Constructeurs"
 

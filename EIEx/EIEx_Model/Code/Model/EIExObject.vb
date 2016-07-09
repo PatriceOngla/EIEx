@@ -19,14 +19,6 @@ Public MustInherit Class EIExObject
 
 #Region "Propriétés"
 
-#Region "Réf (Référentiel)"
-    Public ReadOnly Property Réf() As Référentiel
-        Get
-            Return Référentiel.Instance
-        End Get
-    End Property
-#End Region
-
 #Region "Nom (String)"
     Private _Nom As String
     Public Overridable Property Nom() As String
@@ -37,6 +29,20 @@ Public MustInherit Class EIExObject
             If Object.Equals(value, Me._Nom) Then Exit Property
             _Nom = value
             NotifyPropertyChanged(NameOf(Nom))
+        End Set
+    End Property
+#End Region
+
+#Region "Commentaires"
+    Private _Commentaires As String
+    Public Property Commentaires() As String
+        Get
+            Return _Commentaires
+        End Get
+        Set(ByVal value As String)
+            If Object.Equals(value, Me._Commentaires) Then Exit Property
+            _Commentaires = value
+            NotifyPropertyChanged(NameOf(Commentaires))
         End Set
     End Property
 #End Region

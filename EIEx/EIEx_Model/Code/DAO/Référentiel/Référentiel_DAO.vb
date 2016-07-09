@@ -1,9 +1,10 @@
 ﻿Imports System.Xml.Serialization
+Imports Model
 Imports Utils
 
 <Serializable>
 Public Class Référentiel_DAO
-    Inherits EIEx_Object_DAO(Of Référentiel)
+    Inherits Système_DAO(Of Référentiel)
 
 #Region "Constructeurs"
 
@@ -29,8 +30,18 @@ Public Class Référentiel_DAO
 #End Region
 
 #Region "Propriétés"
-    <XmlAttribute>
-    Public Property DateModif() As Date
+
+#Region "Sys"
+    Private Ref As Référentiel = Référentiel.Instance
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+#End Region
+
+#Region "Données"
 
     Public Property Produits() As List(Of Produit_DAO)
 
@@ -40,32 +51,29 @@ Public Class Référentiel_DAO
 
 #End Region
 
+#End Region
+
 #Region "Méthodes"
 
-    Protected Overrides Function UnSerialized_Ex() As Référentiel
-        'Dim r As New Référentiel
+    Protected Overrides Sub UnSerialize_Ex(NewT As Référentiel)
         Dim r = Référentiel.Instance
-        r.Purger
 
         r.DateModif = Me.DateModif
 
-        'Les objets s'enregistrent dans le référentiel dans leur constructeur. 
-        Dim Produits = (From p In Me.Produits Select p.UnSerialized()).OfType(Of Produit)
-        Produits.DoForAll(Sub(p As Produit) Réf.EnregistrerRoot(p))
-        'r.Produits.AddRange(Produits)
+        Me.FamillesDeProduit.DoForAll(Sub(f)
+                                          Dim NewFamille = f.UnSerialized()
+                                      End Sub)
 
-        Dim Familles = (From f In Me.FamillesDeProduit Select f.UnSerialized()).OfType(Of FamilleDeProduit)
-        Familles.DoForAll(Sub(f As FamilleDeProduit) Réf.EnregistrerRoot(f))
-        'r.FamillesDeProduit.AddRange(Familles)
+        Me.Produits.DoForAll(Sub(p)
+                                 Dim NewProduit = p.UnSerialized()
+                             End Sub)
 
-        Dim RéférencesDOuvrage = (From ro In Me.RéférencesDOuvrage Select ro.UnSerialized()).OfType(Of RéférenceDOuvrage)
-        RéférencesDOuvrage.DoForAll(Sub(ro As RéférenceDOuvrage) Réf.EnregistrerRoot(ro))
-        'r.RéférencesDOuvrage.AddRange(RéférencesDOuvrage)
+        Me.RéférencesDOuvrage.DoForAll(Sub(ro)
+                                           Dim NewRéférenceDOuvrage = ro.UnSerialized()
+                                       End Sub)
 
-        Return r
 
-    End Function
-
+    End Sub
 
 #End Region
 

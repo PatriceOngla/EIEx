@@ -1,9 +1,10 @@
 ﻿
 Imports System.Xml.Serialization
+Imports Model
 
 <Serializable>
-Public MustInherit Class AgregateRoot_DAO(Of T As {AgregateRoot})
-    Inherits EIEx_Object_DAO(Of AgregateRoot)
+Public MustInherit Class AgregateRoot_DAO(Of T As {AgregateRoot_Base})
+    Inherits SystèmesItems_DAO(Of T)
 
 #Region "Constructeurs"
 
@@ -26,7 +27,8 @@ Public MustInherit Class AgregateRoot_DAO(Of T As {AgregateRoot})
 
 #Region "Méthodes"
 
-    Protected Overrides Function UnSerialized_Ex() As AgregateRoot
+    Protected Overrides Function UnSerialized_Ex() As T
+        'Protected Overrides Function UnSerialized_Ex() As T
         Dim r = UnSerialized_Ex_Ex()
         If r.Id Is Nothing Then Throw New Exception($"L'objet désérialisé ""{GetType(T).Name}"" n'a pas d'Id.")
         Return r

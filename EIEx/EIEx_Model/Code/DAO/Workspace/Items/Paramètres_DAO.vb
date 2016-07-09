@@ -1,6 +1,8 @@
-﻿<Serializable>
+﻿Imports System.Xml.Serialization
+
+<Serializable>
 Public Class Paramètres_DAO
-    Inherits EIEx_Object_DAO(Of Paramètres)
+    Inherits SystèmesItems_DAO(Of Paramètres)
 
 #Region "Constructeurs"
 
@@ -18,6 +20,17 @@ Public Class Paramètres_DAO
 
 #Region "Propriétés"
 
+#Region "Sys"
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
+#End Region
+
+#Region "Données"
+
     Public Property AdresseRangeLibelleOuvrage() As String
 
     Public Property AdresseRangeUnité() As String
@@ -26,7 +39,10 @@ Public Class Paramètres_DAO
 
 #End Region
 
+#End Region
+
 #Region "Méthodes"
+
     Protected Overrides Function UnSerialized_Ex() As Paramètres
         Dim r As New Paramètres()
         r.AdresseRangeLibelleOuvrage = AdresseRangeLibelleOuvrage

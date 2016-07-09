@@ -1,5 +1,5 @@
 ﻿Public Class Paramètres
-    Inherits EIExObject
+    Inherits EntitéDuWorkSpace
 
 #Region "Constructeurs"
     Protected Overrides Sub Init()

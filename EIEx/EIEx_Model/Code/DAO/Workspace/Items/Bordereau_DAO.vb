@@ -1,7 +1,9 @@
 ﻿Imports System.Xml.Serialization
+Imports Model
+
 <Serializable>
 Public Class Bordereau_DAO
-    Inherits AgregateRoot_DAO(Of Bordereau)
+    Inherits SystèmesItems_DAO(Of Bordereau)
 
 #Region "Constructeurs"
 
@@ -18,6 +20,13 @@ Public Class Bordereau_DAO
 
 #Region "Propriétés"
 
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
+
     <XmlAttribute>
     Public Property CheminFichier() As String
 
@@ -27,7 +36,7 @@ Public Class Bordereau_DAO
 
 #Region "Méthodes"
 
-    Protected Overrides Function UnSerialized_Ex_Ex() As Bordereau
+    Protected Overrides Function UnSerialized_Ex() As Bordereau
         Dim r As New Bordereau
         r.CheminFichier = Me.CheminFichier
         r.Paramètres.AdresseRangeLibelleOuvrage = Me.Paramètres.AdresseRangeLibelleOuvrage

@@ -24,6 +24,18 @@ Public Class Produit_DAO
 
 #Region "Propriétés"
 
+#Region "Sys"
+    Private Ref As Référentiel = Référentiel.Instance
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+#End Region
+
+#Region "Données"
+
     Public Property Unité() As Unités?
 
     Public Property Prix() As Single?
@@ -39,18 +51,20 @@ Public Class Produit_DAO
 
 #End Region
 
+#End Region
+
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex_Ex() As Produit
         'Dim r = Référentiel.Instance.GetNewProduit(Me.Id)
-        Dim r = Réf.GetProduitById(Me.Id)
+        Dim r = Ref.GetNewProduit(Me.Id)
         r = If(r, New Produit(Me.Id))
         r.Unité = Unité
         r.Prix = Prix
         r.ReférenceFournisseur = ReférenceFournisseur
         r.TempsDePauseUnitaire = TempsDePauseUnitaire
         r.MotsClés.AddRange(MotsClés)
-        r.Famille = Réf.GetFamilleById(Me.FamilleId)
+        r.Famille = Ref.GetFamilleById(Me.FamilleId)
         Return r
     End Function
 

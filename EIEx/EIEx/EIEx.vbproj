@@ -203,8 +203,8 @@
     <Compile Include="Vue\UC_Container.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vue\UC_SubContainer.xaml.vb">
-      <DependentUpon>UC_SubContainer.xaml</DependentUpon>
+    <Compile Include="Vue\UC_EIX_UI.xaml.vb">
+      <DependentUpon>UC_EIX_UI.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Vue\EIExRibbon.resx">
       <DependentUpon>EIExRibbon.vb</DependentUpon>
@@ -249,7 +249,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vue\UC_SubContainer.xaml">
+    <Page Include="Vue\UC_EIX_UI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

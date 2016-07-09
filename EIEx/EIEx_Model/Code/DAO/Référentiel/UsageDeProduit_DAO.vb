@@ -2,7 +2,7 @@
 
 <Serializable>
 Public Class UsageDeProduit_DAO
-    Inherits EIEx_Object_DAO(Of UsageDeProduit)
+    Inherits SystèmesItems_DAO(Of UsageDeProduit)
 
 #Region "Constructeurs"
 
@@ -19,6 +19,19 @@ Public Class UsageDeProduit_DAO
 #End Region
 
 #Region "Propriétés"
+
+#Region "Sys"
+    Private Ref As Référentiel = Référentiel.Instance
+    <XmlIgnore>
+    Protected Overrides ReadOnly Property Sys As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+#End Region
+
+#Region "Données"
+
     <XmlAttribute>
     Public Property ParentId As Integer
 
@@ -29,12 +42,14 @@ Public Class UsageDeProduit_DAO
 
 #End Region
 
+#End Region
+
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex() As UsageDeProduit
-        Dim Parent = Réf.GetRéférenceDOuvrageById(Me.ParentId)
+        Dim Parent = Ref.GetRéférenceDOuvrageById(Me.ParentId)
         Dim r As New UsageDeProduit(Parent)
-        r.Produit = Réf.GetProduitById(Me.ProduitId)
+        r.Produit = Ref.GetProduitById(Me.ProduitId)
         r.Nombre = Me.Nombre
         'Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()
         Return r

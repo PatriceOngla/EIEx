@@ -1,24 +1,13 @@
 ﻿Public Class FamilleDeProduit
-    Inherits AgregateRoot
+    Inherits AgregateRootDuRéférentiel(Of FamilleDeProduit)
 
 #Region "Constructeurs"
-
-    Public Sub New()
-
-    End Sub
 
     Public Sub New(Id As Integer)
         MyBase.New(Id)
     End Sub
+
     Protected Overrides Sub Init()
-    End Sub
-
-    Protected Overrides Sub SetId()
-        Me._Id = Réf.GetNewId(Of FamilleDeProduit)
-    End Sub
-
-    Protected Overrides Sub SEnregistrerDansLeRéférentiel()
-        Réf.EnregistrerRoot(Me)
     End Sub
 
 #End Region

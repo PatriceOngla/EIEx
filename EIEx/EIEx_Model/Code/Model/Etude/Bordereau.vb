@@ -1,7 +1,8 @@
 ﻿Imports System.Windows
+Imports Model
 
 Public Class Bordereau
-    Inherits AgregateRoot
+    Inherits EntitéDuWorkSpace
 
 #Region "Constructeurs"
 
@@ -9,24 +10,30 @@ Public Class Bordereau
 
     End Sub
 
-    Public Sub New(Id As Integer)
-        MyBase.New(Id)
-    End Sub
     Protected Overrides Sub Init()
         _Paramètres = New Paramètres
     End Sub
 
-    Protected Overrides Sub SetId()
-        Me._Id = Réf.GetNewId(Of Bordereau)
-    End Sub
+    'Protected Overrides Sub SetId()
+    '    Me._Id = Système.GetNewId(Of Bordereau)
+    'End Sub
 
-    Protected Overrides Sub SEnregistrerDansLeRéférentiel()
-        Réf.EnregistrerRoot(Me)
-    End Sub
+    'Protected Overrides Sub SEnregistrerDansLeRéférentiel()
+    '    Système.EnregistrerRoot(Me)
+    'End Sub
 
 #End Region
 
 #Region "Propriétés"
+
+#Region "Système"
+    Public Overrides ReadOnly Property Système As Système
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
+
+#End Region
 
 #Region "CheminFichier"
     Private _CheminFichier As String

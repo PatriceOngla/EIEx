@@ -1,13 +1,9 @@
 ﻿Imports System.Collections.ObjectModel
 
 Public Class Produit
-    Inherits AgregateRoot
+    Inherits AgregateRootDuRéférentiel(Of Produit)
 
 #Region "Constructeurs"
-
-    Public Sub New()
-
-    End Sub
 
     Public Sub New(Id As Integer)
         MyBase.New(Id)
@@ -16,14 +12,6 @@ Public Class Produit
 
     Protected Overrides Sub Init()
         _MotsClés = New ObservableCollection(Of String)
-    End Sub
-
-    Protected Overrides Sub SetId()
-        Me._Id = Réf.GetNewId(Of Produit)
-    End Sub
-
-    Protected Overrides Sub SEnregistrerDansLeRéférentiel()
-        Réf.EnregistrerRoot(Me)
     End Sub
 
 #End Region

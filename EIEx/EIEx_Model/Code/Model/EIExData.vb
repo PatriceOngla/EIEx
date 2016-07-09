@@ -12,6 +12,7 @@ Public Class EIExData
     End Sub
 
     Protected Overrides Sub Init()
+        InitialiserLeWorkspace()
         InitialiserLeRéférentiel()
     End Sub
 
@@ -21,6 +22,15 @@ Public Class EIExData
         End If
         If IO.File.Exists(CheminRéférentiel) Then
             ChargerLeRéférentiel()
+        End If
+    End Sub
+
+    Private Sub InitialiserLeWorkspace()
+        If Not (IO.Directory.Exists(CheminDossierWorkspace)) Then
+            IO.Directory.CreateDirectory(CheminDossierWorkspace)
+        End If
+        If IO.File.Exists(CheminWorkspace) Then
+            ChargerLeWorkspace()
         End If
     End Sub
 
@@ -49,8 +59,7 @@ Public Class EIExData
     End Property
 #End Region
 
-    Private _Référentiel As Référentiel
-    Public ReadOnly Property Référentiel() As Référentiel
+    Public Shared ReadOnly Property Référentiel() As Référentiel
         Get
             Return Référentiel.Instance
         End Get
@@ -58,13 +67,32 @@ Public Class EIExData
 
 #End Region
 
-#Region "Bordereaux"
-    Private _Bordereaux As ObservableCollection(Of Bordereau)
-    Public ReadOnly Property Bordereaux() As ObservableCollection(Of Bordereau)
+#Region "Workspace"
+
+#Region "CheminDossierWorkspace (String)"
+    Public Shared ReadOnly Property CheminDossierWorkspace() As String
         Get
-            Return _Bordereaux
+            Dim r = CheminDossierRéférentiel
+            Return r
         End Get
     End Property
+#End Region
+
+#Region "CheminWorkspace (String)"
+    Public Shared ReadOnly Property CheminWorkspace() As String
+        Get
+            Dim r = IO.Path.Combine(CheminDossierWorkspace, "EIExWorkSpace.xml")
+            Return r
+        End Get
+    End Property
+#End Region
+
+    Public Shared ReadOnly Property Workspace() As WorkSpace
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
+
 #End Region
 
 #End Region
@@ -79,21 +107,20 @@ Public Class EIExData
         Référentiel.Charger(CheminRéférentiel)
     End Sub
 
-    Public Shared Sub EnregistrerRéférentiel()
+    Public Shared Sub EnregistrerLeRéférentiel()
         Référentiel.Enregistrer(CheminRéférentiel)
     End Sub
 
 #End Region
 
-#Region "Bordereau"
+#Region "Workspace"
 
-    Public Sub ChargerBordereau(Chemin As String)
-        Me._Bordereaux = Utils.DéSérialisation(Of ObservableCollection(Of Bordereau))(Chemin)
-
+    Public Shared Sub ChargerLeWorkspace()
+        WorkSpace.Charger(CheminWorkspace)
     End Sub
 
-    Public Sub EnregistrerBordereaul(Chemin As String)
-        Utils.Sérialiser(Me.Bordereaux, Chemin)
+    Public Shared Sub EnregistrerLeWorkspace()
+        Workspace.Enregistrer(CheminWorkspace)
     End Sub
 
 #End Region

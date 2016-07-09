@@ -5,12 +5,9 @@ Imports System.Collections.Specialized
 ''' On distingue <see cref="RéférenceDOuvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="RéférenceDOuvrage"/> afin de calculer leur prix sur la base du <see cref="RéférenceDOuvrage.PrixUnitaire"/>. 
 ''' </summary>
 Public Class RéférenceDOuvrage
-    Inherits AgregateRoot
+    Inherits AgregateRootDuRéférentiel(Of RéférenceDOuvrage)
 
 #Region "Constructeurs"
-
-    Public Sub New()
-    End Sub
 
     Public Sub New(Id As Integer)
         MyBase.New(Id)
@@ -20,14 +17,6 @@ Public Class RéférenceDOuvrage
         _Libellés = New ObservableCollection(Of String)
         _UsagesDeProduit = New ObservableCollection(Of UsageDeProduit)
         _MotsClés = New ObservableCollection(Of String)
-    End Sub
-
-    Protected Overrides Sub SetId()
-        Me._Id = Réf.GetNewId(Of RéférenceDOuvrage)
-    End Sub
-
-    Protected Overrides Sub SEnregistrerDansLeRéférentiel()
-        Réf.EnregistrerRoot(Me)
     End Sub
 
 #End Region
@@ -63,7 +52,7 @@ Public Class RéférenceDOuvrage
     End Sub
 
     Private Sub ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
-        If Not (Me.Libellés.Contains(Me.Nom)) Then Me.Libellés.Add(Me.Nom)
+        If Not (String.IsNullOrEmpty(Me.Nom) OrElse Me.Libellés.Contains(Me.Nom)) Then Me.Libellés.Add(Me.Nom)
     End Sub
 #End Region
 
@@ -150,7 +139,7 @@ Public Class RéférenceDOuvrage
 #Region "AjouterProduit"
 
     Public Sub AjouterProduit(IdProduit As Integer, Nombre As Integer)
-        Dim p = Réf.GetProduitById(IdProduit)
+        Dim p = Ref.GetProduitById(IdProduit)
         Dim up = New UsageDeProduit(Me) With {.Produit = p, .Nombre = Nombre}
         Me.UsagesDeProduit.Add(up)
     End Sub
