@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="UC_PatronsDOuvrageView"
+             Name="UC_PatronsDOuvrageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:EIEx"
+             xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="300">
+
+    <Grid>
+        <Grid.Resources>
+
+            <ObjectDataProvider x:Key="TousLesProduits" MethodName="TousLesProduits" ObjectType="{x:Type local:XXX}">
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="LesUnités" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type Type="{x:Type model:Unités}"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <local:ListString_String_Converter x:Key="ListString_String_Converter"/>
+
+            <DataTemplate x:Key="DT_Produit" DataType="model:Produit">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding CodeLydic}"/>
+                    <TextBlock Text=" - "/>
+                    <TextBlock Text="{Binding Nom}"/>
+                    <TextBlock Text=" ("/>
+                    <TextBlock Text="{Binding ReférenceFournisseur}"/>
+                    <TextBlock Text=" | n° "/>
+                    <TextBlock Text="{Binding Id}"/>
+                    <TextBlock Text=") "/>
+                </StackPanel>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="DG_Master" 
+                  ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True"
+                  SelectedItem="{Binding ElementName=UC_PatronsDOuvrageView, Path=PatronDOuvrageCourant, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="N°" Binding="{Binding Id}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
+                <DataGridTextColumn Header="Libellés" IsReadOnly="True" Binding="{Binding NbLibellés}"/>
+                <DataGridTextColumn Header="Produits" IsReadOnly="True" Binding="{Binding NbProduits}"/>
+                <DataGridTextColumn Header="Tps pause u." Binding="{Binding TempsDePauseUnitaire}"/>
+                <DataGridTextColumn Header="Prix u." Binding="{Binding PrixUnitaire}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ScrollViewer Grid.Row="1">
+
+            <Grid x:Name="Grd_Detail">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <Label Content="Nom : " />
+                <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=NomFamille}"/>
+
+                <!--Libellés-->
+
+                <Label Grid.Row="1" Content="Libellés : " />
+                <Border Grid.Row="1" Grid.Column="1">
+                    <StackPanel Orientation="Vertical"  >
+                        <ListBox x:Name="LBx_Libellés" ItemsSource="{Binding Libellés}" MaxHeight="100" />
+                        <local:UC_CommandesCRUD x:Name="UC_CmdCRUD_Libellés"/>
+                    </StackPanel>
+                </Border>
+
+                <!--Produits-->
+                <Label Grid.Row="2" Content="Produits requis : " />
+                <Border Grid.Row="2" Grid.Column="1" >
+                    <StackPanel Orientation="Vertical">
+                        <DataGrid x:Name="DG_Produits" 
+                                  ItemsSource="{Binding UsagesDeProduit}" AutoGenerateColumns="False" 
+                                  MaxHeight="120">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Produit" MinWidth="150" >
+                                    
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="model:AgregateRoot_Base">
+                                            <ContentControl Content="{Binding Produit}" ContentTemplate="{StaticResource DT_Produit}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate DataType="model:AgregateRoot_Base" >
+                                            <ComboBox ItemsSource="{Binding Source={StaticResource TousLesProduits}}" 
+                                                  SelectedItem="{Binding Produit}"
+                                                  Margin="0"
+                                                  ItemTemplate="{StaticResource DT_Produit}">
+                                            </ComboBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                    
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Quantité" Binding="{Binding Nombre}"/>
+                                <DataGridTextColumn Header="Unité" IsReadOnly="True" Binding ="{Binding Produit.Unité}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <local:UC_CommandesCRUD x:Name="UC_CmdCRUD_UsagesProduit"/>
+                    </StackPanel>
+                </Border>
+
+                <!--Mots clés-->
+                <Label Grid.Row="3" Content="MotsClés : " />
+                <TextBox Grid.Row="3"  Grid.Column="1" Text="{Binding MotsClés, FallbackValue=MotsClés, Converter={StaticResource ListString_String_Converter}}" />
+
+                <!--Temps de pause unitaire-->
+                <Label Grid.Row="4" Content="Tps de pause unitaire : " />
+                <TextBox Grid.Row="4"  Grid.Column="1" Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire}" />
+
+                <!--Prix unitaire-->
+                <Label Grid.Row="5" Content="Prix unitaire : " />
+                <TextBox Grid.Row="5"  Grid.Column="1" Text="{Binding PrixUnitaire, FallbackValue=Prix}" />
+
+                <Label Grid.Row="6" Content="Commentaire : " />
+                <TextBox Grid.Row="6"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+            </Grid>
+        </ScrollViewer>
+
+        <GridSplitter />
+
+        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" Grid.Row="2" />
+
+    </Grid>
+
+</UserControl>

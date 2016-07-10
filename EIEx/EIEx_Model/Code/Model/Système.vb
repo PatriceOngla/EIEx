@@ -91,65 +91,14 @@ Public MustInherit Class Système '(Of Ts As Système)
 
 #End Region
 
-#Region "Produit"
-
-    'Public Function GetNewProduit(newId As Integer) As Produit
-    '    Dim r = New Produit(newId)
-    '    Me.Produits.Add(r)
-    '    Return r
-    'End Function
-
-    'Public Function GetNewProduit() As Produit
-    '    Dim newId = (From p In Me.Produits Select p.Id).Max
-    '    newId = If(newId Is Nothing, 0, newId + 1)
-    '    Dim r = GetNewProduit(newId)
-    '    Return r
-    'End Function
-
-#End Region
-
-#Region "RéférenceDOuvrage"
-
-    'Public Function GetNewRéférenceDOuvrage(newId As Integer) As RéférenceDOuvrage
-    '    Dim r = New RéférenceDOuvrage(newId)
-    '    Me.RéférencesDOuvrage.Add(r)
-    '    Return r
-    'End Function
-
-    'Public Function GetNewRéférenceDOuvrage() As RéférenceDOuvrage
-    '    Dim newId = (From p In Me.RéférencesDOuvrage Select p.Id).Max
-    '    newId = If(newId Is Nothing, 0, newId + 1)
-    '    Dim r = GetNewRéférenceDOuvrage(newId)
-    '    Return r
-    'End Function
-
-#End Region
-
-#Region "FamilleDeProduit"
-
-    'Public Function GetNewFamilleDeProduit(newId As Integer) As FamilleDeProduit
-    '    Dim r = New FamilleDeProduit(newId)
-    '    Me.FamillesDeProduit.Add(r)
-    '    Return r
-    'End Function
-
-    'Public Function GetNewFamilleDeProduit() As FamilleDeProduit
-    '    Dim newId = Me.GetNewId(Of FamilleDeProduit)
-    '    newId = If(newId Is Nothing, 0, newId + 1)
-    '    Dim r = GetNewFamilleDeProduit(newId)
-    '    Return r
-    'End Function
-
-#End Region
-
 #End Region
 
 #Region "Accès aux objets"
 
-    Protected Function GetObjectById(Of Tr As AgregateRoot_Base)(id As Integer) As Tr
+    Protected Function GetObjectById(Of Tr As AgregateRoot_Base)(id As Integer, FailIfNotFound As Boolean) As Tr
         Dim Table As ObservableCollection(Of Tr) = GetTable(Of Tr)()
         Dim r = (Table.Where(Function(o) o.Id = id)).FirstOrDefault
-        If r Is Nothing Then
+        If r Is Nothing AndAlso FailIfNotFound Then
             Dim Msg = $"L'objet ""{GetType(Tr).Name}"" d'id {id} n'existe pas."
             Throw New InvalidOperationException(Msg)
         End If

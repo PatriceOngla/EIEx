@@ -1,12 +1,12 @@
 ﻿''' <summary>
-''' Cette classe est une relation N-N entre <see cref="RéférenceDOuvrage"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
+''' Cette classe est une relation N-N entre <see cref="PatronDOuvrage"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
 ''' </summary>
 Public Class UsageDeProduit
     Inherits EntitéDuRéférentiel
 
 #Region "Constructeurs"
 
-    Friend Sub New(Parent As RéférenceDOuvrage)
+    Friend Sub New(Parent As PatronDOuvrage)
         _Parent = Parent
     End Sub
 
@@ -17,9 +17,9 @@ Public Class UsageDeProduit
 
 #Region "Propriétés"
 
-#Region "Parent (RéférenceDOuvrage)"
-    Private _Parent As RéférenceDOuvrage
-    Public ReadOnly Property Parent() As RéférenceDOuvrage
+#Region "Parent (PatronDOuvrage)"
+    Private _Parent As PatronDOuvrage
+    Public ReadOnly Property Parent() As PatronDOuvrage
         Get
             Return _Parent
         End Get

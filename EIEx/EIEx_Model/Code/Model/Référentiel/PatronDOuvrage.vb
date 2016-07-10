@@ -1,11 +1,12 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
+Imports Model
 
 ''' <summary>
-''' On distingue <see cref="RéférenceDOuvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="RéférenceDOuvrage"/> afin de calculer leur prix sur la base du <see cref="RéférenceDOuvrage.PrixUnitaire"/>. 
+''' On distingue <see cref="PatronDOuvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="PatronDOuvrage"/> afin de calculer leur prix sur la base du <see cref="PatronDOuvrage.PrixUnitaire"/>. 
 ''' </summary>
-Public Class RéférenceDOuvrage
-    Inherits AgregateRootDuRéférentiel(Of RéférenceDOuvrage)
+Public Class PatronDOuvrage
+    Inherits AgregateRootDuRéférentiel(Of PatronDOuvrage)
 
 #Region "Constructeurs"
 
@@ -16,7 +17,7 @@ Public Class RéférenceDOuvrage
     Protected Overrides Sub Init()
         _Libellés = New ObservableCollection(Of String)
         _UsagesDeProduit = New ObservableCollection(Of UsageDeProduit)
-        _MotsClés = New ObservableCollection(Of String)
+        _MotsClés = New List(Of String)
     End Sub
 
 #End Region
@@ -40,6 +41,7 @@ Public Class RéférenceDOuvrage
 #End Region
 
 #Region "Libellés"
+
     Private WithEvents _Libellés As ObservableCollection(Of String)
     Public ReadOnly Property Libellés() As ObservableCollection(Of String)
         Get
@@ -47,30 +49,51 @@ Public Class RéférenceDOuvrage
         End Get
     End Property
 
+    Public ReadOnly Property NbLibellés() As Integer
+        Get
+            Return Me.Libellés?.Count
+        End Get
+    End Property
+
     Private Sub _Libellés_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _Libellés.CollectionChanged
         ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
+        Me.NotifyPropertyChanged(NameOf(NbLibellés))
+
     End Sub
 
     Private Sub ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
         If Not (String.IsNullOrEmpty(Me.Nom) OrElse Me.Libellés.Contains(Me.Nom)) Then Me.Libellés.Add(Me.Nom)
     End Sub
+
 #End Region
 
 #Region "UsagesDeProduit "
+
     Private WithEvents _UsagesDeProduit As ObservableCollection(Of UsageDeProduit)
     Public ReadOnly Property UsagesDeProduit() As ObservableCollection(Of UsageDeProduit)
         Get
             Return _UsagesDeProduit
         End Get
     End Property
+
+    Public ReadOnly Property NbProduits() As Integer
+        Get
+            Return Me.UsagesDeProduit.Count()
+        End Get
+    End Property
+
 #End Region
 
-#Region "MotsClés (ObservableCollection(of String))"
-    Private _MotsClés As ObservableCollection(Of String)
-    Public ReadOnly Property MotsClés() As ObservableCollection(Of String)
+#Region "MotsClés (List(of String))"
+    Private _MotsClés As List(Of String)
+    Public Property MotsClés() As List(Of String)
         Get
             Return _MotsClés
         End Get
+        Set(value As List(Of String))
+            _MotsClés = value
+            NotifyPropertyChanged(NameOf(MotsClés))
+        End Set
     End Property
 
 #End Region
@@ -138,21 +161,24 @@ Public Class RéférenceDOuvrage
 
 #Region "AjouterProduit"
 
-    Public Sub AjouterProduit(IdProduit As Integer, Nombre As Integer)
-        Dim p = Ref.GetProduitById(IdProduit)
-        Dim up = New UsageDeProduit(Me) With {.Produit = p, .Nombre = Nombre}
+    Public Function AjouterProduit(P As Produit, Nombre As Short) As UsageDeProduit
+        Dim up = New UsageDeProduit(Me) With {.Produit = P, .Nombre = Nombre}
         Me.UsagesDeProduit.Add(up)
-    End Sub
+        Return up
+    End Function
 
 #Region "VerifierLesElémentsAjoutés"
     Private VérificationDesUsageDeProduitAjoutésEnCours As Boolean
     Private Sub _UsagesDeProduit_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _UsagesDeProduit.CollectionChanged
         If Not VérificationDesUsageDeProduitAjoutésEnCours Then
-            VerifierLesElémentsAjoutés(e.NewItems.OfType(Of UsageDeProduit))
+            If e.NewItems IsNot Nothing Then
+                VerifierLesElémentsAjoutés(e.NewItems.OfType(Of UsageDeProduit))
+            End If
         End If
+        Me.NotifyPropertyChanged(NameOf(NbProduits))
     End Sub
 
-    ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent la <see cref="RéférenceDOuvrage"/> courante.</summary>
+    ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent le <see cref="PatronDOuvrage"/> courant.</summary>
     ''' <param name="UsagesDeProduitAjoutés"></param>
     Private Sub VerifierLesElémentsAjoutés(UsagesDeProduitAjoutés As IEnumerable(Of UsageDeProduit))
         Try
@@ -172,7 +198,7 @@ Public Class RéférenceDOuvrage
                     End If
                 Next
                 Dim Pluriel = NbErr > 1
-                Dim Msg = $"{NbErr} des '{NameOf(UsageDeProduit)}' ajouté{If(Pluriel, "s", "")} {If(Pluriel, "sont", "est")} déjà associé{If(Pluriel, "s", "")} à une autre '{NameOf(RéférenceDOuvrage)}'. Ce{If(Pluriel, "s", "t")} élément{If(Pluriel, "s", "")} {If(Pluriel, "n'ont", "n'a")} pas été ajouté{If(Pluriel, "s", "")}."
+                Dim Msg = $"{NbErr} des '{NameOf(UsageDeProduit)}' ajouté{If(Pluriel, "s", "")} {If(Pluriel, "sont", "est")} déjà associé{If(Pluriel, "s", "")} à une autre '{NameOf(PatronDOuvrage)}'. Ce{If(Pluriel, "s", "t")} élément{If(Pluriel, "s", "")} {If(Pluriel, "n'ont", "n'a")} pas été ajouté{If(Pluriel, "s", "")}."
                 Throw New InvalidOperationException(Msg)
             End If
         Catch ex As Exception
@@ -185,6 +211,13 @@ Public Class RéférenceDOuvrage
 
 #End Region
 
+#End Region
+
+#Region "UtiliseProduit"
+    Public Function UtiliseProduit(p As Produit) As Boolean
+        Dim r = (From up In Me.UsagesDeProduit Where up.Produit Is p).Any()
+        Return r
+    End Function
 #End Region
 
 #End Region

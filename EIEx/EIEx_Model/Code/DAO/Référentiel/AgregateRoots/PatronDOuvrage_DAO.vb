@@ -2,15 +2,15 @@
 Imports Utils
 
 <Serializable>
-Public Class RéférenceDOuvrage_DAO
-    Inherits AgregateRoot_DAO(Of RéférenceDOuvrage)
+Public Class PatronDOuvrage_DAO
+    Inherits AgregateRoot_DAO(Of PatronDOuvrage)
 
 #Region "Constructeurs"
 
     Public Sub New()
     End Sub
 
-    Public Sub New(R As RéférenceDOuvrage)
+    Public Sub New(R As PatronDOuvrage)
         MyBase.New(R)
 
         Me.Libellés = New List(Of String)(R.Libellés)
@@ -58,9 +58,9 @@ Public Class RéférenceDOuvrage_DAO
 
 #Region "Méthodes"
 
-    Protected Overrides Function UnSerialized_Ex_Ex() As RéférenceDOuvrage
-        Dim r = Ref.GetNewRéférenceDOuvrage(Me.Id)
-        r = If(r, New RéférenceDOuvrage(Me.Id))
+    Protected Overrides Function UnSerialized_Ex_Ex() As PatronDOuvrage
+        Dim r = Ref.GetNewPatronDOuvrage(Me.Id)
+        r = If(r, New PatronDOuvrage(Me.Id))
         r.Libellés.AddRange(Me.Libellés)
         Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()
         r.UsagesDeProduit.AddRange(UsagesDeProduit)

@@ -7,11 +7,11 @@ Public Class Produit
 
     Public Sub New(Id As Integer)
         MyBase.New(Id)
-        _MotsClés = New ObservableCollection(Of String)
+        _MotsClés = New List(Of String)
     End Sub
 
     Protected Overrides Sub Init()
-        _MotsClés = New ObservableCollection(Of String)
+        _MotsClés = New List(Of String)
     End Sub
 
 #End Region
@@ -19,12 +19,12 @@ Public Class Produit
 #Region "Propriétés"
 
 #Region "Unité"
-    Private _Unité As Unités?
-    Public Property Unité() As Unités?
+    Private _Unité As Unités
+    Public Property Unité() As Unités
         Get
             Return _Unité
         End Get
-        Set(ByVal value As Unités?)
+        Set(ByVal value As Unités)
             If Object.Equals(value, Me._Unité) Then Exit Property
             _Unité = value
             NotifyPropertyChanged(NameOf(Unité))
@@ -33,15 +33,29 @@ Public Class Produit
 #End Region
 
 #Region "Prix (Single)"
-    Private _Prix As Single?
-    Public Property Prix() As Single?
+    Private _Prix As Single
+    Public Property Prix() As Single
         Get
             Return _Prix
         End Get
-        Set(ByVal value As Single?)
+        Set(ByVal value As Single)
             If Object.Equals(value, Me._Prix) Then Exit Property
             _Prix = value
             NotifyPropertyChanged(NameOf(Prix))
+        End Set
+    End Property
+#End Region
+
+#Region "CodeLydic"
+    Private _CodeLydic As String
+    Public Property CodeLydic() As String
+        Get
+            Return _CodeLydic
+        End Get
+        Set(ByVal value As String)
+            If Object.Equals(value, Me._CodeLydic) Then Exit Property
+            _CodeLydic = value
+            NotifyPropertyChanged(NameOf(CodeLydic))
         End Set
     End Property
 #End Region
@@ -71,16 +85,21 @@ Public Class Produit
         Set(ByVal value As Integer?)
             If Object.Equals(value, Me._TempsDePauseUnitaire) Then Exit Property
             _TempsDePauseUnitaire = value
+            NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
         End Set
     End Property
 #End Region
 
 #Region "MotsClés (ObservableCollection(of String))"
-    Private _MotsClés As ObservableCollection(Of String)
-    Public ReadOnly Property MotsClés() As ObservableCollection(Of String)
+    Private _MotsClés As List(Of String)
+    Public Property MotsClés() As List(Of String)
         Get
             Return _MotsClés
         End Get
+        Set(value As List(Of String))
+            _MotsClés = value
+            NotifyPropertyChanged(NameOf(MotsClés))
+        End Set
     End Property
 #End Region
 

@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.Office.Tools
 Imports Microsoft.Office.Tools.Ribbon
-Imports Utils
+'Imports Utils
 
 Public Class EIExRibbon
 
@@ -13,7 +13,7 @@ Public Class EIExRibbon
         Try
             HideOrShowAndAttachPanel(TBt_ShowPanel.Checked)
         Catch ex As ArgumentException
-            ManageError(ex, NameOf(TBt_ShowPanel_Click))
+            ManageErreur(ex)
         End Try
     End Sub
 
@@ -39,7 +39,7 @@ Public Class EIExRibbon
             EIExTaskPane?.Dispose()
             EIExTaskPane = Nothing
         Catch ex As Exception
-            ManageError(ex, NameOf(EIExRibbon_Close))
+            ManageErreur(ex)
         End Try
     End Sub
 

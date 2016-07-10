@@ -21,8 +21,8 @@ Public Class Référentiel
         _FamillesDeProduit = New ObservableCollection(Of FamilleDeProduit)
         _Tables.Add(_FamillesDeProduit)
 
-        _RéférencesDOuvrage = New ObservableCollection(Of RéférenceDOuvrage)
-        _Tables.Add(_RéférencesDOuvrage)
+        _PatronsDOuvrage = New ObservableCollection(Of PatronDOuvrage)
+        _Tables.Add(_PatronsDOuvrage)
     End Sub
 
 #End Region
@@ -60,12 +60,12 @@ Public Class Référentiel
     End Property
 #End Region
 
-#Region "RéférencesDOuvrage (ObservableCollection(Of RéférenceDOuvrage))"
-    Private _RéférencesDOuvrage As ObservableCollection(Of RéférenceDOuvrage)
-    ''' <summary>Toutes les <see cref="RéférenceDOuvrage"/> du référentiel.</summary>
-    Public ReadOnly Property RéférencesDOuvrage() As ObservableCollection(Of RéférenceDOuvrage)
+#Region "PatronsDOuvrage (ObservableCollection(Of PatronDOuvrage))"
+    Private _PatronsDOuvrage As ObservableCollection(Of PatronDOuvrage)
+    ''' <summary>Toutes les <see cref="PatronDOuvrage"/> du référentiel.</summary>
+    Public ReadOnly Property PatronsDOuvrage() As ObservableCollection(Of PatronDOuvrage)
         Get
-            Return _RéférencesDOuvrage
+            Return _PatronsDOuvrage
         End Get
     End Property
 #End Region
@@ -91,8 +91,8 @@ Public Class Référentiel
         Select Case leType
             Case GetType(Produit)
                 r = Me.Produits
-            Case GetType(RéférenceDOuvrage)
-                r = Me.RéférencesDOuvrage
+            Case GetType(PatronDOuvrage)
+                r = Me.PatronsDOuvrage
             Case GetType(FamilleDeProduit)
                 r = Me.FamillesDeProduit
             Case Else
@@ -121,17 +121,17 @@ Public Class Référentiel
 
 #End Region
 
-#Region "RéférenceDOuvrage"
+#Region "PatronDOuvrage"
 
-    Public Function GetNewRéférenceDOuvrage(newId As Integer) As RéférenceDOuvrage
-        Dim r = New RéférenceDOuvrage(newId)
-        Me.RéférencesDOuvrage.Add(r)
+    Public Function GetNewPatronDOuvrage(newId As Integer) As PatronDOuvrage
+        Dim r = New PatronDOuvrage(newId)
+        Me.PatronsDOuvrage.Add(r)
         Return r
     End Function
 
-    Public Function GetNewRéférenceDOuvrage() As RéférenceDOuvrage
-        Dim newId = GetNewId(Of RéférenceDOuvrage)()
-        Dim r = GetNewRéférenceDOuvrage(newId)
+    Public Function GetNewPatronDOuvrage() As PatronDOuvrage
+        Dim newId = GetNewId(Of PatronDOuvrage)()
+        Dim r = GetNewPatronDOuvrage(newId)
         Return r
     End Function
 
@@ -157,18 +157,18 @@ Public Class Référentiel
 
 #Region "Accès aux objets"
 
-    Public Function GetProduitById(id As Integer) As Produit
-        Dim r = GetObjectById(Of Produit)(id)
+    Public Function GetProduitById(id As Integer, Optional FailIfNotFound As Boolean = False) As Produit
+        Dim r = GetObjectById(Of Produit)(id, FailIfNotFound)
         Return r
     End Function
 
-    Public Function GetFamilleById(id As Integer) As FamilleDeProduit
-        Dim r = GetObjectById(Of FamilleDeProduit)(id)
+    Public Function GetFamilleById(id As Integer, Optional FailIfNotFound As Boolean = False) As FamilleDeProduit
+        Dim r = GetObjectById(Of FamilleDeProduit)(id, FailIfNotFound)
         Return r
     End Function
 
-    Public Function GetRéférenceDOuvrageById(id As Integer) As RéférenceDOuvrage
-        Dim r = GetObjectById(Of RéférenceDOuvrage)(id)
+    Public Function GetPatronDOuvrageById(id As Integer, Optional FailIfNotFound As Boolean = False) As PatronDOuvrage
+        Dim r = GetObjectById(Of PatronDOuvrage)(id, FailIfNotFound)
         Return r
     End Function
 

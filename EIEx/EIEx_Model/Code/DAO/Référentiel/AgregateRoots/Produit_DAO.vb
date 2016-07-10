@@ -14,6 +14,7 @@ Public Class Produit_DAO
         MyBase.New(P)
         Me.Unité = P.Unité
         Me.Prix = P.Prix
+        Me.CodeLydic = P.CodeLydic
         Me.ReférenceFournisseur = P.ReférenceFournisseur
         Me.TempsDePauseUnitaire = P.TempsDePauseUnitaire
         Me.MotsClés = New List(Of String)(P.MotsClés)
@@ -36,9 +37,14 @@ Public Class Produit_DAO
 
 #Region "Données"
 
-    Public Property Unité() As Unités?
+    <XmlAttribute>
+    Public Property Unité() As Unités
 
-    Public Property Prix() As Single?
+    <XmlAttribute>
+    Public Property Prix() As Single
+
+    <XmlAttribute>
+    Public Property CodeLydic() As String
 
     <XmlAttribute>
     Public Property ReférenceFournisseur() As String
@@ -61,6 +67,7 @@ Public Class Produit_DAO
         r = If(r, New Produit(Me.Id))
         r.Unité = Unité
         r.Prix = Prix
+        r.CodeLydic = CodeLydic
         r.ReférenceFournisseur = ReférenceFournisseur
         r.TempsDePauseUnitaire = TempsDePauseUnitaire
         r.MotsClés.AddRange(MotsClés)

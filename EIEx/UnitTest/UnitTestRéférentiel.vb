@@ -24,7 +24,7 @@ Imports Model
         CopierLeFichier(EIExData.CheminRéférentiel)
 
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
-        Assert.IsTrue(Ref.RéférencesDOuvrage.Count = NbObjets)
+        Assert.IsTrue(Ref.PatronsDOuvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
         Assert.IsTrue(IO.File.Exists(EIExData.CheminRéférentiel))
@@ -39,7 +39,7 @@ Imports Model
 
         Assert.IsTrue(Ref IsNot Nothing)
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
-        Assert.IsTrue(Ref.RéférencesDOuvrage.Count = NbObjets)
+        Assert.IsTrue(Ref.PatronsDOuvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
         EIExData.EnregistrerLeRéférentiel()
@@ -54,7 +54,7 @@ Imports Model
             NewProduit(i)
         Next
         For i = 1 To 10
-            NewRéférenceDOuvrage(i)
+            NewPatronDOuvrage(i)
         Next
 
     End Sub
@@ -62,7 +62,8 @@ Imports Model
     Private Function NewProduit(i As Integer) As Produit
         Dim r = Ref.GetNewProduit()
         Dim f = Ref.GetFamilleById(i)
-        r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.ReférenceFournisseur = "Ref_" & i : r.Famille = f : r.TempsDePauseUnitaire = i
+        r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.ReférenceFournisseur = "100" & i : r.CodeLydic = "CONS" & i : r.Famille = f : r.TempsDePauseUnitaire = i
+        r.MotsClés.AddRange({"keyWord " & i, "keyWord " & i + 1})
         Return r
     End Function
 
@@ -72,11 +73,19 @@ Imports Model
         Return r
     End Function
 
-    Private Function NewRéférenceDOuvrage(i As Integer) As RéférenceDOuvrage
-        Dim r = Ref.GetNewRéférenceDOuvrage
+    Private Function NewPatronDOuvrage(i As Integer) As PatronDOuvrage
+        Dim r = Ref.GetNewPatronDOuvrage
         r.Nom = "Ouvrage " & i : r.TempsDePauseUnitaire = i : r.PrixUnitaire = i : r.Libellés.Add("Libellé supplémentaire " & i)
-        r.AjouterProduit(i, i)
+        AjouterProduitsALouvrage(r, i)
         Return r
     End Function
 
+    Private Sub AjouterProduitsALouvrage(po As PatronDOuvrage, i As Integer)
+
+        For j = 1 To i
+            Dim p = Ref.GetProduitById(j)
+            po.AjouterProduit(p, j)
+        Next
+
+    End Sub
 End Class

@@ -1,0 +1,99 @@
+﻿<UserControl
+             
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="UC_SubContainer"
+    xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
+    xmlns:local="clr-namespace:EIEx"
+    x:Name="UCSC"
+    mc:Ignorable="d" 
+    d:DesignHeight="150" d:DesignWidth="350">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DicoStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>-->
+
+            <System:Double x:Key="DefaultMarginBase">5</System:Double>
+
+            <Thickness x:Key="DefaultMargin" Left="0" Top="0" Right="{StaticResource DefaultMarginBase}" Bottom="{StaticResource DefaultMarginBase}"/>
+            <Thickness x:Key="DefaultPadding" Left="{StaticResource DefaultMarginBase}" Top="{StaticResource DefaultMarginBase}" Right="0" Bottom="0"/>
+
+            <Style TargetType="Border">
+                <Setter Property="Padding" Value="{StaticResource DefaultPadding}"/>
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+            </Style>
+            
+            <Style TargetType="ListBox">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="MinHeight" Value="50"/>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+            </Style>
+            
+            <Style TargetType="local:UC_CommandesCRUD">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+            </Style>
+
+            <Style TargetType="DataGrid">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="MinHeight" Value="50"/>
+                <Setter Property="HorizontalGridLinesBrush" Value="LightGray"/>
+                <Setter Property="VerticalGridLinesBrush" Value="LightGray"/>
+            </Style>
+
+            <Style TargetType="ScrollViewer">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="Padding" Value="{StaticResource DefaultPadding}"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+
+            <Style TargetType="GridSplitter">
+                <Setter Property="Background" Value="LightPink"/>
+                <Setter Property="Height" Value="2"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Margin" Value="0,1,0,-1"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TBx_SelectedRange" Text="{Binding SelectedRange, ElementName=UCSC, FallbackValue=SelectedRange}" FontSize="18"  />
+        <TabControl Grid.Row="1" >
+            <TabItem x:Name="tabs" Header="Etude" >
+                <local:UC_EtudesView x:Name="UC_Etude" />
+            </TabItem>
+            <TabItem Header="Traitement"/>
+            <TabItem Header="Référentiel">
+                <local:UC_RéférentielView/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

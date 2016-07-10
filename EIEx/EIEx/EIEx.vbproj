@@ -183,33 +183,50 @@
   -->
   <ItemGroup>
     <AppDesigner Include="My Project\" />
-    <Compile Include="Common.vb" />
-    <Compile Include="Vue\EIExRibbon.Designer.vb">
+    <Compile Include="Code\Divers\Common.vb" />
+    <Compile Include="Code\Divers\EIExRibbon.Designer.vb">
       <DependentUpon>EIExRibbon.vb</DependentUpon>
     </Compile>
-    <Compile Include="Vue\EIExRibbon.vb">
+    <Compile Include="Code\Divers\EIExRibbon.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Vue\ExcelEventManager.vb" />
+    <Compile Include="Code\Divers\ExcelEventManager.vb" />
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Vue\Produits.xaml.vb">
-      <DependentUpon>Produits.xaml</DependentUpon>
+    <Compile Include="Code\Vue\Référentiel\ListToStringConverter.vb" />
+    <Compile Include="Code\Vue\Référentiel\UC_FamillesProduitView.xaml.vb">
+      <DependentUpon>UC_FamillesProduitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vue\UC_Container.Designer.vb">
+    <Compile Include="Code\Vue\Référentiel\UC_PatronsDOuvrageView.xaml.vb">
+      <DependentUpon>UC_PatronsDOuvrageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Référentiel\UC_ProduitsView.xaml.vb">
+      <DependentUpon>UC_ProduitsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Référentiel\UC_Référentiel.xaml.vb">
+      <DependentUpon>UC_Référentiel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Référentiel\XXX.vb" />
+    <Compile Include="Code\Vue\UC_CommandesCRUD.xaml.vb">
+      <DependentUpon>UC_CommandesCRUD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Divers\UC_Container.Designer.vb">
       <DependentUpon>UC_Container.vb</DependentUpon>
     </Compile>
-    <Compile Include="Vue\UC_Container.vb">
+    <Compile Include="Code\Divers\UC_Container.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vue\UC_EIX_UI.xaml.vb">
+    <Compile Include="Code\Vue\UC_EIX_UI.xaml.vb">
       <DependentUpon>UC_EIX_UI.xaml</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Vue\EIExRibbon.resx">
+    <Compile Include="Code\Vue\Workspace\UC_EtudesView.xaml.vb">
+      <DependentUpon>UC_EtudesView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Code\Divers\EIExRibbon.resx">
       <DependentUpon>EIExRibbon.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vue\UC_Container.resx">
+    <EmbeddedResource Include="Code\Divers\UC_Container.resx">
       <DependentUpon>UC_Container.vb</DependentUpon>
     </EmbeddedResource>
     <None Include="EIEx_TemporaryKey.pfx" />
@@ -245,11 +262,31 @@
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Vue\Produits.xaml">
+    <Page Include="Code\Vue\Référentiel\UC_FamillesProduitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vue\UC_EIX_UI.xaml">
+    <Page Include="Code\Vue\Référentiel\UC_PatronsDOuvrageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Référentiel\UC_ProduitsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Référentiel\UC_Référentiel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\UC_CommandesCRUD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\UC_EIX_UI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Workspace\UC_EtudesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -263,6 +300,14 @@
       <Project>{dd23da99-ca52-4876-a3b7-4b154e5b981f}</Project>
       <Name>Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Code\Vue\Traitement\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Données\EIExRef.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

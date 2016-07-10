@@ -47,7 +47,7 @@ Public Class UsageDeProduit_DAO
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex() As UsageDeProduit
-        Dim Parent = Ref.GetRéférenceDOuvrageById(Me.ParentId)
+        Dim Parent = Ref.GetPatronDOuvrageById(Me.ParentId)
         Dim r As New UsageDeProduit(Parent)
         r.Produit = Ref.GetProduitById(Me.ProduitId)
         r.Nombre = Me.Nombre

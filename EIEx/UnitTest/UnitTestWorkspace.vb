@@ -87,6 +87,13 @@ Imports Utils
 
     End Sub
 
+    <TestMethod()>
+    Public Sub TestLevenshtein()
+
+        Debug.Print(DistanceDeLevenshtein("toto", "totoxx"))
+
+    End Sub
+
 #End Region
 
 End Class

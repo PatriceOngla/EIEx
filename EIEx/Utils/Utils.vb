@@ -93,21 +93,91 @@ Public Module Utils
 
 #End Region
 
-    Public Sub ManageError(ex As Exception, SubName As String, Optional Msg As String = Nothing)
-        Debug.Print($"Erreur dans la routine {SubName}: {ex.GetType.Name} {vbCr & ex.Message}")
+#Region "Text processing"
+    Public Function DistanceDeLevenshtein(ByVal s As String, ByVal t As String) As Integer
+        'Dim n = s.Length
+        'Dim m = t.Length
+        'Dim d(n + 1, m + 1) As Integer
+
+        '' Step 1
+        'If (n = 0) Then
+        '    Return m
+        'End If
+
+        'If (m = 0) Then
+        '    Return n
+        'End If
+
+        '' Step 2
+        'Dim i As Integer = 0
+        'Do While (i <= n)
+        '    i = (i + 1)
+        'Loop
+
+        'd(i, 0) = i
+        'Dim j As Integer = 0
+        'Do While (j <= m)
+        '    j = (j + 1)
+        'Loop
+
+        'd(0, j) = j
+        '' Step 3
+
+        'Mouline(s, t, n, m, d)
+
+        '' Step 7
+        'Return d(n, m)
+
+        Dim Matrix(s.Length, t.Length) As Integer
+        Dim Key As Integer
+        For Key = 0 To s.Length
+            Matrix(Key, 0) = Key
+        Next
+        For Key = 0 To t.Length
+            Matrix(0, Key) = Key
+        Next
+        For Key1 As Integer = 1 To t.Length
+            For Key2 As Integer = 1 To s.Length
+                If s(Key2 - 1) = t(Key1 - 1) Then
+                    Matrix(Key2, Key1) = Matrix(Key2 - 1, Key1 - 1)
+                Else
+                    Matrix(Key2, Key1) = Math.Min(Matrix(Key2 - 1, Key1) + 1, Math.Min(Matrix(Key2, Key1 - 1) + 1, Matrix(Key2 - 1, Key1 - 1) + 1))
+                End If
+            Next
+        Next
+        Return Matrix(s.Length - 1, t.Length - 1)
+
+    End Function
+
+    Private Sub Mouline(ByVal s As String, ByVal t As String, n As Integer, m As Integer, d(,) As Integer)
+        Dim i As Integer = 1
+        Do While (i <= n)
+            'Step 4
+            Dim j As Integer = 1
+            Do While (j <= m)
+                ' Step 5
+                Dim cost = If(t((j - 1)) = s((i - 1)), 0, 1)
+
+                ' Step 6
+                d(i, j) = Math.Min(Math.Min((d((i - 1), j) + 1), (d(i, (j - 1)) + 1)), (d((i - 1), (j - 1)) + cost))
+                j = (j + 1)
+            Loop
+
+            i = (i + 1)
+        Loop
+    End Sub
+
+#End Region
+
+    Public Sub ManageError(ex As Exception, SubName As String, Optional Msg As String = Nothing, Optional DlgBox As Boolean = False, Optional Titre As String = Nothing)
+        Dim msg2 = $"Erreur dans la routine ""{SubName}"".{vbCr}{If(String.IsNullOrEmpty(Msg), "", Msg & vbCr)}{ex.GetType.Name} : { ex.Message}"
+        Debug.Print(Msg)
+        If DlgBox Then MsgBox(msg2, vbExclamation, Titre)
     End Sub
 
 #End Region
 
 #Region "Test & debug"
-
-    'Public Sub Test()
-    '    Dim xsz = New XmlSerializer(GetType(T))
-    '    Using sw As New StreamWriter(Chemin)
-    '        xsz.Serialize(sw, Objet)
-    '    End Using
-
-    'End Sub
 
 #End Region
 

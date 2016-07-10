@@ -44,6 +44,29 @@ Public Class WorkSpace
     End Property
 #End Region
 
+#Region "EtudeCourante"
+    Private _EtudeCourante As Etude
+    Public Property EtudeCourante As Etude
+        Get
+            If _EtudeCourante Is Nothing Then
+                _EtudeCourante = (From e In Etudes Where e.EstOuverte).FirstOrDefault()
+                If _EtudeCourante Is Nothing Then
+                    _EtudeCourante = Me.Etudes.FirstOrDefault()
+                    If _EtudeCourante IsNot Nothing Then _EtudeCourante.EstOuverte = True
+                End If
+            End If
+            Return _EtudeCourante
+        End Get
+        Friend Set(ByVal value As Etude)
+            If Object.Equals(value, Me.EtudeCourante) Then Exit Property
+            _EtudeCourante = value
+            NotifyPropertyChanged(NameOf(EtudeCourante))
+        End Set
+    End Property
+
+
+#End Region
+
 #End Region
 
 #Region "Méthodes"
@@ -86,8 +109,8 @@ Public Class WorkSpace
 #End Region
 
 #Region "Accès aux données"
-    Public Function GetEtudeById(id As Integer) As Etude
-        Dim r = GetObjectById(Of Etude)(id)
+    Public Function GetEtudeById(id As Integer, Optional FailIfNotFound As Boolean = False) As Etude
+        Dim r = GetObjectById(Of Etude)(id, FailIfNotFound)
         Return r
     End Function
 
