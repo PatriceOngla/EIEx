@@ -58,10 +58,15 @@ Public Class WorkSpace
             End If
             Return _EtudeCourante
         End Get
-        Friend Set(ByVal value As Etude)
+        Set(ByVal value As Etude)
             If Object.Equals(value, Me.EtudeCourante) Then Exit Property
-            _EtudeCourante = value
-            NotifyPropertyChanged(NameOf(EtudeCourante))
+            Try
+                If Not Etudes.Contains(value) Then Throw New InvalidOperationException("L'étude n'appartient pas à l'espace de travail.")
+                _EtudeCourante = value
+                NotifyPropertyChanged(NameOf(EtudeCourante))
+            Catch ex As Exception
+                Me.RaiseExceptionRaisedEvent(ex, True)
+            End Try
         End Set
     End Property
 

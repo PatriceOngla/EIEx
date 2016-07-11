@@ -6,7 +6,7 @@ Public Class Bordereau
 
 #Region "Constructeurs"
 
-    Public Sub New()
+    Friend Sub New()
 
     End Sub
 

@@ -140,6 +140,7 @@
                 <Label Grid.Row="6" Content="Commentaire : " />
                 <TextBox Grid.Row="6"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
             </Grid>
+            
         </ScrollViewer>
 
         <GridSplitter />

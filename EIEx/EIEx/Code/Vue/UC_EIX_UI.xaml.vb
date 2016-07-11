@@ -19,23 +19,20 @@ Public Class UC_SubContainer
 
 #Region "Properties"
 
-#Region "SelectedRange"
-
-    Public Property SelectedRange As String ' Excel.Range
+#Region "Ref"
+    Public ReadOnly Property Ref() As Référentiel
         Get
-            Return GetValue(SelectedRangeProperty)
+            Return Référentiel.Instance
         End Get
-
-        Set(ByVal value As String)
-            SetValue(SelectedRangeProperty, value)
-        End Set
     End Property
+#End Region
 
-    Public Shared ReadOnly SelectedRangeProperty As DependencyProperty =
-                           DependencyProperty.Register("SelectedRange",
-                           GetType(String), GetType(UC_SubContainer),
-                           New PropertyMetadata(Nothing))
-
+#Region "WS"
+    Public ReadOnly Property WS() As WorkSpace
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
 #End Region
 
 #End Region
@@ -92,19 +89,39 @@ Public Class UC_SubContainer
 #End Region
 
 #Region "Tests and debug"
+
+#Region "SelectedRange"
+
+    Public Property SelectedRange As String ' Excel.Range
+        Get
+            Return GetValue(SelectedRangeProperty)
+        End Get
+
+        Set(ByVal value As String)
+            SetValue(SelectedRangeProperty, value)
+        End Set
+    End Property
+
+    Public Shared ReadOnly SelectedRangeProperty As DependencyProperty =
+                           DependencyProperty.Register("SelectedRange",
+                           GetType(String), GetType(UC_SubContainer),
+                           New PropertyMetadata(Nothing))
+
+#End Region
+
     Private Sub UC_SubContainer_MouseRightButtonUp(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseRightButtonUp
 
     End Sub
 
-    Private Sub UC_SubContainer_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
-        Try
+    'Private Sub UC_SubContainer_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+    '    Try
 
-            Dim WS = WorkSpace.Instance
-            Me.UC_Etude.DataContext = WS.EtudeCourante
-        Catch ex As Exception
-            ManageErreur(ex, "Echec de la récupération de l'étude courante.")
-        End Try
-    End Sub
+    '        Dim WS = WorkSpace.Instance
+    '        Me.UC_Etude.DataContext = WS.EtudeCourante
+    '    Catch ex As Exception
+    '        ManageErreur(ex, "Echec de la récupération de l'étude courante.")
+    '    End Try
+    'End Sub
 
 #End Region
 

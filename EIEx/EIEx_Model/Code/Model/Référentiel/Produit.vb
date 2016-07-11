@@ -56,10 +56,12 @@ Public Class Produit
         End Get
         Set(ByVal value As String)
             If Object.Equals(value, Me._CodeLydic) Then Exit Property
-            CheckUnicitéRefProduit(value, Me.RéférenceFournisseur)
-            _CodeLydic = value
-            NotifyPropertyChanged(NameOf(CodeLydic))
-            NotifyPropertyChanged(NameOf(RéférenceProduit))
+            Dim TestUnicité = CheckUnicitéRefProduit(value, Me.RéférenceFournisseur)
+            If TestUnicité Then
+                _CodeLydic = value
+                NotifyPropertyChanged(NameOf(CodeLydic))
+                NotifyPropertyChanged(NameOf(RéférenceProduit))
+            End If
         End Set
     End Property
 #End Region
@@ -72,10 +74,12 @@ Public Class Produit
         End Get
         Set(ByVal value As String)
             If Object.Equals(value, Me._RéférenceFournisseur) Then Exit Property
-            CheckUnicitéRefProduit(Me.CodeLydic, value)
-            _RéférenceFournisseur = value
-            NotifyPropertyChanged(NameOf(RéférenceFournisseur))
-            NotifyPropertyChanged(NameOf(RéférenceProduit))
+            Dim TestUnicité = CheckUnicitéRefProduit(Me.CodeLydic, value)
+            If TestUnicité Then
+                _RéférenceFournisseur = value
+                NotifyPropertyChanged(NameOf(RéférenceFournisseur))
+                NotifyPropertyChanged(NameOf(RéférenceProduit))
+            End If
         End Set
     End Property
 #End Region
@@ -94,12 +98,15 @@ Public Class Produit
 
 #End Region
 
-    Private Sub CheckUnicitéRefProduit(CodeLydic As String, RéférenceFournisseur As String)
+    Private Function CheckUnicitéRefProduit(CodeLydic As String, RéférenceFournisseur As String) As Boolean
         If Not (String.IsNullOrEmpty(CodeLydic) OrElse String.IsNullOrEmpty(RéférenceFournisseur)) Then
             Dim NewRef = GetRéférenceProduit(CodeLydic, RéférenceFournisseur)
-            Me.Ref.CheckUnicityRefProduit(NewRef)
+            Dim r = Me.Ref.CheckUnicityRefProduit(NewRef)
+            Return r
+        Else
+            Return True
         End If
-    End Sub
+    End Function
 
 #End Region
 

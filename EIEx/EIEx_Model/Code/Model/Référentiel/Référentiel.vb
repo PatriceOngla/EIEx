@@ -121,15 +121,17 @@ Public Class Référentiel
         Return r
     End Function
 
-    Public Sub CheckUnicityRefProduit(RefProduit As String)
+    Public Function CheckUnicityRefProduit(RefProduit As String) As Boolean
         Try
             If LaRéfProduitExisteDéjà(RefProduit) Then
-                Throw New InvalidOperationException($"Un produit portant la référence ""{RefProduit}"" existe déjà. {vbCr}Un doublon a été créé. Corriger la saisie.")
+                Throw New InvalidOperationException($"Un produit portant la référence ""{RefProduit}"" existe déjà. {vbCr}Modification ignorée.")
             End If
+            Return True
         Catch ex As Exception
-            Me.RaiseExceptionRaisedEvent(ex, Me, True)
+            Me.RaiseExceptionRaisedEvent(ex, True)
+            Return False
         End Try
-    End Sub
+    End Function
 
     Public Function LaRéfProduitExisteDéjà(RéfProduit As String) As Boolean
         Dim r = (From p In Me.Produits Where p.RéférenceProduit.Equals(RéfProduit)).Any()

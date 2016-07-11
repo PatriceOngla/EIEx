@@ -53,7 +53,6 @@ Public Class UC_PatronsDOuvrageView
     End Property
 #End Region
 
-
 #Region "PatronDOuvrageCourant (PatronDOuvrage)"
 
     Public Shared ReadOnly PatronDOuvrageCourantProperty As DependencyProperty =
@@ -87,7 +86,7 @@ Public Class UC_PatronsDOuvrageView
 
     Private Sub UC_CmdesCRUD_DemandeSuppression() Handles UC_CmdesCRUD_Ouvrages.DemandeSuppression
         Try
-            Dim Ouvrage = Me.DG_Master.SelectedItem
+            Dim Ouvrage As PatronDOuvrage = Me.DG_Master.SelectedItem
             Ref.PatronsDOuvrage.Remove(Ouvrage)
         Catch ex As Exception
             ManageErreur(ex)
@@ -113,7 +112,7 @@ Public Class UC_PatronsDOuvrageView
     Private Sub UC_CmdCRUD_UsagesProduit_DemandeSuppression() Handles UC_CmdCRUD_UsagesProduit.DemandeSuppression
         Try
             If Me.PatronDOuvrageCourant IsNot Nothing Then
-                Dim UsageProduit = Me.DG_Produits.SelectedItem
+                Dim UsageProduit As UsageDeProduit = Me.DG_Produits.SelectedItem
                 Me.PatronDOuvrageCourant.UsagesDeProduit.Remove(UsageProduit)
             Else
                 AlertePasDePatronDOuvrageSélectionné()

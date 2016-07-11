@@ -55,21 +55,21 @@ Imports Utils
         Dim r = WS.GetNewEtude()
         r.Nom = $"Etude {i}"
         Dim Bdx As New List(Of Bordereau)
+        Dim Bd As Bordereau
         For i = 1 To i
-            Bdx.Add(NewBordereau(i))
+            Bd = r.AjouterNouveauBordereau()
+            FillBordereau(Bd, i)
         Next
         r.Bordereaux.AddRange(Bdx)
         Return r
     End Function
 
-    Private Function NewBordereau(i As Integer) As Bordereau
-        Dim r = New Bordereau
-        r.Nom = "Bordereau " & i : r.CheminFichier = "c:\dossier " & i
-        r.Paramètres.AdresseRangeLibelleOuvrage = $"A{i}L{i}"
-        r.Paramètres.AdresseRangeUnité = $"A{i}U{i}"
-        r.Paramètres.AdresseRangePrixUnitaire = $"A{i}P{i}"
-        Return r
-    End Function
+    Private Sub FillBordereau(B As Bordereau, i As Integer)
+        B.Nom = "Bordereau " & i : B.CheminFichier = "c:\dossier " & i
+        B.Paramètres.AdresseRangeLibelleOuvrage = $"A{i}L{i}"
+        B.Paramètres.AdresseRangeUnité = $"A{i}U{i}"
+        B.Paramètres.AdresseRangePrixUnitaire = $"A{i}P{i}"
+    End Sub
 
 #Region "Test & debug"
     <TestMethod()>

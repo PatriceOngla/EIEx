@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:EIEx"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <Grid>
+        
         <TabControl TabStripPlacement="Top">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
@@ -18,16 +20,21 @@
                     </Setter>-->
                 </Style>
             </TabControl.Resources>
+            
             <TabItem Header="Ouvrages">
                 <local:UC_PatronsDOuvrageView DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.PatronsDOuvrage}"/>
             </TabItem>
+            
             <TabItem Header="Produits">
                 <local:UC_ProduitsView DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.Produits}"/>
             </TabItem>
+            
             <TabItem Header="Familles">
                 <local:UC_FamillesProduitView DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.FamillesDeProduit}"/>
             </TabItem>
+            
         </TabControl>
 
     </Grid>
+    
 </UserControl>

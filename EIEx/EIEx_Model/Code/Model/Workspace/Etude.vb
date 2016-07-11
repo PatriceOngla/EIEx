@@ -1,4 +1,6 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.Collections.Specialized
+Imports System.ComponentModel
 
 Public Class Etude
     Inherits AgregateRoot(Of Etude)
@@ -56,18 +58,38 @@ Public Class Etude
 #End Region
 
 #Region "Bordereaux"
-    Private _Bordereaux As ObservableCollection(Of Bordereau)
+    Private WithEvents _Bordereaux As ObservableCollection(Of Bordereau)
     Public ReadOnly Property Bordereaux() As ObservableCollection(Of Bordereau)
         Get
             Return _Bordereaux
         End Get
     End Property
+
+#Region "NbBordereaux"
+
+    Public ReadOnly Property NbBordereaux() As Integer
+        Get
+            Return Me.Bordereaux.Count()
+        End Get
+    End Property
+
+    Private Sub _Bordereaux_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _Bordereaux.CollectionChanged
+        Me.NotifyPropertyChanged(NameOf(NbBordereaux))
+    End Sub
+
+#End Region
+
 #End Region
 
 #End Region
 
 #Region "Méthodes"
 
+    Public Function AjouterNouveauBordereau() As Bordereau
+        Dim newB = New Bordereau
+        Me.Bordereaux.Add(newB)
+        Return newB
+    End Function
 
 #End Region
 

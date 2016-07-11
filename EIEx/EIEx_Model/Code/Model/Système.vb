@@ -172,8 +172,8 @@ Public MustInherit Class Système '(Of Ts As Système)
     ''' <param name="Attendue">Indique s'il s'agit d'une exception métier ou technique.</param>
     Public Shared Event ExceptionRaised(e As Exception, S As Système, Attendue As Boolean)
 
-    Friend Sub RaiseExceptionRaisedEvent(e As Exception, S As Système, Attendue As Boolean)
-        RaiseEvent ExceptionRaised(e, S, Attendue)
+    Friend Sub RaiseExceptionRaisedEvent(e As Exception, Attendue As Boolean)
+        RaiseEvent ExceptionRaised(e, Me, Attendue)
     End Sub
 
 #End Region
