@@ -51,7 +51,7 @@ Public Class UC_FamillesProduitView
             ResseterLesFamillesDesProduitsAssociés(Famille)
             Ref.FamillesDeProduit.Remove(Famille)
         Catch ex As Exception
-            ManageErreur(ex)
+            ManageErreur(ex, "Echec de la suppression du produit.")
         End Try
     End Sub
 

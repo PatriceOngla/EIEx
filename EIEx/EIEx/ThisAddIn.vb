@@ -23,13 +23,30 @@ Public Class ThisAddIn
 
 #Region "Gestion des évennements"
 
+#Region "ThisAddIn_Startup"
+
     Private Sub ThisAddIn_Startup() Handles Me.Startup
         Try
             ChargerLesDonnées()
+            DémarrerGestionGlobaleDesException()
         Catch ex As ArgumentException
             ManageErreur(ex, NameOf(ThisAddIn_Startup))
         End Try
     End Sub
+
+    Private Sub DémarrerGestionGlobaleDesException()
+        'AddHandler AppDomain.CurrentDomain.UnhandledException, Sub(sender As Object, args As UnhandledExceptionEventArgs)
+        '                                                           ManageErreur(args.ExceptionObject, "", True)
+        '                                                       End Sub
+        AddHandler Système.ExceptionRaised, Sub(e As Exception, S As Système, Attendue As Boolean)
+                                                TraiterLesExceptionsDesSysèmes(e, S, Attendue)
+                                            End Sub
+    End Sub
+    Private Sub TraiterLesExceptionsDesSysèmes(e As Exception, S As Système, Attendue As Boolean)
+        ManageErreur(e, $"Erreur dans ""{S.Nom}"".", AffichageSimple:=Attendue)
+    End Sub
+
+#End Region
 
     Private Sub ThisAddIn_Shutdown() Handles Me.Shutdown
         Try
@@ -42,6 +59,8 @@ Public Class ThisAddIn
     End Sub
 
 #End Region
+
+#Region "Gestion des données"
 
     Public Sub ChargerLesDonnées()
         Try
@@ -62,6 +81,8 @@ Public Class ThisAddIn
         End Try
 
     End Sub
+
+#End Region
 
 #End Region
 

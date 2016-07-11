@@ -46,6 +46,8 @@ Public Class Produit
     End Property
 #End Region
 
+#Region "Référence produit"
+
 #Region "CodeLydic"
     Private _CodeLydic As String
     Public Property CodeLydic() As String
@@ -54,35 +56,62 @@ Public Class Produit
         End Get
         Set(ByVal value As String)
             If Object.Equals(value, Me._CodeLydic) Then Exit Property
+            CheckUnicitéRefProduit(value, Me.RéférenceFournisseur)
             _CodeLydic = value
             NotifyPropertyChanged(NameOf(CodeLydic))
+            NotifyPropertyChanged(NameOf(RéférenceProduit))
         End Set
     End Property
 #End Region
 
-#Region "ReférenceFournisseur (String)"
-    Private _ReférenceFournisseur As String
-    Public Property ReférenceFournisseur() As String
+#Region "RéférenceFournisseur (String)"
+    Private _RéférenceFournisseur As String
+    Public Property RéférenceFournisseur() As String
         Get
-            Return _ReférenceFournisseur
+            Return _RéférenceFournisseur
         End Get
         Set(ByVal value As String)
-            If Object.Equals(value, Me._ReférenceFournisseur) Then Exit Property
-            _ReférenceFournisseur = value
-            NotifyPropertyChanged(NameOf(ReférenceFournisseur))
+            If Object.Equals(value, Me._RéférenceFournisseur) Then Exit Property
+            CheckUnicitéRefProduit(Me.CodeLydic, value)
+            _RéférenceFournisseur = value
+            NotifyPropertyChanged(NameOf(RéférenceFournisseur))
+            NotifyPropertyChanged(NameOf(RéférenceProduit))
         End Set
     End Property
+#End Region
+
+#Region "RéférenceProduit"
+
+    Public ReadOnly Property RéférenceProduit() As String
+        Get
+            Return GetRéférenceProduit(Me.CodeLydic, Me.RéférenceFournisseur)
+        End Get
+    End Property
+
+    Public Shared Function GetRéférenceProduit(CodeLydic As String, ReférenceFournisseur As String) As String
+        Return If(CodeLydic, "?") & "-" & If(ReférenceFournisseur, "?")
+    End Function
+
+#End Region
+
+    Private Sub CheckUnicitéRefProduit(CodeLydic As String, RéférenceFournisseur As String)
+        If Not (String.IsNullOrEmpty(CodeLydic) OrElse String.IsNullOrEmpty(RéférenceFournisseur)) Then
+            Dim NewRef = GetRéférenceProduit(CodeLydic, RéférenceFournisseur)
+            Me.Ref.CheckUnicityRefProduit(NewRef)
+        End If
+    End Sub
+
 #End Region
 
 #Region "TempsDePauseUnitaire (Integer)"
-    Private _TempsDePauseUnitaire As Integer?
+    Private _TempsDePauseUnitaire As Integer
 
     ''' <summary>Le temps de pause en minutes.</summary>
-    Public Property TempsDePauseUnitaire() As Integer?
+    Public Property TempsDePauseUnitaire() As Integer
         Get
             Return _TempsDePauseUnitaire
         End Get
-        Set(ByVal value As Integer?)
+        Set(ByVal value As Integer)
             If Object.Equals(value, Me._TempsDePauseUnitaire) Then Exit Property
             _TempsDePauseUnitaire = value
             NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))

@@ -26,12 +26,10 @@
 
             <DataTemplate x:Key="DT_Produit" DataType="model:Produit">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding CodeLydic}"/>
+                    <TextBlock Text="{Binding RéférenceProduit}"/>
                     <TextBlock Text=" - "/>
                     <TextBlock Text="{Binding Nom}"/>
-                    <TextBlock Text=" ("/>
-                    <TextBlock Text="{Binding ReférenceFournisseur}"/>
-                    <TextBlock Text=" | n° "/>
+                    <TextBlock Text=" (n° "/>
                     <TextBlock Text="{Binding Id}"/>
                     <TextBlock Text=") "/>
                 </StackPanel>
@@ -58,7 +56,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer x:Name="SV_Detail" Grid.Row="1">
 
             <Grid x:Name="Grd_Detail">
                 <Grid.ColumnDefinitions>
@@ -82,7 +80,7 @@
                 <!--Libellés-->
 
                 <Label Grid.Row="1" Content="Libellés : " />
-                <Border Grid.Row="1" Grid.Column="1">
+                <Border x:Name="Bdr_Libellés" Grid.Row="1" Grid.Column="1">
                     <StackPanel Orientation="Vertical"  >
                         <ListBox x:Name="LBx_Libellés" ItemsSource="{Binding Libellés}" MaxHeight="100" />
                         <local:UC_CommandesCRUD x:Name="UC_CmdCRUD_Libellés"/>
@@ -91,7 +89,7 @@
 
                 <!--Produits-->
                 <Label Grid.Row="2" Content="Produits requis : " />
-                <Border Grid.Row="2" Grid.Column="1" >
+                <Border x:Name="Bdr_Produits" Grid.Row="2" Grid.Column="1" >
                     <StackPanel Orientation="Vertical">
                         <DataGrid x:Name="DG_Produits" 
                                   ItemsSource="{Binding UsagesDeProduit}" AutoGenerateColumns="False" 
@@ -108,9 +106,12 @@
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate DataType="model:AgregateRoot_Base" >
                                             <ComboBox ItemsSource="{Binding Source={StaticResource TousLesProduits}}" 
-                                                  SelectedItem="{Binding Produit}"
-                                                  Margin="0"
-                                                  ItemTemplate="{StaticResource DT_Produit}">
+                                                      SelectedItem="{Binding Produit, UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0"
+                                                      IsEditable="True"
+                                                      IsTextSearchEnabled="True"
+                                                      TextSearch.TextPath="RéférenceProduit"  
+                                                      ItemTemplate="{StaticResource DT_Produit}">
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>

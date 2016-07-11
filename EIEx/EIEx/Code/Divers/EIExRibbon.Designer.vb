@@ -44,20 +44,26 @@
         Me.Tab1 = Me.Factory.CreateRibbonTab
         Me.Grp_Unic = Me.Factory.CreateRibbonGroup
         Me.TBt_ShowPanel = Me.Factory.CreateRibbonToggleButton
+        Me.Btn_EnregistrerRéférentiel = Me.Factory.CreateRibbonButton
+        Me.Btn_SaveWorkspace = Me.Factory.CreateRibbonButton
+        Me.Grp_Enregistrement = Me.Factory.CreateRibbonGroup
         Me.Tab1.SuspendLayout()
         Me.Grp_Unic.SuspendLayout()
+        Me.Grp_Enregistrement.SuspendLayout()
         Me.SuspendLayout()
         '
         'Tab1
         '
         Me.Tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office
         Me.Tab1.Groups.Add(Me.Grp_Unic)
+        Me.Tab1.Groups.Add(Me.Grp_Enregistrement)
         Me.Tab1.Label = "EIEx"
         Me.Tab1.Name = "Tab1"
         '
         'Grp_Unic
         '
         Me.Grp_Unic.Items.Add(Me.TBt_ShowPanel)
+        Me.Grp_Unic.Label = "Affichage"
         Me.Grp_Unic.Name = "Grp_Unic"
         '
         'TBt_ShowPanel
@@ -65,6 +71,23 @@
         Me.TBt_ShowPanel.Description = "Afficher le panel de contrôle."
         Me.TBt_ShowPanel.Label = "Afficher le panel"
         Me.TBt_ShowPanel.Name = "TBt_ShowPanel"
+        '
+        'Btn_EnregistrerRéférentiel
+        '
+        Me.Btn_EnregistrerRéférentiel.Label = "Enregistrer le référentiel"
+        Me.Btn_EnregistrerRéférentiel.Name = "Btn_EnregistrerRéférentiel"
+        '
+        'Btn_SaveWorkspace
+        '
+        Me.Btn_SaveWorkspace.Label = "Enregistrer l'espace de travail"
+        Me.Btn_SaveWorkspace.Name = "Btn_SaveWorkspace"
+        '
+        'Grp_Enregistrement
+        '
+        Me.Grp_Enregistrement.Items.Add(Me.Btn_EnregistrerRéférentiel)
+        Me.Grp_Enregistrement.Items.Add(Me.Btn_SaveWorkspace)
+        Me.Grp_Enregistrement.Label = "Enregistrement"
+        Me.Grp_Enregistrement.Name = "Grp_Enregistrement"
         '
         'EIExRibbon
         '
@@ -75,6 +98,8 @@
         Me.Tab1.PerformLayout()
         Me.Grp_Unic.ResumeLayout(False)
         Me.Grp_Unic.PerformLayout()
+        Me.Grp_Enregistrement.ResumeLayout(False)
+        Me.Grp_Enregistrement.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -82,6 +107,9 @@
     Friend WithEvents Tab1 As Microsoft.Office.Tools.Ribbon.RibbonTab
     Friend WithEvents Grp_Unic As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents TBt_ShowPanel As Microsoft.Office.Tools.Ribbon.RibbonToggleButton
+    Friend WithEvents Btn_EnregistrerRéférentiel As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Btn_SaveWorkspace As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Grp_Enregistrement As Microsoft.Office.Tools.Ribbon.RibbonGroup
 End Class
 
 Partial Class ThisRibbonCollection

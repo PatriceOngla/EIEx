@@ -36,9 +36,18 @@ Public Class UsageDeProduit
             If Object.Equals(value, Me._Produit) Then Exit Property
             _Produit = value
             NotifyPropertyChanged(NameOf(Produit))
+            'NotifyPropertyChanged(NameOf(Unité))
         End Set
     End Property
 #End Region
+
+    '#Region "Unité"
+    '    Public ReadOnly Property Unité() As Unités?
+    '        Get
+    '            Return Me.Produit?.Unité
+    '        End Get
+    '    End Property
+    '#End Region
 
 #Region "Nombre (Integer)"
     Private _Nombre As Integer

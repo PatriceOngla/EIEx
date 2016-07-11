@@ -15,6 +15,7 @@ Public Class WorkSpace
 
     Protected Overrides Sub Init()
         MyBase.Init()
+        Me.Nom = "Espace de travail"
         _Etudes = New ObservableCollection(Of Etude)()
         _Tables.Add(_Etudes)
     End Sub

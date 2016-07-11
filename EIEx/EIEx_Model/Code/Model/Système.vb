@@ -10,7 +10,10 @@ Public MustInherit Class Système '(Of Ts As Système)
 #Region "Constructeurs"
     Protected Overrides Sub Init()
         _Tables = New List(Of IList)()
+        AddHandler ExceptionRaised, Sub(e As Exception, S As Système, Attendue As Boolean) Système_ExceptionRaised(e, S, Attendue)
     End Sub
+
+
 
 #End Region
 
@@ -136,6 +139,7 @@ Public MustInherit Class Système '(Of Ts As Système)
     End Function
 #End Region
 
+#Region "GetDAO"
     ''' <remark>
     ''' J'aurais préféré une méthode overidable à la charge de chaque <see cref="Système"/> mais, bizarement, impossible d'empêcher le sérialisateur d'y accéder et d'échouer dessus. Solution paliative.
     ''' </remark>
@@ -150,8 +154,27 @@ Public MustInherit Class Système '(Of Ts As Système)
                 Throw New NotSupportedException($"Aucun DAO n'est défini pour le système ""{TypeSystème.Name}"".")
         End Select
     End Function
+#End Region
+
+#Region "Système_ExceptionRaised"
+    Private Sub Système_ExceptionRaised(e As Exception, S As Système, Attendue As Boolean)
+
+    End Sub
+#End Region
 
 #End Region
+
+#End Region
+
+#Region "Evénnements"
+
+    ''' <summary>Contournement de l'absence de centralisation des traitements d'exception en VSTO.</summary>
+    ''' <param name="Attendue">Indique s'il s'agit d'une exception métier ou technique.</param>
+    Public Shared Event ExceptionRaised(e As Exception, S As Système, Attendue As Boolean)
+
+    Friend Sub RaiseExceptionRaisedEvent(e As Exception, S As Système, Attendue As Boolean)
+        RaiseEvent ExceptionRaised(e, S, Attendue)
+    End Sub
 
 #End Region
 

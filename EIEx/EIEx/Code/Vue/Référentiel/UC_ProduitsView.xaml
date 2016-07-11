@@ -45,6 +45,12 @@
 
                 <DataGridTextColumn Header="N°" Binding="{Binding Id}" IsReadOnly="True" />
 
+                <DataGridTextColumn Header="Ref. produit" Binding="{Binding RéférenceProduit}" IsReadOnly="True" />
+                
+                <!--<DataGridTextColumn Header="Code Lydic" Binding="{Binding CodeLydic}" />
+
+                <DataGridTextColumn Header="Ref. fournisseur" Binding="{Binding RéférenceFournisseur}"/>-->
+                
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
 
                 <DataGridTemplateColumn Header="Famille" MinWidth="150" >
@@ -92,34 +98,34 @@
                 <!--Nom-->
                 <Label Content="Nom : " />
                 <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=NomFamille}"/>
+                
+                <!--Code lydic-->
+                <Label Grid.Row="1" Content="Code Lydic : "  />
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         Text="{Binding CodeLydic, FallbackValue=CodeLydic}" />
+                
+                <!--fournisseur-->
+                <Label Grid.Row="2" Content="Réf. fournisseur : " Grid.RowSpan="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" 
+                         Text="{Binding RéférenceFournisseur, FallbackValue=RéférenceFournisseur}"/>
 
                 <!--Famille-->
-                <Label Grid.Row="1" Content="Famille : " />
-                <ComboBox Grid.Row="1" Grid.Column="1" 
+                <Label Grid.Row="3" Content="Famille : " />
+                <ComboBox Grid.Row="3" Grid.Column="1" 
                       SelectedItem="{Binding Famille, FallbackValue=Famille}" 
                       ItemsSource="{Binding ElementName=UC_ProduitsView, Path=Ref.FamillesDeProduit}"
                       ItemTemplate="{StaticResource DT_FamilleDeProduit}" />
 
                 <!--Unité-->
-                <Label Grid.Row="2" Content="Unité : " />
-                <ComboBox Grid.Row="2" Grid.Column="1" 
+                <Label Grid.Row="4" Content="Unité : " />
+                <ComboBox Grid.Row="4" Grid.Column="1" 
                           SelectedItem="{Binding Unité, FallbackValue=Unité}" 
                           ItemsSource="{Binding Source={StaticResource LesUnités}}" />
 
                 <!--Prix-->
-                <Label Grid.Row="3" Content="Prix : " />
-                <TextBox Grid.Row="3" Grid.Column="1" 
-                         Text="{Binding Prix, FallbackValue=Prix}" />
-
-                <!--Code lydic-->
-                <Label Grid.Row="4" Content="Code Lydic : "  />
-                <TextBox Grid.Row="4" Grid.Column="1" 
-                         Text="{Binding CodeLydic, FallbackValue=CodeLydic}" />
-                
-                <!--fournisseur-->
-                <Label Grid.Row="5" Content="Réf. fournisseur : " Grid.RowSpan="2" />
+                <Label Grid.Row="5" Content="Prix : " />
                 <TextBox Grid.Row="5" Grid.Column="1" 
-                         Text="{Binding ReférenceFournisseur, FallbackValue=ReférenceFournisseur}"/>
+                         Text="{Binding Prix, FallbackValue=Prix}" />
 
                 <!--Tps de pause unitaire-->
                 <Label Grid.Row="6" Content="Tps de pause unitaire : " />

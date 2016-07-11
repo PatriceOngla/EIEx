@@ -15,6 +15,8 @@ Public Class Référentiel
     Protected Overrides Sub Init()
         MyBase.Init()
 
+        Me.Nom = "Référentiel"
+
         _Produits = New ObservableCollection(Of Produit)
         _Tables.Add(_Produits)
 
@@ -116,6 +118,21 @@ Public Class Référentiel
     Public Function GetNewProduit() As Produit
         Dim newId = GetNewId(Of Produit)()
         Dim r = GetNewProduit(newId)
+        Return r
+    End Function
+
+    Public Sub CheckUnicityRefProduit(RefProduit As String)
+        Try
+            If LaRéfProduitExisteDéjà(RefProduit) Then
+                Throw New InvalidOperationException($"Un produit portant la référence ""{RefProduit}"" existe déjà. {vbCr}Un doublon a été créé. Corriger la saisie.")
+            End If
+        Catch ex As Exception
+            Me.RaiseExceptionRaisedEvent(ex, Me, True)
+        End Try
+    End Sub
+
+    Public Function LaRéfProduitExisteDéjà(RéfProduit As String) As Boolean
+        Dim r = (From p In Me.Produits Where p.RéférenceProduit.Equals(RéfProduit)).Any()
         Return r
     End Function
 

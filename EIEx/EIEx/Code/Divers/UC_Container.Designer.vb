@@ -23,8 +23,7 @@ Partial Class UC_Container
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.WPFHost = New System.Windows.Forms.Integration.ElementHost()
-        Me.UC_SubContainer1 = New UC_SubContainer()
-
+        Me.UC_SubContainer1 = New EIEx.UC_SubContainer()
         Me.SuspendLayout()
         '
         'WPFHost
@@ -34,7 +33,7 @@ Partial Class UC_Container
         Me.WPFHost.Dock = System.Windows.Forms.DockStyle.Fill
         Me.WPFHost.Location = New System.Drawing.Point(0, 0)
         Me.WPFHost.Name = "WPFHost"
-        Me.WPFHost.Size = New System.Drawing.Size(150, 150)
+        Me.WPFHost.Size = New System.Drawing.Size(600, 600)
         Me.WPFHost.TabIndex = 0
         Me.WPFHost.Text = "ElementHost1"
         Me.WPFHost.Child = Me.UC_SubContainer1
@@ -45,6 +44,7 @@ Partial Class UC_Container
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.WPFHost)
         Me.Name = "UC_Container"
+        Me.Size = New System.Drawing.Size(600, 600)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

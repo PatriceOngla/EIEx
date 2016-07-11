@@ -62,7 +62,7 @@ Imports Model
     Private Function NewProduit(i As Integer) As Produit
         Dim r = Ref.GetNewProduit()
         Dim f = Ref.GetFamilleById(i)
-        r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.ReférenceFournisseur = "100" & i : r.CodeLydic = "CONS" & i : r.Famille = f : r.TempsDePauseUnitaire = i
+        r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.RéférenceFournisseur = "100" & i : r.CodeLydic = "CONS" & i : r.Famille = f : r.TempsDePauseUnitaire = i
         r.MotsClés.AddRange({"keyWord " & i, "keyWord " & i + 1})
         Return r
     End Function

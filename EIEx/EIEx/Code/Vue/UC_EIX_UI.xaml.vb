@@ -81,6 +81,9 @@ Public Class UC_SubContainer
     End Function
 
     Private Sub NaviguerVers(donnéeNavigationCible As Entité)
+        If TypeOf donnéeNavigationCible Is UsageDeProduit Then
+            donnéeNavigationCible = TryCast(donnéeNavigationCible, UsageDeProduit).Produit
+        End If
         MsgBox($"En route pour {donnéeNavigationCible.ToString()}.")
     End Sub
 
