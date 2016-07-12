@@ -190,7 +190,11 @@
     <Compile Include="Code\Divers\EIExRibbon.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Code\Divers\ExcelComander.vb" />
     <Compile Include="Code\Divers\ExcelEventManager.vb" />
+    <Compile Include="Code\Vue\Workspace\UC_ExcelRangeSelector.xaml.vb">
+      <DependentUpon>UC_ExcelRangeSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -287,6 +291,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Code\Vue\Workspace\UC_EtudesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Workspace\UC_ExcelRangeSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

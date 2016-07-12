@@ -62,9 +62,10 @@ Public Class UC_ProduitsView
         End Try
     End Sub
 
-    Private Sub SupprimerLeProduitsDesPatronsDOuvragesAssociés(famille As FamilleDeProduit)
-        Dim ProduitsAssociés = From p In Ref.Produits Where p.Famille Is famille
-        ProduitsAssociés.DoForAll(Sub(p) p.Famille = Nothing)
+    Private Sub SupprimerLeProduitsDesPatronsDOuvragesAssociés(Pdt As Produit)
+        Dim UsageAssociés = From po In Ref.PatronsDOuvrage From up In po.UsagesDeProduit Where up.Produit Is Pdt Select up
+        Dim UPASupprimer = New List(Of UsageDeProduit)(UsageAssociés)
+        UPASupprimer.DoForAll(Sub(up) up.Parent.UsagesDeProduit.Remove(up))
     End Sub
 
 #End Region

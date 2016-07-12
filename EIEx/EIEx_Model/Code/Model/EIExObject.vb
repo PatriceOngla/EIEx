@@ -53,7 +53,7 @@ Public MustInherit Class EIExObject
 
 #Region "NotifyPropertyChanged"
 
-    Protected Sub NotifyPropertyChanged(PropertyName As String)
+    Friend Sub NotifyPropertyChanged(PropertyName As String)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(PropertyName))
     End Sub
 

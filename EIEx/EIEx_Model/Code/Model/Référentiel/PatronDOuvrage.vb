@@ -114,14 +114,21 @@ Public Class PatronDOuvrage
             If Object.Equals(value, Me._TempsDePauseUnitaire) Then Exit Property
             _TempsDePauseUnitaire = value
             NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
+            NotifyPropertyChanged(NameOf(TempsDePauseForcé))
         End Set
     End Property
 
 
     Public ReadOnly Property TempsDePauseCalculé As Single
         Get
-            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit.TempsDePauseUnitaire).Sum()
+            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit?.TempsDePauseUnitaire).Sum()
             Return r
+        End Get
+    End Property
+
+    Public ReadOnly Property TempsDePauseForcé() As Boolean
+        Get
+            Return _TempsDePauseUnitaire IsNot Nothing
         End Get
     End Property
 
@@ -143,13 +150,20 @@ Public Class PatronDOuvrage
             If Object.Equals(value, Me._PrixUnitaire) Then Exit Property
             _PrixUnitaire = value
             NotifyPropertyChanged(NameOf(PrixUnitaire))
+            NotifyPropertyChanged(NameOf(PrixUnitaireForcé))
         End Set
     End Property
 
     Public ReadOnly Property PrixUnitaireCalculé As Single
         Get
-            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit.Prix).Sum()
+            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit?.Prix).Sum()
             Return r
+        End Get
+    End Property
+
+    Public ReadOnly Property PrixUnitaireForcé() As Boolean
+        Get
+            Return _PrixUnitaire IsNot Nothing
         End Get
     End Property
 
@@ -176,6 +190,9 @@ Public Class PatronDOuvrage
             End If
         End If
         Me.NotifyPropertyChanged(NameOf(NbProduits))
+        NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
+        NotifyPropertyChanged(NameOf(PrixUnitaire))
+
     End Sub
 
     ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent le <see cref="PatronDOuvrage"/> courant.</summary>

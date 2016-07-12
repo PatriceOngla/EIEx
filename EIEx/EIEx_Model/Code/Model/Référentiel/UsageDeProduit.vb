@@ -36,7 +36,8 @@ Public Class UsageDeProduit
             If Object.Equals(value, Me._Produit) Then Exit Property
             _Produit = value
             NotifyPropertyChanged(NameOf(Produit))
-            'NotifyPropertyChanged(NameOf(Unité))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.PrixUnitaire))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.TempsDePauseCalculé))
         End Set
     End Property
 #End Region
@@ -58,7 +59,8 @@ Public Class UsageDeProduit
         Set(ByVal value As Integer)
             If Object.Equals(value, Me._Nombre) Then Exit Property
             _Nombre = value
-
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.PrixUnitaire))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.TempsDePauseCalculé))
         End Set
     End Property
 #End Region

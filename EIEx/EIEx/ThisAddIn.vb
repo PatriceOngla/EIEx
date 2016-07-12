@@ -77,7 +77,7 @@ Public Class ThisAddIn
             EIExData.EnregistrerLeWorkspace()
             EIExData.EnregistrerLeRéférentiel()
         Catch ex As Exception
-            ManageErreur(ex, $"Echec du chargement des données. L'Addin {ThisAddIn.Nom} n'est pas utilisable.")
+            ManageErreur(ex, $"Echec de l'enregistrement des données. Attention, votre travail risque d'être perdu à l'arrêt d'Excel.")
         End Try
 
     End Sub

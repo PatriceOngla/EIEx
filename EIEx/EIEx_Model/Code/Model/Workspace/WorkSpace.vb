@@ -59,11 +59,32 @@ Public Class WorkSpace
             Return _EtudeCourante
         End Get
         Set(ByVal value As Etude)
-            If Object.Equals(value, Me.EtudeCourante) Then Exit Property
+            If value IsNot Nothing AndAlso Object.Equals(value, Me.EtudeCourante) Then Exit Property
             Try
-                If Not Etudes.Contains(value) Then Throw New InvalidOperationException("L'étude n'appartient pas à l'espace de travail.")
+                If Not (value Is Nothing OrElse Etudes.Contains(value)) Then Throw New InvalidOperationException("L'étude n'appartient pas à l'espace de travail.")
                 _EtudeCourante = value
                 NotifyPropertyChanged(NameOf(EtudeCourante))
+            Catch ex As Exception
+                Me.RaiseExceptionRaisedEvent(ex, True)
+            End Try
+        End Set
+    End Property
+
+
+#End Region
+
+#Region "BordereauCourant"
+    Private _BordereauCourant As Bordereau
+    Public Property BordereauCourant As Bordereau
+        Get
+            Return _BordereauCourant
+        End Get
+        Set(ByVal value As Bordereau)
+            If Object.Equals(value, Me.BordereauCourant) Then Exit Property
+            Try
+                If Not EtudeCourante?.Bordereaux.Contains(value) Then Throw New InvalidOperationException("Le bordereau n'appartient pas à l'étude courante.")
+                _BordereauCourant = value
+                NotifyPropertyChanged(NameOf(BordereauCourant))
             Catch ex As Exception
                 Me.RaiseExceptionRaisedEvent(ex, True)
             End Try

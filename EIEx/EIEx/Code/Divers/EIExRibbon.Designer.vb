@@ -44,12 +44,17 @@
         Me.Tab1 = Me.Factory.CreateRibbonTab
         Me.Grp_Unic = Me.Factory.CreateRibbonGroup
         Me.TBt_ShowPanel = Me.Factory.CreateRibbonToggleButton
-        Me.Btn_EnregistrerRéférentiel = Me.Factory.CreateRibbonButton
-        Me.Btn_SaveWorkspace = Me.Factory.CreateRibbonButton
         Me.Grp_Enregistrement = Me.Factory.CreateRibbonGroup
+        Me.Btn_EnregistrerRéférentiel = Me.Factory.CreateRibbonButton
+        Me.Btn_RechargerRéférentiel = Me.Factory.CreateRibbonButton
+        Me.Btn_SaveWorkspace = Me.Factory.CreateRibbonButton
+        Me.Btn_RechargerWorkspace = Me.Factory.CreateRibbonButton
+        Me.Grp_Autres = Me.Factory.CreateRibbonGroup
+        Me.Btn_ImporterProduitsDepuisExcel = Me.Factory.CreateRibbonButton
         Me.Tab1.SuspendLayout()
         Me.Grp_Unic.SuspendLayout()
         Me.Grp_Enregistrement.SuspendLayout()
+        Me.Grp_Autres.SuspendLayout()
         Me.SuspendLayout()
         '
         'Tab1
@@ -57,6 +62,7 @@
         Me.Tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office
         Me.Tab1.Groups.Add(Me.Grp_Unic)
         Me.Tab1.Groups.Add(Me.Grp_Enregistrement)
+        Me.Tab1.Groups.Add(Me.Grp_Autres)
         Me.Tab1.Label = "EIEx"
         Me.Tab1.Name = "Tab1"
         '
@@ -72,22 +78,46 @@
         Me.TBt_ShowPanel.Label = "Afficher le panel"
         Me.TBt_ShowPanel.Name = "TBt_ShowPanel"
         '
+        'Grp_Enregistrement
+        '
+        Me.Grp_Enregistrement.Items.Add(Me.Btn_EnregistrerRéférentiel)
+        Me.Grp_Enregistrement.Items.Add(Me.Btn_RechargerRéférentiel)
+        Me.Grp_Enregistrement.Items.Add(Me.Btn_SaveWorkspace)
+        Me.Grp_Enregistrement.Items.Add(Me.Btn_RechargerWorkspace)
+        Me.Grp_Enregistrement.Label = "Enregistrement"
+        Me.Grp_Enregistrement.Name = "Grp_Enregistrement"
+        '
         'Btn_EnregistrerRéférentiel
         '
         Me.Btn_EnregistrerRéférentiel.Label = "Enregistrer le référentiel"
         Me.Btn_EnregistrerRéférentiel.Name = "Btn_EnregistrerRéférentiel"
+        '
+        'Btn_RechargerRéférentiel
+        '
+        Me.Btn_RechargerRéférentiel.Label = "Recharger le référentiel"
+        Me.Btn_RechargerRéférentiel.Name = "Btn_RechargerRéférentiel"
         '
         'Btn_SaveWorkspace
         '
         Me.Btn_SaveWorkspace.Label = "Enregistrer l'espace de travail"
         Me.Btn_SaveWorkspace.Name = "Btn_SaveWorkspace"
         '
-        'Grp_Enregistrement
+        'Btn_RechargerWorkspace
         '
-        Me.Grp_Enregistrement.Items.Add(Me.Btn_EnregistrerRéférentiel)
-        Me.Grp_Enregistrement.Items.Add(Me.Btn_SaveWorkspace)
-        Me.Grp_Enregistrement.Label = "Enregistrement"
-        Me.Grp_Enregistrement.Name = "Grp_Enregistrement"
+        Me.Btn_RechargerWorkspace.Label = "Recharger le workspace"
+        Me.Btn_RechargerWorkspace.Name = "Btn_RechargerWorkspace"
+        '
+        'Grp_Autres
+        '
+        Me.Grp_Autres.Items.Add(Me.Btn_ImporterProduitsDepuisExcel)
+        Me.Grp_Autres.Label = "Autres"
+        Me.Grp_Autres.Name = "Grp_Autres"
+        '
+        'Btn_ImporterProduitsDepuisExcel
+        '
+        Me.Btn_ImporterProduitsDepuisExcel.Description = "Charger les produits depuis la feuille excel courante."
+        Me.Btn_ImporterProduitsDepuisExcel.Label = "Importer des produits"
+        Me.Btn_ImporterProduitsDepuisExcel.Name = "Btn_ImporterProduitsDepuisExcel"
         '
         'EIExRibbon
         '
@@ -100,6 +130,8 @@
         Me.Grp_Unic.PerformLayout()
         Me.Grp_Enregistrement.ResumeLayout(False)
         Me.Grp_Enregistrement.PerformLayout()
+        Me.Grp_Autres.ResumeLayout(False)
+        Me.Grp_Autres.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -110,6 +142,10 @@
     Friend WithEvents Btn_EnregistrerRéférentiel As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents Btn_SaveWorkspace As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents Grp_Enregistrement As Microsoft.Office.Tools.Ribbon.RibbonGroup
+    Friend WithEvents Btn_RechargerRéférentiel As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Btn_RechargerWorkspace As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Grp_Autres As Microsoft.Office.Tools.Ribbon.RibbonGroup
+    Friend WithEvents Btn_ImporterProduitsDepuisExcel As Microsoft.Office.Tools.Ribbon.RibbonButton
 End Class
 
 Partial Class ThisRibbonCollection

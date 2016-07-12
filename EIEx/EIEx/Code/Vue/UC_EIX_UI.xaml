@@ -68,6 +68,11 @@
                 <Setter Property="Padding" Value="5"/>
             </Style>
 
+            <Style TargetType="ToggleButton">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+
             <Style TargetType="GridSplitter">
                 <Setter Property="Background" Value="LightPink"/>
                 <Setter Property="Height" Value="2"/>

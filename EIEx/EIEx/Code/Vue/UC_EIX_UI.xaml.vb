@@ -1,4 +1,5 @@
-﻿Imports System.Windows
+﻿Imports System.ComponentModel
+Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports System.Windows.Media
@@ -112,16 +113,6 @@ Public Class UC_SubContainer
     Private Sub UC_SubContainer_MouseRightButtonUp(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseRightButtonUp
 
     End Sub
-
-    'Private Sub UC_SubContainer_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
-    '    Try
-
-    '        Dim WS = WorkSpace.Instance
-    '        Me.UC_Etude.DataContext = WS.EtudeCourante
-    '    Catch ex As Exception
-    '        ManageErreur(ex, "Echec de la récupération de l'étude courante.")
-    '    End Try
-    'End Sub
 
 #End Region
 

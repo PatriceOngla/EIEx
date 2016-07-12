@@ -28,6 +28,7 @@ Public Class EIExRibbon
 #End Region
 
 #Region "Méthodes"
+
     'Private Sub EIExRibbon_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
     '    HideOrShowAndAttachPanel(True)
     'End Sub
@@ -90,6 +91,16 @@ Public Class EIExRibbon
             ManageErreur(ex, "Echec de l'enregistrement du référentiel.", True, False)
         End Try
     End Sub
+
+    Private Sub Btn_RechargerRéférentiel_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_RechargerRéférentiel.Click
+        Try
+            Model.EIExData.ChargerLeRéférentiel()
+            Message("Rechargement effectué.")
+        Catch ex As Exception
+            ManageErreur(ex, "Echec du chargement du référentiel.", True, False)
+        End Try
+    End Sub
+
     Private Sub Btn_SaveWorkspace_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_SaveWorkspace.Click
         Try
             Model.EIExData.EnregistrerLeWorkspace()
@@ -99,13 +110,24 @@ Public Class EIExRibbon
         End Try
     End Sub
 
+    Private Sub Btn_RechargerWorkspace_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_RechargerWorkspace.Click
+        Try
+            Model.EIExData.ChargerLeWorkspace()
+            Message("Rechargement effectué.")
+        Catch ex As Exception
+            ManageErreur(ex, "Echec du chargement de l'espace de travail.", True, False)
+        End Try
+    End Sub
+
 #End Region
+    Private Sub Btn_ChargerDepuisExcel_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_ImporterProduitsDepuisExcel.Click
+        ImporterProduitsDepuisExcel()
+    End Sub
 
 #End Region
 
 #Region "Tests et debuggage"
 
 #End Region
-
 
 End Class

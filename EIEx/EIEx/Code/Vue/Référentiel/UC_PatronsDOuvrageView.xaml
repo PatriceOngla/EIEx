@@ -35,6 +35,8 @@
                 </StackPanel>
             </DataTemplate>
 
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -96,7 +98,7 @@
                                   MaxHeight="120">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Produit" MinWidth="150" >
-                                    
+
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="model:AgregateRoot_Base">
                                             <ContentControl Content="{Binding Produit}" ContentTemplate="{StaticResource DT_Produit}"/>
@@ -115,9 +117,9 @@
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
-                                    
+
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Quantité" Binding="{Binding Nombre}"/>
+                                <DataGridTextColumn Header="Quantité" Binding="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"/>
                                 <DataGridTextColumn Header="Unité" IsReadOnly="True" Binding ="{Binding Produit.Unité}"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -131,22 +133,36 @@
 
                 <!--Temps de pause unitaire-->
                 <Label Grid.Row="4" Content="Tps de pause unitaire : " />
-                <TextBox Grid.Row="4"  Grid.Column="1" Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire}" />
+                <DockPanel Grid.Row="4" Grid.Column="1">
+                    <Button x:Name="Btn_ResetTempsDePause" DockPanel.Dock="Right" Content="*" ToolTip="Supprimer la valeur forcée"
+                            IsEnabled="{Binding TempsDePauseForcé}"/>
+                    <TextBox Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire,UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <Polygon Grid.Row="4" Grid.Column="1" Margin="1,1,0,0"
+                         Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
+                         Visibility="{Binding TempsDePauseForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <!--Prix unitaire-->
                 <Label Grid.Row="5" Content="Prix unitaire : " />
-                <TextBox Grid.Row="5"  Grid.Column="1" Text="{Binding PrixUnitaire, FallbackValue=Prix}" />
+                <DockPanel Grid.Row="5" Grid.Column="1">
+                    <Button x:Name="Btn_ResetPrixUnitaire" DockPanel.Dock="Right" Content="*" ToolTip="Supprimer la valeur forcée"
+                            IsEnabled="{Binding PrixUnitaireForcé}"/>
+                    <TextBox Text="{Binding PrixUnitaire, FallbackValue=Prix,UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <Polygon Grid.Row="5" Grid.Column="1" Margin="1,1,0,0"
+                         Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
+                         Visibility="{Binding PrixUnitaireForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <Label Grid.Row="6" Content="Commentaire : " />
                 <TextBox Grid.Row="6"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+
             </Grid>
-            
+
         </ScrollViewer>
 
         <GridSplitter />
 
         <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" Grid.Row="2" />
-
     </Grid>
 
 </UserControl>

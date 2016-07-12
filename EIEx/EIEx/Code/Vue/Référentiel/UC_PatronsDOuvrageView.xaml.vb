@@ -74,6 +74,8 @@ Public Class UC_PatronsDOuvrageView
 
 #Region "Gestionnaires d'évennements"
 
+#Region "CRUD"
+
 #Region "CRUD Ouvrage"
     Private Sub UC_CmdesCRUD_DemandeAjout() Handles UC_CmdesCRUD_Ouvrages.DemandeAjout
         Try
@@ -163,6 +165,20 @@ Public Class UC_PatronsDOuvrageView
     Private Sub AlertePasDePatronDOuvrageSélectionné()
         Message("Aucun patron d'ouvrage sélectionné.")
     End Sub
+
+#End Region
+
+#Region "Divers"
+
+    Private Sub Btn_ResetTempsDePause_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ResetTempsDePause.Click
+        Me.PatronDOuvrageCourant.TempsDePauseUnitaire = Nothing
+    End Sub
+
+    Private Sub Btn_ResetPrixUnitaire_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ResetPrixUnitaire.Click
+        Me.PatronDOuvrageCourant.PrixUnitaire = Nothing
+    End Sub
+
+#End Region
 
 #End Region
 

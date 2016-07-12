@@ -1,4 +1,6 @@
 ﻿Imports System.Windows
+Imports System.Windows.Controls
+Imports System.Windows.Input
 Imports Model
 
 Public Class UC_EtudesView
@@ -6,6 +8,11 @@ Public Class UC_EtudesView
 #Region "Constructeurs"
 
     Private Sub UC_EtudesView_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+        ConnecterLesGestionnairesCRUD()
+        AddExcelEventsHandlers()
+    End Sub
+
+    Private Sub ConnecterLesGestionnairesCRUD()
 
         With UC_CmdesCRUD_Etudes
 
@@ -55,6 +62,16 @@ Public Class UC_EtudesView
     End Property
 #End Region
 
+#Region "BordereauCourant"
+    Public Property BordereauCourant() As Bordereau
+        Get
+            Return WS.BordereauCourant
+        End Get
+        Set(ByVal value As Bordereau)
+            WS.BordereauCourant = value
+        End Set
+    End Property
+#End Region
 
 #End Region
 
@@ -113,6 +130,17 @@ Public Class UC_EtudesView
     Private Sub AlertePasDeDEtudeSélectionnée()
         Message("Aucune étude sélectionnée.")
     End Sub
+
+#End Region
+
+#Region "Excel events"
+
+    Private Sub AddExcelEventsHandlers()
+        'AddHandler ExcelEventManager.TargetSelectedRangeChanged, AddressOf XLSelectionChangeHandling
+    End Sub
+
+    'Private Sub XLSelectionChangeHandling(NewSelection As Excel.Range)
+    'End Sub
 
 #End Region
 
