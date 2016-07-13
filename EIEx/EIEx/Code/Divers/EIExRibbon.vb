@@ -41,8 +41,15 @@ Public Class EIExRibbon
 
     Private Sub TBt_ShowPanel_Click(sender As Object, e As RibbonControlEventArgs) Handles TBt_ShowPanel.Click
         Try
+            Dim FenêtreAppelante = ExcelEventManager.TargetWindow
+            Dim OuvrirPannel = TBt_ShowPanel.Checked
+            If EIExTaskPane IsNot Nothing AndAlso FenêtreAppelante IsNot EIExTaskPane.Window Then
+                EIExTaskPane.Dispose()
+                EIExTaskPane = Nothing
+            End If
+
             If EIExTaskPane Is Nothing OrElse TBt_ShowPanel.Checked <> EIExTaskPane.Visible Then
-                HideOrShowAndAttachPanel(TBt_ShowPanel.Checked)
+                HideOrShowAndAttachPanel(OuvrirPannel)
             End If
         Catch ex As ArgumentException
             ManageErreur(ex)
@@ -53,6 +60,8 @@ Public Class EIExRibbon
         If ExcelEventManager.TargetWindow Is Nothing Then
             MsgBox("Aucune fenêtre active.")
         Else
+
+
             If EIExTaskPane Is Nothing Then
                 Dim c = New UC_Container()
                 EIExTaskPane = EIExAddin.CustomTaskPanes.Add(c, "EIEx", ExcelEventManager.TargetWindow)

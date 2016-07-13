@@ -74,10 +74,12 @@
     <Compile Include="Code\DAO\EIExObject_DAO.vb" />
     <Compile Include="Code\DAO\Workspace\Items\Bordereau_DAO.vb" />
     <Compile Include="Code\DAO\Workspace\Items\AgregateRoots\Etude_DAO.vb" />
+    <Compile Include="Code\DAO\Workspace\Items\ClasseurExcel_DAO.vb" />
     <Compile Include="Code\DAO\Workspace\Items\Paramètres_DAO.vb" />
     <Compile Include="Code\DAO\Workspace\Workspace_DAO.vb" />
     <Compile Include="Code\Model\Workspace\Bordereau.vb" />
     <Compile Include="Code\Model\Workspace\EntitéDuWorkSpace.vb" />
+    <Compile Include="Code\Model\Workspace\ClasseurExcel.vb" />
     <Compile Include="Code\Model\Workspace\Etude.vb" />
     <Compile Include="Code\Model\Workspace\WorkSpace.vb" />
     <Compile Include="Code\Model\Référentiel\AgregateRootDuRéférentiel.vb" />

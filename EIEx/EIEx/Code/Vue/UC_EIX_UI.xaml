@@ -31,7 +31,11 @@
             <Style TargetType="TextBox">
                 <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
             </Style>
-            
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+            </Style>
+
             <Style TargetType="ListBox">
                 <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
                 <Setter Property="MinHeight" Value="50"/>
@@ -44,7 +48,7 @@
             <Style TargetType="Label">
                 <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
             </Style>
-            
+
             <Style TargetType="local:UC_CommandesCRUD">
                 <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
             </Style>
@@ -80,7 +84,7 @@
                 <Setter Property="VerticalAlignment" Value="Bottom"/>
                 <Setter Property="Margin" Value="0,1,0,-1"/>
             </Style>
-            
+
             <Style TargetType="Expander">
                 <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
                 <Setter Property="Padding" Value="5"/>
@@ -88,6 +92,20 @@
                 <Setter Property="BorderThickness" Value="1"/>
             </Style>
             
+            <SolidColorBrush x:Key="Fond" Color="#FFE8E8E8"/>
+
+            <Style TargetType="UserControl">
+                <Setter Property="Background" Value="{StaticResource Fond}"/>
+            </Style>
+
+            <Style TargetType="TabControl">
+                <Setter Property="Background" Value="{StaticResource Fond}"/>
+            </Style>
+
+            <Style TargetType="TabItem">
+                <Setter Property="Background" Value="{StaticResource Fond}"/>
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -97,21 +115,23 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="TBx_SelectedRange" Text="{Binding SelectedRange, ElementName=UC_SubContainer, FallbackValue=SelectedRange}" FontSize="18"  />
-        
+
         <TabControl Grid.Row="1" >
-            
+
             <TabItem x:Name="TBt_Workspace" Header="Etudes" >
                 <local:UC_EtudesView x:Name="UC_Etude" DataContext="{Binding ElementName=UC_SubContainer, Path=WS.Etudes}"/>
             </TabItem>
-            
-            <TabItem x:Name="TBt_Traitement" Header="Traitement"/>
-            
-            <TabItem x:Name="TBt_Référentiel" Header="Référentiel">
-                <local:UC_RéférentielView/>
+
+            <TabItem x:Name="TBt_Traitement" Header="Traitement">
+                <local:UC_GestionnaireDeBordereau/>
             </TabItem>
-            
+
+            <TabItem x:Name="TBt_Référentiel" Header="Référentiel">
+                <local:UC_RéférentielView x:Name="UC_RéférentielView"/>
+            </TabItem>
+
         </TabControl>
-        
+
     </Grid>
-    
+
 </UserControl>

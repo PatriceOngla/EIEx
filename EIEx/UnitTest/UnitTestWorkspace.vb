@@ -54,18 +54,27 @@ Imports Utils
     Private Function NewEtudes(i As Integer) As Etude
         Dim r = WS.GetNewEtude()
         r.Nom = $"Etude {i}"
-        Dim Bdx As New List(Of Bordereau)
-        Dim Bd As Bordereau
-        For i = 1 To i
-            Bd = r.AjouterNouveauBordereau()
-            FillBordereau(Bd, i)
+        Dim Clsrs As New List(Of ClasseurExcel)
+        Dim Clsr As ClasseurExcel
+        For j = 1 To i
+            Clsr = r.AjouterNouveauClasseur("c:\dossier " & i & j)
+            FillClasseur(Clsr, i)
         Next
-        r.Bordereaux.AddRange(Bdx)
+        r.ClasseursExcel.AddRange(Clsrs)
         Return r
     End Function
 
+    Private Sub FillClasseur(XC As ClasseurExcel, i As Integer)
+        XC.Nom = "Classeur " & i
+        For j = 1 To i
+            Dim Bd = XC.AjouterNouveauBordereau()
+            FillBordereau(Bd, i)
+        Next
+    End Sub
+
     Private Sub FillBordereau(B As Bordereau, i As Integer)
-        B.Nom = "Bordereau " & i : B.CheminFichier = "c:\dossier " & i
+        B.NomFeuille = "Feuille " & i
+        B.Nom = "Bordereau " & i
         B.Paramètres.AdresseRangeLibelleOuvrage = $"A{i}L{i}"
         B.Paramètres.AdresseRangeUnité = $"A{i}U{i}"
         B.Paramètres.AdresseRangePrixUnitaire = $"A{i}P{i}"

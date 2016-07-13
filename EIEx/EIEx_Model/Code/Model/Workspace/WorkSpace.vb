@@ -73,6 +73,27 @@ Public Class WorkSpace
 
 #End Region
 
+#Region "ClasseurExcelCourant"
+    Private _ClasseurExcelCourant As ClasseurExcel
+    Public Property ClasseurExcelCourant As ClasseurExcel
+        Get
+            Return _ClasseurExcelCourant
+        End Get
+        Set(ByVal value As ClasseurExcel)
+            If Object.Equals(value, Me.ClasseurExcelCourant) Then Exit Property
+            Try
+                If value IsNot Nothing AndAlso Not EtudeCourante?.ClasseursExcel.Contains(value) Then Throw New InvalidOperationException("Le classeur Excel n'appartient pas à l'étude courante.")
+                _ClasseurExcelCourant = value
+                NotifyPropertyChanged(NameOf(ClasseurExcelCourant))
+            Catch ex As Exception
+                Me.RaiseExceptionRaisedEvent(ex, True)
+            End Try
+        End Set
+    End Property
+
+
+#End Region
+
 #Region "BordereauCourant"
     Private _BordereauCourant As Bordereau
     Public Property BordereauCourant As Bordereau
@@ -82,7 +103,7 @@ Public Class WorkSpace
         Set(ByVal value As Bordereau)
             If Object.Equals(value, Me.BordereauCourant) Then Exit Property
             Try
-                If Not EtudeCourante?.Bordereaux.Contains(value) Then Throw New InvalidOperationException("Le bordereau n'appartient pas à l'étude courante.")
+                If value IsNot Nothing AndAlso Not ClasseurExcelCourant?.Bordereaux.Contains(value) Then Throw New InvalidOperationException("Le bordereau n'appartient pas au classeur courant.")
                 _BordereauCourant = value
                 NotifyPropertyChanged(NameOf(BordereauCourant))
             Catch ex As Exception

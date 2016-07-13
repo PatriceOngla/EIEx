@@ -12,7 +12,7 @@ Public Class Etude
 
     Protected Overrides Sub Init()
         Me.Nom = "Nouvelle étude"
-        _Bordereaux = New ObservableCollection(Of Bordereau)
+        _ClasseursExcel = New ObservableCollection(Of ClasseurExcel)
     End Sub
 
 #End Region
@@ -57,24 +57,24 @@ Public Class Etude
 
 #End Region
 
-#Region "Bordereaux"
-    Private WithEvents _Bordereaux As ObservableCollection(Of Bordereau)
-    Public ReadOnly Property Bordereaux() As ObservableCollection(Of Bordereau)
+#Region "ClasseursExcel"
+    Private WithEvents _ClasseursExcel As ObservableCollection(Of ClasseurExcel)
+    Public ReadOnly Property ClasseursExcel() As ObservableCollection(Of ClasseurExcel)
         Get
-            Return _Bordereaux
+            Return _ClasseursExcel
         End Get
     End Property
 
-#Region "NbBordereaux"
+#Region "NbClasseursExcel"
 
-    Public ReadOnly Property NbBordereaux() As Integer
+    Public ReadOnly Property NbClasseursExcel() As Integer
         Get
-            Return Me.Bordereaux.Count()
+            Return Me.ClasseursExcel.Count()
         End Get
     End Property
 
-    Private Sub _Bordereaux_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _Bordereaux.CollectionChanged
-        Me.NotifyPropertyChanged(NameOf(NbBordereaux))
+    Private Sub _ClasseursExcel_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _ClasseursExcel.CollectionChanged
+        Me.NotifyPropertyChanged(NameOf(NbClasseursExcel))
     End Sub
 
 #End Region
@@ -85,10 +85,14 @@ Public Class Etude
 
 #Region "Méthodes"
 
-    Public Function AjouterNouveauBordereau() As Bordereau
-        Dim newB = New Bordereau
-        Me.Bordereaux.Add(newB)
-        Return newB
+    Public Function AjouterNouveauClasseur() As ClasseurExcel
+        Return AjouterNouveauClasseur(Nothing)
+    End Function
+
+    Public Function AjouterNouveauClasseur(Chemin As String) As ClasseurExcel
+        Dim newC = New ClasseurExcel(Chemin)
+        Me.ClasseursExcel.Add(newC)
+        Return newC
     End Function
 
 #End Region

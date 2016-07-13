@@ -20,9 +20,9 @@ Public Class PatronDOuvrage_DAO
 
         Me.MotsClés = New List(Of String)(R.MotsClés)
 
-        Me.TempsDePauseUnitaire = R.TempsDePauseUnitaire
+        If R.TempsDePauseForcé Then Me.TempsDePauseUnitaire = R.TempsDePauseUnitaire
 
-        Me.PrixUnitaire = R.PrixUnitaire
+        If R.PrixUnitaireForcé Then Me.PrixUnitaire = R.PrixUnitaire
 
     End Sub
 

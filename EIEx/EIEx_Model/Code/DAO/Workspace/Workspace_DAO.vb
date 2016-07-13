@@ -12,8 +12,8 @@ Public Class Workspace_DAO
 
     Public Sub New(Modèle As WorkSpace)
         MyBase.New(Modèle)
-        Dim SEtudes = From e In Modèle.Etudes Select New Etude_DAO(e)
-        Me.Etudes = New List(Of Etude_DAO)(SEtudes)
+        Dim Etudes = From e In Modèle.Etudes Select New Etude_DAO(e)
+        Me.Etudes = New List(Of Etude_DAO)(Etudes)
     End Sub
 
 #End Region

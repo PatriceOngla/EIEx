@@ -52,22 +52,28 @@ Public Class UC_SubContainer
 
     Private Sub UC_SubContainer_MouseDoubleClick(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseDoubleClick
         Try
-            Dim FESource = TryCast(e.OriginalSource, FrameworkElement)
-            If FESource IsNot Nothing Then
-                Dim DonnéeNavigationCible = TryCast(FESource.DataContext, Entité)
-                If DonnéeNavigationCible Is Nothing Then
-                    Dim CBxParent = GetPrentCombobox(FESource)
-                    If CBxParent IsNot Nothing Then
-                        DonnéeNavigationCible = TryCast(CBxParent.SelectedItem, Entité)
-                    End If
-                End If
-                If DonnéeNavigationCible IsNot Nothing Then
-                    NaviguerVers(DonnéeNavigationCible)
-                End If
-            End If
+            TraiterDemandeDeNavigation(e.OriginalSource)
         Catch ex As Exception
             ManageErreur(ex, NameOf(UC_SubContainer_MouseDoubleClick))
         End Try
+    End Sub
+
+    Private Sub TraiterDemandeDeNavigation(source As Object)
+        Dim FESource = TryCast(source, FrameworkElement)
+        If FESource IsNot Nothing Then
+            Dim DonnéeNavigationCible = TryCast(FESource.DataContext, AgregateRoot_Base)
+            If DonnéeNavigationCible Is Nothing Then
+                Dim CBxParent = GetPrentCombobox(FESource)
+
+                If CBxParent IsNot Nothing Then
+                    DonnéeNavigationCible = TryCast(CBxParent.SelectedItem, Entité)
+                End If
+            End If
+            If DonnéeNavigationCible IsNot Nothing Then
+                NaviguerVers(DonnéeNavigationCible)
+            End If
+        End If
+
     End Sub
 
     Private Function GetPrentCombobox(fe As FrameworkElement) As ComboBox
@@ -82,7 +88,28 @@ Public Class UC_SubContainer
         If TypeOf donnéeNavigationCible Is UsageDeProduit Then
             donnéeNavigationCible = TryCast(donnéeNavigationCible, UsageDeProduit).Produit
         End If
-        MsgBox($"En route pour {donnéeNavigationCible.ToString()}.")
+        If donnéeNavigationCible IsNot Nothing Then
+            AccéderALaVueRéférentiel(donnéeNavigationCible)
+        End If
+    End Sub
+
+    Private Sub AccéderALaVueRéférentiel(Cible As AgregateRoot_Base)
+        Me.TBt_Référentiel.IsSelected = True
+        Dim TypeCible = Cible.GetType
+        Select Case TypeCible
+            Case GetType(Produit)
+                AccéderAuProduit(Cible)
+            Case Else
+                MsgBox($"En route pour {Cible.ToString()}.")
+        End Select
+    End Sub
+
+    Private Sub AccéderAuProduit(P As Produit)
+        With Me.UC_RéférentielView
+            .TBt_Produits.IsSelected = True
+            .UC_ProduitsView.ProduitCourant = P
+        End With
+
     End Sub
 
 #End Region

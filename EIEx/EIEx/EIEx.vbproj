@@ -190,8 +190,13 @@
     <Compile Include="Code\Divers\EIExRibbon.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Code\Divers\ExcelComander.vb" />
+    <Compile Include="Code\Divers\ExcelCommander.vb" />
     <Compile Include="Code\Divers\ExcelEventManager.vb" />
+    <Compile Include="Code\Vue\Traitement\GestionnaireDeBordereau.vb" />
+    <Compile Include="Code\Vue\Traitement\LibelléDouvrage.vb" />
+    <Compile Include="Code\Vue\Traitement\UC_GestionnaireDeBordereau.xaml.vb">
+      <DependentUpon>UC_GestionnaireDeBordereau.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Code\Vue\Workspace\UC_ExcelRangeSelector.xaml.vb">
       <DependentUpon>UC_ExcelRangeSelector.xaml</DependentUpon>
     </Compile>
@@ -282,6 +287,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Code\Vue\Traitement\UC_GestionnaireDeBordereau.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Code\Vue\UC_CommandesCRUD.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -310,7 +319,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Code\Vue\Traitement\" />
+    <Folder Include="Code\Traitement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Données\EIExRef.xml">

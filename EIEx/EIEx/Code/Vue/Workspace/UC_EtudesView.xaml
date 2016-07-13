@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EIEx"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="600">
+             d:DesignHeight="1200" d:DesignWidth="600">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                       >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="250" />
-                    <DataGridTextColumn Header="Bordereaux" Binding="{Binding NbBordereaux}" />
+                    <DataGridTextColumn Header="Classeurs Excel" Binding="{Binding NbClasseursExcel}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Expander>
@@ -39,9 +39,14 @@
 
         <Grid  x:Name="Grd_Detail" Grid.Row="2" DataContext="{Binding ElementName=DG_Master, Path=SelectedItem}">
             <Grid.RowDefinitions>
+                <!--nom-->
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+
+                <!--Classeur-->
                 <RowDefinition Height="3*"/>
+                                
+                <!--Commentaires Etude-->
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="100"/>
@@ -52,36 +57,33 @@
             <Label Content="Nom : " />
             <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=NomEtude}"/>
 
-            <!--Commentaires-->
-            <Label Grid.Row="1" Content="Commentaires : " />
-            <TextBox Grid.Row="1"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+            <!--Classeurs Excel -->
+            <!--<Label Grid.Row="1" Content="Classeurs Excel : " />-->
+            <GroupBox x:Name="Gbx_ClasseursExcel" Grid.Row="1" Grid.ColumnSpan="2"
+                      Header="Classeurs Excel : "
+                      DataContext="{Binding ElementName=DG_Master, Path=SelectedItem.ClasseursExcel}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
-            <!--Bordereaux-->
-            <!--<Label Grid.Row="2" Content="Bordereaux : " />-->
-            <GroupBox x:Name="Gbx_Bordereaux" Grid.Row="2" Grid.ColumnSpan="2"
-                      Header="Bordereaux" 
-                      DataContext="{Binding ElementName=DG_Master, Path=SelectedItem.Bordereaux}">
-                <Grid x:Name="Grd_Bordereau">
+                    <Grid x:Name="Grd_ClasseursExcel">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <!--NB : Le IsSynchronizedWithCurrentItem ne marche pas ici (peut-être parce qu'on en a déjà un au-dessus. On passe par le SelectedItem pour les binding du dessous.-->
-                    <DataGrid x:Name="DG_Bordereaux" 
+                        <DataGrid x:Name="DG_ClasseursExcel" 
                                   ItemsSource="{Binding}" AutoGenerateColumns="False" 
                                   IsSynchronizedWithCurrentItem="True"
-                                  SelectedItem="{Binding ElementName=UC_EtudesView, Path=BordereauCourant, Mode=TwoWay}"
+                                  SelectedItem="{Binding ElementName=UC_EtudesView, Path=ClasseurExcelCourant, Mode=TwoWay}"
                                   Height="80">
 
-                        <DataGrid.Columns>
+                            <DataGrid.Columns>
 
-                            <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
-                            <DataGridTextColumn Header="Chemin fichier" Binding="{Binding CheminFichier}" MinWidth="350"/>
+                                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MaxWidth="200" />
+                                <DataGridTextColumn Header="Chemin fichier" Binding="{Binding CheminFichier}" MaxWidth="300"/>
 
-                            <!--<DataGridTemplateColumn Header="Chemin fichier">
+                                <!--<DataGridTemplateColumn Header="Chemin fichier">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding CheminFichier}"/>
@@ -99,82 +101,163 @@
 
                                 </DataGridTemplateColumn>-->
 
-                        </DataGrid.Columns>
-                    </DataGrid>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                    <ScrollViewer x:Name="SV_BordereauDetail" Grid.Row="1"
-                                  Margin="10,0,5,5">
-                        <Grid x:Name="Grd_DetailBordereau">
+                        <ScrollViewer x:Name="SV_ClasseurExcelDetail" Grid.Row="1"
+                                  Margin="10,0,5,5"
+                                      VerticalScrollBarVisibility="Auto">
+                            <Grid x:Name="Grd_DetailClasseurExcel">
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <!--Nom-->
-                            <Label Content="Nom : " />
-                            <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=NomBordereau}"/>
+                                <!--Nom-->
+                                <Label Content="Nom : " />
+                                <TextBox x:Name="TBx_NomClasseur" Grid.Column="1" Text="{Binding Nom, FallbackValue=NomClasseur}"/>
 
-                            <!--CheminFichier-->
-                            <Label Grid.Row="1" Content="Chemin du fichier : " />
-                            <DockPanel x:Name="SP_CheminFichier" Grid.Row="1"  Grid.Column="1">
-                                <Button x:Name="Btn_SélectionnerFicher" DockPanel.Dock="Right" Content="..." />
-                                <TextBox Text="{Binding CheminFichier, FallbackValue=CheminFichier}" />
-                            </DockPanel>
+                                <!--CheminFichier-->
+                                <Label Grid.Row="1" Content="Chemin du fichier : " />
+                                <DockPanel x:Name="SP_CheminFichier" Grid.Row="1"  Grid.Column="1" Width="{Binding ElementName=TBx_NomClasseur, Path=ActualWidth}">
+                                    <Button x:Name="Btn_SélectionnerFicher" DockPanel.Dock="Right" Content="..." />
+                                    <TextBox Text="{Binding CheminFichier, FallbackValue=CheminFichier}" />
+                                </DockPanel>
 
-                            <!--Plages Excel-->
-                            <Label Grid.Row="2" Content="Plages Excel : "  />
-                            <Border x:Name="Bdr_PlagesExcel" Grid.Row="2" Grid.Column="1">
-                                <Grid x:Name="Grd_PlagesExcel" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
+                                <!--Bordereaux-->
+                                <GroupBox x:Name="Gbx_Bordereaux" Grid.Row="2" Grid.ColumnSpan="2"
+                                      Header="Bordereaux" DataContext="{Binding ElementName=DG_ClasseursExcel, Path=SelectedItem.Bordereaux}">
+                                    <Grid x:Name="Grd_Bordereau">
 
-                                    <Label Content="Libellé : "  />
-                                    <local:UC_ExcelRangeSelector Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangeLibelleOuvrage, FallbackValue=AdresseRangeLibelleOuvrage}" />
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                    <Label Grid.Row="1" Content="Unité : "  />
-                                    <local:UC_ExcelRangeSelector Grid.Row="1" Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangeUnité, FallbackValue=AdresseRangeUnité}" />
+                                        <!--NB : Le IsSynchronizedWithCurrentItem ne marche pas ici (peut-être parce qu'on en a déjà un au-dessus. On passe par le SelectedItem pour les binding du dessous.-->
+                                        <DataGrid x:Name="DG_Bordereaux" 
+                                              ItemsSource="{Binding}" AutoGenerateColumns="False" 
+                                              IsSynchronizedWithCurrentItem="True"
+                                              SelectedItem="{Binding ElementName=UC_EtudesView, Path=BordereauCourant, Mode=TwoWay}"
+                                              Height="80">
+
+                                            <DataGrid.Columns>
+
+                                                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
+                                                <DataGridTextColumn Header="Nom feuille" Binding="{Binding NomFeuille}" />
+
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <ScrollViewer x:Name="SV_BordereauDetail" Grid.Row="1"
+                                  Margin="10,0,5,5"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <Grid x:Name="Grd_DetailBordereau">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!--Nom-->
+                                                <Label Content="Nom : " />
+                                                <TextBox x:Name="TBx_NomEtude" Grid.Column="1" Text="{Binding Nom, FallbackValue=NomBordereau}"/>
+
+                                                <!--CheminFichier-->
+                                                <Label Grid.Row="1" Content="Nom de la feuille : " />
+                                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NomFeuille, FallbackValue=NomFeuille}"/>
+
+                                                <!--Plages Excel-->
+                                                <Label Grid.Row="2" Content="Plages Excel : "  />
+                                                <Border x:Name="Bdr_PlagesExcel" Grid.Row="2" Grid.Column="1">
+                                                    <Grid x:Name="Grd_PlagesExcel" >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Label Content="Libellé : "  />
+                                                        <local:UC_ExcelRangeSelector Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangeLibelleOuvrage, FallbackValue=AdresseRangeLibelleOuvrage}" />
+
+                                                        <Label Grid.Row="1" Content="Unité : "  />
+                                                        <local:UC_ExcelRangeSelector Grid.Row="1" Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangeUnité, FallbackValue=AdresseRangeUnité}" />
 
 
-                                    <Label Grid.Row="2" Content="Prix unitaire : " />
-                                    <local:UC_ExcelRangeSelector Grid.Row="2" Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangePrixUnitaire, FallbackValue=AdresseRangePrixUnitaire}" />
+                                                        <Label Grid.Row="2" Content="Prix unitaire : " />
+                                                        <local:UC_ExcelRangeSelector Grid.Row="2" Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangePrixUnitaire, FallbackValue=AdresseRangePrixUnitaire}" />
 
-                                </Grid>
-                            </Border>
+                                                    </Grid>
+                                                </Border>
 
-                            <!--Commentaires-->
-                            <Label Grid.Row="3" Content="Commentaires : " />
-                            <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+                                                <!--Commentaires-->
+                                                <Label Grid.Row="3" Content="Commentaires : " />
+                                                <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
 
-                        </Grid>
-                    </ScrollViewer>
+                                            </Grid>
+                                        </ScrollViewer>
 
-                    <local:UC_CommandesCRUD x:Name="UC_CRUD_Bordereaux" Grid.Row="2"/>
+                                        <DockPanel x:Name="DP_Cmdes_Etudes" Grid.Row="2" LastChildFill="False">
+                                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Bordereaux" DockPanel.Dock="Right"/>
+                                        </DockPanel>
+                                    </Grid>
 
-                </Grid>
+                                </GroupBox>
+
+                                <!--Commentaires-->
+                                <Label Grid.Row="3" Content="Commentaires : " />
+                                <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+
+                            </Grid>
+                            
+                        </ScrollViewer>
+
+                        <DockPanel x:Name="DP_Cmdes_Classeurs" Grid.Row="2" LastChildFill="False">
+                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" DockPanel.Dock="Right"/>
+                            <Button x:Name="Btn_InitClasseursExcel" Content="Initialiser les classeurs"/>
+                            <Button x:Name="Btn_ChargerLesClasseursExcel" Content="Ouvrir les classeurs"/>
+                        </DockPanel>
+
+                        <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" />
+
+                    </Grid>
+
+                </ScrollViewer>
 
             </GroupBox>
-            
+
+            <!--Commentaires-->
+            <Label Grid.Row="2" Content="Commentaires : "  />
+            <TextBox Grid.Row="2"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+
+            <!--GridSplitter-->
             <GridSplitter Grid.ColumnSpan="2" Grid.Row="1" />
-        
+
+
         </Grid>
         <!--</ScrollViewer>-->
 
-        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" Grid.Row="3"/>
+        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" Grid.Row="3" DockPanel.Dock="Right"/>
 
     </Grid>
 

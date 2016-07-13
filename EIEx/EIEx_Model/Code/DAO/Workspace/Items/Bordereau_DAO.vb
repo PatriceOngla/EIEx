@@ -12,8 +12,8 @@ Public Class Bordereau_DAO
 
     Public Sub New(B As Bordereau)
         MyBase.New(B)
+        Me.NomFeuille = B.NomFeuille
         Me.Paramètres = New Paramètres_DAO(B.Paramètres)
-        Me.CheminFichier = B.CheminFichier
     End Sub
 
 #End Region
@@ -27,8 +27,7 @@ Public Class Bordereau_DAO
         End Get
     End Property
 
-    <XmlAttribute>
-    Public Property CheminFichier() As String
+    Public Property NomFeuille As String
 
     Public Property Paramètres() As Paramètres_DAO
 
@@ -37,8 +36,8 @@ Public Class Bordereau_DAO
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex() As Bordereau
-        Dim r As New Bordereau
-        r.CheminFichier = Me.CheminFichier
+        Dim r As New Bordereau()
+        r.NomFeuille = Me.NomFeuille
         r.Paramètres.AdresseRangeLibelleOuvrage = Me.Paramètres.AdresseRangeLibelleOuvrage
         r.Paramètres.AdresseRangePrixUnitaire = Me.Paramètres.AdresseRangePrixUnitaire
         r.Paramètres.AdresseRangeUnité = Me.Paramètres.AdresseRangeUnité

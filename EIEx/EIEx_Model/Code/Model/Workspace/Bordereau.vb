@@ -7,20 +7,11 @@ Public Class Bordereau
 #Region "Constructeurs"
 
     Friend Sub New()
-
     End Sub
 
     Protected Overrides Sub Init()
         _Paramètres = New Paramètres
     End Sub
-
-    'Protected Overrides Sub SetId()
-    '    Me._Id = Système.GetNewId(Of Bordereau)
-    'End Sub
-
-    'Protected Overrides Sub SEnregistrerDansLeRéférentiel()
-    '    Système.EnregistrerRoot(Me)
-    'End Sub
 
 #End Region
 
@@ -35,16 +26,28 @@ Public Class Bordereau
 
 #End Region
 
-#Region "CheminFichier"
-    Private _CheminFichier As String
-    Public Property CheminFichier() As String
+#Region "Parent"
+    Private _Parent As ClasseurExcel
+    Public Property Parent() As ClasseurExcel
         Get
-            Return _CheminFichier
+            Return _Parent
+        End Get
+        Friend Set(value As ClasseurExcel)
+            _Parent = value
+        End Set
+    End Property
+#End Region
+
+#Region "NomFeuille"
+    Private _NomFeuille As String
+    Public Property NomFeuille() As String
+        Get
+            Return _NomFeuille
         End Get
         Set(ByVal value As String)
-            If Object.Equals(value, Me._CheminFichier) Then Exit Property
-            _CheminFichier = value
-            NotifyPropertyChanged(NameOf(CheminFichier))
+            If Object.Equals(value, Me._NomFeuille) Then Exit Property
+            _NomFeuille = value
+            NotifyPropertyChanged(NameOf(NomFeuille))
         End Set
     End Property
 #End Region
@@ -61,7 +64,6 @@ Public Class Bordereau
 #End Region
 
 #Region "Méthodes"
-
 
 #End Region
 

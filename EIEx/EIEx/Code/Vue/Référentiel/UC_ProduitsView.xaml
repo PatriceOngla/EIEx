@@ -39,7 +39,8 @@
         </Grid.RowDefinitions>
 
         <DataGrid x:Name="DG_Master" 
-                  ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True" >
+                  ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True" 
+                  SelectedItem ="{Binding ElementName=UC_ProduitsView, Path=ProduitCourant}">
 
             <DataGrid.Columns>
 

@@ -11,6 +11,7 @@ Public Class Produit
     End Sub
 
     Protected Overrides Sub Init()
+        Me.Nom = "Nouveau produit"
         _MotsClés = New List(Of String)
     End Sub
 

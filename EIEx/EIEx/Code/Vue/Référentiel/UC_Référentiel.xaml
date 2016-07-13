@@ -25,8 +25,8 @@
                 <local:UC_PatronsDOuvrageView DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.PatronsDOuvrage}"/>
             </TabItem>
             
-            <TabItem Header="Produits">
-                <local:UC_ProduitsView DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.Produits}"/>
+            <TabItem x:Name="TBt_Produits" Header="Produits">
+                <local:UC_ProduitsView x:Name="UC_ProduitsView" DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.Produits}"/>
             </TabItem>
             
             <TabItem Header="Familles">

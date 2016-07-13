@@ -18,7 +18,7 @@ Public Class UC_ExcelRangeSelector
 #Region "XLRange (String)"
 
     Public Shared ReadOnly XLRangeProperty As DependencyProperty =
-            DependencyProperty.Register("XLRange", GetType(String), GetType(UC_ExcelRangeSelector), New UIPropertyMetadata(Nothing))
+            DependencyProperty.Register("XLRange", GetType(String), GetType(UC_ExcelRangeSelector), New FrameworkPropertyMetadata(Nothing, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault))
 
     Public Property XLRange As String
         Get

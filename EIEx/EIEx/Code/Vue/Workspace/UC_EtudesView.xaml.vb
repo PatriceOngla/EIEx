@@ -1,4 +1,5 @@
-﻿Imports System.Windows
+﻿Imports System.Diagnostics
+Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports Model
@@ -29,6 +30,14 @@ Public Class UC_EtudesView
             '                         End Function
         End With
 
+        With UC_CRUD_Classeurs
+
+            .NomEntité = "classeur Excel"
+
+            .AssociatedSelector = Me.DG_ClasseursExcel
+
+        End With
+
         With UC_CRUD_Bordereaux
 
             .NomEntité = "bordereau"
@@ -51,6 +60,14 @@ Public Class UC_EtudesView
     End Property
 #End Region
 
+#Region "XL"
+    Public ReadOnly Property XL() As Excel.Application
+        Get
+            Return ExcelCommander.XL
+        End Get
+    End Property
+#End Region
+
 #Region "EtudeCourante"
     Public Property EtudeCourante() As Etude
         Get
@@ -62,6 +79,16 @@ Public Class UC_EtudesView
     End Property
 #End Region
 
+#Region "ClasseurExcelCourant"
+    Public Property ClasseurExcelCourant() As ClasseurExcel
+        Get
+            Return WS.ClasseurExcelCourant
+        End Get
+        Set(ByVal value As ClasseurExcel)
+            WS.ClasseurExcelCourant = value
+        End Set
+    End Property
+
 #Region "BordereauCourant"
     Public Property BordereauCourant() As Bordereau
         Get
@@ -71,6 +98,8 @@ Public Class UC_EtudesView
             WS.BordereauCourant = value
         End Set
     End Property
+#End Region
+
 #End Region
 
 #End Region
@@ -97,15 +126,86 @@ Public Class UC_EtudesView
         End Try
     End Sub
 
+#Region "Gestion des classeurs associés à l'étude"
+
+#Region "Btn_InitClasseursExcel_Click"
+
+    Private Sub Btn_InitClasseursExcel_Click(sender As Object, e As RoutedEventArgs) Handles Btn_InitClasseursExcel.Click
+        Try
+            Dim NewC As ClasseurExcel
+            With Me.EtudeCourante
+                For Each wb As Excel.Workbook In XL.Workbooks
+                    If Not ContientLeClasseur(wb.FullName) Then
+                        NewC = .AjouterNouveauClasseur()
+                        NewC.CheminFichier = wb.FullName
+                        AjouterLesFeuilles(NewC)
+                        NewC.Nom = wb.Name
+                    End If
+                Next
+            End With
+        Catch ex As Exception
+            ManageErreur(ex, , True, False)
+        End Try
+    End Sub
+
+    Private Sub AjouterLesFeuilles(C As ClasseurExcel)
+        Dim WShts As Microsoft.Office.Interop.Excel.Sheets = C.ClasseurRéel?.Worksheets
+        'Dim WShts2 As Microsoft.Office.Tools.Excel.Worksheet.Worksheets = C.ClasseurRéel?.Worksheets
+        'Dim WShts As Excel.Worksheets = C.ClasseurRéel?.Worksheets
+        Dim B As Bordereau
+        Debug.Print(WShts.Count())
+        If WShts IsNot Nothing Then
+            For Each Wsht In WShts
+                B = C.AjouterNouveauBordereau()
+                B.Nom = Wsht.Name
+                B.NomFeuille = B.Nom
+            Next
+        End If
+
+    End Sub
+
+    Private Function ContientLeClasseur(Chemin As String) As Boolean
+        Dim r = (From c In Me.EtudeCourante.ClasseursExcel Where Object.Equals(c.CheminFichier, Chemin)).Any()
+        Return r
+    End Function
+
 #End Region
 
-#Region "CRUD Bordereaux"
+#Region "Btn_ChargerLesClasseursExcel_Click"
 
-    Private Sub UC_CRUD_Bordereaux_DemandeAjout() Handles UC_CRUD_Bordereaux.DemandeAjout
+    Private Sub Btn_ChargerLesClasseursExcel_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ChargerLesClasseursExcel.Click
+        Try
+            With Me.EtudeCourante
+                For Each c In .ClasseursExcel
+                    Try
+                        If IO.File.Exists(c.CheminFichier) Then
+                            XL.Workbooks.Open(c.CheminFichier)
+                        Else
+                            Message($"Le classeur ""{c.CheminFichier}"" est introuvable.)", MsgBoxStyle.Exclamation)
+                        End If
+                    Catch ex As Exception
+                        ManageErreur(ex, $"Echec de la tentative d'ouverture du classeur ""{c.CheminFichier}""", True, False)
+                    End Try
+                Next
+            End With
+        Catch ex As Exception
+            ManageErreur(ex, , True, False)
+        End Try
+    End Sub
+
+#End Region
+
+#End Region
+
+#End Region
+
+#Region "CRUD ClasseursExcel"
+
+    Private Sub UC_CRUD_ClasseursExcel_DemandeAjout() Handles UC_CRUD_Classeurs.DemandeAjout
         Try
             If Me.EtudeCourante IsNot Nothing Then
-                Dim B = Me.EtudeCourante.AjouterNouveauBordereau()
-                Me.DG_Bordereaux.SelectedItem = B
+                Dim C = Me.EtudeCourante.AjouterNouveauClasseur()
+                Me.DG_ClasseursExcel.SelectedItem = C
             Else
                 AlertePasDeDEtudeSélectionnée()
             End If
@@ -114,11 +214,11 @@ Public Class UC_EtudesView
         End Try
     End Sub
 
-    Private Sub UC_CRUD_Bordereaux_DemandeSuppression() Handles UC_CRUD_Bordereaux.DemandeSuppression
+    Private Sub UC_CRUD_ClasseursExcel_DemandeSuppression() Handles UC_CRUD_Classeurs.DemandeSuppression
         Try
             If Me.EtudeCourante IsNot Nothing Then
-                Dim B As Bordereau = Me.DG_Bordereaux.SelectedItem
-                Me.EtudeCourante.Bordereaux.Remove(B)
+                Dim C As ClasseurExcel = Me.DG_ClasseursExcel.SelectedItem
+                Me.EtudeCourante.ClasseursExcel.Remove(C)
             Else
                 AlertePasDeDEtudeSélectionnée()
             End If
@@ -133,6 +233,42 @@ Public Class UC_EtudesView
 
 #End Region
 
+#Region "CRUD Bordereaux"
+
+    Private Sub UC_CRUD_Bordereaux_DemandeAjout() Handles UC_CRUD_Bordereaux.DemandeAjout
+        Try
+            If Me.ClasseurExcelCourant IsNot Nothing Then
+                Dim B = Me.ClasseurExcelCourant.AjouterNouveauBordereau()
+                Me.DG_Bordereaux.SelectedItem = B
+            Else
+                AlertePasDeDeClasseurSélectionné()
+            End If
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+    Private Sub UC_CRUD_Bordereaux_DemandeSuppression() Handles UC_CRUD_Bordereaux.DemandeSuppression
+        Try
+            If Me.ClasseurExcelCourant IsNot Nothing Then
+                Dim B As Bordereau = Me.DG_Bordereaux.SelectedItem
+                Me.ClasseurExcelCourant.Bordereaux.Remove(B)
+            Else
+                AlertePasDeDeClasseurSélectionné()
+            End If
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+    Private Sub AlertePasDeDeClasseurSélectionné()
+        Message("Aucun classeur sélectionné.")
+    End Sub
+
+#End Region
+
+#End Region
+
 #Region "Excel events"
 
     Private Sub AddExcelEventsHandlers()
@@ -141,8 +277,6 @@ Public Class UC_EtudesView
 
     'Private Sub XLSelectionChangeHandling(NewSelection As Excel.Range)
     'End Sub
-
-#End Region
 
 #End Region
 

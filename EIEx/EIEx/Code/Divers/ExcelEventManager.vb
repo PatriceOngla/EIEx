@@ -16,15 +16,16 @@ Friend Class ExcelEventManager
 #End Region
 
 #Region "TargetWindow"
-    Private Shared _TargetWindow As Excel.Window
-    Public Shared Property TargetWindow() As Excel.Window
+    'Private Shared _TargetWindow As Excel.Window
+    Public Shared ReadOnly Property TargetWindow() As Excel.Window
         Get
-            If _TargetWindow Is Nothing Then _TargetWindow = XL.ActiveWindow
-            Return _TargetWindow
+            'If _TargetWindow Is Nothing Then _TargetWindow = XL.ActiveWindow
+            'Return _TargetWindow
+            Return XL.ActiveWindow
         End Get
-        Set(ByVal value As Excel.Window)
-            _TargetWindow = value
-        End Set
+        'Set(ByVal value As Excel.Window)
+        '    _TargetWindow = value
+        'End Set
     End Property
 #End Region
 
@@ -87,14 +88,19 @@ Friend Class ExcelEventManager
     Private Shared Function LaFeuilleAffichéeEstCelleDuBordereauCourant() As Boolean
 
         Dim awb = XL.ActiveWorkbook
+        Dim ash As Excel.Worksheet = XL.ActiveSheet
         Dim awbPath = awb.FullName.Replace("""", "")
-        Dim NomFicherBordereauCourant = WS?.BordereauCourant?.CheminFichier
+        Dim ashName = ash.Name
+        Dim NomFicherBordereauCourant = WS?.ClasseurExcelCourant?.CheminFichier
+        Dim NomFeuilleCourante = WS?.BordereauCourant?.NomFeuille
         Dim r As Boolean
-        If (String.IsNullOrEmpty(NomFicherBordereauCourant)) Then
+        If (String.IsNullOrEmpty(NomFicherBordereauCourant)) Or String.IsNullOrEmpty(NomFeuilleCourante) Then
             r = False
         Else
             NomFicherBordereauCourant = NomFicherBordereauCourant.Replace("""", "")
-            r = Object.Equals(awbPath, NomFicherBordereauCourant)
+            Dim OKFichier = Object.Equals(awbPath, NomFicherBordereauCourant)
+            Dim OKFeuille = Object.Equals(ashName, NomFeuilleCourante)
+            r = OKFichier AndAlso OKFeuille
         End If
         Return r
     End Function

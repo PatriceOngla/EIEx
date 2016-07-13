@@ -1,7 +1,11 @@
-﻿Imports Microsoft.Office.Interop.Excel
+﻿Imports System.Diagnostics
+Imports System.Runtime.CompilerServices
+Imports Microsoft.Office.Interop.Excel
 Imports Model
 
-Module ExcelComander
+Module ExcelCommander
+
+#Region "XL"
 
     Private WithEvents _XL As Excel.Application
     Function XL() As Excel.Application
@@ -10,6 +14,10 @@ Module ExcelComander
     End Function
 
     Private Ref As Référentiel = Référentiel.Instance
+
+#End Region
+
+#Region "Import"
 
     Sub ImporterProduitsDepuisExcel()
         XL.ScreenUpdating = False
@@ -98,5 +106,37 @@ Module ExcelComander
             CellCible.Offset(0, 1).Value = Msg
         End If
     End Sub
+
+#End Region
+
+#Region "Divers"
+
+    <Extension>
+    Public Function ClasseurRéel(C As ClasseurExcel) As Excel.Workbook
+        Dim r = (From wb As Workbook In XL.Workbooks Where wb.FullName.Equals(C.CheminFichier)).FirstOrDefault()
+        'Debug.Print(XL.Workbooks.Count())
+        Return r
+    End Function
+
+    <Extension>
+    Public Function Worksheet(B As Bordereau) As Excel.Worksheet
+        Try
+            Dim cp = B.Parent
+            Dim wb = cp.ClasseurRéel
+            If wb Is Nothing Then
+                Throw New Exception($"Le classeur ""{cp.CheminFichier}"" n'est pas ouvert.")
+            End If
+            If String.IsNullOrEmpty(B.NomFeuille) Then
+                Throw New Exception($"Le nom de la feuille Excel n'est pas renseigné pour le bordereau ""{B.Nom}"".")
+            End If
+            Dim r As Excel.Worksheet = wb.Worksheets(B.NomFeuille)
+            Return r
+        Catch ex As Exception
+            Throw New Exception($"Impossible de récupérer la feuille Excel pour le bordereau ""{B.Nom}"". 
+Vérifier que le nom de la feuille est défini par le bordereau correspond à un nom de feuille existante dans le fichier Excel associé.", ex)
+        End Try
+    End Function
+
+#End Region
 
 End Module

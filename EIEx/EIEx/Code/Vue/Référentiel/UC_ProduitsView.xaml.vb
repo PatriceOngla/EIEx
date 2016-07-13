@@ -1,4 +1,5 @@
-﻿Imports Model
+﻿Imports System.Windows
+Imports Model
 Imports Utils
 
 Public Class UC_ProduitsView
@@ -33,6 +34,23 @@ Public Class UC_ProduitsView
             Return Référentiel.Instance
         End Get
     End Property
+#End Region
+
+#Region "ProduitCourant (Produit)"
+
+    Public Shared ReadOnly ProduitCourantProperty As DependencyProperty =
+            DependencyProperty.Register("ProduitCourant", GetType(Produit), GetType(UC_ProduitsView), New UIPropertyMetadata(Nothing))
+
+    Public Property ProduitCourant As Produit
+        Get
+            Return DirectCast(GetValue(ProduitCourantProperty), Produit)
+        End Get
+
+        Set(ByVal value As Produit)
+            SetValue(ProduitCourantProperty, value)
+        End Set
+    End Property
+
 #End Region
 
 #End Region

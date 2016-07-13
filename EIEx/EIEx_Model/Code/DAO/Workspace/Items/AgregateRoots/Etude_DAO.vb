@@ -16,8 +16,8 @@ Public Class Etude_DAO
 
         Me.EstOuverte = E.EstOuverte
 
-        Dim SBordereaux = From b In E.Bordereaux Select New Bordereau_DAO(b)
-        Me.Bordereaux = New List(Of Bordereau_DAO)(SBordereaux)
+        Dim ClasseursExcel = From c In E.ClasseursExcel Select New ClasseurExcel_DAO(c)
+        Me.ClasseursExcel = New List(Of ClasseurExcel_DAO)(ClasseursExcel)
 
     End Sub
 
@@ -40,7 +40,8 @@ Public Class Etude_DAO
     <XmlAttribute>
     Public Property EstOuverte() As Boolean
 
-    Public Property Bordereaux() As List(Of Bordereau_DAO)
+    Public Property ClasseursExcel() As List(Of ClasseurExcel_DAO)
+
 
 #End Region
 
@@ -53,8 +54,8 @@ Public Class Etude_DAO
 
         r.EstOuverte = Me.EstOuverte
 
-        Dim Bdx = (From b In Me.Bordereaux Select b.UnSerialized())
-        r.Bordereaux.AddRange(Bdx)
+        Dim Classeurs = (From c In Me.ClasseursExcel Select c.UnSerialized())
+        r.ClasseursExcel.AddRange(Classeurs)
         Return r
     End Function
 
