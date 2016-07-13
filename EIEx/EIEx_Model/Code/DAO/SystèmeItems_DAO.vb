@@ -10,7 +10,14 @@ Public MustInherit Class SystèmesItems_DAO(Of T As {Entité})
 
     Public Sub New(Modèle As T)
         MyBase.New(Modèle)
+        Me.HoroDateDeCréation = Modèle.HoroDateDeCréation
     End Sub
+
+#End Region
+
+#Region "Propriétés"
+
+    Public ReadOnly Property HoroDateDeCréation() As Date
 
 #End Region
 
@@ -18,6 +25,7 @@ Public MustInherit Class SystèmesItems_DAO(Of T As {Entité})
 
     Public Function UnSerialized() As T
         Dim r = UnSerialized_Ex()
+        r._HoroDateDeCréation = Me.HoroDateDeCréation
         r.Nom = Me.Nom
         r.Commentaires = Me.Commentaires
         Return r

@@ -40,6 +40,20 @@ Public Class PatronDOuvrage
 
 #End Region
 
+#Region "ComplémentDeNom"
+    Private _ComplémentDeNom As String
+    Public Property ComplémentDeNom() As String
+        Get
+            Return _ComplémentDeNom
+        End Get
+        Set(ByVal value As String)
+            If Object.Equals(value, Me._ComplémentDeNom) Then Exit Property
+            _ComplémentDeNom = value
+            NotifyPropertyChanged(NameOf(ComplémentDeNom))
+        End Set
+    End Property
+#End Region
+
 #Region "Libellés"
 
     Private WithEvents _Libellés As ObservableCollection(Of String)

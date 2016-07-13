@@ -13,6 +13,8 @@ Public Class PatronDOuvrage_DAO
     Public Sub New(R As PatronDOuvrage)
         MyBase.New(R)
 
+        Me.ComplémentDeNom = R.ComplémentDeNom
+
         Me.Libellés = New List(Of String)(R.Libellés)
 
         Dim UsagesDeProduit_DAO = From up In R.UsagesDeProduit Select New UsageDeProduit_DAO(up)
@@ -44,6 +46,8 @@ Public Class PatronDOuvrage_DAO
 
     Public Property Libellés() As List(Of String)
 
+    Public Property ComplémentDeNom() As String
+
     Public Property UsagesDeProduit() As List(Of UsageDeProduit_DAO)
 
     Public Property MotsClés() As List(Of String)
@@ -60,6 +64,7 @@ Public Class PatronDOuvrage_DAO
 
     Protected Overrides Function UnSerialized_Ex_Ex() As PatronDOuvrage
         Dim r = Ref.GetNewPatronDOuvrage(Me.Id)
+        r.ComplémentDeNom = Me.ComplémentDeNom
         r = If(r, New PatronDOuvrage(Me.Id))
         r.Libellés.AddRange(Me.Libellés)
         Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()

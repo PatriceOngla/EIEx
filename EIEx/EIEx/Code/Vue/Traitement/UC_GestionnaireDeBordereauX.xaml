@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="UC_GestionnaireDeBordereau"
+             Name="UC_GestionnaireDeBordereau"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EIEx"
+             xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="300">
+    <UserControl.Resources>
+        <RelativeSource x:Key="ThisControl" Mode="FindAncestor" AncestorType="{x:Type local:UC_GestionnaireDeBordereau}"/>
+    </UserControl.Resources>
+    <Grid>
+        <TabControl >
+
+            <TabItem x:Name="TBt_IndentificationOuvrages" Header="Identification des ouvrages">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Expander Header="Bilan de la détection des libellés d'ouvrage :" IsExpanded="True">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Nb lignes libellé reconnues : "/>
+                                <TextBlock Text="{Binding NbLignesLibelléDétéctées, FallbackValue=0}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"  Orientation="Horizontal">
+                                <Label Content="Nb Libellés uniques : "/>
+                                <TextBlock Text="{Binding NbLibellésUniques, FallbackValue=0}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <Label Content="Libellés en doublon restant à traiter : "/>
+                                <TextBlock Text="{Binding NbLibellésEnDoublonEncoreATraiter, FallbackValue=0}" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                <Label Content="Libellés retenus pour création : "/>
+                                <TextBlock Text="{Binding NbLibellésRetenus, FallbackValue=0}"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </Expander>
+
+                    <DockPanel x:Name="DP_LibellésEnDoublon" Grid.Row="1" LastChildFill="True">
+
+                        <Label DockPanel.Dock="Top" Content="Libellés en doublon :"/>
+
+                        <DataGrid x:Name="DG_LibellésOuvrages" Grid.Row="3" AutoGenerateColumns="False" 
+                              ItemsSource="{Binding LibellésEnDoublonEncoreATraiter}"
+                              SelectedItem="{Binding LibelléEnDoublonCourant}">
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Header="Type" ToolTipService.ToolTip="Type de doublon">
+                                    <DataGridTemplateColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Setter Property="Opacity" Value="0.1"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTemplateColumn.CellStyle>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate >
+                                            <StackPanel Orientation="Horizontal" ToolTip="Type de doublon (vrai ou faux)" 
+                                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=DataGridCell}, Path=Background}" >
+                                                <RadioButton Content="V" ToolTip="Vrai doublon (un seul ouvrage généré)" IsChecked="{x:Null}" Margin="3,0,7,0" Tag="true"/>
+                                                <RadioButton Content="F" ToolTip="Faux doublon (Plusieurs ouvrages générés)" IsChecked="{x:Null}" Margin="0,0,3,0" Tag="false"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Header="Ligne" Binding="{Binding PremierRange.Row}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Libellé" Binding="{Binding LibelléSource}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Nb" Binding="{Binding NbOccurrences}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Classeur" MaxWidth="200" Binding="{Binding SourceFileInfo}" IsReadOnly="True" ToolTipService.ToolTip="Nom du fichier d'origine"/>
+                                <DataGridTextColumn Header="Cellule"  Binding="{Binding SourceRangeInfo}" IsReadOnly="True" ToolTipService.ToolTip="Adresse de la cellul d'origine"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </DockPanel>
+
+                    <GridSplitter Grid.Row="1"/>
+
+                    <Border x:Name="Bdr_LibellésEnTransit" Grid.Row="2">
+
+                        <DockPanel Grid.Row="2" LastChildFill="True">
+
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <Label Content="Libellés à compléter : " DockPanel.Dock="Left"/>
+                                <Button x:Name="Btn_PurgerLeTransit" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="OK"/>
+                            </DockPanel>
+
+                            <DataGrid x:Name="DG_OuvragesAQualifier"  AutoGenerateColumns="False"
+                              ItemsSource="{Binding LibellésEnTransit}"
+                              SelectedItem="{Binding LibelléEnTransitCourant}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Ligne" Binding="{Binding PremierRange.Row}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Libellé" Binding="{Binding Libellé}"/>
+                                    <DataGridTemplateColumn Header="Complément">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="local:LibelléDouvrage">
+                                                <TextBox Text="{Binding ComplémentDeNom}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Classeur" Binding="{Binding SourceFileInfo}" IsReadOnly="True" ToolTipService.ToolTip="Nom du fichier d'origine"/>
+                                    <DataGridTextColumn Header="Cellule" Binding="{Binding SourceRangeInfo}" IsReadOnly="True" ToolTipService.ToolTip="Adresse de la cellul d'origine"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </DockPanel>
+
+                    </Border>
+
+                    <GridSplitter Grid.Row="2"/>
+
+                    <DockPanel x:Name="DP_LibellésValidés" Grid.Row="3" LastChildFill="True">
+
+                        <Label Content="Libellés retenus : " DockPanel.Dock="Top"/>
+                        <DataGrid x:Name="DG_Ouvragesidentifiés"  AutoGenerateColumns="False"
+                              ItemsSource="{Binding LibellésRetenus}"
+                              SelectedItem="{Binding LibelléRetenuCourant}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Ligne" Binding="{Binding PremierRange.Row}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Libellé" Binding="{Binding Libellé}"/>
+                                <DataGridTextColumn Header="Complément" Binding="{Binding ComplémentDeNom}"/>
+                                <DataGridTextColumn Header="Classeur" Binding="{Binding SourceFileInfo}" IsReadOnly="True" ToolTipService.ToolTip="Nom du fichier d'origine"/>
+                                <DataGridTextColumn Header="Cellule" Binding="{Binding SourceRangeInfo}" IsReadOnly="True" ToolTipService.ToolTip="Adresse de la cellul d'origine"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+
+                    <DockPanel x:Name="DP_Commandes" LastChildFill="False" Grid.Row="4">
+                        <CheckBox Content="Synchronisation avec les sélection Excel : " 
+                                  IsChecked="{Binding RelativeSource= {StaticResource ThisControl}, Path = TrackExcelEvent}"/>
+                        <Button x:Name="Btn_Go" DockPanel.Dock="Right" Content="Créer les ouvrages"/>
+                        <Button x:Name="Btn_Start" DockPanel.Dock="Right" Content="Démarrer"/>
+                    </DockPanel>
+
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Suite du traitement..."/>
+
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -8,7 +8,7 @@
     xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
     xmlns:local="clr-namespace:EIEx"
     mc:Ignorable="d" 
-    d:DesignHeight="150" d:DesignWidth="350">
+    d:DesignHeight="350" d:DesignWidth="350">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -22,6 +22,13 @@
             <Thickness x:Key="DefaultPadding" Left="{StaticResource DefaultMarginBase}" Top="{StaticResource DefaultMarginBase}" Right="0" Bottom="0"/>
 
             <Style TargetType="Border">
+                <Setter Property="Padding" Value="{StaticResource DefaultPadding}"/>
+                <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+            
+            <Style TargetType="GroupBox">
                 <Setter Property="Padding" Value="{StaticResource DefaultPadding}"/>
                 <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
                 <Setter Property="BorderBrush" Value="LightGray"/>
@@ -110,11 +117,6 @@
     </UserControl.Resources>
 
     <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <TextBlock x:Name="TBx_SelectedRange" Text="{Binding SelectedRange, ElementName=UC_SubContainer, FallbackValue=SelectedRange}" FontSize="18"  />
 
         <TabControl Grid.Row="1" >
 

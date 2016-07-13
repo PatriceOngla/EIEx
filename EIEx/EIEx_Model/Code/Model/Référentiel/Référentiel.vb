@@ -133,8 +133,17 @@ Public Class Référentiel
         End Try
     End Function
 
+    Public Function GetProduitByRefFournisseur(codeLydic As String, refFournisseur As String) As Produit
+        Return GetProduitByRefFournisseur(Produit.GetRéférenceProduit(codeLydic, refFournisseur))
+    End Function
+
+    Public Function GetProduitByRefFournisseur(RéfProduit As String) As Produit
+        Dim r = (From p In Me.Produits Where p.RéférenceProduit.Equals(RéfProduit)).FirstOrDefault()
+        Return r
+    End Function
+
     Public Function LaRéfProduitExisteDéjà(RéfProduit As String) As Boolean
-        Dim r = (From p In Me.Produits Where p.RéférenceProduit.Equals(RéfProduit)).Any()
+        Dim r = (GetProduitByRefFournisseur(RéfProduit)) IsNot Nothing
         Return r
     End Function
 

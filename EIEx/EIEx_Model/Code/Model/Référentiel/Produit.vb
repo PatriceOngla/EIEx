@@ -168,14 +168,14 @@ Public Class Produit
 
 End Class
 
+''' <summary>
+''' On ignore CIS (= compris), PM (= pour mémoire) et hl (= ?)
+''' </summary>
 Public Enum Unités
     ''' <summary>Ensemble</summary>
     Ens
 
-    ''' <summary>?</summary>
-    PM
-
-    ''' <summary>?</summary>
+    ''' <summary>Mètres linéaires</summary>
     ML
 
     ''' <summary>Nombre</summary>

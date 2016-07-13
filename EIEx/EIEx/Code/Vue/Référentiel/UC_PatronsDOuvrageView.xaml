@@ -51,6 +51,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="N°" Binding="{Binding Id}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
+                <DataGridTextColumn Header="Complément de nom" Binding="{Binding ComplémentDeNom}" />
                 <DataGridTextColumn Header="Libellés" IsReadOnly="True" Binding="{Binding NbLibellés}"/>
                 <DataGridTextColumn Header="Produits" IsReadOnly="True" Binding="{Binding NbProduits}"/>
                 <DataGridTextColumn Header="Tps pause u." Binding="{Binding TempsDePauseUnitaire}"/>
@@ -72,17 +73,22 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
 
+                <!--Nom-->
                 <Label Content="Nom : " />
-                <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=NomFamille}"/>
+                <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=Nom}"/>
+
+                <!--Nom-->
+                <Label Grid.Row="1" Content="Complément de nom : " />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ComplémentDeNom, FallbackValue=ComplémentDeNom}"/>
 
                 <!--Libellés-->
-
-                <Label Grid.Row="1" Content="Libellés : " />
-                <Border x:Name="Bdr_Libellés" Grid.Row="1" Grid.Column="1">
+                <Label Grid.Row="2" Content="Libellés : " />
+                <Border x:Name="Bdr_Libellés" Grid.Row="2" Grid.Column="1">
                     <StackPanel Orientation="Vertical"  >
                         <ListBox x:Name="LBx_Libellés" ItemsSource="{Binding Libellés}" MaxHeight="100" />
                         <local:UC_CommandesCRUD x:Name="UC_CmdCRUD_Libellés"/>
@@ -90,8 +96,8 @@
                 </Border>
 
                 <!--Produits-->
-                <Label Grid.Row="2" Content="Produits requis : " />
-                <Border x:Name="Bdr_Produits" Grid.Row="2" Grid.Column="1" >
+                <Label Grid.Row="3" Content="Produits requis : " />
+                <Border x:Name="Bdr_Produits" Grid.Row="3" Grid.Column="1" >
                     <StackPanel Orientation="Vertical">
                         <DataGrid x:Name="DG_Produits" 
                                   ItemsSource="{Binding UsagesDeProduit}" AutoGenerateColumns="False" 
@@ -128,33 +134,33 @@
                 </Border>
 
                 <!--Mots clés-->
-                <Label Grid.Row="3" Content="MotsClés : " />
-                <TextBox Grid.Row="3"  Grid.Column="1" Text="{Binding MotsClés, FallbackValue=MotsClés, Converter={StaticResource ListString_String_Converter}}" />
+                <Label Grid.Row="4" Content="MotsClés : " />
+                <TextBox Grid.Row="4"  Grid.Column="1" Text="{Binding MotsClés, FallbackValue=MotsClés, Converter={StaticResource ListString_String_Converter}}" />
 
                 <!--Temps de pause unitaire-->
-                <Label Grid.Row="4" Content="Tps de pause unitaire : " />
-                <DockPanel Grid.Row="4" Grid.Column="1">
+                <Label Grid.Row="5" Content="Tps de pause unitaire : " />
+                <DockPanel Grid.Row="5" Grid.Column="1">
                     <Button x:Name="Btn_ResetTempsDePause" DockPanel.Dock="Right" Content="*" ToolTip="Supprimer la valeur forcée"
                             IsEnabled="{Binding TempsDePauseForcé}"/>
                     <TextBox Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
-                <Polygon Grid.Row="4" Grid.Column="1" Margin="1,1,0,0"
+                <Polygon Grid.Row="5" Grid.Column="1" Margin="1,1,0,0"
                          Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
                          Visibility="{Binding TempsDePauseForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <!--Prix unitaire-->
-                <Label Grid.Row="5" Content="Prix unitaire : " />
-                <DockPanel Grid.Row="5" Grid.Column="1">
+                <Label Grid.Row="6" Content="Prix unitaire : " />
+                <DockPanel Grid.Row="6" Grid.Column="1">
                     <Button x:Name="Btn_ResetPrixUnitaire" DockPanel.Dock="Right" Content="*" ToolTip="Supprimer la valeur forcée"
                             IsEnabled="{Binding PrixUnitaireForcé}"/>
                     <TextBox Text="{Binding PrixUnitaire, FallbackValue=Prix,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
-                <Polygon Grid.Row="5" Grid.Column="1" Margin="1,1,0,0"
+                <Polygon Grid.Row="6" Grid.Column="1" Margin="1,1,0,0"
                          Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
                          Visibility="{Binding PrixUnitaireForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                <Label Grid.Row="6" Content="Commentaire : " />
-                <TextBox Grid.Row="6"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+                <Label Grid.Row="7" Content="Commentaire : " />
+                <TextBox Grid.Row="7"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
 
             </Grid>
 

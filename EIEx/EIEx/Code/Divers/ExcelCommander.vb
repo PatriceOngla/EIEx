@@ -24,22 +24,36 @@ Module ExcelCommander
         Dim NbTraités As Integer = 0
         Dim NbErreurs As Integer = 0
         Dim NbProduitsImportés As Integer = 0
+        Dim NbProduitsMisAJour As Integer = 0
+        Dim Résultat As RésultatImport
         Try
             With XL()
                 Dim NomDuTableau = InputBox("Nom du tableau à importer : ", , "Tableau1")
+
+                If String.IsNullOrEmpty(NomDuTableau) Then Exit Sub
+
                 Dim Tableau As ListObject = .ActiveSheet.ListObjects(NomDuTableau)
                 Dim NbATraiter = Tableau.ListRows.Count
                 For Each lr As ListRow In Tableau.ListRows
-                    If AjouteProduit(lr) Then
-                        NbProduitsImportés += 1
-                    Else
-                        NbErreurs += 1
-                    End If
+                    Résultat = ImporteOUMAJProduit(lr)
+                    Select Case Résultat
+                        Case RésultatImport.Création
+                            NbProduitsImportés += 1
+                        Case RésultatImport.MAJ
+                            NbProduitsMisAJour += 1
+                        Case RésultatImport.Echec
+                            NbErreurs += 1
+                    End Select
                     NbTraités += 1
                     XL.StatusBar = $"{NbTraités}/{NbATraiter}"
                 Next
             End With
-            Message($"Import terminé. {NbProduitsImportés} produit(s) importé(s), {NbErreurs} erreur(s).")
+            Dim Enregistrer = Message($"Import terminé. {NbProduitsImportés} produit(s) importé(s), {NbProduitsMisAJour} produit(s) mis à jour, {NbErreurs} erreur(s).{vbCr}Voulez-vous energistrer le référentiel ?", vbYesNo)
+
+            If Enregistrer = MsgBoxResult.Yes Then
+                EIExData.EnregistrerLeRéférentiel()
+                Message("Enregistrement effectué.")
+            End If
         Catch ex As Exception
             ManageErreur(ex, $"Echec de l'import. {NbProduitsImportés} produits importés avant incident.", True, False)
         Finally
@@ -48,7 +62,7 @@ Module ExcelCommander
         End Try
     End Sub
 
-    Private Function AjouteProduit(lr As ListRow) As Boolean
+    Private Function ImporteOUMAJProduit(lr As ListRow) As RésultatImport
         Dim Rg = lr.Range
 
         Dim CodeLydic, RefFournisseur, RefProduit As String
@@ -60,15 +74,23 @@ Module ExcelCommander
         Dim F2 = Ref.GetFamilleById(2)
         Dim IdFamille As Integer
 
+        CodeLydic = Rg.Cells(4).value
+        RefFournisseur = Rg.Cells(5).value
+        RefProduit = Produit.GetRéférenceProduit(CodeLydic, RefFournisseur)
+        Dim ProduitExistant As Boolean
+
         Try
-            Dim NewP = Ref.GetNewProduit()
 
-            With NewP
-                CodeLydic = Rg.Cells(4).value
-                RefFournisseur = Rg.Cells(5).value
-                RefProduit = Produit.GetRéférenceProduit(CodeLydic, RefFournisseur)
+            Dim P As Produit = Ref.GetProduitByRefFournisseur(CodeLydic, RefFournisseur)
+            If P Is Nothing Then
+                P = Ref.GetNewProduit()
+            Else
+                ProduitExistant = True
+            End If
 
-                If Ref.LaRéfProduitExisteDéjà(RefProduit) Then Throw New Exception($"La référence produit existe déjà dans le référentiel.")
+            With P
+
+                'If Ref.LaRéfProduitExisteDéjà(RefProduit) Then Throw New Exception($"La référence produit existe déjà dans le référentiel.")
 
                 .CodeLydic = CodeLydic
                 .RéférenceFournisseur = RefFournisseur
@@ -91,11 +113,11 @@ Module ExcelCommander
 
             MarquerLigneOK(Rg, True)
 
-            Return True
+            Return If(ProduitExistant, RésultatImport.MAJ, RésultatImport.Création)
 
         Catch ex As Exception
             MarquerLigneOK(Rg, False, ex.Message())
-            Return False
+            Return RésultatImport.Echec
         End Try
     End Function
 
@@ -106,6 +128,12 @@ Module ExcelCommander
             CellCible.Offset(0, 1).Value = Msg
         End If
     End Sub
+
+    Private Enum RésultatImport
+        Création
+        MAJ
+        Echec
+    End Enum
 
 #End Region
 
@@ -136,6 +164,25 @@ Module ExcelCommander
 Vérifier que le nom de la feuille est défini par le bordereau correspond à un nom de feuille existante dans le fichier Excel associé.", ex)
         End Try
     End Function
+
+    ''' <summary>
+    ''' Retourne le <paramref name="rng"/> limité à la dernière cellule utilisée de sa feuille.
+    ''' </summary>
+    ''' <param name="rng"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function LimitedRange(rng As Excel.Range) As Excel.Range
+        Dim lastCell As Excel.Range = rng.SpecialCells(XlCellType.xlCellTypeLastCell)
+        Dim sh As Excel.Worksheet = rng.Parent
+        Dim LastRow = rng.Row + rng.Rows.Count - 1
+        Dim LastColumn = rng.Column + rng.Columns.Count - 1
+
+        LastRow = Math.Min(LastRow, lastCell.Row)
+        LastColumn = Math.Min(LastColumn, lastCell.Column)
+        Dim r As Excel.Range = sh.Range(rng.Cells(1), sh.Cells(LastRow, LastColumn))
+        Return r
+    End Function
+
 
 #End Region
 
