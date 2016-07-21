@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.Office.Interop.Excel
 Imports Model
+Imports Utils
 
 Module ExcelCommander
 
@@ -76,10 +77,16 @@ Module ExcelCommander
 
         CodeLydic = Rg.Cells(4).value
         RefFournisseur = Rg.Cells(5).value
+
         RefProduit = Produit.GetRéférenceProduit(CodeLydic, RefFournisseur)
         Dim ProduitExistant As Boolean
 
         Try
+
+            If String.IsNullOrEmpty(CodeLydic) OrElse String.IsNullOrEmpty(RefFournisseur) Then
+                Throw New Exception("Pas de référence produit valide.")
+            End If
+
 
             Dim P As Produit = Ref.GetProduitByRefFournisseur(CodeLydic, RefFournisseur)
             If P Is Nothing Then

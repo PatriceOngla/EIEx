@@ -13,11 +13,11 @@ Public Class GestionnaireDeBordereaux
 #Region "Constructeurs"
 
     Public Sub New()
+        _TousLesRangesDeLibellés = New List(Of Excel.Range)
+        _TousLesLibellés = New LibelléDouvrageCollection
         _LibellésEnDoublonEncoreATraiter = New ObservableCollection(Of LibelléDouvrage)
         _LibellésEnTransit = New ObservableCollection(Of LibelléDouvrage)
         _LibellésRetenus = New ObservableCollection(Of LibelléDouvrage)
-        _TousLesLibellés = New LibelléDouvrageCollection
-        _TousLesRangesDeLibellés = New List(Of Excel.Range)
     End Sub
 
 #End Region
@@ -331,9 +331,11 @@ Public Class GestionnaireDeBordereaux
 #Region "RécupérerLesLibellésDOuvrages"
 
     Public Sub Purger()
-        Me._TousLesLibellés.Clear()
-        Me.LibellésEnDoublonEncoreATraiter.Clear()
-        Me.LibellésRetenus.Clear()
+        _TousLesRangesDeLibellés.Clear()
+        _TousLesLibellés.Clear()
+        _LibellésEnDoublonEncoreATraiter.Clear()
+        _LibellésEnTransit.Clear()
+        _LibellésRetenus.Clear()
     End Sub
 
     Public Sub RécupérerLesLibellésDOuvrages()
@@ -367,6 +369,7 @@ Public Class GestionnaireDeBordereaux
         For Each c In Ec.ClasseursExcel
             IncrémenteAvancementFeuille(c.Bordereaux.Count)
             For Each b In c.Bordereaux
+                CheckPrérequis(b)
                 OffsetChampUnité = GetOffsetChampsUnité(b)
                 RécupérerTousLesLibellésDOuvrages(b, OffsetChampUnité)
                 IncrémenteAvancementFeuille()
@@ -376,6 +379,14 @@ Public Class GestionnaireDeBordereaux
 
         IncrémenteAvancementOpération()
 
+    End Sub
+
+    Private Sub CheckPrérequis(b As Bordereau)
+
+        Dim IncomplétudeParamètres = String.IsNullOrEmpty(b.Paramètres?.AdresseRangeLibelleOuvrage) OrElse
+        String.IsNullOrEmpty(b.Paramètres?.AdresseRangePrixUnitaire) OrElse String.IsNullOrEmpty(b.Paramètres?.AdresseRangeUnité)
+
+        If IncomplétudeParamètres Then Throw New Exception("Les paramètres sont incomplets (champs adresse).")
     End Sub
 
     Private Sub RécupérerTousLesLibellésDOuvrages(b As Bordereau, OffsetChampsUnité As Short)
@@ -455,8 +466,8 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
     Public Sub RépartirLesLibellésDOuvrages(b As Bordereau)
         Try
-            Dim LesDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.NbOccurrences > 1 Order By l.NbOccurrences Descending
-            Dim LesPasDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.NbOccurrences = 1 Order By l.PremierRange.Row Ascending
+            Dim LesDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.Bordereau Is b AndAlso l.NbOccurrences > 1 Order By l.NbOccurrences Descending
+            Dim LesPasDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.Bordereau Is b AndAlso l.NbOccurrences = 1 Order By l.PremierRange.Row Ascending
 
             Me.LibellésEnDoublonEncoreATraiter.AddRange(LesDoublons)
             Me.LibellésRetenus.AddRange(LesPasDoublons)
@@ -572,14 +583,19 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
     Private Sub SélectionnerLesRangesAssociés(L As LibelléDouvrage)
         Try
+            Dim OriginWS As Excel.Worksheet = XL.ActiveSheet
             If L Is Nothing Then Exit Sub
-            L.Feuille.Activate()
-            L.PremierRange.Activate()
-            Dim Selection As Range = L.PremierRange
+            Dim previousWs As Excel.Worksheet = Nothing '= Selection.Worksheet
+            'TODO: Provisoire. On fera autrement que précédemment (sélection multiple), ça plante quand on est sur plusieurs classeurs. 
             For Each rng As Excel.Range In L.Ranges
-                XL.Union(Selection, rng)
+                'XL.Union(Selection, rng)
+                If rng.Worksheet IsNot previousWs Then
+                    rng.Worksheet.Activate()
+                    rng.Select()
+                    previousWs = rng.Worksheet
+                End If
             Next
-            Selection.Select()
+            OriginWS.Activate()
         Catch ex As Exception
             ManageErreur(ex, "Echec de la sélection des cellules Excel.")
         End Try

@@ -50,7 +50,7 @@ Public Class Produit_DAO
     Public Property RéférenceFournisseur() As String
 
     <XmlAttribute>
-    Public Property TempsDePauseUnitaire() As Integer
+    Public Property TempsDePauseUnitaire() As Single
 
     Public Property MotsClés() As List(Of String)
 

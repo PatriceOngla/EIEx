@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports Model
+Imports Utils
 
 <TestClass()> Public Class UnitTestRéférentiel
 

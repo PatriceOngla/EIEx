@@ -118,7 +118,7 @@
                                     <DataGridTemplateColumn Header="Complément">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="local:LibelléDouvrage">
-                                                <TextBox Text="{Binding ComplémentDeNom}"/>
+                                                <TextBox Text="{Binding ComplémentDeNom, FallbackValue=xxxx, UpdateSourceTrigger=PropertyChanged}" Margin="0"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

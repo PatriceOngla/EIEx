@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.ObjectModel
+Imports Utils
 
 Public Class Produit
     Inherits AgregateRootDuRéférentiel(Of Produit)
@@ -111,15 +112,15 @@ Public Class Produit
 
 #End Region
 
-#Region "TempsDePauseUnitaire (Integer)"
-    Private _TempsDePauseUnitaire As Integer
+#Region "TempsDePauseUnitaire (Single)"
+    Private _TempsDePauseUnitaire As Single
 
     ''' <summary>Le temps de pause en minutes.</summary>
-    Public Property TempsDePauseUnitaire() As Integer
+    Public Property TempsDePauseUnitaire() As Single
         Get
             Return _TempsDePauseUnitaire
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Single)
             If Object.Equals(value, Me._TempsDePauseUnitaire) Then Exit Property
             _TempsDePauseUnitaire = value
             NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
@@ -128,7 +129,7 @@ Public Class Produit
 #End Region
 
 #Region "MotsClés (ObservableCollection(of String))"
-    Private _MotsClés As List(Of String)
+    Private WithEvents _MotsClés As List(Of String)
     Public Property MotsClés() As List(Of String)
         Get
             Return _MotsClés
@@ -152,6 +153,67 @@ Public Class Produit
             NotifyPropertyChanged(NameOf(Famille))
         End Set
     End Property
+#End Region
+
+#Region "Propriétés pour recherche"
+
+#Region "Mots"
+    Private _Mots As List(Of String)
+
+    ''' <summary>Les mots du <see cref="Nom"/> + ceux des <see cref="MotsClés"/> (pour les recherches). 
+    ''' Attention, il doivent être mis à jour avant toute recherche avec la méthode <see cref="SetMotsPourTousLesProduits()"/>.</summary>
+    Public ReadOnly Property Mots() As IEnumerable(Of String)
+        Get
+            'If _Mots Is Nothing Then SetMots()
+            Return _Mots
+        End Get
+    End Property
+
+    Public Sub SetMots()
+        _Mots = New List(Of String)(MotsClés)
+        _Mots.AddRange(Nom.Split({" "c, "'"c}))
+    End Sub
+
+    Public Shared Sub SetMotsPourTousLesProduits()
+        Référentiel.Instance.Produits.DoForAll(Sub(p As Produit) p.SetMots())
+    End Sub
+
+#End Region
+
+#Region "ToString pour affichage en list (colonnage fixe)"
+
+    Public ReadOnly Property ToStringForListDisplay() As String
+        Get
+            Dim r = DisplayWithFixedColumn(Me.RéférenceProduit, Me.Nom, Me.MotsClés)
+            Return r
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property ProductsListHeader() As String
+        Get
+            Dim r = DisplayWithFixedColumn("Référence", "Nom", "Mots-clés")
+            Return r
+        End Get
+    End Property
+
+    Private Shared Function DisplayWithFixedColumn(référenceProduit As String, nom As String, motsClés As List(Of String)) As String
+        Dim r = DisplayWithFixedColumn(référenceProduit, nom, Join(motsClés.ToArray(), ", "))
+        Return r
+    End Function
+
+    Private Shared Function DisplayWithFixedColumn(référenceProduit As String, nom As String, motsClés As String) As String
+        Dim r As String = FormateForColumn(référenceProduit, 10) & FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False)
+        Return r
+    End Function
+
+    Private Shared Function FormateForColumn(s As String, width As Short, Optional AddSep As Boolean = False) As String
+        Const Margin = "  "
+        Dim r = Margin & Left(s, width).PadRight(width) & Margin & (If(AddSep, "|", ""))
+        Return r
+    End Function
+
+#End Region
+
 #End Region
 
 #End Region

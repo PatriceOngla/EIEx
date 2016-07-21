@@ -133,6 +133,8 @@ Public Class UC_EtudesView
     Private Sub Btn_InitClasseursExcel_Click(sender As Object, e As RoutedEventArgs) Handles Btn_InitClasseursExcel.Click
         Try
             Dim NewC As ClasseurExcel
+
+            If Me.EtudeCourante Is Nothing Then Throw New Exception("Pas d'étude courante.")
             With Me.EtudeCourante
                 For Each wb As Excel.Workbook In XL.Workbooks
                     If Not ContientLeClasseur(wb.FullName) Then
@@ -142,6 +144,9 @@ Public Class UC_EtudesView
                         NewC.Nom = wb.Name
                     End If
                 Next
+                If Me.ClasseurExcelCourant Is Nothing Then
+                    Me.ClasseurExcelCourant = Me.EtudeCourante.ClasseursExcel.FirstOrDefault
+                End If
             End With
         Catch ex As Exception
             ManageErreur(ex, , True, False)
@@ -165,7 +170,12 @@ Public Class UC_EtudesView
     End Sub
 
     Private Function ContientLeClasseur(Chemin As String) As Boolean
-        Dim r = (From c In Me.EtudeCourante.ClasseursExcel Where Object.Equals(c.CheminFichier, Chemin)).Any()
+        Dim r As Boolean
+        If Me.EtudeCourante Is Nothing Then
+            r = False
+        Else
+            r = (From c In Me.EtudeCourante.ClasseursExcel Where Object.Equals(c.CheminFichier, Chemin)).Any()
+        End If
         Return r
     End Function
 

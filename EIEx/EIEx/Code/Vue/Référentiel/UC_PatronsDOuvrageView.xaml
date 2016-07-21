@@ -25,10 +25,10 @@
             <local:ListString_String_Converter x:Key="ListString_String_Converter"/>
 
             <DataTemplate x:Key="DT_Produit" DataType="model:Produit">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" ToolTip="{Binding Nom}">
                     <TextBlock Text="{Binding RéférenceProduit}"/>
                     <TextBlock Text=" - "/>
-                    <TextBlock Text="{Binding Nom}"/>
+                    <TextBlock Text="{Binding Nom}" MaxWidth="200"/>
                     <TextBlock Text=" (n° "/>
                     <TextBlock Text="{Binding Id}"/>
                     <TextBlock Text=") "/>
@@ -107,11 +107,22 @@
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="model:AgregateRoot_Base">
-                                            <ContentControl Content="{Binding Produit}" ContentTemplate="{StaticResource DT_Produit}"/>
+                                            <DockPanel LastChildFill="True" >
+                                                <Button x:Name="Toto" DockPanel.Dock="Right" Content="?" 
+                                                        Click="Btn_RechercherProduit_Click"
+                                                        Visibility="Collapsed"/>
+                                                <!--<TextBlock Text="{Binding Produit.Nom}"/>-->
+                                                <ContentControl Content="{Binding Produit}" ContentTemplate="{StaticResource DT_Produit}"/>
+                                            </DockPanel>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=DataGridCell}}" Value="True">
+                                                    <Setter TargetName="Toto" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
 
-                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                    <!--<DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate DataType="model:AgregateRoot_Base" >
                                             <ComboBox ItemsSource="{Binding Source={StaticResource TousLesProduits}}" 
                                                       SelectedItem="{Binding Produit, UpdateSourceTrigger=PropertyChanged}"
@@ -122,7 +133,7 @@
                                                       ItemTemplate="{StaticResource DT_Produit}">
                                             </ComboBox>
                                         </DataTemplate>
-                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>-->
 
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Quantité" Binding="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"/>

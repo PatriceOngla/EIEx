@@ -51,7 +51,10 @@ Public Class EIExRibbon
             If EIExTaskPane Is Nothing OrElse TBt_ShowPanel.Checked <> EIExTaskPane.Visible Then
                 HideOrShowAndAttachPanel(OuvrirPannel)
             End If
-        Catch ex As ArgumentException
+        Catch ex As System.Runtime.InteropServices.COMException
+            EIExTaskPane = Nothing
+            ManageErreur(ex, "Une erreur est survenue. Merci d'essayer à nouveau.")
+        Catch ex As Exception
             ManageErreur(ex)
         End Try
     End Sub

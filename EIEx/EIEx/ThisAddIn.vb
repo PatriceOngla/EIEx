@@ -1,4 +1,5 @@
-﻿Imports Model
+﻿Imports System.Windows
+Imports Model
 
 Public Class ThisAddIn
 
@@ -48,6 +49,8 @@ Public Class ThisAddIn
 
 #End Region
 
+#Region "ThisAddIn_Shutdown"
+
     Private Sub ThisAddIn_Shutdown() Handles Me.Shutdown
         Try
             EnregistrerLesDonnées()
@@ -60,12 +63,17 @@ Public Class ThisAddIn
 
 #End Region
 
+#End Region
+
 #Region "Gestion des données"
 
     Public Sub ChargerLesDonnées()
         Try
             EIExData.ChargerLeWorkspace()
             EIExData.ChargerLeRéférentiel()
+#If DEBUG Then
+            Test()
+#End If
         Catch ex As Exception
             ManageErreur(ex, $"Echec du chargement des données. L'Addin {ThisAddIn.Nom} n'est pas utilisable.")
         End Try
@@ -88,6 +96,14 @@ Public Class ThisAddIn
 
 #Region "Tests et debuggage"
 
+#If DEBUG Then
+    Public Sub Test()
+
+
+        'Dim PS As New UC_SélecteurDeProduit
+        'PS.Show()
+    End Sub
+#End If
 
 #End Region
 

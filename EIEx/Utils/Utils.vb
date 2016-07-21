@@ -56,6 +56,30 @@ Public Module Utils
 #Region "Gestion des collection"
 
     <Extension>
+    Public Function ContainsList_String(List As IEnumerable(Of String), OtherList As IEnumerable(Of String), Optional ignoreCase As Boolean = True, Optional StartWith As Boolean = False) As Boolean
+        Dim sc = If(ignoreCase, StringComparer.CurrentCultureIgnoreCase, StringComparer.CurrentCulture)
+        Dim scn = If(ignoreCase, StringComparison.CurrentCultureIgnoreCase, StringComparison.CurrentCulture)
+
+        For Each item In OtherList
+            If StartWith Then
+                Dim r = (From s In List Where s.StartsWith(item, scn)).Any
+                If Not r Then Return False
+            Else
+                If Not List.Contains(item, sc) Then Return False
+            End If
+        Next
+        Return True
+    End Function
+
+    <Extension>
+    Public Function ContainsList(Of T)(List As IEnumerable(Of T), OtherList As IEnumerable(Of T)) As Boolean
+        For Each item In OtherList
+            If Not List.Contains(item) Then Return False
+        Next
+        Return True
+    End Function
+
+    <Extension>
     Public Sub AddRange(Of T)(List As IList(Of T), AddedRange As IEnumerable(Of T))
         For Each itemToAdd In AddedRange
             List.Add(itemToAdd)
@@ -168,7 +192,6 @@ Public Module Utils
     End Sub
 
 #End Region
-
     Public Sub ManageError(ex As Exception, SubName As String, Optional Msg As String = Nothing, Optional DlgBox As Boolean = False, Optional Titre As String = Nothing)
         Dim msg2 = $"Erreur dans la routine ""{SubName}"".{vbCr}{If(String.IsNullOrEmpty(Msg), "", Msg & vbCr)}{ex.GetType.Name} : { ex.Message}"
         Debug.Print(Msg)

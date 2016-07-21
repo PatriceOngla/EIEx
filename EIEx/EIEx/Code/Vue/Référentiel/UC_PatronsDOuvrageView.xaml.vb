@@ -1,4 +1,5 @@
 ﻿Imports System.Windows
+Imports System.Windows.Controls
 Imports Model
 Imports Utils
 
@@ -70,6 +71,18 @@ Public Class UC_PatronsDOuvrageView
 
 #End Region
 
+#Region "SélecteurDeProduit"
+    Private WithEvents _SélecteurDeProduit As UC_SélecteurDeProduit
+    Public ReadOnly Property SélecteurDeProduit() As UC_SélecteurDeProduit
+        Get
+            If _SélecteurDeProduit Is Nothing Then
+                _SélecteurDeProduit = New UC_SélecteurDeProduit
+            End If
+            Return _SélecteurDeProduit
+        End Get
+    End Property
+#End Region
+
 #End Region
 
 #Region "Gestionnaires d'évennements"
@@ -122,6 +135,19 @@ Public Class UC_PatronsDOuvrageView
         Catch ex As Exception
             ManageErreur(ex)
         End Try
+    End Sub
+
+    Private Sub Btn_RechercherProduit_Click(sender As Object, e As RoutedEventArgs)
+        'Dim BoutonRecherche As Button = TryCast(e.OriginalSource, Button)
+        'If BoutonRecherche?.Tag = "" Then
+        '    MsgBox("ok")
+        'End If
+        Me.SélecteurDeProduit.Show()
+    End Sub
+
+    Private Sub _SélecteurDeProduit_ProduitTrouvé(P As Produit) Handles _SélecteurDeProduit.ProduitTrouvé
+        Dim up As UsageDeProduit = Me.DG_Produits.SelectedItem
+        If up IsNot Nothing Then up.Produit = P
     End Sub
 
 #End Region
@@ -177,6 +203,8 @@ Public Class UC_PatronsDOuvrageView
     Private Sub Btn_ResetPrixUnitaire_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ResetPrixUnitaire.Click
         Me.PatronDOuvrageCourant.PrixUnitaire = Nothing
     End Sub
+
+
 
 #End Region
 

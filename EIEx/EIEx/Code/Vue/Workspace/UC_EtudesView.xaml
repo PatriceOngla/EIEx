@@ -8,6 +8,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="600">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx;component/Code/Dico.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -44,7 +52,7 @@
 
                 <!--Classeur-->
                 <RowDefinition Height="3*"/>
-                                
+
                 <!--Commentaires Etude-->
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
@@ -217,9 +225,7 @@
                                             </Grid>
                                         </ScrollViewer>
 
-                                        <DockPanel x:Name="DP_Cmdes_Etudes" Grid.Row="2" LastChildFill="False">
-                                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Bordereaux" DockPanel.Dock="Right"/>
-                                        </DockPanel>
+                                        <local:UC_CommandesCRUD x:Name="UC_CRUD_Bordereaux" Grid.Row="2"/>
                                     </Grid>
 
                                 </GroupBox>
@@ -229,14 +235,20 @@
                                 <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
 
                             </Grid>
-                            
+
                         </ScrollViewer>
 
-                        <DockPanel x:Name="DP_Cmdes_Classeurs" Grid.Row="2" LastChildFill="False">
-                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" DockPanel.Dock="Right"/>
-                            <Button x:Name="Btn_InitClasseursExcel" Content="Initialiser les classeurs"/>
-                            <Button x:Name="Btn_ChargerLesClasseursExcel" Content="Ouvrir les classeurs"/>
-                        </DockPanel>
+                        <Grid x:Name="Grd_Cmdes_Classeurs" Grid.Row="2" >
+                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button x:Name="Btn_InitClasseursExcel" 
+                                        Style="{StaticResource ButtonStyle}" 
+                                        Content="Initialiser les classeurs" VerticalAlignment="Center" Margin="4,-5,5,5" />
+                                <Button x:Name="Btn_ChargerLesClasseursExcel"  
+                                        Style="{StaticResource ButtonStyle}" 
+                                        Content="Ouvrir les classeurs" VerticalAlignment="Center" Margin="0,-5,5,5"/>
+                            </StackPanel>
+                        </Grid>
 
                         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" />
 

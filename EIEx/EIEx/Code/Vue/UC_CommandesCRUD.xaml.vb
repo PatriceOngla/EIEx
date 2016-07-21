@@ -9,7 +9,11 @@ Public Class UC_CommandesCRUD
 #Region "AssociatedSelector (Selector)"
 
     Public Shared ReadOnly AssociatedItemsControlProperty As DependencyProperty =
-            DependencyProperty.Register(NameOf(AssociatedSelector), GetType(Selector), GetType(UC_CommandesCRUD), New UIPropertyMetadata(Nothing))
+            DependencyProperty.Register(NameOf(AssociatedSelector), GetType(Selector), GetType(UC_CommandesCRUD),
+                                        New UIPropertyMetadata(Nothing, New PropertyChangedCallback(
+                                        Sub(ucCrud As UC_CommandesCRUD, e As DependencyPropertyChangedEventArgs)
+                                            ucCrud._AssociatedSelector = e.NewValue
+                                        End Sub)))
 
     Public Property AssociatedSelector As Selector
         Get
@@ -20,6 +24,8 @@ Public Class UC_CommandesCRUD
             SetValue(AssociatedItemsControlProperty, value)
         End Set
     End Property
+
+    Private WithEvents _AssociatedSelector As Selector
 
 #End Region
 
@@ -35,6 +41,7 @@ Public Class UC_CommandesCRUD
         End Get
         Set(value As String)
             _NomEntité = value
+            SetTooltips()
         End Set
     End Property
 #End Region
@@ -64,6 +71,83 @@ Public Class UC_CommandesCRUD
         End Set
     End Property
 #End Region
+
+#Region "ItemSélectionné"
+    Public ReadOnly Property ItemSélectionné() As Object
+        Get
+            Return Me.AssociatedSelector?.SelectedItem
+        End Get
+    End Property
+#End Region
+
+#Region "Tooltips"
+
+#Region "TooltipAjout (String)"
+
+#Region "Déclaration et registration de TooltipAjoutProperty"
+
+    Private Shared MDTooltipAjout As New FrameworkPropertyMetadata(Nothing)
+    Public Shared TooltipAjoutPropertyKey As DependencyPropertyKey = DependencyProperty.RegisterReadOnly("TooltipAjout", GetType(String), GetType(UC_CommandesCRUD), MDTooltipAjout)
+    Public Shared TooltipAjoutProperty As DependencyProperty = TooltipAjoutPropertyKey.DependencyProperty
+
+#End Region
+
+    Public ReadOnly Property TooltipAjout() As String
+        Get
+            Return GetValue(TooltipAjoutProperty)
+        End Get
+    End Property
+
+#Region "Calcul de la valeur"
+    Private Sub SetTooltipAjout()
+        Dim v = $"Ajouter {If(String.IsNullOrEmpty(Me.NomEntité), "", "un(e) " & Me.NomEntité)}."
+        Me.SetValue(TooltipAjoutPropertyKey, v)
+    End Sub
+#End Region
+
+#End Region
+
+#Region "TooltipSuppression (String)"
+
+#Region "Déclaration et registration de TooltipSuppressionProperty"
+
+    Private Shared MDTooltipSuppression As New FrameworkPropertyMetadata(Nothing)
+    Public Shared TooltipSuppressionPropertyKey As DependencyPropertyKey = DependencyProperty.RegisterReadOnly("TooltipSuppression", GetType(String), GetType(UC_CommandesCRUD), MDTooltipSuppression)
+    Public Shared TooltipSuppressionProperty As DependencyProperty = TooltipSuppressionPropertyKey.DependencyProperty
+
+#End Region
+
+#Region "Wrapper CLR de TooltipSuppressionProperty"
+
+    Public ReadOnly Property TooltipSuppression() As String
+        Get
+            Return GetValue(TooltipSuppressionProperty)
+        End Get
+    End Property
+
+#End Region
+
+#Region "Calcul de la valeur"
+    Private Sub SetTooltipSuppressionx()
+        Dim v As String
+        If Me.ItemSélectionné Is Nothing Then
+            v = $"Suppression impossible. Aucun(e) {If(String.IsNullOrEmpty(Me.NomEntité), "élément", Me.NomEntité)} n'est sélectionné(e)."
+        Else
+            v = $"Supprimer {If(String.IsNullOrEmpty(Me.NomEntité), "l'élément", "le(a) " & Me.NomEntité)} sélectionné(e)."
+        End If
+        Me.SetValue(TooltipSuppressionPropertyKey, v)
+    End Sub
+#End Region
+
+#End Region
+
+    Private Sub SetTooltips()
+        Me.SetTooltipAjout()
+        Me.SetTooltipSuppressionx()
+    End Sub
+
+#End Region
+
 #End Region
 
 #Region "déclarations d'évennements"
@@ -77,7 +161,7 @@ Public Class UC_CommandesCRUD
 #Region "Gestionnaires d'évennements"
 
     Private Function ContextOK(ElementSélectionnéRequis As Boolean) As Boolean
-        Dim ElementSélectionnéOK = (Not ElementSélectionnéRequis) OrElse Me.AssociatedSelector.SelectedItem IsNot Nothing
+        Dim ElementSélectionnéOK = (Not ElementSélectionnéRequis) OrElse Me.ItemSélectionné IsNot Nothing
         Return Me.AssociatedSelector IsNot Nothing AndAlso ElementSélectionnéOK
     End Function
 
@@ -123,6 +207,11 @@ Public Class UC_CommandesCRUD
         End If
 
     End Sub
+
+    Private Sub _AssociatedSelector_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles _AssociatedSelector.SelectionChanged
+        SetTooltips()
+    End Sub
+
 #End Region
 
 End Class
