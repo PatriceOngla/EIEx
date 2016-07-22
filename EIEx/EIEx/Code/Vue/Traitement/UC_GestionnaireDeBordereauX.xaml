@@ -7,10 +7,16 @@
              xmlns:local="clr-namespace:EIEx"
              xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="600">
     <UserControl.Resources>
-        <RelativeSource x:Key="ThisControl" Mode="FindAncestor" AncestorType="{x:Type local:UC_GestionnaireDeBordereau}"/>
-    </UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="/EIEx;component/Code/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+             <RelativeSource x:Key="ThisControl" Mode="FindAncestor" AncestorType="{x:Type local:UC_GestionnaireDeBordereau}"/>
+        </ResourceDictionary>
+   </UserControl.Resources>
+
     <Grid>
         <TabControl >
 
@@ -152,8 +158,12 @@
                     <DockPanel x:Name="DP_Commandes" LastChildFill="False" Grid.Row="4">
                         <CheckBox Content="Synchronisation avec les sélection Excel : " 
                                   IsChecked="{Binding RelativeSource= {StaticResource ThisControl}, Path = TrackExcelEvent}"/>
-                        <Button x:Name="Btn_Go" DockPanel.Dock="Right" Content="Créer les ouvrages"/>
-                        <Button x:Name="Btn_Start" DockPanel.Dock="Right" Content="Démarrer"/>
+                        <Button x:Name="Btn_Go" 
+                                DockPanel.Dock="Right"  Style="{StaticResource ButtonStyle}"
+                                Content="Créer les ouvrages"/>
+                        <Button x:Name="Btn_Start" 
+                                DockPanel.Dock="Right" Style="{StaticResource ButtonStyle}"
+                                Content="Démarrer"/>
                     </DockPanel>
 
                 </Grid>

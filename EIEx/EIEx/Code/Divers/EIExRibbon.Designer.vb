@@ -44,17 +44,23 @@
         Me.Tab1 = Me.Factory.CreateRibbonTab
         Me.Grp_Unic = Me.Factory.CreateRibbonGroup
         Me.TBt_ShowPanel = Me.Factory.CreateRibbonToggleButton
+        Me.Grp_Workspace = Me.Factory.CreateRibbonGroup
+        Me.Btn_SaveWorkspace = Me.Factory.CreateRibbonButton
+        Me.Btn_RechargerWorkspace = Me.Factory.CreateRibbonButton
+        Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante = Me.Factory.CreateRibbonButton
+        Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante = Me.Factory.CreateRibbonButton
         Me.Grp_Référentiel = Me.Factory.CreateRibbonGroup
         Me.Btn_EnregistrerRéférentiel = Me.Factory.CreateRibbonButton
         Me.Btn_RechargerRéférentiel = Me.Factory.CreateRibbonButton
-        Me.Btn_SaveWorkspace = Me.Factory.CreateRibbonButton
-        Me.Btn_RechargerWorkspace = Me.Factory.CreateRibbonButton
-        Me.Grp_Workspace = Me.Factory.CreateRibbonGroup
         Me.Btn_ImporterProduitsDepuisExcel = Me.Factory.CreateRibbonButton
+        Me.Box_Classeurs = Me.Factory.CreateRibbonBox
+        Me.Separator1 = Me.Factory.CreateRibbonSeparator
+        Me.Label1 = Me.Factory.CreateRibbonLabel
         Me.Tab1.SuspendLayout()
         Me.Grp_Unic.SuspendLayout()
-        Me.Grp_Référentiel.SuspendLayout()
         Me.Grp_Workspace.SuspendLayout()
+        Me.Grp_Référentiel.SuspendLayout()
+        Me.Box_Classeurs.SuspendLayout()
         Me.SuspendLayout()
         '
         'Tab1
@@ -78,6 +84,35 @@
         Me.TBt_ShowPanel.Label = "Afficher le panel"
         Me.TBt_ShowPanel.Name = "TBt_ShowPanel"
         '
+        'Grp_Workspace
+        '
+        Me.Grp_Workspace.Items.Add(Me.Btn_SaveWorkspace)
+        Me.Grp_Workspace.Items.Add(Me.Btn_RechargerWorkspace)
+        Me.Grp_Workspace.Items.Add(Me.Separator1)
+        Me.Grp_Workspace.Items.Add(Me.Box_Classeurs)
+        Me.Grp_Workspace.Label = "Espace de travail"
+        Me.Grp_Workspace.Name = "Grp_Workspace"
+        '
+        'Btn_SaveWorkspace
+        '
+        Me.Btn_SaveWorkspace.Label = "Enregistrer l'espace de travail"
+        Me.Btn_SaveWorkspace.Name = "Btn_SaveWorkspace"
+        '
+        'Btn_RechargerWorkspace
+        '
+        Me.Btn_RechargerWorkspace.Label = "Recharger l'espace de travail"
+        Me.Btn_RechargerWorkspace.Name = "Btn_RechargerWorkspace"
+        '
+        'Btn_InitialiserLesClasseursExcelDeLEtudeCourante
+        '
+        Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante.Label = "Initialiser tous"
+        Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante.Name = "Btn_InitialiserLesClasseursExcelDeLEtudeCourante"
+        '
+        'Btn_ChargerLesClasseursExcelDeLEtudeCourante
+        '
+        Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante.Label = "Ouvrir tous"
+        Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante.Name = "Btn_ChargerLesClasseursExcelDeLEtudeCourante"
+        '
         'Grp_Référentiel
         '
         Me.Grp_Référentiel.Items.Add(Me.Btn_EnregistrerRéférentiel)
@@ -96,28 +131,28 @@
         Me.Btn_RechargerRéférentiel.Label = "Recharger le référentiel"
         Me.Btn_RechargerRéférentiel.Name = "Btn_RechargerRéférentiel"
         '
-        'Btn_SaveWorkspace
-        '
-        Me.Btn_SaveWorkspace.Label = "Enregistrer l'espace de travail"
-        Me.Btn_SaveWorkspace.Name = "Btn_SaveWorkspace"
-        '
-        'Btn_RechargerWorkspace
-        '
-        Me.Btn_RechargerWorkspace.Label = "Recharger l'espace de travail"
-        Me.Btn_RechargerWorkspace.Name = "Btn_RechargerWorkspace"
-        '
-        'Grp_Workspace
-        '
-        Me.Grp_Workspace.Items.Add(Me.Btn_SaveWorkspace)
-        Me.Grp_Workspace.Items.Add(Me.Btn_RechargerWorkspace)
-        Me.Grp_Workspace.Label = "Espace de travail"
-        Me.Grp_Workspace.Name = "Grp_Workspace"
-        '
         'Btn_ImporterProduitsDepuisExcel
         '
         Me.Btn_ImporterProduitsDepuisExcel.Description = "Charger les produits depuis la feuille excel courante."
         Me.Btn_ImporterProduitsDepuisExcel.Label = "Importer des produits"
         Me.Btn_ImporterProduitsDepuisExcel.Name = "Btn_ImporterProduitsDepuisExcel"
+        '
+        'Box_Classeurs
+        '
+        Me.Box_Classeurs.BoxStyle = Microsoft.Office.Tools.Ribbon.RibbonBoxStyle.Vertical
+        Me.Box_Classeurs.Items.Add(Me.Label1)
+        Me.Box_Classeurs.Items.Add(Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante)
+        Me.Box_Classeurs.Items.Add(Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante)
+        Me.Box_Classeurs.Name = "Box_Classeurs"
+        '
+        'Separator1
+        '
+        Me.Separator1.Name = "Separator1"
+        '
+        'Label1
+        '
+        Me.Label1.Label = "Classeurs de l'étude courante :"
+        Me.Label1.Name = "Label1"
         '
         'EIExRibbon
         '
@@ -128,10 +163,12 @@
         Me.Tab1.PerformLayout()
         Me.Grp_Unic.ResumeLayout(False)
         Me.Grp_Unic.PerformLayout()
-        Me.Grp_Référentiel.ResumeLayout(False)
-        Me.Grp_Référentiel.PerformLayout()
         Me.Grp_Workspace.ResumeLayout(False)
         Me.Grp_Workspace.PerformLayout()
+        Me.Grp_Référentiel.ResumeLayout(False)
+        Me.Grp_Référentiel.PerformLayout()
+        Me.Box_Classeurs.ResumeLayout(False)
+        Me.Box_Classeurs.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -146,6 +183,11 @@
     Friend WithEvents Btn_RechargerWorkspace As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents Grp_Workspace As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents Btn_ImporterProduitsDepuisExcel As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Btn_InitialiserLesClasseursExcelDeLEtudeCourante As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Btn_ChargerLesClasseursExcelDeLEtudeCourante As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents Box_Classeurs As Microsoft.Office.Tools.Ribbon.RibbonBox
+    Friend WithEvents Separator1 As Microsoft.Office.Tools.Ribbon.RibbonSeparator
+    Friend WithEvents Label1 As Microsoft.Office.Tools.Ribbon.RibbonLabel
 End Class
 
 Partial Class ThisRibbonCollection

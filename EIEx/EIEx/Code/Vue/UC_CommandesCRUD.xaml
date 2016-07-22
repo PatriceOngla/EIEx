@@ -6,7 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EIEx"
              mc:Ignorable="d" 
-             d:DesignWidth="300" Background="#4C000000">
+             d:DesignWidth="300" Background="#4C000000"
+             Margin="0"
+             >
     <UserControl.Resources>
         <ResourceDictionary>
 

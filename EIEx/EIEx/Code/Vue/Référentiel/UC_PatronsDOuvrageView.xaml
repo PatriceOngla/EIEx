@@ -10,6 +10,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx;component/Code/Dico.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.Resources>
 
@@ -59,7 +67,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <ScrollViewer x:Name="SV_Detail" Grid.Row="1">
+        <ScrollViewer x:Name="SV_Detail" Grid.Row="1" Margin="0,10,5,5">
 
             <Grid x:Name="Grd_Detail">
                 <Grid.ColumnDefinitions>

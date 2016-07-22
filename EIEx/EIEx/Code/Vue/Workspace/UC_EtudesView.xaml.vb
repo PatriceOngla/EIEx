@@ -128,9 +128,9 @@ Public Class UC_EtudesView
 
 #Region "Gestion des classeurs associés à l'étude"
 
-#Region "Btn_InitClasseursExcel_Click"
+#Region "InitialiserLesClasseursExcelDeLEtudeCopurante"
 
-    Private Sub Btn_InitClasseursExcel_Click(sender As Object, e As RoutedEventArgs) Handles Btn_InitClasseursExcel.Click
+    Friend Sub InitialiserLesClasseursExcelDeLEtudeCopurante()
         Try
             Dim NewC As ClasseurExcel
 
@@ -181,9 +181,9 @@ Public Class UC_EtudesView
 
 #End Region
 
-#Region "Btn_ChargerLesClasseursExcel_Click"
+#Region "ChargerLesClasseursExcelDeLEtudeCopurante"
 
-    Private Sub Btn_ChargerLesClasseursExcel_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ChargerLesClasseursExcel.Click
+    Friend Sub ChargerLesClasseursExcelDeLEtudeCopurante()
         Try
             With Me.EtudeCourante
                 For Each c In .ClasseursExcel
@@ -283,6 +283,16 @@ Public Class UC_EtudesView
 
     Private Sub AddExcelEventsHandlers()
         'AddHandler ExcelEventManager.TargetSelectedRangeChanged, AddressOf XLSelectionChangeHandling
+    End Sub
+
+    Private Sub UC_EtudesView_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        If e.Key = Key.S AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
+            Try
+                EIExData.EnregistrerLeWorkspace()
+            Catch ex As Exception
+                ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.")
+            End Try
+        End If
     End Sub
 
     'Private Sub XLSelectionChangeHandling(NewSelection As Excel.Range)

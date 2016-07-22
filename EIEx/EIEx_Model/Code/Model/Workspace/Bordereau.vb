@@ -1,4 +1,5 @@
-﻿Imports System.Windows
+﻿Imports System.ComponentModel
+Imports System.Windows
 Imports Model
 
 Public Class Bordereau
@@ -53,7 +54,7 @@ Public Class Bordereau
 #End Region
 
 #Region "Paramètres (Paramètres)"
-    Private _Paramètres As Paramètres
+    Private WithEvents _Paramètres As Paramètres
     Public ReadOnly Property Paramètres() As Paramètres
         Get
             Return _Paramètres
@@ -64,6 +65,10 @@ Public Class Bordereau
 #End Region
 
 #Region "Méthodes"
+
+    Private Sub _Paramètres_PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Handles _Paramètres.PropertyChanged
+        Me.NotifyPropertyChanged(NameOf(Paramètres))
+    End Sub
 
 #End Region
 

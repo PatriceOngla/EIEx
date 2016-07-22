@@ -5,7 +5,7 @@ Imports System.Windows.Input
 Imports System.Windows.Media
 Imports Model
 
-Public Class UC_SubContainer
+Public Class UC_EIEx_Manager_UI
 
 #Region "Constructeurs"
 
@@ -36,25 +36,26 @@ Public Class UC_SubContainer
     End Property
 #End Region
 
+#Region "EtudeCourante"
+    Public ReadOnly Property EtudeCourante() As Etude
+        Get
+            Return Me.UC_Etude.EtudeCourante
+        End Get
+    End Property
+#End Region
 #End Region
 
 #Region "Methods"
 
 #Region "UI event handlers"
 
-    Private Sub Button_Click(sender As Object, e As Windows.RoutedEventArgs)
-        Try
-            MsgBox("ça roule")
-        Catch ex As ArgumentException
-            MsgBox("ça roule pas")
-        End Try
-    End Sub
+#Region "Navigation"
 
-    Private Sub UC_SubContainer_MouseDoubleClick(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseDoubleClick
+    Private Sub UC_EIEx_Manager_UI_MouseDoubleClick(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseDoubleClick
         Try
             TraiterDemandeDeNavigation(e.OriginalSource)
         Catch ex As Exception
-            ManageErreur(ex, NameOf(UC_SubContainer_MouseDoubleClick))
+            ManageErreur(ex, NameOf(UC_EIEx_Manager_UI_MouseDoubleClick))
         End Try
     End Sub
 
@@ -116,6 +117,8 @@ Public Class UC_SubContainer
 
 #End Region
 
+#End Region
+
 #Region "Tests and debug"
 
 #Region "SelectedRange"
@@ -132,7 +135,7 @@ Public Class UC_SubContainer
 
     Public Shared ReadOnly SelectedRangeProperty As DependencyProperty =
                            DependencyProperty.Register("SelectedRange",
-                           GetType(String), GetType(UC_SubContainer),
+                           GetType(String), GetType(UC_EIEx_Manager_UI),
                            New PropertyMetadata(Nothing))
 
 #End Region

@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="UC_SubContainer"
-    x:Name="UC_SubContainer"
+﻿<UserControl x:Class="UC_EIEx_Manager_UI"
+    x:Name="UC_EIEx_Manager_UI"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -23,7 +23,7 @@
         <TabControl Grid.Row="1" >
 
             <TabItem x:Name="TBt_Workspace" Header="Etudes" >
-                <local:UC_EtudesView x:Name="UC_Etude" DataContext="{Binding ElementName=UC_SubContainer, Path=WS.Etudes}"/>
+                <local:UC_EtudesView x:Name="UC_Etude" DataContext="{Binding ElementName=UC_EIEx_Manager_UI, Path=WS.Etudes}"/>
             </TabItem>
 
             <TabItem x:Name="TBt_Traitement" Header="Traitement">

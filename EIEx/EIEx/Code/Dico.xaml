@@ -5,6 +5,7 @@
 
     <System:Double x:Key="DefaultMarginBase">5</System:Double>
     <System:Double x:Key="SmallMarginBase">1</System:Double>
+    <System:Double x:Key="EpaisseurBordureContainerBase">0.5</System:Double>
 
     <!--#region Divers-->
 
@@ -85,9 +86,39 @@
         </Viewbox>
     </DataTemplate>
 
+    <DataTemplate x:Key="ASuivre" >
+        <Viewbox x:Name="Group" >
+            <Canvas x:Name="Calque_1" Width="128" Height="128" Canvas.Left="0" Canvas.Top="0">
+                <Canvas Width="70.7259" Height="20.1666" Canvas.Left="28.5329" Canvas.Top="54.0209">
+                    <Ellipse x:Name="Ellipse_0" 
+                             Width="19.875" Height="20" Canvas.Left="25.4254" Canvas.Top="0.0625076" 
+                             Stretch="Fill" 
+                             Fill="{Binding Foreground, FallbackValue=#FF9ACD32, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}"
+                             />
+                    <Ellipse x:Name="Ellipse_1" 
+                             Width="19.875" Height="20" Canvas.Left="0" Canvas.Top="0" 
+                             Stretch="Fill" 
+                             Fill="{Binding Foreground, FallbackValue=#FF9ACD32, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}"
+                             />
+                    <Ellipse x:Name="Ellipse_2" 
+                             Width="19.875" Height="20" Canvas.Left="50.8508" Canvas.Top="0.166664" 
+                             Stretch="Fill" 
+                             Fill="{Binding Foreground, FallbackValue=#FF9ACD32, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}"
+                             />
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
     <!--#endregion-->
 
     <!--#region Valeurs de base-->
+
+    <Thickness x:Key="EpaisseurBordureContainer" 
+               Left="{StaticResource EpaisseurBordureContainerBase}" 
+               Top="{StaticResource EpaisseurBordureContainerBase}" 
+               Right="{StaticResource EpaisseurBordureContainerBase}" 
+               Bottom="{StaticResource EpaisseurBordureContainerBase}"/>
 
     <Thickness x:Key="DefaultMargin" Left="0" Top="0" Right="{StaticResource DefaultMarginBase}" Bottom="{StaticResource DefaultMarginBase}"/>
 
@@ -110,9 +141,12 @@
     <Color x:Key="CouleurActionRequise">#FCCD20</Color><!--Jaune-->
     <Color x:Key="CouleurActionRequise_Foncée">#D7AA03</Color><!--Jaune-->
 
-    <Color x:Key="CouleurCoutour">#FF3B658E</Color>
+    <Color x:Key="CouleurContourContainer">#FFFFFF98</Color>
 
-    <SolidColorBrush x:Key="Contour" Color="{StaticResource CouleurCoutour}"/>
+    <Color x:Key="SelectedItemBkgnd">Orange</Color><!--Bleu-->
+
+    <SolidColorBrush x:Key="ContourContainer" Color="{StaticResource CouleurContourContainer}"/>
+    <SolidColorBrush x:Key="Contour" Color="#66000000"/>
 
     <SolidColorBrush x:Key="Fond" Color="#FF515151"/>
 
@@ -125,8 +159,8 @@
     <Style TargetType="Border">
         <Setter Property="Padding" Value="{StaticResource DefaultPadding}"/>
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Contour}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ContourContainer}"/>
+        <Setter Property="BorderThickness" Value="{StaticResource EpaisseurBordureContainer}"/>
     </Style>
 
     <!--#region GrouBox-->
@@ -136,8 +170,8 @@
     <Style TargetType="{x:Type GroupBox}">
         <Setter Property="Padding" Value="{StaticResource DefaultPadding}"/>
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Contour}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ContourContainer}"/>
+        <Setter Property="BorderThickness" Value="{StaticResource EpaisseurBordureContainer}"/>
         <Setter Property="Foreground" Value="{DynamicResource ClearTextBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -186,8 +220,8 @@
     <Style TargetType="Expander">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="Padding" Value="5"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Contour}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ContourContainer}"/>
+        <Setter Property="BorderThickness" Value="{StaticResource EpaisseurBordureContainer}"/>
         <Setter Property="Foreground" Value="{DynamicResource ClearTextBrush}"/>
     </Style>
     <!--#endregion-->
@@ -416,6 +450,7 @@
     <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{StaticResource ClearTextBrush}"/>
         <Setter Property="Background" Value="{StaticResource WritableBkg}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="Background" Value="{DynamicResource WritableFocusBkgd}"/>
@@ -462,8 +497,8 @@
     <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da"/>
     <SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA"/>
     <SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA"/>
-    <SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3D26A0DA"/>
-    <SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA"/>
+    <SolidColorBrush x:Key="Item.SelectedActive.Background" Color="{StaticResource SelectedItemBkgnd}"/>
+    <SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#66000000"/>
 
     <!--#endregion-->
 
@@ -471,7 +506,7 @@
 
     <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
     <!--<SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>-->
-    <SolidColorBrush x:Key="ListBox.Static.Border" Color="{StaticResource CouleurCoutour}"/>
+    <SolidColorBrush x:Key="ListBox.Static.Border" Color="{StaticResource CouleurContourContainer}"/>
     <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
 
@@ -520,8 +555,6 @@
         <Setter Property="MinHeight" Value="50"/>
         <Setter Property="HorizontalGridLinesBrush" Value="#33FFFFFF"/>
         <Setter Property="VerticalGridLinesBrush" Value="#33FFFFFF"/>
-
-
         <Setter Property="Background" Value="{StaticResource WritableBkg}"/>
         <Setter Property="ColumnHeaderStyle" >
             <Setter.Value>
@@ -531,8 +564,8 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="RowBackground" Value="Transparent">
-        </Setter>
+        <Setter Property="RowBackground" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Contour}"/>
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="Background" Value="{DynamicResource WritableFocusBkgd}"/>
@@ -578,7 +611,7 @@
 
     <ControlTemplate x:Key="Template_BoutonRond" TargetType="{x:Type ButtonBase}">
         <Grid x:Name="Grd">
-            <Ellipse x:Name="Contour" 
+            <Ellipse x:Name="ContourContainer" 
                      Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness.Top}" 
                      Fill="{TemplateBinding Background}" 
                      Height="{Binding ActualHeight, ElementName=Grd}" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
@@ -588,29 +621,29 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="Button.IsDefaulted" Value="True">
-                <Setter Property="Stroke" TargetName="Contour" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Setter Property="Stroke" TargetName="ContourContainer" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Fill" TargetName="Contour" Value="#FFBEE6FD"/>
-                <Setter Property="Stroke" TargetName="Contour" Value="#FF3C7FB1"/>
+                <Setter Property="Fill" TargetName="ContourContainer" Value="#FFBEE6FD"/>
+                <Setter Property="Stroke" TargetName="ContourContainer" Value="#FF3C7FB1"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Fill" TargetName="Contour" Value="#FFC4E5F6"/>
-                <Setter Property="Stroke" TargetName="Contour" Value="#FF2C628B"/>
+                <Setter Property="Fill" TargetName="ContourContainer" Value="#FFC4E5F6"/>
+                <Setter Property="Stroke" TargetName="ContourContainer" Value="#FF2C628B"/>
             </Trigger>
-            <Trigger Property="ToggleButton.IsChecked" Value="True">
-                <Setter Property="Fill" TargetName="Contour" Value="#FFBCDDEE"/>
-                <Setter Property="Stroke" TargetName="Contour" Value="#FF245A83"/>
-            </Trigger>
+            <!--<Trigger Property="ToggleButton.IsChecked" Value="True">
+                <Setter Property="Fill" TargetName="ContourContainer" Value="#FFBCDDEE"/>
+                <Setter Property="Stroke" TargetName="ContourContainer" Value="#FF245A83"/>
+            </Trigger>-->
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Fill" TargetName="Contour" Value="#4CFFFFFF"/>
-                <Setter Property="Stroke" TargetName="Contour" Value="#FFADB2B5"/>
+                <Setter Property="Fill" TargetName="ContourContainer" Value="#4CFFFFFF"/>
+                <Setter Property="Stroke" TargetName="ContourContainer" Value="#FFADB2B5"/>
                 <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="ButtonStyle" TargetType="{x:Type ButtonBase}">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
@@ -650,10 +683,10 @@
                 <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
                 <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
             </Trigger>
-            <Trigger Property="ToggleButton.IsChecked" Value="True">
+            <!--<Trigger Property="ToggleButton.IsChecked" Value="True">
                 <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
                 <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
-            </Trigger>
+            </Trigger>-->
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" TargetName="border" Value="#4CFFFFFF"/>
                 <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
@@ -682,9 +715,10 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="Padding" Value="1"/>
+        <!--<Setter Property="Foreground" Value="Orange"/>-->
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template" Value="{StaticResource Template_BoutonRond}"/>
         <Style.Triggers>
@@ -698,6 +732,11 @@
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Foreground" Value="Orange"/>
+                <Setter Property="Background" >
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource CouleurActionPossible_Foncée}"/>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="#FF838383"/>
@@ -739,7 +778,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="Height" Value="2"/>
-        <Setter Property="Margin" Value="0,1,0,-1"/>
+        <Setter Property="Margin" Value="0,4,0,-4"/>
     </Style>
 
     <Style TargetType="GridSplitter" BasedOn="{StaticResource HorizontalGridSplitter}"/>

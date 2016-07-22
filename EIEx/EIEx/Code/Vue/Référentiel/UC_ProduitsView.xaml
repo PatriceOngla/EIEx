@@ -86,7 +86,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <ScrollViewer x:Name="SV_Detail" Grid.Row="1" >
+        <ScrollViewer x:Name="SV_Detail" Grid.Row="1" Margin="10,10,5,5">
             <Grid x:Name="Grd_Detail">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100"/>

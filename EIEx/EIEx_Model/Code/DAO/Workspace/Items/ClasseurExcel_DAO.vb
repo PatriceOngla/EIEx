@@ -18,6 +18,7 @@ Public Class ClasseurExcel_DAO
 
         Dim SBordereaux = From b In C.Bordereaux Select New Bordereau_DAO(b)
         Me.Bordereaux = New List(Of Bordereau_DAO)(SBordereaux)
+        Me.MêmeStructurePourTousLesBordereaux = C.MêmeStructurePourTousLesBordereaux
 
     End Sub
 
@@ -42,6 +43,8 @@ Public Class ClasseurExcel_DAO
 
     Public Property Bordereaux() As List(Of Bordereau_DAO)
 
+    Public Property MêmeStructurePourTousLesBordereaux As Boolean
+
 #End Region
 
 #End Region
@@ -51,6 +54,8 @@ Public Class ClasseurExcel_DAO
     Protected Overrides Function UnSerialized_Ex() As ClasseurExcel
 
         Dim r = New ClasseurExcel(Me.CheminFichier)
+
+        r.MêmeStructurePourTousLesBordereaux = Me.MêmeStructurePourTousLesBordereaux
 
         Dim Bdx = (From b In Me.Bordereaux Select NewBordereau(r, b))
         r.Bordereaux.AddRange(Bdx)

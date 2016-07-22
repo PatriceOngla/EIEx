@@ -1,4 +1,5 @@
-﻿Imports Model
+﻿Imports System.Windows.Input
+Imports Model
 
 Public Class UC_RéférentielView
 
@@ -18,6 +19,20 @@ Public Class UC_RéférentielView
         End Get
     End Property
 #End Region
+
+#End Region
+
+#Region "Méthodes"
+
+    Private Sub UC_EtudesView_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        If e.Key = Key.S AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
+            Try
+                EIExData.EnregistrerLeRéférentiel()
+            Catch ex As Exception
+                ManageErreur(ex, "Echec de l'enregistrement du référentiel.")
+            End Try
+        End If
+    End Sub
 
 #End Region
 

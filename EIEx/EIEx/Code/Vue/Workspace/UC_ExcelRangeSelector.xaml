@@ -5,19 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EIEx"
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="300">
+             d:DesignHeight="25" d:DesignWidth="300" Background="{x:Null}">
     <UserControl.Resources>
-        <RelativeSource x:Key="ThisControl" 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx;component/Code/Dico.xaml"  />
+            </ResourceDictionary.MergedDictionaries>
+            <RelativeSource x:Key="ThisControl" 
                         Mode="FindAncestor" 
                         AncestorType="{x:Type local:UC_ExcelRangeSelector}"
                         AncestorLevel="1"/>
-        
+        </ResourceDictionary>
     </UserControl.Resources>
+    
     <Grid>
         <DockPanel>
-            <ToggleButton Content="..." DockPanel.Dock="Right" 
-                          IsChecked="{Binding RelativeSource={StaticResource ThisControl}, FallbackValue= False, Path=EstActif}"/>
-            <TextBox Text="{Binding RelativeSource={StaticResource ThisControl}, FallbackValue= ExcelRange, Path=XLRange}"/>
+            <ToggleButton ContentTemplate="{StaticResource ASuivre}" DockPanel.Dock="Right" 
+                          IsChecked="{Binding RelativeSource={StaticResource ThisControl}, FallbackValue= true, Path=EstActif}" 
+                          Margin="0"
+                          ToolTip="Cliquer pour activer la capture de plage (ne fonctionne que si le classeur courant est celui du bordereau"/>
+            <TextBox Text="{Binding RelativeSource={StaticResource ThisControl}, FallbackValue= ExcelRange, Path=XLRange}" Margin="0,0,5,0"/>
         </DockPanel>
     </Grid>
 </UserControl>

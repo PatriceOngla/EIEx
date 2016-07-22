@@ -35,6 +35,8 @@ Public Class ThisAddIn
         End Try
     End Sub
 
+#Region "Centralisation de la gestion des erreurs du modèle"
+
     Private Sub DémarrerGestionGlobaleDesException()
         'AddHandler AppDomain.CurrentDomain.UnhandledException, Sub(sender As Object, args As UnhandledExceptionEventArgs)
         '                                                           ManageErreur(args.ExceptionObject, "", True)
@@ -43,9 +45,12 @@ Public Class ThisAddIn
                                                 TraiterLesExceptionsDesSysèmes(e, S, Attendue)
                                             End Sub
     End Sub
+
     Private Sub TraiterLesExceptionsDesSysèmes(e As Exception, S As Système, Attendue As Boolean)
         ManageErreur(e, $"Erreur dans ""{S.Nom}"".", AffichageSimple:=Attendue)
     End Sub
+
+#End Region
 
 #End Region
 

@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.Office.Tools
 Imports Microsoft.Office.Tools.Ribbon
 Imports Microsoft.Office.Interop
+Imports Model
 
 Public Class EIExRibbon
 
@@ -25,6 +26,23 @@ Public Class EIExRibbon
     End Property
 #End Region
 
+#Region "UC_EIEx_Manager_UI (shared)"
+    Private _UC_EIEx_Manager_UI As UC_EIEx_Manager_UI
+    Public ReadOnly Property UC_EIEx_Manager_UI() As UC_EIEx_Manager_UI
+        Get
+            Return _UC_EIEx_Manager_UI
+        End Get
+    End Property
+#End Region
+
+#Region "EtudeCourante"
+    Public ReadOnly Property EtudeCourante() As Etude
+        Get
+            Return UC_EIEx_Manager_UI?.EtudeCourante
+        End Get
+    End Property
+#End Region
+
 #End Region
 
 #Region "Méthodes"
@@ -32,7 +50,6 @@ Public Class EIExRibbon
     'Private Sub EIExRibbon_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
     '    HideOrShowAndAttachPanel(True)
     'End Sub
-
 #Region "Gestion du panel"
 
     Private Shared Sub Application_SheetActivate(Sh As Object) Handles _XL.SheetActivate
@@ -63,11 +80,10 @@ Public Class EIExRibbon
         If ExcelEventManager.TargetWindow Is Nothing Then
             MsgBox("Aucune fenêtre active.")
         Else
-
-
             If EIExTaskPane Is Nothing Then
                 Dim c = New UC_Container()
                 EIExTaskPane = EIExAddin.CustomTaskPanes.Add(c, "EIEx", ExcelEventManager.TargetWindow)
+                _UC_EIEx_Manager_UI = c.EIEx_Manager_UI
             End If
             EIExTaskPane.Visible = show
             EIExTaskPane.Width = 800
@@ -132,9 +148,19 @@ Public Class EIExRibbon
     End Sub
 
 #End Region
+
     Private Sub Btn_ChargerDepuisExcel_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_ImporterProduitsDepuisExcel.Click
         ImporterProduitsDepuisExcel()
     End Sub
+
+    Private Sub Btn_InitialiserLesClasseursExcelDeLEtudeCourante_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_InitialiserLesClasseursExcelDeLEtudeCourante.Click
+        Me.UC_EIEx_Manager_UI.UC_Etude.InitialiserLesClasseursExcelDeLEtudeCopurante()
+    End Sub
+
+    Private Sub Btn_ChargerLesClasseursExcelDeLEtudeCourante_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_ChargerLesClasseursExcelDeLEtudeCourante.Click
+        Me.UC_EIEx_Manager_UI.UC_Etude.ChargerLesClasseursExcelDeLEtudeCopurante()
+    End Sub
+
 
 #End Region
 

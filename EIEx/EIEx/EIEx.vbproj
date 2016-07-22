@@ -268,8 +268,8 @@
     <Compile Include="Code\Divers\UC_Container.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Code\Vue\UC_EIX_UI.xaml.vb">
-      <DependentUpon>UC_EIX_UI.xaml</DependentUpon>
+    <Compile Include="Code\Vue\UC_EIEx_Manager_UI.xaml.vb">
+      <DependentUpon>UC_EIEx_Manager_UI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\Vue\Workspace\UC_EtudesView.xaml.vb">
       <DependentUpon>UC_EtudesView.xaml</DependentUpon>
@@ -279,6 +279,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Code\Divers\UC_Container.resx">
       <DependentUpon>UC_Container.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="EIEx_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -347,7 +348,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Code\Vue\UC_EIX_UI.xaml">
+    <Page Include="Code\Vue\UC_EIEx_Manager_UI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

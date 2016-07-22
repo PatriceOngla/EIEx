@@ -26,7 +26,6 @@
 
         <DockPanel x:Name="SP_Titre" >
             <Label Content="Etude courante : " />
-            <Button x:Name="Btn_ChangerDetude" DockPanel.Dock="Right" Content="Changer d'étude"/>
             <TextBlock Text="{Binding ElementName=DG_Master, Path=SelectedItem.Nom, FallbackValue=NomEtudeCourante}" FontSize="24"/>
         </DockPanel>
 
@@ -84,7 +83,7 @@
                                   ItemsSource="{Binding}" AutoGenerateColumns="False" 
                                   IsSynchronizedWithCurrentItem="True"
                                   SelectedItem="{Binding ElementName=UC_EtudesView, Path=ClasseurExcelCourant, Mode=TwoWay}"
-                                  Height="80">
+                                  Height="60">
 
                             <DataGrid.Columns>
 
@@ -113,7 +112,7 @@
                         </DataGrid>
 
                         <ScrollViewer x:Name="SV_ClasseurExcelDetail" Grid.Row="1"
-                                  Margin="10,0,5,5"
+                                  Margin="10,10,5,5"
                                       VerticalScrollBarVisibility="Auto">
                             <Grid x:Name="Grd_DetailClasseurExcel">
 
@@ -124,8 +123,12 @@
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
+                                    <!--Nom-->
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
+                                    <!--CheminFichier-->
+                                    <RowDefinition Height="Auto"/>
+                                    <!--MêmeStructurePourTousLesBordereaux-->
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
@@ -136,13 +139,20 @@
                                 <!--CheminFichier-->
                                 <Label Grid.Row="1" Content="Chemin du fichier : " />
                                 <DockPanel x:Name="SP_CheminFichier" Grid.Row="1"  Grid.Column="1" Width="{Binding ElementName=TBx_NomClasseur, Path=ActualWidth}">
-                                    <Button x:Name="Btn_SélectionnerFicher" DockPanel.Dock="Right" Content="..." />
+                                    <Button x:Name="Btn_SélectionnerFicher" Height="20" DockPanel.Dock="Right" ContentTemplate="{StaticResource ASuivre}" />
                                     <TextBox Text="{Binding CheminFichier, FallbackValue=CheminFichier}" />
                                 </DockPanel>
 
+                                <!--MêmeStructurePourTousLesBordereaux-->
+                                <Label Grid.Row="2" Content="Même structure pour tous : " />
+                                <CheckBox x:Name="CBx_MêmeStructurePourTousLesBordereaux" Grid.Row="2" Grid.Column="1" 
+                                          ToolTip="Tous les bordereaux patagent la même structure"
+                                          IsChecked="{Binding MêmeStructurePourTousLesBordereaux}"/>
+
                                 <!--Bordereaux-->
-                                <GroupBox x:Name="Gbx_Bordereaux" Grid.Row="2" Grid.ColumnSpan="2"
-                                      Header="Bordereaux" DataContext="{Binding ElementName=DG_ClasseursExcel, Path=SelectedItem.Bordereaux}">
+                                <Expander x:Name="Gbx_Bordereaux" Grid.Row="3" Grid.ColumnSpan="2"
+                                          Header="Bordereaux" IsExpanded="False" 
+                                          DataContext="{Binding ElementName=DG_ClasseursExcel, Path=SelectedItem.Bordereaux}">
                                     <Grid x:Name="Grd_Bordereau">
 
                                         <Grid.RowDefinitions>
@@ -228,27 +238,17 @@
                                         <local:UC_CommandesCRUD x:Name="UC_CRUD_Bordereaux" Grid.Row="2"/>
                                     </Grid>
 
-                                </GroupBox>
+                                </Expander>
 
                                 <!--Commentaires-->
-                                <Label Grid.Row="3" Content="Commentaires : " />
-                                <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+                                <Label Grid.Row="4" Content="Commentaires : " />
+                                <TextBox Grid.Row="4"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}"/>
 
                             </Grid>
 
                         </ScrollViewer>
 
-                        <Grid x:Name="Grd_Cmdes_Classeurs" Grid.Row="2" >
-                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Button x:Name="Btn_InitClasseursExcel" 
-                                        Style="{StaticResource ButtonStyle}" 
-                                        Content="Initialiser les classeurs" VerticalAlignment="Center" Margin="4,-5,5,5" />
-                                <Button x:Name="Btn_ChargerLesClasseursExcel"  
-                                        Style="{StaticResource ButtonStyle}" 
-                                        Content="Ouvrir les classeurs" VerticalAlignment="Center" Margin="0,-5,5,5"/>
-                            </StackPanel>
-                        </Grid>
+                        <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" Grid.Row="2"/>
 
                         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" />
 
@@ -259,12 +259,11 @@
             </GroupBox>
 
             <!--Commentaires-->
-            <Label Grid.Row="2" Content="Commentaires : "  />
-            <TextBox Grid.Row="2"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+            <Label Grid.Row="2" Content="Commentaires : " Margin="0,10,5,5" />
+            <TextBox Grid.Row="2"  Grid.Column="1" Margin="0,10,5,5" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
 
             <!--GridSplitter-->
             <GridSplitter Grid.ColumnSpan="2" Grid.Row="1" />
-
 
         </Grid>
         <!--</ScrollViewer>-->

@@ -47,12 +47,12 @@ Friend Class ExcelEventManager
 
 #Region "UCSC"
 
-    Private Shared _UCSC As UC_SubContainer
-    Public Shared Property UCSC() As UC_SubContainer
+    Private Shared _UCSC As UC_EIEx_Manager_UI
+    Public Shared Property UCSC() As UC_EIEx_Manager_UI
         Get
             Return _UCSC
         End Get
-        Set(ByVal value As UC_SubContainer)
+        Set(ByVal value As UC_EIEx_Manager_UI)
             _UCSC = value
         End Set
     End Property

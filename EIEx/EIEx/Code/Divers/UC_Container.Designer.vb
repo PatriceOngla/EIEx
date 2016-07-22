@@ -23,7 +23,7 @@ Partial Class UC_Container
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.WPFHost = New System.Windows.Forms.Integration.ElementHost()
-        Me.UC_SubContainer1 = New EIEx.UC_SubContainer()
+        Me.EIEx_Manager_UI = New EIEx.UC_EIEx_Manager_UI()
         Me.SuspendLayout()
         '
         'WPFHost
@@ -36,7 +36,7 @@ Partial Class UC_Container
         Me.WPFHost.Size = New System.Drawing.Size(600, 600)
         Me.WPFHost.TabIndex = 0
         Me.WPFHost.Text = "ElementHost1"
-        Me.WPFHost.Child = Me.UC_SubContainer1
+        Me.WPFHost.Child = Me.EIEx_Manager_UI
         '
         'UC_Container
         '
@@ -51,5 +51,5 @@ Partial Class UC_Container
     End Sub
 
     Friend WithEvents WPFHost As Windows.Forms.Integration.ElementHost
-    Friend UC_SubContainer1 As UC_SubContainer
+    Friend EIEx_Manager_UI As UC_EIEx_Manager_UI
 End Class
