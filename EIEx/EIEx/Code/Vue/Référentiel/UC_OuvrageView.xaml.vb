@@ -3,11 +3,11 @@ Imports System.Windows.Controls
 Imports Model
 Imports Utils
 
-Public Class UC_PatronsDOuvrageView
+Public Class UC_OuvragesView
 
 #Region "Constructeurs"
 
-    Private Sub UC_PatronsDOuvrageView_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+    Private Sub UC_OuvragesView_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
 
         With UC_CmdesCRUD_Ouvrages
 
@@ -18,7 +18,7 @@ Public Class UC_PatronsDOuvrageView
             .AssociatedSelector = Me.DG_Master
 
             '.SuppressionAConfirmer = Function(p As Produit)
-            '                             Dim r = (From ro In Ref.PatronsDOuvrage
+            '                             Dim r = (From ro In Ref.Ouvrages
             '                                      Where ro.UtiliseProduit(p)).Any
             '                             Return r
             '                         End Function
@@ -57,7 +57,7 @@ Public Class UC_PatronsDOuvrageView
 #Region "OuvrageCourant (Ouvrage)"
 
     Public Shared ReadOnly OuvrageCourantProperty As DependencyProperty =
-            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage), GetType(UC_PatronsDOuvrageView), New UIPropertyMetadata(Nothing))
+            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing))
 
     Public Property OuvrageCourant As Ouvrage
         Get

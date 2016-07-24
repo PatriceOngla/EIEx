@@ -22,8 +22,8 @@ Public Class Référentiel_DAO
         Dim FamillesDeProduit_DAO = From f In R.FamillesDeProduit Select New FamilleDeProduit_DAO(f)
         Me.FamillesDeProduit = New List(Of FamilleDeProduit_DAO)(FamillesDeProduit_DAO)
 
-        Dim PatronsDOuvrage_DAO = From ro In R.Ouvrage Select New Ouvrage_DAO(ro)
-        Me.PatronsDOuvrage = New List(Of Ouvrage_DAO)(PatronsDOuvrage_DAO)
+        Dim Ouvrages_DAO = From ro In R.Ouvrage Select New Ouvrage_DAO(ro)
+        Me.Ouvrages = New List(Of Ouvrage_DAO)(Ouvrages_DAO)
 
     End Sub
 
@@ -47,7 +47,7 @@ Public Class Référentiel_DAO
 
     Public Property FamillesDeProduit() As List(Of FamilleDeProduit_DAO)
 
-    Public Property PatronsDOuvrage() As List(Of Ouvrage_DAO)
+    Public Property Ouvrages() As List(Of Ouvrage_DAO)
 
 #End Region
 
@@ -68,9 +68,9 @@ Public Class Référentiel_DAO
                                  Dim NewProduit = p.UnSerialized()
                              End Sub)
 
-        Me.PatronsDOuvrage.DoForAll(Sub(ro)
-                                        Dim NewOuvrage = ro.UnSerialized()
-                                    End Sub)
+        Me.Ouvrages.DoForAll(Sub(ro)
+                                 Dim NewOuvrage = ro.UnSerialized()
+                             End Sub)
 
 
     End Sub

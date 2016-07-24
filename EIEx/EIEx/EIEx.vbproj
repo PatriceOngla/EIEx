@@ -249,8 +249,8 @@
     <Compile Include="Code\Vue\Référentiel\UC_FamillesProduitView.xaml.vb">
       <DependentUpon>UC_FamillesProduitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Code\Vue\Référentiel\UC_PatronsDOuvrageView.xaml.vb">
-      <DependentUpon>UC_PatronsDOuvrageView.xaml</DependentUpon>
+    <Compile Include="Code\Vue\Référentiel\UC_OuvrageView.xaml.vb">
+      <DependentUpon>UC_OuvrageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\Vue\Référentiel\UC_ProduitsView.xaml.vb">
       <DependentUpon>UC_ProduitsView.xaml</DependentUpon>
@@ -324,7 +324,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Code\Vue\Référentiel\UC_PatronsDOuvrageView.xaml">
+    <Page Include="Code\Vue\Référentiel\UC_OuvrageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

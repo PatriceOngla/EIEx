@@ -115,7 +115,7 @@
       <Marge>10</Marge>
     </FamilleDeProduit_DAO>
   </FamillesDeProduit>
-  <PatronsDOuvrage>
+  <Ouvrages>
     <Ouvrage_DAO Nom="Ouvrage 1" Id="1">
       <Libellés>
         <string>Ouvrage 1</string>
@@ -391,5 +391,5 @@
       <TempsDePauseUnitaire>10</TempsDePauseUnitaire>
       <PrixUnitaire>10</PrixUnitaire>
     </Ouvrage_DAO>
-  </PatronsDOuvrage>
+  </Ouvrages>
 </Référentiel_DAO>

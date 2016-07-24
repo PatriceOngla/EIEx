@@ -24,7 +24,7 @@ Public Class UC_EtudesView
             .AssociatedSelector = Me.DG_Master
 
             '.SuppressionAConfirmer = Function(p As Produit)
-            '                             Dim r = (From ro In Ref.PatronsDOuvrage
+            '                             Dim r = (From ro In Ref.Ouvrages
             '                                      Where ro.UtiliseProduit(p)).Any
             '                             Return r
             '                         End Function

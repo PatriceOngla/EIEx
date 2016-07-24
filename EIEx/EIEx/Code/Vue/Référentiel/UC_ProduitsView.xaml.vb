@@ -73,14 +73,14 @@ Public Class UC_ProduitsView
     Private Sub UC_CmdesCRUD_DemandeSuppression() Handles UC_CmdesCRUD_Produits.DemandeSuppression
         Try
             Dim Produit = Me.DG_Master.SelectedItem
-            SupprimerLeProduitsDesPatronsDOuvragesAssociés(Produit)
+            SupprimerLeProduitsDesOuvragesAssociés(Produit)
             Ref.Produits.Remove(Produit)
         Catch ex As Exception
             ManageErreur(ex)
         End Try
     End Sub
 
-    Private Sub SupprimerLeProduitsDesPatronsDOuvragesAssociés(Pdt As Produit)
+    Private Sub SupprimerLeProduitsDesOuvragesAssociés(Pdt As Produit)
         Dim UsageAssociés = From po In Ref.Ouvrage From up In po.UsagesDeProduit Where up.Produit Is Pdt Select up
         Dim UPASupprimer = New List(Of UsageDeProduit)(UsageAssociés)
         UPASupprimer.DoForAll(Sub(up) up.Parent.UsagesDeProduit.Remove(up))
