@@ -43,6 +43,7 @@ Public Class UC_EIEx_Manager_UI
         End Get
     End Property
 #End Region
+
 #End Region
 
 #Region "Methods"

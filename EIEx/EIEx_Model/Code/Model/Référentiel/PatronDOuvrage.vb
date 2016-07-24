@@ -183,6 +183,7 @@ Public Class PatronDOuvrage
 
 #End Region
 
+
 #End Region
 
 #Region "Méthodes"

@@ -28,6 +28,7 @@ Public Class UC_RéférentielView
         If e.Key = Key.S AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
             Try
                 EIExData.EnregistrerLeRéférentiel()
+                XL.StatusBar = $"Référentiel {ThisAddIn.Nom} enregistré à {Now().ToLongTimeString()}."
             Catch ex As Exception
                 ManageErreur(ex, "Echec de l'enregistrement du référentiel.")
             End Try

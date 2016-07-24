@@ -128,13 +128,24 @@ Public Class UC_EtudesView
 
 #Region "Gestion des classeurs associés à l'étude"
 
+    Private Function CheckEtudeCourante() As Boolean
+        If WS.EtudeCourante Is Nothing Then
+            Message("Aucune étude n'est sélectionnée.")
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+
 #Region "InitialiserLesClasseursExcelDeLEtudeCopurante"
 
     Friend Sub InitialiserLesClasseursExcelDeLEtudeCopurante()
         Try
+
+            If Not CheckEtudeCourante() Then Exit Sub
+
             Dim NewC As ClasseurExcel
 
-            If Me.EtudeCourante Is Nothing Then Throw New Exception("Pas d'étude courante.")
             With Me.EtudeCourante
                 For Each wb As Excel.Workbook In XL.Workbooks
                     If Not ContientLeClasseur(wb.FullName) Then
@@ -185,6 +196,9 @@ Public Class UC_EtudesView
 
     Friend Sub ChargerLesClasseursExcelDeLEtudeCopurante()
         Try
+
+            If Not CheckEtudeCourante() Then Exit Sub
+
             With Me.EtudeCourante
                 For Each c In .ClasseursExcel
                     Try
@@ -289,6 +303,7 @@ Public Class UC_EtudesView
         If e.Key = Key.S AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
             Try
                 EIExData.EnregistrerLeWorkspace()
+                XL.StatusBar = $"Espace de travail {ThisAddIn.Nom} enregistré à {Now().ToLongTimeString()}."
             Catch ex As Exception
                 ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.")
             End Try
