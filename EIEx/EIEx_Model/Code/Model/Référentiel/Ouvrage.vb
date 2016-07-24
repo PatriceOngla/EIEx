@@ -24,6 +24,8 @@ Public Class Ouvrage
 
 #Region "Propriétés"
 
+#Region "Gestion des noms"
+
 #Region "Nom (String)"
     Private _Nom As String
     Public Overrides Property Nom() As String
@@ -79,6 +81,22 @@ Public Class Ouvrage
         If Not (String.IsNullOrEmpty(Me.Nom) OrElse Me.Libellés.Contains(Me.Nom)) Then Me.Libellés.Add(Me.Nom)
     End Sub
 
+#End Region
+
+#End Region
+
+#Region "EstModèle"
+    Private _EstModèle As Boolean
+    Public Property EstModèle() As Boolean
+        Get
+            Return _EstModèle
+        End Get
+        Set(ByVal value As Boolean)
+            If Object.Equals(value, Me._EstModèle) Then Exit Property
+            _EstModèle = value
+            NotifyPropertyChanged(NameOf(EstModèle))
+        End Set
+    End Property
 #End Region
 
 #Region "UsagesDeProduit "

@@ -10,21 +10,23 @@ Public Class Ouvrage_DAO
     Public Sub New()
     End Sub
 
-    Public Sub New(R As Ouvrage)
-        MyBase.New(R)
+    Public Sub New(O As Ouvrage)
+        MyBase.New(O)
 
-        Me.ComplémentDeNom = R.ComplémentDeNom
+        Me.ComplémentDeNom = O.ComplémentDeNom
 
-        Me.Libellés = New List(Of String)(R.Libellés)
+        Me.Libellés = New List(Of String)(O.Libellés)
 
-        Dim UsagesDeProduit_DAO = From up In R.UsagesDeProduit Select New UsageDeProduit_DAO(up)
+        Me.EstModèle = O.EstModèle
+
+        Dim UsagesDeProduit_DAO = From up In O.UsagesDeProduit Select New UsageDeProduit_DAO(up)
         Me.UsagesDeProduit = New List(Of UsageDeProduit_DAO)(UsagesDeProduit_DAO)
 
-        Me.MotsClés = New List(Of String)(R.MotsClés)
+        Me.MotsClés = New List(Of String)(O.MotsClés)
 
-        If R.TempsDePauseForcé Then Me.TempsDePauseUnitaire = R.TempsDePauseUnitaire
+        If O.TempsDePauseForcé Then Me.TempsDePauseUnitaire = O.TempsDePauseUnitaire
 
-        If R.PrixUnitaireForcé Then Me.PrixUnitaire = R.PrixUnitaire
+        If O.PrixUnitaireForcé Then Me.PrixUnitaire = O.PrixUnitaire
 
     End Sub
 
@@ -48,6 +50,8 @@ Public Class Ouvrage_DAO
 
     Public Property ComplémentDeNom() As String
 
+    Public Property EstModèle As Boolean
+
     Public Property UsagesDeProduit() As List(Of UsageDeProduit_DAO)
 
     Public Property MotsClés() As List(Of String)
@@ -65,6 +69,7 @@ Public Class Ouvrage_DAO
     Protected Overrides Function UnSerialized_Ex_Ex() As Ouvrage
         Dim r = Ref.GetNewOuvrage(Me.Id)
         r.ComplémentDeNom = Me.ComplémentDeNom
+        r.EstModèle = Me.EstModèle
         r = If(r, New Ouvrage(Me.Id))
         r.Libellés.AddRange(Me.Libellés)
         Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()
