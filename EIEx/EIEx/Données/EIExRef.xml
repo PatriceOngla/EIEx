@@ -116,7 +116,7 @@
     </FamilleDeProduit_DAO>
   </FamillesDeProduit>
   <PatronsDOuvrage>
-    <PatronDOuvrage_DAO Nom="Ouvrage 1" Id="1">
+    <Ouvrage_DAO Nom="Ouvrage 1" Id="1">
       <Libellés>
         <string>Ouvrage 1</string>
         <string>Libellé supplémentaire 1</string>
@@ -129,8 +129,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>1</TempsDePauseUnitaire>
       <PrixUnitaire>1</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 2" Id="2">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 2" Id="2">
       <Libellés>
         <string>Ouvrage 2</string>
         <string>Libellé supplémentaire 2</string>
@@ -146,8 +146,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>2</TempsDePauseUnitaire>
       <PrixUnitaire>2</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 3" Id="3">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 3" Id="3">
       <Libellés>
         <string>Ouvrage 3</string>
         <string>Libellé supplémentaire 3</string>
@@ -166,8 +166,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>3</TempsDePauseUnitaire>
       <PrixUnitaire>3</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 4" Id="4">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 4" Id="4">
       <Libellés>
         <string>Ouvrage 4</string>
         <string>Libellé supplémentaire 4</string>
@@ -189,8 +189,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>4</TempsDePauseUnitaire>
       <PrixUnitaire>4</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 5" Id="5">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 5" Id="5">
       <Libellés>
         <string>Ouvrage 5</string>
         <string>Libellé supplémentaire 5</string>
@@ -215,8 +215,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>5</TempsDePauseUnitaire>
       <PrixUnitaire>5</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 6" Id="6">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 6" Id="6">
       <Libellés>
         <string>Ouvrage 6</string>
         <string>Libellé supplémentaire 6</string>
@@ -244,8 +244,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>6</TempsDePauseUnitaire>
       <PrixUnitaire>6</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 7" Id="7">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 7" Id="7">
       <Libellés>
         <string>Ouvrage 7</string>
         <string>Libellé supplémentaire 7</string>
@@ -276,8 +276,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>7</TempsDePauseUnitaire>
       <PrixUnitaire>7</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 8" Id="8">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 8" Id="8">
       <Libellés>
         <string>Ouvrage 8</string>
         <string>Libellé supplémentaire 8</string>
@@ -311,8 +311,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>8</TempsDePauseUnitaire>
       <PrixUnitaire>8</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 9" Id="9">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 9" Id="9">
       <Libellés>
         <string>Ouvrage 9</string>
         <string>Libellé supplémentaire 9</string>
@@ -349,8 +349,8 @@
       <MotsClés />
       <TempsDePauseUnitaire>9</TempsDePauseUnitaire>
       <PrixUnitaire>9</PrixUnitaire>
-    </PatronDOuvrage_DAO>
-    <PatronDOuvrage_DAO Nom="Ouvrage 10" Id="10">
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 10" Id="10">
       <Libellés>
         <string>Ouvrage 10</string>
         <string>Libellé supplémentaire 10</string>
@@ -390,6 +390,6 @@
       <MotsClés />
       <TempsDePauseUnitaire>10</TempsDePauseUnitaire>
       <PrixUnitaire>10</PrixUnitaire>
-    </PatronDOuvrage_DAO>
+    </Ouvrage_DAO>
   </PatronsDOuvrage>
 </Référentiel_DAO>

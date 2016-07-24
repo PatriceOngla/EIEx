@@ -25,7 +25,7 @@ Imports Utils
         CopierLeFichier(EIExData.CheminRéférentiel)
 
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
-        Assert.IsTrue(Ref.PatronsDOuvrage.Count = NbObjets)
+        Assert.IsTrue(Ref.Ouvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
         Assert.IsTrue(IO.File.Exists(EIExData.CheminRéférentiel))
@@ -40,7 +40,7 @@ Imports Utils
 
         Assert.IsTrue(Ref IsNot Nothing)
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
-        Assert.IsTrue(Ref.PatronsDOuvrage.Count = NbObjets)
+        Assert.IsTrue(Ref.Ouvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
         EIExData.EnregistrerLeRéférentiel()
@@ -55,7 +55,7 @@ Imports Utils
             NewProduit(i)
         Next
         For i = 1 To 10
-            NewPatronDOuvrage(i)
+            NewOuvrage(i)
         Next
 
     End Sub
@@ -74,14 +74,14 @@ Imports Utils
         Return r
     End Function
 
-    Private Function NewPatronDOuvrage(i As Integer) As PatronDOuvrage
-        Dim r = Ref.GetNewPatronDOuvrage
+    Private Function NewOuvrage(i As Integer) As Ouvrage
+        Dim r = Ref.GetNewOuvrage
         r.Nom = "Ouvrage " & i : r.TempsDePauseUnitaire = i : r.PrixUnitaire = i : r.Libellés.Add("Libellé supplémentaire " & i)
         AjouterProduitsALouvrage(r, i)
         Return r
     End Function
 
-    Private Sub AjouterProduitsALouvrage(po As PatronDOuvrage, i As Integer)
+    Private Sub AjouterProduitsALouvrage(po As Ouvrage, i As Integer)
 
         For j = 1 To i
             Dim p = Ref.GetProduitById(j)

@@ -55,7 +55,7 @@
 
         <DataGrid x:Name="DG_Master" 
                   ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True"
-                  SelectedItem="{Binding ElementName=UC_PatronsDOuvrageView, Path=PatronDOuvrageCourant, Mode=TwoWay}">
+                  SelectedItem="{Binding ElementName=UC_PatronsDOuvrageView, Path=OuvrageCourant, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="N°" Binding="{Binding Id}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />

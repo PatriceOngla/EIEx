@@ -16,7 +16,7 @@ Public Class UC_ProduitsView
             .AssociatedSelector = Me.DG_Master
 
             .SuppressionAConfirmer = Function(p As Produit)
-                                         Dim r = (From ro In Ref.PatronsDOuvrage
+                                         Dim r = (From ro In Ref.Ouvrage
                                                   Where ro.UtiliseProduit(p)).Any
                                          Return r
                                      End Function
@@ -81,7 +81,7 @@ Public Class UC_ProduitsView
     End Sub
 
     Private Sub SupprimerLeProduitsDesPatronsDOuvragesAssociés(Pdt As Produit)
-        Dim UsageAssociés = From po In Ref.PatronsDOuvrage From up In po.UsagesDeProduit Where up.Produit Is Pdt Select up
+        Dim UsageAssociés = From po In Ref.Ouvrage From up In po.UsagesDeProduit Where up.Produit Is Pdt Select up
         Dim UPASupprimer = New List(Of UsageDeProduit)(UsageAssociés)
         UPASupprimer.DoForAll(Sub(up) up.Parent.UsagesDeProduit.Remove(up))
     End Sub

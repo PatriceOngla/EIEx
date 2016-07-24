@@ -66,7 +66,7 @@
     <Compile Include="Code\DAO\AgregateRoot_DAO.vb" />
     <Compile Include="Code\DAO\Référentiel\AgregateRoots\FamilleDeProduit_DAO.vb" />
     <Compile Include="Code\DAO\Référentiel\AgregateRoots\Produit_DAO.vb" />
-    <Compile Include="Code\DAO\Référentiel\AgregateRoots\PatronDOuvrage_DAO.vb" />
+    <Compile Include="Code\DAO\Référentiel\AgregateRoots\Ouvrage_DAO.vb" />
     <Compile Include="Code\DAO\Référentiel\Référentiel_DAO.vb" />
     <Compile Include="Code\DAO\Référentiel\UsageDeProduit_DAO.vb" />
     <Compile Include="Code\DAO\Système_DAO.vb" />
@@ -86,7 +86,7 @@
     <Compile Include="Code\Model\Référentiel\EntitéDuRéférentiel.vb" />
     <Compile Include="Code\Model\Référentiel\FamilleDeProduit.vb" />
     <Compile Include="Code\Model\Référentiel\Produit.vb" />
-    <Compile Include="Code\Model\Référentiel\PatronDOuvrage.vb" />
+    <Compile Include="Code\Model\Référentiel\Ouvrage.vb" />
     <Compile Include="Code\Model\Référentiel\Référentiel.vb" />
     <Compile Include="Code\Model\Référentiel\UsageDeProduit.vb" />
     <Compile Include="Code\Model\Système.vb" />

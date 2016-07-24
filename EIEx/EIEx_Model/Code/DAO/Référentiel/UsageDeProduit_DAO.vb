@@ -50,7 +50,7 @@ Public Class UsageDeProduit_DAO
 #Region "Méthodes"
 
     Protected Overrides Function UnSerialized_Ex() As UsageDeProduit
-        Dim Parent = If(Me.ParentId Is Nothing, Nothing, Ref.GetPatronDOuvrageById(Me.ParentId))
+        Dim Parent = If(Me.ParentId Is Nothing, Nothing, Ref.GetOuvrageById(Me.ParentId))
         Dim r As New UsageDeProduit(Parent)
         r.Produit = If(Me.ProduitId Is Nothing, Nothing, Ref.GetProduitById(Me.ProduitId))
         r.Nombre = Me.Nombre

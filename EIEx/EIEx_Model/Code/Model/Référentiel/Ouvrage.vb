@@ -3,10 +3,10 @@ Imports System.Collections.Specialized
 Imports Model
 
 ''' <summary>
-''' On distingue <see cref="PatronDOuvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="PatronDOuvrage"/> afin de calculer leur prix sur la base du <see cref="PatronDOuvrage.PrixUnitaire"/>. 
+''' On distingue <see cref="Ouvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="Ouvrage"/> afin de calculer leur prix sur la base du <see cref="Ouvrage.PrixUnitaire"/>. 
 ''' </summary>
-Public Class PatronDOuvrage
-    Inherits AgregateRootDuRéférentiel(Of PatronDOuvrage)
+Public Class Ouvrage
+    Inherits AgregateRootDuRéférentiel(Of Ouvrage)
 
 #Region "Constructeurs"
 
@@ -210,7 +210,7 @@ Public Class PatronDOuvrage
 
     End Sub
 
-    ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent le <see cref="PatronDOuvrage"/> courant.</summary>
+    ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent le <see cref="Ouvrage"/> courant.</summary>
     ''' <param name="UsagesDeProduitAjoutés"></param>
     Private Sub VerifierLesElémentsAjoutés(UsagesDeProduitAjoutés As IEnumerable(Of UsageDeProduit))
         Try
@@ -230,7 +230,7 @@ Public Class PatronDOuvrage
                     End If
                 Next
                 Dim Pluriel = NbErr > 1
-                Dim Msg = $"{NbErr} des '{NameOf(UsageDeProduit)}' ajouté{If(Pluriel, "s", "")} {If(Pluriel, "sont", "est")} déjà associé{If(Pluriel, "s", "")} à une autre '{NameOf(PatronDOuvrage)}'. Ce{If(Pluriel, "s", "t")} élément{If(Pluriel, "s", "")} {If(Pluriel, "n'ont", "n'a")} pas été ajouté{If(Pluriel, "s", "")}."
+                Dim Msg = $"{NbErr} des '{NameOf(UsageDeProduit)}' ajouté{If(Pluriel, "s", "")} {If(Pluriel, "sont", "est")} déjà associé{If(Pluriel, "s", "")} à une autre '{NameOf(Ouvrage)}'. Ce{If(Pluriel, "s", "t")} élément{If(Pluriel, "s", "")} {If(Pluriel, "n'ont", "n'a")} pas été ajouté{If(Pluriel, "s", "")}."
                 Throw New InvalidOperationException(Msg)
             End If
         Catch ex As Exception
