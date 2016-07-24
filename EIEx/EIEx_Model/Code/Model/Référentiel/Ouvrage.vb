@@ -1,12 +1,14 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
 Imports Model
+Imports Utils
 
 ''' <summary>
 ''' On distingue <see cref="Ouvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="Ouvrage"/> afin de calculer leur prix sur la base du <see cref="Ouvrage.PrixUnitaire"/>. 
 ''' </summary>
 Public Class Ouvrage
     Inherits AgregateRootDuRéférentiel(Of Ouvrage)
+    Implements ICloneable
 
 #Region "Constructeurs"
 
@@ -24,7 +26,7 @@ Public Class Ouvrage
 
 #Region "Propriétés"
 
-#Region "Gestion des noms"
+#Region "Gestion du nommage"
 
 #Region "Nom (String)"
     Private _Nom As String
@@ -39,7 +41,6 @@ Public Class Ouvrage
             If Not (Me.Libellés.Contains(value)) Then Me.Libellés.Add(value)
         End Set
     End Property
-
 #End Region
 
 #Region "ComplémentDeNom"
@@ -53,6 +54,15 @@ Public Class Ouvrage
             _ComplémentDeNom = value
             NotifyPropertyChanged(NameOf(ComplémentDeNom))
         End Set
+    End Property
+#End Region
+
+#Region "NomComplet"
+    ''' <summary>Le nom saisi + le complément de nom s'il y a en a un. </summary>
+    Public ReadOnly Property NomComplet() As String
+        Get
+            Return Me.Nom & If(String.IsNullOrEmpty(ComplémentDeNom), "", " - " & ComplémentDeNom)
+        End Get
     End Property
 #End Region
 
@@ -269,6 +279,22 @@ Public Class Ouvrage
         Return r
     End Function
 #End Region
+
+    Public Function Clone() As Object Implements ICloneable.Clone
+        Return Me.Copie
+    End Function
+
+    Public Function Copie() As Ouvrage
+        Dim r = Ref.GetNewOuvrage()
+        r.Nom = Me.Nom
+        r.ComplémentDeNom = "?"
+        r.Libellés.AddRange(Me.Libellés)
+        r.MotsClés.AddRange(Me.MotsClés)
+        If Me.PrixUnitaireForcé Then r.PrixUnitaire = Me.PrixUnitaire
+        If Me.TempsDePauseForcé Then r.TempsDePauseUnitaire = Me.TempsDePauseUnitaire
+
+        Return r
+    End Function
 
 #End Region
 
