@@ -280,6 +280,8 @@ Public Class Ouvrage
     End Function
 #End Region
 
+#Region "Gestion du templating"
+
     Public Function Clone() As Object Implements ICloneable.Clone
         Return Me.Copie
     End Function
@@ -298,6 +300,8 @@ Public Class Ouvrage
                                     End Sub)
         Return r
     End Function
+
+#End Region
 
 #End Region
 
