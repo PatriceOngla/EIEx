@@ -286,13 +286,16 @@ Public Class Ouvrage
 
     Public Function Copie() As Ouvrage
         Dim r = Ref.GetNewOuvrage()
-        r.Nom = Me.Nom
+        r.Nom = Me.NomComplet
         r.ComplémentDeNom = "?"
         r.Libellés.AddRange(Me.Libellés)
         r.MotsClés.AddRange(Me.MotsClés)
         If Me.PrixUnitaireForcé Then r.PrixUnitaire = Me.PrixUnitaire
         If Me.TempsDePauseForcé Then r.TempsDePauseUnitaire = Me.TempsDePauseUnitaire
 
+        Me.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit)
+                                        r.AjouterProduit(up.Produit, up.Nombre)
+                                    End Sub)
         Return r
     End Function
 
