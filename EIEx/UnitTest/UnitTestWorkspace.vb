@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
+Imports EIEx_DAO
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports Model
 Imports Utils
@@ -23,12 +24,12 @@ Imports Utils
 
         PeuplerWorkspace(NbObjets)
 
-        EIExData.EnregistrerLeWorkspace()
-        CopierLeFichier(EIExData.CheminWorkspace)
+        PersistancyManager.EnregistrerLeWorkspace()
+        CopierLeFichier(PersistancyManager.CheminWorkspace)
 
         Assert.IsTrue(WS.Etudes.Count = NbObjets)
 
-        Assert.IsTrue(IO.File.Exists(EIExData.CheminWorkspace))
+        Assert.IsTrue(IO.File.Exists(PersistancyManager.CheminWorkspace))
 
         Assert.IsTrue(WS IsNot Nothing)
 
@@ -36,12 +37,12 @@ Imports Utils
 
         Assert.IsTrue(WS.EstVide())
 
-        EIExData.ChargerLeWorkspace()
+        PersistancyManager.ChargerLeWorkspace()
 
         Assert.IsTrue(WS IsNot Nothing)
         Assert.IsTrue(WS.Etudes.Count = NbObjets)
 
-        EIExData.EnregistrerLeWorkspace()
+        PersistancyManager.EnregistrerLeWorkspace()
 
     End Sub
 

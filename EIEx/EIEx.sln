@@ -11,6 +11,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Utils", "Utils\Utils.vbproj
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UnitTest", "UnitTest\UnitTest.vbproj", "{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EIEx_DAO", "EIEx_DAO\EIEx_DAO.vbproj", "{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{994C9CA2-56D4-467F-B36F-7B1235CEAE2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

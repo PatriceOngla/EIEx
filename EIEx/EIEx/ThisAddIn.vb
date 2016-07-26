@@ -1,4 +1,5 @@
 ﻿Imports System.Windows
+Imports EIEx_DAO
 Imports Model
 
 Public Class ThisAddIn
@@ -74,8 +75,8 @@ Public Class ThisAddIn
 
     Public Sub ChargerLesDonnées()
         Try
-            EIExData.ChargerLeWorkspace()
-            EIExData.ChargerLeRéférentiel()
+            PersistancyManager.ChargerLeWorkspace()
+            PersistancyManager.ChargerLeRéférentiel()
 #If DEBUG Then
             Test()
 #End If
@@ -87,8 +88,8 @@ Public Class ThisAddIn
 
     Public Sub EnregistrerLesDonnées()
         Try
-            EIExData.EnregistrerLeWorkspace()
-            EIExData.EnregistrerLeRéférentiel()
+            PersistancyManager.EnregistrerLeWorkspace()
+            PersistancyManager.EnregistrerLeRéférentiel()
         Catch ex As Exception
             ManageErreur(ex, $"Echec de l'enregistrement des données. Attention, votre travail risque d'être perdu à l'arrêt d'Excel.")
         End Try

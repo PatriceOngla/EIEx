@@ -96,16 +96,20 @@ Public Class Ouvrage
 #End Region
 
 #Region "EstModèle"
-    Private _EstModèle As Boolean
-    Public Property EstModèle() As Boolean
+    ''' <summary>Un <see cref="Ouvrage"/> est un modèle si est seulement si il n'est pas associé à un <see cref="Bordereau"/>.</summary>
+    Public ReadOnly Property EstModèle() As Boolean
         Get
-            Return _EstModèle
+            Return Me.Bordereau Is Nothing
         End Get
-        Set(ByVal value As Boolean)
-            If Object.Equals(value, Me._EstModèle) Then Exit Property
-            _EstModèle = value
-            NotifyPropertyChanged(NameOf(EstModèle))
-        End Set
+    End Property
+#End Region
+
+#Region "Bordereau"
+    Private _Bordereau As Bordereau
+    Public ReadOnly Property Bordereau() As Bordereau
+        Get
+            Return _Bordereau
+        End Get
     End Property
 #End Region
 

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E479322-7D9F-48FD-8DFF-F452317662BE}</ProjectGuid>
+    <ProjectGuid>{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Model</RootNamespace>
-    <AssemblyName>EIEx_Model</AssemblyName>
+    <RootNamespace>EIEx_DAO</RootNamespace>
+    <AssemblyName>EIEx_DAO</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>EIEx_Model.xml</DocumentationFile>
+    <DocumentationFile>EIEx_DAO.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -27,7 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>EIEx_Model.xml</DocumentationFile>
+    <DocumentationFile>EIEx_DAO.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Model" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -63,24 +64,21 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\Workspace\Bordereau.vb" />
-    <Compile Include="Code\Workspace\EntitéDuWorkSpace.vb" />
-    <Compile Include="Code\Workspace\ClasseurExcel.vb" />
-    <Compile Include="Code\Workspace\Etude.vb" />
-    <Compile Include="Code\Workspace\WorkSpace.vb" />
-    <Compile Include="Code\Référentiel\AgregateRootDuRéférentiel.vb" />
-    <Compile Include="Code\Référentiel\EntitéDuRéférentiel.vb" />
-    <Compile Include="Code\Référentiel\FamilleDeProduit.vb" />
-    <Compile Include="Code\Référentiel\Produit.vb" />
-    <Compile Include="Code\Référentiel\Ouvrage.vb" />
-    <Compile Include="Code\Référentiel\Référentiel.vb" />
-    <Compile Include="Code\Référentiel\UsageDeProduit.vb" />
-    <Compile Include="Code\Système.vb" />
-    <Compile Include="Code\EIExObject.vb" />
-    <Compile Include="Code\AgregateRoot.vb" />
-    <Compile Include="Code\Entité.vb" />
-    <Compile Include="Code\Test et debug\Class1.vb" />
-    <Compile Include="Code\Interfaces\ISystèmeDAO.vb" />
+    <Compile Include="Code\AgregateRoot_DAO.vb" />
+    <Compile Include="Code\PersistancyManager.vb" />
+    <Compile Include="Code\EIExObject_DAO.vb" />
+    <Compile Include="Code\Référentiel\AgregateRoots\FamilleDeProduit_DAO.vb" />
+    <Compile Include="Code\Référentiel\AgregateRoots\Ouvrage_DAO.vb" />
+    <Compile Include="Code\Référentiel\AgregateRoots\Produit_DAO.vb" />
+    <Compile Include="Code\Référentiel\Référentiel_DAO.vb" />
+    <Compile Include="Code\Référentiel\UsageDeProduit_DAO.vb" />
+    <Compile Include="Code\SystèmeItems_DAO.vb" />
+    <Compile Include="Code\Système_DAO.vb" />
+    <Compile Include="Code\Workspace\Items\AgregateRoots\Etude_DAO.vb" />
+    <Compile Include="Code\Workspace\Items\Bordereau_DAO.vb" />
+    <Compile Include="Code\Workspace\Items\ClasseurExcel_DAO.vb" />
+    <Compile Include="Code\Workspace\Items\Paramètres_DAO.vb" />
+    <Compile Include="Code\Workspace\Workspace_DAO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -96,7 +94,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Code\Workspace\Paramètres.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -118,6 +115,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EIEx_Model\EIEx_Model.vbproj">
+      <Project>{2e479322-7d9f-48fd-8dff-f452317662be}</Project>
+      <Name>EIEx_Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.vbproj">
       <Project>{dd23da99-ca52-4876-a3b7-4b154e5b981f}</Project>
       <Name>Utils</Name>

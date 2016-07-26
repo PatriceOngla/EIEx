@@ -10,12 +10,19 @@
 #End Region
 
 #Region "HoroDateDeCréation"
-    Friend _HoroDateDeCréation As Date
+    Protected _HoroDateDeCréation As Date
     Public ReadOnly Property HoroDateDeCréation() As Date
         Get
             Return _HoroDateDeCréation
         End Get
     End Property
+
+    ''' <summary>Nécessaire uniquement en désérialisation.</summary>
+    <ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)>
+    Public Sub ForcerHoroDateDeCréation(value As Date)
+        _HoroDateDeCréation = value
+    End Sub
+
 #End Region
 
 End Class

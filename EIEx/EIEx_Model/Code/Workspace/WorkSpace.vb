@@ -119,17 +119,17 @@ Public Class WorkSpace
 
 #Region "Méthodes"
 
-#Region "Persistance"
+    '#Region "Persistance"
 
-    Public Overrides Sub Charger(Chemin As String)
-        If IO.File.Exists(Chemin) Then
-            Dim WS_DAO As Workspace_DAO
-            WS_DAO = Utils.DéSérialisation(Of Workspace_DAO)(Chemin)
-            WS_DAO.UnSerialize(Me)
-        End If
-    End Sub
+    '    Public Overrides Sub Charger(Chemin As String)
+    '        If IO.File.Exists(Chemin) Then
+    '            Dim WS_DAO As Workspace_DAO
+    '            WS_DAO = Utils.DéSérialisation(Of Workspace_DAO)(Chemin)
+    '            WS_DAO.UnSerialize(Me)
+    '        End If
+    '    End Sub
 
-#End Region
+    '#End Region
 
 #Region "Plomberie"
 

@@ -38,15 +38,17 @@ Public Class FamilleDeProduit_DAO
 
 #Region "Méthodes"
 
-    Protected Overrides Function UnSerialized_Ex_Ex() As FamilleDeProduit
-        Dim r = Ref.GetNewFamilleDeProduit(Me.Id)
-        If r Is Nothing Then
-            MsgBox("Qué passa ?")
-        End If
-        'r = If(r, New FamilleDeProduit(Me.Id))
-        r.Marge = Marge
-        Return r
-    End Function
+    Protected Overrides Sub UnSerialized_Ex_Ex(nouvelleEntité As FamilleDeProduit)
+        'TODO: la double extension ex_ex est-elle toujours utile ? 
+        'Dim r = Ref.GetNewFamilleDeProduit(Me.Id)
+
+        'TODO: vérifier pourquoi on faisait ce test. 
+        'If (nouvelleEntité Is Nothing) Then
+        '    nouvelleEntité = New FamilleDeProduit(Me.Id)
+        'End If
+        nouvelleEntité.Marge = Marge
+    End Sub
+
 
 #End Region
 

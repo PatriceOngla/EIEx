@@ -119,6 +119,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EIEx_DAO\EIEx_DAO.vbproj">
+      <Project>{5CC7B197-12C2-4960-B4FE-4D32A95A3E12}</Project>
+      <Name>EIEx_DAO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EIEx_Model\EIEx_Model.vbproj">
       <Project>{2E479322-7D9F-48FD-8DFF-F452317662BE}</Project>
       <Name>EIEx_Model</Name>

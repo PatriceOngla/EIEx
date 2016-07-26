@@ -25,7 +25,7 @@ Public MustInherit Class SystèmesItems_DAO(Of T As {Entité})
 
     Public Function UnSerialized() As T
         Dim r = UnSerialized_Ex()
-        r._HoroDateDeCréation = Me.HoroDateDeCréation
+        r.ForcerHoroDateDeCréation(Me.HoroDateDeCréation)
         r.Nom = Me.Nom
         r.Commentaires = Me.Commentaires
         Return r

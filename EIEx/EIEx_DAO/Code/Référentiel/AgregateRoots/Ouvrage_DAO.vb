@@ -62,18 +62,22 @@ Public Class Ouvrage_DAO
 
 #Region "Méthodes"
 
-    Protected Overrides Function UnSerialized_Ex_Ex() As Ouvrage
-        Dim r = Ref.GetNewOuvrage(Me.Id)
-        r.ComplémentDeNom = Me.ComplémentDeNom
-        r = If(r, New Ouvrage(Me.Id))
-        r.Libellés.AddRange(Me.Libellés)
-        Dim UsagesDeProduit = From up In Me.UsagesDeProduit Select up.UnSerialized()
-        r.UsagesDeProduit.AddRange(UsagesDeProduit)
-        r.MotsClés.AddRange(Me.MotsClés)
-        r.TempsDePauseUnitaire = TempsDePauseUnitaire
-        r.PrixUnitaire = Me.PrixUnitaire
-        Return r
-    End Function
+    Protected Overrides Sub UnSerialized_Ex_Ex(NouvelOuvrage As Ouvrage)
+        'Dim r = Ref.GetNewOuvrage(Me.Id)
+        'NouvelOuvrage = If(r, New Ouvrage(Me.Id))
+        NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
+        NouvelOuvrage.Libellés.AddRange(Me.Libellés)
+
+        Me.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit_DAO)
+                                        Dim Produit = If(up.ProduitId Is Nothing, Nothing, Ref.GetProduitById(up.ProduitId))
+                                        NouvelOuvrage.AjouterProduit(Produit, up.Nombre)
+                                    End Sub)
+
+        NouvelOuvrage.MotsClés.AddRange(Me.MotsClés)
+        NouvelOuvrage.TempsDePauseUnitaire = TempsDePauseUnitaire
+        NouvelOuvrage.PrixUnitaire = Me.PrixUnitaire
+
+    End Sub
 
 #End Region
 

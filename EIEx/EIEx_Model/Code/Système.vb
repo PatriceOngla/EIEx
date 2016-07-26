@@ -13,8 +13,6 @@ Public MustInherit Class Système '(Of Ts As Système)
         AddHandler ExceptionRaised, Sub(e As Exception, S As Système, Attendue As Boolean) Système_ExceptionRaised(e, S, Attendue)
     End Sub
 
-
-
 #End Region
 
 #Region "Propriétés"
@@ -55,14 +53,13 @@ Public MustInherit Class Système '(Of Ts As Système)
 
 #Region "Sérialisation"
 
-    ''' <summary>Peuple le référentiel à partir du fichier de persistance <see cref="EIExData.CheminRéférentiel"/>.</summary>
-    Public MustOverride Sub Charger(Chemin As String)
+    '''' <summary>Peuple le référentiel à partir du fichier de persistance <see cref="EIExData.CheminRéférentiel"/>.</summary>
+    'Public MustOverride Sub Charger(Chemin As String)
 
-    Public Sub Enregistrer(Chemin As String)
-        Me.DateModif = Now()
-        'Utils.Sérialiser(System_DAO, Chemin)
-        Utils.Sérialiser(Système.GetDAO(Me), Chemin)
-    End Sub
+    'Public Sub Enregistrer(Chemin As String)
+    '    Me.DateModif = Now()
+
+    'End Sub
 
 #End Region
 
@@ -136,23 +133,6 @@ Public MustInherit Class Système '(Of Ts As Système)
     Public Function EstVide() As Boolean
         Dim r = Me.Tables.TrueForAll(Function(Tb As IList) Tb.Count() = 0)
         Return r
-    End Function
-#End Region
-
-#Region "GetDAO"
-    ''' <remark>
-    ''' J'aurais préféré une méthode overidable à la charge de chaque <see cref="Système"/> mais, bizarement, impossible d'empêcher le sérialisateur d'y accéder et d'échouer dessus. Solution paliative.
-    ''' </remark>
-    Private Shared Function GetDAO(S As Système) As ISystèmeDAO
-        Dim TypeSystème = S.GetType()
-        Select Case TypeSystème
-            Case GetType(WorkSpace)
-                Return New Workspace_DAO(S)
-            Case GetType(Référentiel)
-                Return New Référentiel_DAO(S)
-            Case Else
-                Throw New NotSupportedException($"Aucun DAO n'est défini pour le système ""{TypeSystème.Name}"".")
-        End Select
     End Function
 #End Region
 

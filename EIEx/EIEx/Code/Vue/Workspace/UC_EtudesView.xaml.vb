@@ -2,6 +2,7 @@
 Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
+Imports EIEx_DAO
 Imports Model
 
 Public Class UC_EtudesView
@@ -302,7 +303,7 @@ Public Class UC_EtudesView
     Private Sub UC_EtudesView_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.Key = Key.S AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
             Try
-                EIExData.EnregistrerLeWorkspace()
+                PersistancyManager.EnregistrerLeWorkspace()
                 XL.StatusBar = $"Espace de travail {ThisAddIn.Nom} enregistré à {Now().ToLongTimeString()}."
             Catch ex As Exception
                 ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.")

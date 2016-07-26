@@ -76,16 +76,16 @@ Public Class Référentiel
 
 #Region "Méthodes"
 
-#Region "Persistance"
+    '#Region "Persistance"
 
-    Public Overrides Sub Charger(Chemin As String)
-        If IO.File.Exists(Chemin) Then
-            Dim WS_DAO = Utils.DéSérialisation(Of Référentiel_DAO)(Chemin)
-            WS_DAO.UnSerialize(Me)
-        End If
-    End Sub
+    '    Public Overrides Sub Charger(Chemin As String)
+    '        If IO.File.Exists(Chemin) Then
+    '            Dim WS_DAO = Utils.DéSérialisation(Of Référentiel_DAO)(Chemin)
+    '            WS_DAO.UnSerialize(Me)
+    '        End If
+    '    End Sub
 
-#End Region
+    '#End Region
 
 #Region "Plomberie"
 
@@ -196,7 +196,6 @@ Public Class Référentiel
         Dim r = GetObjectById(Of FamilleDeProduit)(id, FailIfNotFound)
         Return r
     End Function
-
     Public Function GetOuvrageById(id As Integer, Optional FailIfNotFound As Boolean = False) As Ouvrage
         Dim r = GetObjectById(Of Ouvrage)(id, FailIfNotFound)
         Return r

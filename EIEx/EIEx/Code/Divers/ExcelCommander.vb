@@ -1,5 +1,6 @@
 ﻿Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
+Imports EIEx_DAO
 Imports Microsoft.Office.Interop.Excel
 Imports Model
 Imports Utils
@@ -52,7 +53,7 @@ Module ExcelCommander
             Dim Enregistrer = Message($"Import terminé. {NbProduitsImportés} produit(s) importé(s), {NbProduitsMisAJour} produit(s) mis à jour, {NbErreurs} erreur(s).{vbCr}Voulez-vous energistrer le référentiel ?", vbYesNo)
 
             If Enregistrer = MsgBoxResult.Yes Then
-                EIExData.EnregistrerLeRéférentiel()
+                PersistancyManager.EnregistrerLeRéférentiel()
                 Message("Enregistrement effectué.")
             End If
         Catch ex As Exception

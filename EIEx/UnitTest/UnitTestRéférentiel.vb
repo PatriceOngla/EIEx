@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports EIEx_DAO
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports Model
 Imports Utils
@@ -21,14 +22,14 @@ Imports Utils
 
         PeuplerRéférentiel(NbObjets)
 
-        EIExData.EnregistrerLeRéférentiel()
-        CopierLeFichier(EIExData.CheminRéférentiel)
+        PersistancyManager.EnregistrerLeRéférentiel()
+        CopierLeFichier(PersistancyManager.CheminRéférentiel)
 
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
         Assert.IsTrue(Ref.Ouvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
-        Assert.IsTrue(IO.File.Exists(EIExData.CheminRéférentiel))
+        Assert.IsTrue(IO.File.Exists(PersistancyManager.CheminRéférentiel))
 
         Assert.IsTrue(Ref IsNot Nothing)
 
@@ -36,14 +37,14 @@ Imports Utils
 
         Assert.IsTrue(Ref.EstVide())
 
-        EIExData.ChargerLeRéférentiel()
+        PersistancyManager.ChargerLeRéférentiel()
 
         Assert.IsTrue(Ref IsNot Nothing)
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
         Assert.IsTrue(Ref.Ouvrage.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
-        EIExData.EnregistrerLeRéférentiel()
+        PersistancyManager.EnregistrerLeRéférentiel()
 
     End Sub
 

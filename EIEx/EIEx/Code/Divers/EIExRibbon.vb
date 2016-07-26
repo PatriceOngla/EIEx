@@ -2,6 +2,7 @@
 Imports Microsoft.Office.Tools.Ribbon
 Imports Microsoft.Office.Interop
 Imports Model
+Imports EIEx_DAO
 
 Public Class EIExRibbon
 
@@ -113,7 +114,7 @@ Public Class EIExRibbon
 #Region "Gestion des enregistrements"
     Private Sub Btn_EnregistrerRéférentiel_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_EnregistrerRéférentiel.Click
         Try
-            Model.EIExData.EnregistrerLeRéférentiel()
+            PersistancyManager.EnregistrerLeRéférentiel()
             Message("Enregistrement effectué.")
         Catch ex As Exception
             ManageErreur(ex, "Echec de l'enregistrement du référentiel.", True, False)
@@ -122,7 +123,7 @@ Public Class EIExRibbon
 
     Private Sub Btn_RechargerRéférentiel_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_RechargerRéférentiel.Click
         Try
-            Model.EIExData.ChargerLeRéférentiel()
+            PersistancyManager.ChargerLeRéférentiel()
             Message("Rechargement effectué.")
         Catch ex As Exception
             ManageErreur(ex, "Echec du chargement du référentiel.", True, False)
@@ -131,7 +132,7 @@ Public Class EIExRibbon
 
     Private Sub Btn_SaveWorkspace_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_SaveWorkspace.Click
         Try
-            Model.EIExData.EnregistrerLeWorkspace()
+            PersistancyManager.EnregistrerLeWorkspace()
             Message("Enregistrement effectué.")
         Catch ex As Exception
             ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.", True, False)
@@ -140,7 +141,7 @@ Public Class EIExRibbon
 
     Private Sub Btn_RechargerWorkspace_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_RechargerWorkspace.Click
         Try
-            Model.EIExData.ChargerLeWorkspace()
+            PersistancyManager.ChargerLeWorkspace()
             Message("Rechargement effectué.")
         Catch ex As Exception
             ManageErreur(ex, "Echec du chargement de l'espace de travail.", True, False)
