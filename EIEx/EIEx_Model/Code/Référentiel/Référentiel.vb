@@ -23,8 +23,8 @@ Public Class Référentiel
         _FamillesDeProduit = New ObservableCollection(Of FamilleDeProduit)
         _Tables.Add(_FamillesDeProduit)
 
-        _Ouvrage = New ObservableCollection(Of Ouvrage)
-        _Tables.Add(_Ouvrage)
+        _Ouvrages = New ObservableCollection(Of Ouvrage)
+        _Tables.Add(_Ouvrages)
     End Sub
 
 #End Region
@@ -63,11 +63,11 @@ Public Class Référentiel
 #End Region
 
 #Region "Ouvrage (ObservableCollection(Of Ouvrage))"
-    Private _Ouvrage As ObservableCollection(Of Ouvrage)
+    Private _Ouvrages As ObservableCollection(Of Ouvrage)
     ''' <summary>Toutes les <see cref="Model.Ouvrage"/> du référentiel.</summary>
-    Public ReadOnly Property Ouvrage() As ObservableCollection(Of Ouvrage)
+    Public ReadOnly Property Ouvrages() As ObservableCollection(Of Ouvrage)
         Get
-            Return _Ouvrage
+            Return _Ouvrages
         End Get
     End Property
 #End Region
@@ -96,7 +96,7 @@ Public Class Référentiel
             Case GetType(Produit)
                 r = Me.Produits
             Case GetType(Ouvrage)
-                r = Me.Ouvrage
+                r = Me.Ouvrages
             Case GetType(FamilleDeProduit)
                 r = Me.FamillesDeProduit
             Case Else
@@ -155,7 +155,7 @@ Public Class Référentiel
 
     Public Function GetNewOuvrage(newId As Integer) As Ouvrage
         Dim r = New Ouvrage(newId)
-        Me.Ouvrage.Add(r)
+        Me.Ouvrages.Add(r)
         Return r
     End Function
 

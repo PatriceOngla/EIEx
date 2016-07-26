@@ -26,7 +26,7 @@ Imports Utils
         CopierLeFichier(PersistancyManager.CheminRéférentiel)
 
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
-        Assert.IsTrue(Ref.Ouvrage.Count = NbObjets)
+        Assert.IsTrue(Ref.Ouvrages.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
         Assert.IsTrue(IO.File.Exists(PersistancyManager.CheminRéférentiel))
@@ -41,7 +41,7 @@ Imports Utils
 
         Assert.IsTrue(Ref IsNot Nothing)
         Assert.IsTrue(Ref.Produits.Count = NbObjets)
-        Assert.IsTrue(Ref.Ouvrage.Count = NbObjets)
+        Assert.IsTrue(Ref.Ouvrages.Count = NbObjets)
         Assert.IsTrue(Ref.FamillesDeProduit.Count = NbObjets)
 
         PersistancyManager.EnregistrerLeRéférentiel()

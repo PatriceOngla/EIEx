@@ -158,12 +158,6 @@ Public Class LibelléDouvrage
 
     Friend Function EstAssociéA(range As Range) As Boolean
         Dim r = Ranges.Contains(range)
-        If Not r Then
-            Dim r2 = (From rng In Ranges Where rng.Address = range.Address).Any
-            'TODO: à virer si OK
-            If r2 Then Common.Message("Bizarre")
-            r = r2
-        End If
         Return r
     End Function
 

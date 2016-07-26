@@ -102,7 +102,7 @@ Public Class UC_OuvragesView
     Private Sub UC_CmdesCRUD_DemandeSuppression() Handles UC_CmdesCRUD_Ouvrages.DemandeSuppression
         Try
             Dim Ouvrage As Ouvrage = Me.DG_Master.SelectedItem
-            Ref.Ouvrage.Remove(Ouvrage)
+            Ref.Ouvrages.Remove(Ouvrage)
         Catch ex As Exception
             ManageErreur(ex)
         End Try

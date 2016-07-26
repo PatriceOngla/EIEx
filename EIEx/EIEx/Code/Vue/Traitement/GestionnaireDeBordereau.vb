@@ -72,7 +72,7 @@ Public Class GestionnaireDeBordereaux
     ''' <summary>La plage de recherche des libellés dans les bordereaux sources. </summary>
     Public ReadOnly Property PlageDeRechercheDesLibellés(b As Bordereau) As Excel.Range
         Get
-            'TODO: Bordereux multiples
+            'TODO: Bordereaux multiples
             'If _PlageDeRechercheDesLibellés Is Nothing then 
             Dim r As Excel.Range
             Dim ws As Worksheet = b.Worksheet

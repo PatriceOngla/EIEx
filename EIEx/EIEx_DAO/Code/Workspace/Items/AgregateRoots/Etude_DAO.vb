@@ -50,18 +50,13 @@ Public Class Etude_DAO
 #Region "Méthodes"
 
     Protected Overrides Sub UnSerialized_Ex_Ex(NouvelleEtude As Etude)
-        'Dim r = WS.GetNewEtude(Me.Id)
 
         NouvelleEtude.EstOuverte = Me.EstOuverte
-
-        'Dim Classeurs = (From c In Me.ClasseursExcel Select c.UnSerialized())
-        'r.ClasseursExcel.AddRange(Classeurs)
 
         Me.ClasseursExcel.DoForAll(Sub(CDAO As ClasseurExcel_DAO)
                                        Dim NouveauClasseur = NouvelleEtude.AjouterNouveauClasseur(CDAO.CheminFichier)
                                        CDAO.UnSerialized(NouveauClasseur)
                                    End Sub)
-        'Return r
     End Sub
 
 #End Region

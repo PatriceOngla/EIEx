@@ -39,13 +39,6 @@ Public Class FamilleDeProduit_DAO
 #Region "Méthodes"
 
     Protected Overrides Sub UnSerialized_Ex_Ex(nouvelleEntité As FamilleDeProduit)
-        'TODO: la double extension ex_ex est-elle toujours utile ? 
-        'Dim r = Ref.GetNewFamilleDeProduit(Me.Id)
-
-        'TODO: vérifier pourquoi on faisait ce test. 
-        'If (nouvelleEntité Is Nothing) Then
-        '    nouvelleEntité = New FamilleDeProduit(Me.Id)
-        'End If
         nouvelleEntité.Marge = Marge
     End Sub
 

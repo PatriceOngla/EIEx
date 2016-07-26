@@ -22,7 +22,7 @@ Public Class Référentiel_DAO
         Dim FamillesDeProduit_DAO = From f In R.FamillesDeProduit Select New FamilleDeProduit_DAO(f)
         Me.FamillesDeProduit = New List(Of FamilleDeProduit_DAO)(FamillesDeProduit_DAO)
 
-        Dim Ouvrages_DAO = From ro In R.Ouvrage Select New Ouvrage_DAO(ro)
+        Dim Ouvrages_DAO = From o In R.Ouvrages Select New Ouvrage_DAO(o)
         Me.Ouvrages = New List(Of Ouvrage_DAO)(Ouvrages_DAO)
 
     End Sub

@@ -63,8 +63,6 @@ Public Class Produit_DAO
 #Region "Méthodes"
 
     Protected Overrides Sub UnSerialized_Ex_Ex(NouveauProduit As Produit)
-        'Dim r = Ref.GetNewProduit(Me.Id)
-        'r = If(r, New Produit(Me.Id))
         NouveauProduit.Unité = Unité
         NouveauProduit.Prix = Prix
         NouveauProduit.CodeLydic = CodeLydic
