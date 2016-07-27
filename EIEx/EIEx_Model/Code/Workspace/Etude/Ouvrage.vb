@@ -11,8 +11,9 @@ Public Class Ouvrage
 
 #Region "Constructeurs"
 
-    Public Sub New(Bordereau As Bordereau)
+    Public Sub New(Bordereau As Bordereau, NumLignePlageExcel As Integer)
         Me.BordereauParent = Bordereau
+        Me.NuméroLignePlageExcel = NumLignePlageExcel
     End Sub
 
     Protected Overrides Sub Init()
@@ -40,6 +41,10 @@ Public Class Ouvrage
 
 #Region "BordereauParent"
     Public ReadOnly Property BordereauParent() As Bordereau
+#End Region
+
+#Region "NuméroLignePlageExccel"
+    Public ReadOnly Property NuméroLignePlageExcel() As Integer
 #End Region
 
 #End Region
