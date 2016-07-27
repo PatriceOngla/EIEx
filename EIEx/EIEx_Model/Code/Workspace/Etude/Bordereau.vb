@@ -4,7 +4,8 @@ Imports System.Windows
 Imports Model
 
 Public Class Bordereau
-    Inherits EntitéDuWorkSpace
+    Inherits Entité
+    Implements IEntitéDuWorkSpace
 
 #Region "Constructeurs"
 
@@ -20,13 +21,20 @@ Public Class Bordereau
 
 #Region "Propriétés"
 
-#Region "Système"
-    Public Overrides ReadOnly Property Système As Système
+#Region "WS"
+    Public ReadOnly Property WS As WorkSpace Implements IEntitéDuWorkSpace.WS
         Get
             Return WorkSpace.Instance
         End Get
     End Property
+#End Region
 
+#Region "Système"
+    Public Overrides ReadOnly Property Système As Système
+        Get
+            Return Me.WS
+        End Get
+    End Property
 #End Region
 
 #Region "Parent"

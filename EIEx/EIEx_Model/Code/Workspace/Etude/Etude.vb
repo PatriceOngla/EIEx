@@ -4,8 +4,8 @@ Imports System.ComponentModel
 Imports Model
 
 Public Class Etude
-    Inherits EntitéDuWorkSpace
-    Implements IAgregateRoot
+    Inherits Entité
+    Implements IAgregateRoot, IEntitéDuWorkSpace
 
 #Region "Constructeurs"
 
@@ -22,17 +22,24 @@ Public Class Etude
 
 #Region "Propriétés"
 
-#Region "Id"
-    Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id
+#Region "WS"
+    Public ReadOnly Property WS As WorkSpace Implements IEntitéDuWorkSpace.WS
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
 #End Region
 
 #Region "Système"
     Public Overrides ReadOnly Property Système As Système
         Get
-            Return WorkSpace.Instance
+            Return Me.WS
         End Get
     End Property
+#End Region
 
+#Region "Id"
+    Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id
 #End Region
 
 #Region "EstOuverte"

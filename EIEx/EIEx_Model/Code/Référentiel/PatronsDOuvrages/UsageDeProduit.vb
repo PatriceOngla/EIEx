@@ -1,12 +1,14 @@
-﻿''' <summary>
-''' Cette classe est une relation N-N entre <see cref="PatronDOuvrage"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
+﻿Imports Model
+''' <summary>
+''' Cette classe est une relation N-N entre <see cref="Ouvrage_Base"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
 ''' </summary>
 Public Class UsageDeProduit
-    Inherits EntitéDuRéférentiel
+    Inherits Entité
+    Implements IEntitéDuRéférentiel
 
 #Region "Constructeurs"
 
-    Friend Sub New(Parent As PatronDOuvrage)
+    Friend Sub New(Parent As Ouvrage_Base)
         _Parent = Parent
     End Sub
 
@@ -17,9 +19,25 @@ Public Class UsageDeProduit
 
 #Region "Propriétés"
 
-#Region "Parent (PatronDOuvrage)"
-    Private _Parent As PatronDOuvrage
-    Public ReadOnly Property Parent() As PatronDOuvrage
+#Region "Système"
+
+    Public ReadOnly Property Ref As Référentiel Implements IEntitéDuRéférentiel.Ref
+        Get
+            Return Référentiel.Instance
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property Système As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+
+#End Region
+
+#Region "Parent (Ouvrage_Base)"
+    Private _Parent As Ouvrage_Base
+    Public ReadOnly Property Parent() As Ouvrage_Base
         Get
             Return _Parent
         End Get
@@ -36,19 +54,11 @@ Public Class UsageDeProduit
             If Object.Equals(value, Me._Produit) Then Exit Property
             _Produit = value
             NotifyPropertyChanged(NameOf(Produit))
-            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.PrixUnitaire))
-            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.TempsDePauseCalculé))
+            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage_Base.PrixUnitaire))
+            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage_Base.TempsDePauseCalculé))
         End Set
     End Property
 #End Region
-
-    '#Region "Unité"
-    '    Public ReadOnly Property Unité() As Unités?
-    '        Get
-    '            Return Me.Produit?.Unité
-    '        End Get
-    '    End Property
-    '#End Region
 
 #Region "Nombre (Integer)"
     Private _Nombre As Integer
@@ -59,8 +69,8 @@ Public Class UsageDeProduit
         Set(ByVal value As Integer)
             If Object.Equals(value, Me._Nombre) Then Exit Property
             _Nombre = value
-            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.PrixUnitaire))
-            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.TempsDePauseCalculé))
+            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage_Base.PrixUnitaire))
+            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage_Base.TempsDePauseCalculé))
         End Set
     End Property
 #End Region

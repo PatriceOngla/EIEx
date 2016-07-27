@@ -12,11 +12,11 @@ Public Class UsageDeProduit_DAO
     Public Sub New(UP As UsageDeProduit)
         MyBase.New(UP)
         Try
-            Me.ParentId = UP.Parent?.Id
+            'Me.ParentId = UP.Parent?.Id
             Me.ProduitId = UP.Produit?.Id
             Me.Nombre = UP.Nombre
         Catch ex As Exception
-            Dim ex2 = New Exception($"Echec de la sérialisation d'un {NameOf(UsageDeProduit)} du produit n° {Me.ParentId}.", ex)
+            Dim ex2 = New Exception($"Echec de la sérialisation d'un {NameOf(UsageDeProduit)} du produit n° {Me.ProduitId}.", ex)
         End Try
     End Sub
 
@@ -36,7 +36,7 @@ Public Class UsageDeProduit_DAO
 
 #Region "Données"
 
-    Public Property ParentId As Integer?
+    'Public Property ParentId As Integer?
 
     Public Property ProduitId() As Integer?
 

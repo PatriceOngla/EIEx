@@ -1,5 +1,8 @@
-﻿Public Class Paramètres
-    Inherits EntitéDuWorkSpace
+﻿Imports Model
+
+Public Class Paramètres
+    Inherits Entité
+    Implements IEntitéDuWorkSpace
 
 #Region "Constructeurs"
     Protected Overrides Sub Init()
@@ -8,6 +11,22 @@
 #End Region
 
 #Region "Propriétés"
+
+#Region "WS"
+    Public ReadOnly Property WS As WorkSpace Implements IEntitéDuWorkSpace.WS
+        Get
+            Return WorkSpace.Instance
+        End Get
+    End Property
+#End Region
+
+#Region "Système"
+    Public Overrides ReadOnly Property Système As Système
+        Get
+            Return Me.WS
+        End Get
+    End Property
+#End Region
 
 #Region "AdresseRangeLibelleOuvrage (String)"
     Private _AdresseRangeLibelleOuvrage As String

@@ -3,9 +3,8 @@ Imports Model
 Imports Utils
 
 Public Class Produit
-    'Inherits AgregateRootDuRéférentiel(Of Produit)
-    Inherits EntitéDuRéférentiel
-    Implements IAgregateRoot
+    Inherits Entité
+    Implements IAgregateRoot, IEntitéDuRéférentiel
 
 #Region "Constructeurs"
 
@@ -21,6 +20,22 @@ Public Class Produit
 #End Region
 
 #Region "Propriétés"
+
+#Region "Système"
+
+    Public ReadOnly Property Ref As Référentiel Implements IEntitéDuRéférentiel.Ref
+        Get
+            Return Référentiel.Instance
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property Système As Système
+        Get
+            Return Ref
+        End Get
+    End Property
+
+#End Region
 
 #Region "Id"
     Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id

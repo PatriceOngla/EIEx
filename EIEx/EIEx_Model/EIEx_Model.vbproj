@@ -63,14 +63,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\Référentiel\IOuvrage.vb" />
+    <Compile Include="Code\Ouvrage_Base.vb" />
     <Compile Include="Code\Workspace\Etude\Ouvrage.vb" />
     <Compile Include="Code\Workspace\Etude\Bordereau.vb" />
-    <Compile Include="Code\Workspace\EntitéDuWorkSpace.vb" />
+    <Compile Include="Code\Workspace\IEntitéDuWorkSpace.vb" />
     <Compile Include="Code\Workspace\Etude\ClasseurExcel.vb" />
     <Compile Include="Code\Workspace\Etude\Etude.vb" />
     <Compile Include="Code\Workspace\WorkSpace.vb" />
-    <Compile Include="Code\Référentiel\EntitéDuRéférentiel.vb" />
+    <Compile Include="Code\Référentiel\IEntitéDuRéférentiel.vb" />
     <Compile Include="Code\Référentiel\FamilleDeProduits\FamilleDeProduit.vb" />
     <Compile Include="Code\Référentiel\Produits\Produit.vb" />
     <Compile Include="Code\Référentiel\PatronsDOuvrages\PatronDOuvrage.vb" />
