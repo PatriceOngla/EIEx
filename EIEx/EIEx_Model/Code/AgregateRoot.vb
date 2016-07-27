@@ -10,41 +10,6 @@
     End Property
 #End Region
 
-End Class
-
-
-''' <typeparam name="TypeAgregateRoot">Le type AgregateRoot lui-même. Permet les appels de méthodes génériques sur <see cref="Système"/></typeparam>
-Public MustInherit Class AgregateRoot(Of TypeAgregateRoot As AgregateRoot_Base)
-    Inherits AgregateRoot_Base
-
-#Region "Constructeurs"
-
-    'Public Sub New()
-    '    Me.SetId()
-    '    Me.SEnregistrerDansLeRéférentiel()
-    'End Sub
-
-    Public Sub New(Id As Integer)
-        Me._Id = Id
-        'Me.SEnregistrerDansLeRéférentiel()
-    End Sub
-
-    'Protected Overridable Sub SetId()
-    '    Me._Id = Système.GetNewId(Of TypeAgregateRoot)
-    'End Sub
-
-    'Protected Overridable Sub SEnregistrerDansLeRéférentiel()
-    '    Système.EnregistrerRoot(Of TypeAgregateRoot)(Me)
-    'End Sub
-
-#End Region
-
-#Region "Propriétés"
-
-#End Region
-
-#Region "Méthodes"
-
 #Region "TosTring"
     Public Overrides Function ToString() As String
         Try
@@ -57,10 +22,18 @@ Public MustInherit Class AgregateRoot(Of TypeAgregateRoot As AgregateRoot_Base)
     End Function
 #End Region
 
-#End Region
+End Class
 
-#Region "Tests et debuggage"
 
+''' <typeparam name="TypeAgregateRoot">Le type AgregateRoot lui-même. Permet les appels de méthodes génériques sur <see cref="Système"/></typeparam>
+Public MustInherit Class AgregateRoot(Of TypeAgregateRoot As AgregateRoot_Base)
+    Inherits AgregateRoot_Base
+
+#Region "Constructeurs"
+
+    Public Sub New(Id As Integer)
+        Me._Id = Id
+    End Sub
 
 #End Region
 

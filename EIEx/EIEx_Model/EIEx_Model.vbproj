@@ -63,23 +63,25 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\Workspace\Bordereau.vb" />
+    <Compile Include="Code\Référentiel\IOuvrage.vb" />
+    <Compile Include="Code\Workspace\Etude\Ouvrage.vb" />
+    <Compile Include="Code\Workspace\Etude\Bordereau.vb" />
     <Compile Include="Code\Workspace\EntitéDuWorkSpace.vb" />
-    <Compile Include="Code\Workspace\ClasseurExcel.vb" />
-    <Compile Include="Code\Workspace\Etude.vb" />
+    <Compile Include="Code\Workspace\Etude\ClasseurExcel.vb" />
+    <Compile Include="Code\Workspace\Etude\Etude.vb" />
     <Compile Include="Code\Workspace\WorkSpace.vb" />
     <Compile Include="Code\Référentiel\AgregateRootDuRéférentiel.vb" />
     <Compile Include="Code\Référentiel\EntitéDuRéférentiel.vb" />
-    <Compile Include="Code\Référentiel\FamilleDeProduit.vb" />
-    <Compile Include="Code\Référentiel\Produit.vb" />
-    <Compile Include="Code\Référentiel\Ouvrage.vb" />
+    <Compile Include="Code\Référentiel\AgregateRoots\FamilleDeProduits\FamilleDeProduit.vb" />
+    <Compile Include="Code\Référentiel\Produits\Produit.vb" />
+    <Compile Include="Code\Référentiel\PatronsDOuvrages\PatronDOuvrage.vb" />
     <Compile Include="Code\Référentiel\Référentiel.vb" />
-    <Compile Include="Code\Référentiel\UsageDeProduit.vb" />
+    <Compile Include="Code\Référentiel\PatronsDOuvrages\UsageDeProduit.vb" />
     <Compile Include="Code\Système.vb" />
     <Compile Include="Code\EIExObject.vb" />
     <Compile Include="Code\AgregateRoot.vb" />
     <Compile Include="Code\Entité.vb" />
-    <Compile Include="Code\Test et debug\Class1.vb" />
+    <Compile Include="Code\_Test et debug\Class1.vb" />
     <Compile Include="Code\Interfaces\ISystèmeDAO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -96,7 +98,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Code\Workspace\Paramètres.vb" />
+    <Compile Include="Code\Workspace\Etude\Paramètres.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

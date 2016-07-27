@@ -1,12 +1,12 @@
 ﻿''' <summary>
-''' Cette classe est une relation N-N entre <see cref="Ouvrage"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
+''' Cette classe est une relation N-N entre <see cref="PatronDOuvrage"/> et <see cref="Produit"/>. Elle porte en particulier la quantité du produit dans l'ouvrage. 
 ''' </summary>
 Public Class UsageDeProduit
     Inherits EntitéDuRéférentiel
 
 #Region "Constructeurs"
 
-    Friend Sub New(Parent As Ouvrage)
+    Friend Sub New(Parent As PatronDOuvrage)
         _Parent = Parent
     End Sub
 
@@ -17,9 +17,9 @@ Public Class UsageDeProduit
 
 #Region "Propriétés"
 
-#Region "Parent (Ouvrage)"
-    Private _Parent As Ouvrage
-    Public ReadOnly Property Parent() As Ouvrage
+#Region "Parent (PatronDOuvrage)"
+    Private _Parent As PatronDOuvrage
+    Public ReadOnly Property Parent() As PatronDOuvrage
         Get
             Return _Parent
         End Get
@@ -36,8 +36,8 @@ Public Class UsageDeProduit
             If Object.Equals(value, Me._Produit) Then Exit Property
             _Produit = value
             NotifyPropertyChanged(NameOf(Produit))
-            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage.PrixUnitaire))
-            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage.TempsDePauseCalculé))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.PrixUnitaire))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.TempsDePauseCalculé))
         End Set
     End Property
 #End Region
@@ -59,8 +59,8 @@ Public Class UsageDeProduit
         Set(ByVal value As Integer)
             If Object.Equals(value, Me._Nombre) Then Exit Property
             _Nombre = value
-            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage.PrixUnitaire))
-            Me.Parent.NotifyPropertyChanged(NameOf(Ouvrage.TempsDePauseCalculé))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.PrixUnitaire))
+            Me.Parent.NotifyPropertyChanged(NameOf(PatronDOuvrage.TempsDePauseCalculé))
         End Set
     End Property
 #End Region

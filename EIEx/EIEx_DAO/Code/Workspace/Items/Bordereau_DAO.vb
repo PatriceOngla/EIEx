@@ -36,7 +36,6 @@ Public Class Bordereau_DAO
 #Region "Méthodes"
 
     Protected Overrides Sub UnSerialized_Ex(NouveauBordereau As Bordereau)
-        'Dim r = Me.Parent.AjouterNouveauBordereau()
         NouveauBordereau.NomFeuille = Me.NomFeuille
         Me.Paramètres.UnSerialized(NouveauBordereau.Paramètres)
     End Sub

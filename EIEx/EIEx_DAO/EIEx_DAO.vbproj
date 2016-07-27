@@ -68,7 +68,7 @@
     <Compile Include="Code\PersistancyManager.vb" />
     <Compile Include="Code\EIExObject_DAO.vb" />
     <Compile Include="Code\Référentiel\AgregateRoots\FamilleDeProduit_DAO.vb" />
-    <Compile Include="Code\Référentiel\AgregateRoots\Ouvrage_DAO.vb" />
+    <Compile Include="Code\Référentiel\AgregateRoots\PatronDOuvrage_DAO.vb" />
     <Compile Include="Code\Référentiel\AgregateRoots\Produit_DAO.vb" />
     <Compile Include="Code\Référentiel\Référentiel_DAO.vb" />
     <Compile Include="Code\Référentiel\UsageDeProduit_DAO.vb" />

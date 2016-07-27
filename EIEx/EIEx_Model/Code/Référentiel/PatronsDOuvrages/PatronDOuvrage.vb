@@ -4,11 +4,11 @@ Imports Model
 Imports Utils
 
 ''' <summary>
-''' On distingue <see cref="Ouvrage"/> et Ouvrage (pas encore implémenté). Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="Ouvrage"/> afin de calculer leur prix sur la base du <see cref="Ouvrage.PrixUnitaire"/>. 
+''' On distingue <see cref="PatronDOuvrage"/> et Ouvrage. Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="PatronDOuvrage"/> afin de calculer leur prix sur la base du <see cref="PatronDOuvrage.PrixUnitaire"/>. 
 ''' </summary>
-Public Class Ouvrage
-    Inherits AgregateRootDuRéférentiel(Of Ouvrage)
-    Implements ICloneable
+Public Class PatronDOuvrage
+    Inherits AgregateRootDuRéférentiel(Of PatronDOuvrage)
+    Implements ICloneable, IOuvrage
 
 #Region "Constructeurs"
 
@@ -30,7 +30,7 @@ Public Class Ouvrage
 
 #Region "Nom (String)"
     Private _Nom As String
-    Public Overrides Property Nom() As String
+    Public Overrides Property Nom() As String Implements IOuvrage.Nom
         Get
             Return _Nom
         End Get
@@ -95,15 +95,6 @@ Public Class Ouvrage
 
 #End Region
 
-#Region "EstModèle"
-    ''' <summary>Un <see cref="Ouvrage"/> est un modèle si est seulement si il n'est pas associé à un <see cref="Bordereau"/>.</summary>
-    Public ReadOnly Property EstModèle() As Boolean
-        Get
-            Return Me.Bordereau Is Nothing
-        End Get
-    End Property
-#End Region
-
 #Region "Bordereau"
     Private _Bordereau As Bordereau
     Public ReadOnly Property Bordereau() As Bordereau
@@ -116,11 +107,12 @@ Public Class Ouvrage
 #Region "UsagesDeProduit "
 
     Private WithEvents _UsagesDeProduit As ObservableCollection(Of UsageDeProduit)
-    Public ReadOnly Property UsagesDeProduit() As ObservableCollection(Of UsageDeProduit)
+    Public ReadOnly Property UsagesDeProduit() As ObservableCollection(Of UsageDeProduit) Implements IOuvrage.UsagesDeProduit
         Get
             Return _UsagesDeProduit
         End Get
     End Property
+
 
     Public ReadOnly Property NbProduits() As Integer
         Get
@@ -132,7 +124,7 @@ Public Class Ouvrage
 
 #Region "MotsClés (List(of String))"
     Private _MotsClés As List(Of String)
-    Public Property MotsClés() As List(Of String)
+    Public Property MotsClés() As List(Of String) Implements IOuvrage.MotsClés
         Get
             Return _MotsClés
         End Get
@@ -148,7 +140,7 @@ Public Class Ouvrage
     Private _TempsDePauseUnitaire As Integer?
 
     ''' <summary>Le temps de pause en minutes.</summary>
-    Public Property TempsDePauseUnitaire() As Integer?
+    Public Property TempsDePauseUnitaire() As Integer? Implements IOuvrage.TempsDePauseUnitaire
         Get
             If _TempsDePauseUnitaire Is Nothing Then
                 Return TempsDePauseCalculé
@@ -184,7 +176,7 @@ Public Class Ouvrage
     Private _PrixUnitaire As Single?
 
     ''' <summary>Le prix unitaire. Forcé en attendant de </summary>
-    Public Property PrixUnitaire() As Single?
+    Public Property PrixUnitaire() As Single? Implements IOuvrage.PrixUnitaire
         Get
             If _PrixUnitaire Is Nothing Then
                 Return PrixUnitaireCalculé
@@ -215,14 +207,13 @@ Public Class Ouvrage
 
 #End Region
 
-
 #End Region
 
 #Region "Méthodes"
 
 #Region "AjouterProduit"
 
-    Public Function AjouterProduit(P As Produit, Nombre As Short) As UsageDeProduit
+    Public Function AjouterProduit(P As Produit, Nombre As Short) As UsageDeProduit Implements IOuvrage.AjouterProduit
         Dim up = New UsageDeProduit(Me) With {.Produit = P, .Nombre = Nombre}
         Me.UsagesDeProduit.Add(up)
         Return up
@@ -242,7 +233,7 @@ Public Class Ouvrage
 
     End Sub
 
-    ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent le <see cref="Ouvrage"/> courant.</summary>
+    ''' <summary>S'assure que tous les <paramref name="UsagesDeProduitAjoutés"/> ont bien pour parent le <see cref="PatronDOuvrage"/> courant.</summary>
     ''' <param name="UsagesDeProduitAjoutés"></param>
     Private Sub VerifierLesElémentsAjoutés(UsagesDeProduitAjoutés As IEnumerable(Of UsageDeProduit))
         Try
@@ -262,7 +253,7 @@ Public Class Ouvrage
                     End If
                 Next
                 Dim Pluriel = NbErr > 1
-                Dim Msg = $"{NbErr} des '{NameOf(UsageDeProduit)}' ajouté{If(Pluriel, "s", "")} {If(Pluriel, "sont", "est")} déjà associé{If(Pluriel, "s", "")} à une autre '{NameOf(Ouvrage)}'. Ce{If(Pluriel, "s", "t")} élément{If(Pluriel, "s", "")} {If(Pluriel, "n'ont", "n'a")} pas été ajouté{If(Pluriel, "s", "")}."
+                Dim Msg = $"{NbErr} des '{NameOf(UsageDeProduit)}' ajouté{If(Pluriel, "s", "")} {If(Pluriel, "sont", "est")} déjà associé{If(Pluriel, "s", "")} à une autre '{NameOf(PatronDOuvrage)}'. Ce{If(Pluriel, "s", "t")} élément{If(Pluriel, "s", "")} {If(Pluriel, "n'ont", "n'a")} pas été ajouté{If(Pluriel, "s", "")}."
                 Throw New InvalidOperationException(Msg)
             End If
         Catch ex As Exception
@@ -278,7 +269,7 @@ Public Class Ouvrage
 #End Region
 
 #Region "UtiliseProduit"
-    Public Function UtiliseProduit(p As Produit) As Boolean
+    Public Function UtiliseProduit(p As Produit) As Boolean Implements IOuvrage.UtiliseProduit
         Dim r = (From up In Me.UsagesDeProduit Where up.Produit Is p).Any()
         Return r
     End Function
@@ -290,7 +281,7 @@ Public Class Ouvrage
         Return Me.Copie
     End Function
 
-    Public Function Copie() As Ouvrage
+    Public Function Copie() As PatronDOuvrage
         Dim r = Ref.GetNewOuvrage()
         r.Nom = Me.NomComplet
         r.ComplémentDeNom = "?"

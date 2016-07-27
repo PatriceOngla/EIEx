@@ -57,14 +57,14 @@ Public Class UC_OuvragesView
 #Region "OuvrageCourant (Ouvrage)"
 
     Public Shared ReadOnly OuvrageCourantProperty As DependencyProperty =
-            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing))
+            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(PatronDOuvrage), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing))
 
-    Public Property OuvrageCourant As Ouvrage
+    Public Property OuvrageCourant As PatronDOuvrage
         Get
-            Return DirectCast(GetValue(OuvrageCourantProperty), Ouvrage)
+            Return DirectCast(GetValue(OuvrageCourantProperty), PatronDOuvrage)
         End Get
 
-        Set(ByVal value As Ouvrage)
+        Set(ByVal value As PatronDOuvrage)
             SetValue(OuvrageCourantProperty, value)
         End Set
     End Property
@@ -101,8 +101,8 @@ Public Class UC_OuvragesView
 
     Private Sub UC_CmdesCRUD_DemandeSuppression() Handles UC_CmdesCRUD_Ouvrages.DemandeSuppression
         Try
-            Dim Ouvrage As Ouvrage = Me.DG_Master.SelectedItem
-            Ref.Ouvrages.Remove(Ouvrage)
+            Dim Ouvrage As PatronDOuvrage = Me.DG_Master.SelectedItem
+            Ref.PatronsDOuvrage.Remove(Ouvrage)
         Catch ex As Exception
             ManageErreur(ex)
         End Try

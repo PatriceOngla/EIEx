@@ -2,15 +2,15 @@
 Imports Utils
 
 <Serializable>
-Public Class Ouvrage_DAO
-    Inherits AgregateRoot_DAO(Of Ouvrage)
+Public Class PatronDOuvrage_DAO
+    Inherits AgregateRoot_DAO(Of PatronDOuvrage)
 
 #Region "Constructeurs"
 
     Public Sub New()
     End Sub
 
-    Public Sub New(O As Ouvrage)
+    Public Sub New(O As PatronDOuvrage)
         MyBase.New(O)
 
         Me.ComplémentDeNom = O.ComplémentDeNom
@@ -62,9 +62,7 @@ Public Class Ouvrage_DAO
 
 #Region "Méthodes"
 
-    Protected Overrides Sub UnSerialized_Ex_Ex(NouvelOuvrage As Ouvrage)
-        'Dim r = Ref.GetNewOuvrage(Me.Id)
-        'NouvelOuvrage = If(r, New Ouvrage(Me.Id))
+    Protected Overrides Sub UnSerialized_Ex_Ex(NouvelOuvrage As PatronDOuvrage)
         NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
         NouvelOuvrage.Libellés.AddRange(Me.Libellés)
 

@@ -54,7 +54,6 @@ Public Class ClasseurExcel_DAO
 
     Protected Overrides Sub UnSerialized_Ex(NouveauClasseur As ClasseurExcel)
 
-        'Dim r = Parent.AjouterNouveauClasseur(Me.CheminFichier)
         NouveauClasseur.MêmeStructurePourTousLesBordereaux = Me.MêmeStructurePourTousLesBordereaux
 
         Me.Bordereaux.DoForAll(Sub(B As Bordereau_DAO)

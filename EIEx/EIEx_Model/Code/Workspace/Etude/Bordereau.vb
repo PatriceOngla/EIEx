@@ -1,4 +1,5 @@
-﻿Imports System.ComponentModel
+﻿Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 Imports System.Windows
 Imports Model
 
@@ -12,6 +13,7 @@ Public Class Bordereau
 
     Protected Overrides Sub Init()
         _Paramètres = New Paramètres
+        _Ouvrages = New ObservableCollection(Of PatronDOuvrage)()
     End Sub
 
 #End Region
@@ -62,12 +64,25 @@ Public Class Bordereau
     End Property
 #End Region
 
+#Region "Ouvrages"
+    Private _Ouvrages As ObservableCollection(Of PatronDOuvrage)
+    Public ReadOnly Property Ouvrages() As IEnumerable(Of PatronDOuvrage)
+        Get
+            Return _Ouvrages
+        End Get
+    End Property
+#End Region
+
 #End Region
 
 #Region "Méthodes"
 
     Private Sub _Paramètres_PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Handles _Paramètres.PropertyChanged
         Me.NotifyPropertyChanged(NameOf(Paramètres))
+    End Sub
+
+    Public Sub AjouterOuvrage()
+        Dim NouvelOuvrage = New Ouvrage(Me)
     End Sub
 
 #End Region

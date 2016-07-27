@@ -50,11 +50,7 @@ Public Class UsageDeProduit_DAO
 #Region "Méthodes"
 
     Protected Overrides Sub UnSerialized_Ex(NouvelUsageProduit As UsageDeProduit)
-        'Dim Parent = If(Me.ParentId Is Nothing, Nothing, Ref.GetOuvrageById(Me.ParentId))
-        'Dim Produit = If(Me.ProduitId Is Nothing, Nothing, Ref.GetProduitById(Me.ProduitId))
-        'Dim r = Parent.AjouterProduit(Produit, Me.Nombre)
-        NouvelUsageProduit.Nombre = Me.Nombre 'normalement c'est déjà fait par le parent dans AjouterProduit
-        'Return r
+        NouvelUsageProduit.Nombre = Me.Nombre 'normalement c'est déjà fait au dessus dans AjouterProduit
     End Sub
 
 #End Region
