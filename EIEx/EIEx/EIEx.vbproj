@@ -377,11 +377,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Code\Traitement\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Données\EIExRef.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Folder Include="Données\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

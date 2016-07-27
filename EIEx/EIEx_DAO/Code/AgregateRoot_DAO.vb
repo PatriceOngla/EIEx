@@ -3,7 +3,7 @@ Imports System.Xml.Serialization
 Imports Model
 
 <Serializable>
-Public MustInherit Class AgregateRoot_DAO(Of T As {AgregateRoot_Base})
+Public MustInherit Class AgregateRoot_DAO(Of T As {Model.Entité, IAgregateRoot})
     Inherits SystèmesItems_DAO(Of T)
 
 #Region "Constructeurs"
@@ -33,11 +33,6 @@ Public MustInherit Class AgregateRoot_DAO(Of T As {AgregateRoot_Base})
     End Sub
 
     Protected MustOverride Sub UnSerialized_Ex_Ex(nouvelleEntité As T)
-
-#End Region
-
-#Region "Tests et debuggage"
-
 
 #End Region
 

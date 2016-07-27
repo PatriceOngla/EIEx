@@ -63,7 +63,7 @@ Public Class UC_EIEx_Manager_UI
     Private Sub TraiterDemandeDeNavigation(source As Object)
         Dim FESource = TryCast(source, FrameworkElement)
         If FESource IsNot Nothing Then
-            Dim DonnéeNavigationCible = TryCast(FESource.DataContext, AgregateRoot_Base)
+            Dim DonnéeNavigationCible = TryCast(FESource.DataContext, IAgregateRoot)
             If DonnéeNavigationCible Is Nothing Then
                 Dim CBxParent = GetPrentCombobox(FESource)
 
@@ -95,7 +95,7 @@ Public Class UC_EIEx_Manager_UI
         End If
     End Sub
 
-    Private Sub AccéderALaVueRéférentiel(Cible As AgregateRoot_Base)
+    Private Sub AccéderALaVueRéférentiel(Cible As IAgregateRoot)
         Me.TBt_Référentiel.IsSelected = True
         Dim TypeCible = Cible.GetType
         Select Case TypeCible

@@ -70,19 +70,18 @@
     <Compile Include="Code\Workspace\Etude\ClasseurExcel.vb" />
     <Compile Include="Code\Workspace\Etude\Etude.vb" />
     <Compile Include="Code\Workspace\WorkSpace.vb" />
-    <Compile Include="Code\Référentiel\AgregateRootDuRéférentiel.vb" />
     <Compile Include="Code\Référentiel\EntitéDuRéférentiel.vb" />
-    <Compile Include="Code\Référentiel\AgregateRoots\FamilleDeProduits\FamilleDeProduit.vb" />
+    <Compile Include="Code\Référentiel\FamilleDeProduits\FamilleDeProduit.vb" />
     <Compile Include="Code\Référentiel\Produits\Produit.vb" />
     <Compile Include="Code\Référentiel\PatronsDOuvrages\PatronDOuvrage.vb" />
     <Compile Include="Code\Référentiel\Référentiel.vb" />
     <Compile Include="Code\Référentiel\PatronsDOuvrages\UsageDeProduit.vb" />
     <Compile Include="Code\Système.vb" />
     <Compile Include="Code\EIExObject.vb" />
-    <Compile Include="Code\AgregateRoot.vb" />
+    <Compile Include="Code\01_Interfaces\IAgregateRoot.vb" />
     <Compile Include="Code\Entité.vb" />
-    <Compile Include="Code\_Test et debug\Class1.vb" />
-    <Compile Include="Code\Interfaces\ISystèmeDAO.vb" />
+    <Compile Include="Code\00_Test et debug\Class1.vb" />
+    <Compile Include="Code\01_Interfaces\ISystèmeDAO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

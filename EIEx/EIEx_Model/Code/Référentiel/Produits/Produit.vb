@@ -1,14 +1,16 @@
 ﻿Imports System.Collections.ObjectModel
+Imports Model
 Imports Utils
 
 Public Class Produit
-    Inherits AgregateRootDuRéférentiel(Of Produit)
+    'Inherits AgregateRootDuRéférentiel(Of Produit)
+    Inherits EntitéDuRéférentiel
+    Implements IAgregateRoot
 
 #Region "Constructeurs"
 
     Public Sub New(Id As Integer)
-        MyBase.New(Id)
-        _MotsClés = New List(Of String)
+        Me.Id = Id
     End Sub
 
     Protected Overrides Sub Init()
@@ -19,6 +21,10 @@ Public Class Produit
 #End Region
 
 #Region "Propriétés"
+
+#Region "Id"
+    Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id
+#End Region
 
 #Region "Unité"
     Private _Unité As Unités
@@ -220,6 +226,9 @@ Public Class Produit
 
 #Region "Méthodes"
 
+    Public Overrides Function ToString() As String
+        Return Me.ToStringForAgregateRoot(MyBase.ToString())
+    End Function
 
 #End Region
 

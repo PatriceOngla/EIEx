@@ -133,7 +133,7 @@ Public Class WorkSpace
 
 #Region "Plomberie"
 
-    Protected Overrides Function GetTable(Of Tr As AgregateRoot_Base)() As IList(Of Tr)
+    Protected Overrides Function GetTable(Of Tr As IAgregateRoot)() As IList(Of Tr)
         Return Me._Etudes
     End Function
 

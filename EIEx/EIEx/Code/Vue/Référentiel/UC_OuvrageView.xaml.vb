@@ -17,11 +17,6 @@ Public Class UC_OuvragesView
 
             .AssociatedSelector = Me.DG_Master
 
-            '.SuppressionAConfirmer = Function(p As Produit)
-            '                             Dim r = (From ro In Ref.Ouvrages
-            '                                      Where ro.UtiliseProduit(p)).Any
-            '                             Return r
-            '                         End Function
         End With
 
         With UC_CmdCRUD_UsagesProduit

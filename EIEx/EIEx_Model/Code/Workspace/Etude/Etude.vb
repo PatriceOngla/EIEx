@@ -1,13 +1,16 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
 Imports System.ComponentModel
+Imports Model
 
 Public Class Etude
-    Inherits AgregateRoot(Of Etude)
+    Inherits EntitéDuWorkSpace
+    Implements IAgregateRoot
 
 #Region "Constructeurs"
+
     Public Sub New(Id As Integer)
-        MyBase.New(Id)
+        Me.Id = Id
     End Sub
 
     Protected Overrides Sub Init()
@@ -18,6 +21,10 @@ Public Class Etude
 #End Region
 
 #Region "Propriétés"
+
+#Region "Id"
+    Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id
+#End Region
 
 #Region "Système"
     Public Overrides ReadOnly Property Système As Système
@@ -93,6 +100,10 @@ Public Class Etude
         Dim newC = New ClasseurExcel(Chemin)
         Me.ClasseursExcel.Add(newC)
         Return newC
+    End Function
+
+    Public Overrides Function ToString() As String
+        Return Me.ToStringForAgregateRoot(MyBase.ToString())
     End Function
 
 #End Region

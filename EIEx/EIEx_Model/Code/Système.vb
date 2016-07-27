@@ -66,13 +66,13 @@ Public MustInherit Class Système '(Of Ts As Système)
 #Region "Factory"
 
 #Region "Factory générique"
-    Friend Sub EnregistrerRoot(Of Tr As AgregateRoot_Base)(root As Object) 'pas réussi à mieux typer. 
+    Friend Sub EnregistrerRoot(Of Tr As IAgregateRoot)(root As Object) 'pas réussi à mieux typer. 
         Dim Table = GetTable(Of Tr)()
         CheckUnicity(Table, root.id)
         If Not Table.Contains(root) Then Table.Add(root)
     End Sub
 
-    Private Sub CheckUnicity(Of Tr As AgregateRoot_Base)(Table As IEnumerable(Of Tr), Id As Integer)
+    Private Sub CheckUnicity(Of Tr As IAgregateRoot)(Table As IEnumerable(Of Tr), Id As Integer)
         Dim Doublon = (Table.Where(Function(item) item.Id = Id)).Any()
         If Doublon Then Throw New Exception($"Un élément ""{GetType(Tr).Name}"" portant l'identifiant{Id} existe déjà.")
     End Sub
@@ -83,7 +83,7 @@ Public MustInherit Class Système '(Of Ts As Système)
     '    Return r
     'End Function
 
-    Public Function GetNewRoot(Of Tr As {AgregateRoot_Base, New})() As Tr
+    Public Function GetNewRoot(Of Tr As {IAgregateRoot, New})() As Tr
         Dim r = New Tr()
         EnregistrerRoot(Of Tr)(r)
         Return r
@@ -95,7 +95,7 @@ Public MustInherit Class Système '(Of Ts As Système)
 
 #Region "Accès aux objets"
 
-    Protected Function GetObjectById(Of Tr As AgregateRoot_Base)(id As Integer, FailIfNotFound As Boolean) As Tr
+    Protected Function GetObjectById(Of Tr As IAgregateRoot)(id As Integer, FailIfNotFound As Boolean) As Tr
         Dim Table As ObservableCollection(Of Tr) = GetTable(Of Tr)()
         Dim r = (Table.Where(Function(o) o.Id = id)).FirstOrDefault
         If r Is Nothing AndAlso FailIfNotFound Then
@@ -109,10 +109,10 @@ Public MustInherit Class Système '(Of Ts As Système)
 
 #Region "Divers"
 
-    Protected MustOverride Function GetTable(Of Tr As AgregateRoot_Base)() As IList(Of Tr)
+    Protected MustOverride Function GetTable(Of Tr As IAgregateRoot)() As IList(Of Tr)
 
 #Region "GetNewId"
-    Friend Function GetNewId(Of Tr As AgregateRoot_Base)() As Integer?
+    Friend Function GetNewId(Of Tr As IAgregateRoot)() As Integer?
         Dim Table As ObservableCollection(Of Tr) = GetTable(Of Tr)()
         Dim newId = (From p In Table Select p.Id).Max
         newId = If(newId, 0)

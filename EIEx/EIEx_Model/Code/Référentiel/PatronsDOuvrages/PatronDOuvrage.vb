@@ -7,13 +7,13 @@ Imports Utils
 ''' On distingue <see cref="PatronDOuvrage"/> et Ouvrage. Les ouvrages sont les entrées des bordereau et sont associé à des <see cref="PatronDOuvrage"/> afin de calculer leur prix sur la base du <see cref="PatronDOuvrage.PrixUnitaire"/>. 
 ''' </summary>
 Public Class PatronDOuvrage
-    Inherits AgregateRootDuRéférentiel(Of PatronDOuvrage)
-    Implements ICloneable, IOuvrage
+    Inherits EntitéDuRéférentiel
+    Implements ICloneable, IOuvrage, IAgregateRoot
 
 #Region "Constructeurs"
 
     Public Sub New(Id As Integer)
-        MyBase.New(Id)
+        Me.Id = Id
     End Sub
 
     Protected Overrides Sub Init()
@@ -25,6 +25,10 @@ Public Class PatronDOuvrage
 #End Region
 
 #Region "Propriétés"
+
+#Region "Id"
+    Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id
+#End Region
 
 #Region "Gestion du nommage"
 
@@ -296,6 +300,12 @@ Public Class PatronDOuvrage
         Return r
     End Function
 
+#End Region
+
+#Region "ToString"
+    Public Overrides Function ToString() As String
+        Return Me.ToStringForAgregateRoot(MyBase.ToString())
+    End Function
 #End Region
 
 #End Region

@@ -76,20 +76,9 @@ Public Class Référentiel
 
 #Region "Méthodes"
 
-    '#Region "Persistance"
-
-    '    Public Overrides Sub Charger(Chemin As String)
-    '        If IO.File.Exists(Chemin) Then
-    '            Dim WS_DAO = Utils.DéSérialisation(Of Référentiel_DAO)(Chemin)
-    '            WS_DAO.UnSerialize(Me)
-    '        End If
-    '    End Sub
-
-    '#End Region
-
 #Region "Plomberie"
 
-    Protected Overrides Function GetTable(Of Tr As AgregateRoot_Base)() As IList(Of Tr)
+    Protected Overrides Function GetTable(Of Tr As IAgregateRoot)() As IList(Of Tr)
         Dim r As IList(Of Tr)
         Dim leType = GetType(Tr)
         Select Case leType
