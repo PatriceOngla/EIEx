@@ -31,5 +31,13 @@
                 Margin="4"  Width="20" Height="20"
                 ToolTip="{Binding ElementName=UC_CommandesCRUD, Path=TooltipSuppression}"
                 />
+        
+        <!--<Button 
+                ContentTemplate="{StaticResource ASuivre}" 
+                Margin="4"  Width="20" Height="20"
+                ToolTip="{Binding ElementName=UC_CommandesCRUD, Path=TooltipSuppression}"
+                />-->
+        
+        
     </StackPanel>
 </UserControl>

@@ -20,7 +20,7 @@
     
     <Grid>
         <DockPanel>
-            <ToggleButton ContentTemplate="{StaticResource ASuivre}" DockPanel.Dock="Right" 
+            <ToggleButton Width="20" Height="20" ContentTemplate="{StaticResource ASuivre}" DockPanel.Dock="Right" 
                           IsChecked="{Binding RelativeSource={StaticResource ThisControl}, FallbackValue= true, Path=EstActif}" 
                           Margin="0"
                           ToolTip="Cliquer pour activer la capture de plage (ne fonctionne que si le classeur courant est celui du bordereau"/>

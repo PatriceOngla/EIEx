@@ -110,6 +110,47 @@
         </Viewbox>
     </DataTemplate>
 
+    <DataTemplate x:Key="Reset" >
+        <DataTemplate.Resources>
+            <Style TargetType="Path">
+                <Setter Property="Stroke" Value="{Binding Foreground, FallbackValue=#FF9ACD32, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}"/>
+                <Setter Property="StrokeStartLineCap" Value="Round"/>
+                <Setter Property="StrokeEndLineCap" Value="Round"/>
+                <Setter Property="StrokeLineJoin" Value="Round"/>
+                <Setter Property="StrokeThickness" Value="20"/>
+            </Style>
+        </DataTemplate.Resources>
+        <Viewbox x:Name="Group" >
+            <Canvas x:Name="Calque_1" Width="128" Height="128" Canvas.Left="0" Canvas.Top="0">
+                <Canvas Width="93" Height="93" Canvas.Left="17.6042" Canvas.Top="17.6042">
+                    <Path x:Name="Line" 
+                      Width="93" Height="20" Canvas.Left="1.90735e-006" Canvas.Top="36.5" 
+                      Stretch="Fill" 
+                      Data="F1 M 10,46.5L 83,46.5"
+                      />
+                    <Path x:Name="Line_0" 
+                      Width="20" Height="93" Canvas.Left="36.5" Canvas.Top="0" 
+                      Stretch="Fill" 
+                      Data="F1 M 46.5,83L 46.5,10"
+                      />
+                </Canvas>
+
+                <Canvas Width="71.6188" Height="71.6188" Canvas.Left="28.2948" Canvas.Top="28.2948">
+                    <Path x:Name="Line_2" 
+                          Width="71.6188" Height="71.6188" Canvas.Left="-1.90735e-006" Canvas.Top="1.52588e-005" 
+                          Stretch="Fill" 
+                          Data="F1 M 61.6188,10L 10,61.6188"
+                          />
+                    <Path x:Name="Line_3" 
+                          Width="71.6188" Height="71.6188" Canvas.Left="9.53674e-006" Canvas.Top="0" 
+                          Stretch="Fill" 
+                          Data="F1 M 10,10L 61.6188,61.6188"
+                          />
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
     <!--#endregion-->
 
     <!--#region Valeurs de base-->
@@ -623,6 +664,8 @@
         <Setter Property="Padding" Value="1"/>
         <Setter Property="Template" Value="{DynamicResource Template_BoutonRond}"/>
         <Setter Property="Margin" Value="{StaticResource SmallMargin}"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
     </Style>
 
     <ControlTemplate x:Key="Template_BoutonRond" TargetType="{x:Type ButtonBase}">
@@ -780,7 +823,7 @@
     <!--#region GridSplitter-->
 
     <Style x:Key="GridSplitterStyle" BasedOn="{StaticResource {x:Type GridSplitter}}" TargetType="{x:Type GridSplitter}">
-        <Setter Property="Background" Value="#66F00A0A"/>
+        <Setter Property="Background" Value="#FFFA7575"/>
     </Style>
 
     <Style x:Key="VerticalGridSplitter" BasedOn="{StaticResource GridSplitterStyle}" TargetType="{x:Type GridSplitter}">

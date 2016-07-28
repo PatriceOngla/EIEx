@@ -159,7 +159,9 @@
                 <!--Temps de pause unitaire-->
                 <Label Grid.Row="5" Content="Tps de pause unitaire : " />
                 <DockPanel Grid.Row="5" Grid.Column="1">
-                    <Button x:Name="Btn_ResetTempsDePause" DockPanel.Dock="Right" Content="*" ToolTip="Supprimer la valeur forcée"
+                    <Button x:Name="Btn_ResetTempsDePause" 
+                            Width="20" Height="20" 
+                            DockPanel.Dock="Right" ContentTemplate="{StaticResource Reset}" ToolTip="Supprimer la valeur forcée"
                             IsEnabled="{Binding TempsDePauseForcé}"/>
                     <TextBox Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
@@ -170,7 +172,9 @@
                 <!--Prix unitaire-->
                 <Label Grid.Row="6" Content="Prix unitaire : " />
                 <DockPanel Grid.Row="6" Grid.Column="1">
-                    <Button x:Name="Btn_ResetPrixUnitaire" DockPanel.Dock="Right" Content="*" ToolTip="Supprimer la valeur forcée"
+                    <Button x:Name="Btn_ResetPrixUnitaire" 
+                            Width="20" Height="20" 
+                            DockPanel.Dock="Right" ContentTemplate="{StaticResource Reset}" ToolTip="Supprimer la valeur forcée"
                             IsEnabled="{Binding PrixUnitaireForcé}"/>
                     <TextBox Text="{Binding PrixUnitaire, FallbackValue=Prix,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
