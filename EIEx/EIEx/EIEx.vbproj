@@ -231,6 +231,9 @@
     <Compile Include="Code\Divers\ExcelCommander.vb" />
     <Compile Include="Code\Divers\ExcelEventManager.vb" />
     <Compile Include="Code\Divers\WPF_Utils.vb" />
+    <Compile Include="Code\Vue\Référentiel\UC_SélecteurDOuvrage.xaml.vb">
+      <DependentUpon>UC_SélecteurDOuvrage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Code\Vue\Référentiel\UC_SélecteurDeProduit.xaml.vb">
       <DependentUpon>UC_SélecteurDeProduit.xaml</DependentUpon>
     </Compile>
@@ -335,6 +338,10 @@
     <Page Include="Code\Vue\Référentiel\UC_Référentiel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Référentiel\UC_SélecteurDOuvrage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Code\Vue\Référentiel\UC_SélecteurDeProduit.xaml">
       <SubType>Designer</SubType>

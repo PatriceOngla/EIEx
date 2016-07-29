@@ -203,6 +203,31 @@ Public MustInherit Class Ouvrage_Base
 
 #End Region
 
+#Region "Mots"
+    Private _Mots As List(Of String)
+
+    ''' <summary>Les mots du <see cref="Nom"/> + ceux des <see cref="MotsClés"/> (pour les recherches). 
+    ''' Attention, il doivent être mis à jour avant toute recherche avec la méthode <see cref="SetMotsPourTousLesOuvrages(Boolean, Boolean)"/>.</summary>
+    Public ReadOnly Property Mots() As IEnumerable(Of String)
+        Get
+            'If _Mots Is Nothing Then SetMots()
+            Return _Mots
+        End Get
+    End Property
+
+    Public Sub SetMots()
+        _Mots = New List(Of String)(MotsClés)
+        _Mots.AddRange(Nom.Split({" "c, "'"c}))
+    End Sub
+
+    Public Shared Sub SetMotsPourTousLesOuvrages(PourLesPatrons As Boolean, PourLEtudeCourante As Boolean)
+        Dim s = Sub(o As Ouvrage_Base) o.SetMots()
+        If PourLesPatrons Then Référentiel.Instance.PatronsDOuvrage.DoForAll(s)
+        If PourLEtudeCourante Then WorkSpace.Instance.EtudeCourante.Ouvrages.DoForAll(s)
+    End Sub
+
+#End Region
+
 #End Region
 
 #Region "Méthodes"
@@ -292,6 +317,34 @@ Public MustInherit Class Ouvrage_Base
         '                                r.AjouterProduit(up.Produit, up.Nombre)
         '                            End Sub)
         'Return r
+    End Function
+
+#End Region
+
+#Region "ToString pour affichage en list (colonnage fixe)"
+
+    Public ReadOnly Property ToStringForListDisplay() As String
+        Get
+            Dim r = DisplayWithFixedColumn(Me.Nom, Me.MotsClés, Me.UsagesDeProduit.Count())
+            Return r
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property OuvragesListHeader() As String
+        Get
+            Dim r = DisplayWithFixedColumn("Nom", "Mots-clés", "Prdts")
+            Return r
+        End Get
+    End Property
+
+    Private Shared Function DisplayWithFixedColumn(nom As String, motsClés As List(Of String), Produits As String) As String
+        Dim r = DisplayWithFixedColumn(nom, Join(motsClés.ToArray(), ", "), Produits)
+        Return r
+    End Function
+
+    Private Shared Function DisplayWithFixedColumn(nom As String, motsClés As String, Produits As String) As String
+        Dim r As String = FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False) & FormateForColumn(Produits, 5, False)
+        Return r
     End Function
 
 #End Region

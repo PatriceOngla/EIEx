@@ -227,12 +227,6 @@ Public Class Produit
         Return r
     End Function
 
-    Private Shared Function FormateForColumn(s As String, width As Short, Optional AddSep As Boolean = False) As String
-        Const Margin = "  "
-        Dim r = Margin & Left(s, width).PadRight(width) & Margin & (If(AddSep, "|", ""))
-        Return r
-    End Function
-
 #End Region
 
 #End Region

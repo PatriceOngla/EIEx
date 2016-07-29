@@ -14,7 +14,7 @@ Public Class Bordereau
 
     Protected Overrides Sub Init()
         _Paramètres = New Paramètres
-        _Ouvrages = New ObservableCollection(Of PatronDOuvrage)()
+        _Ouvrages = New ObservableCollection(Of Ouvrage)()
     End Sub
 
 #End Region
@@ -73,8 +73,8 @@ Public Class Bordereau
 #End Region
 
 #Region "Ouvrages"
-    Private _Ouvrages As ObservableCollection(Of PatronDOuvrage)
-    Public ReadOnly Property Ouvrages() As IEnumerable(Of PatronDOuvrage)
+    Private _Ouvrages As ObservableCollection(Of Ouvrage)
+    Public ReadOnly Property Ouvrages() As IEnumerable(Of Ouvrage)
         Get
             Return _Ouvrages
         End Get

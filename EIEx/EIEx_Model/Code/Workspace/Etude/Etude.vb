@@ -95,6 +95,15 @@ Public Class Etude
 
 #End Region
 
+#Region "Ouvrages"
+    Public ReadOnly Property Ouvrages As IEnumerable(Of Ouvrage)
+        Get
+            Dim r = From c In Me.ClasseursExcel From b In c.Bordereaux From o In b.Ouvrages Select o
+            Return r
+        End Get
+    End Property
+#End Region
+
 #End Region
 
 #Region "Méthodes"

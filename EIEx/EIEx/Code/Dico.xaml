@@ -193,6 +193,7 @@
 
     <SolidColorBrush x:Key="ContourContainer" Color="{StaticResource CouleurContourContainer}"/>
     <SolidColorBrush x:Key="Contour" Color="#66000000"/>
+    <SolidColorBrush x:Key="ContourLéger" Color="#33FFFFFF"/>
 
     <SolidColorBrush x:Key="Fond" Color="#FF515151"/>
 
@@ -494,6 +495,7 @@
     <!--#region Contrôles de saisie -->
 
     <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="Foreground" Value="{StaticResource ClearTextBrush}"/>
         <Setter Property="Background" Value="{StaticResource WritableBkg}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -505,6 +507,12 @@
                 <Setter Property="Background" Value="{DynamicResource WritableFocusBkgd}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style TargetType="RadioButton"  BasedOn="{StaticResource {x:Type RadioButton}}">
+        <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+        <Setter Property="Foreground" Value="{StaticResource ClearTextBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style TargetType="TextBox">

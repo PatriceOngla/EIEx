@@ -5,22 +5,14 @@ Imports System.Windows.Input
 Imports Model
 Imports Utils
 
-Public Class UC_SélecteurDeProduit
+Public Class UC_SélecteurDOuvrage
 
 #Region "Constructeurs"
 
-    Private Sub UC_SélecteurDeProduit_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
-        'If Me.DataContext Is Nothing Then
-        'Me.Lbx_RésultatsRecherche.ItemsSource = Ref.Produits
-        'End If
-        InitSource()
-        Me.SLtr_RésultatRecherche.ItemsSource = SourceProduits.View
-    End Sub
-
-    Private Sub InitSource()
-        _SourceProduits = New CollectionViewSource()
-        _SourceProduits.Source = Ref.Produits
-
+    Private Sub UC_SélecteurDOuvrage_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+        SetCollectionViewSourceOuvrages()
+        Produit.SetMotsPourTousLesProduits()
+        Me.SLtr_RésultatRecherche.ItemsSource = CollectionViewSourceOuvrages.View
     End Sub
 
 #End Region
@@ -47,7 +39,7 @@ Public Class UC_SélecteurDeProduit
 #Region "RechercheSurDemande (Boolean)"
 
     Public Shared ReadOnly RechercheSurDemandeProperty As DependencyProperty =
-            DependencyProperty.Register("RechercheSurDemande", GetType(Boolean), GetType(UC_SélecteurDeProduit), New UIPropertyMetadata(False))
+            DependencyProperty.Register("RechercheSurDemande", GetType(Boolean), GetType(UC_SélecteurDOuvrage), New UIPropertyMetadata(False))
 
     Public Property RechercheSurDemande As Boolean
         Get
@@ -60,6 +52,7 @@ Public Class UC_SélecteurDeProduit
     End Property
 
 #End Region
+
 #Region "Critères"
 
 #Region "CritèreMotsClés (String)"
@@ -68,7 +61,7 @@ Public Class UC_SélecteurDeProduit
 
     Private Shared FlagsMDCritèreMotsClés As FrameworkPropertyMetadataOptions = 0
     Private Shared MDCritèreMotsClés As New FrameworkPropertyMetadata(Nothing, FlagsMDCritèreMotsClés, New PropertyChangedCallback(AddressOf OnCritèreMotsClésInvalidated))
-    Public Shared CritèreMotsClésProperty As DependencyProperty = DependencyProperty.Register("CritèreMotsClés", GetType(String), GetType(UC_SélecteurDeProduit), MDCritèreMotsClés)
+    Public Shared CritèreMotsClésProperty As DependencyProperty = DependencyProperty.Register("CritèreMotsClés", GetType(String), GetType(UC_SélecteurDOuvrage), MDCritèreMotsClés)
 
 #End Region
 
@@ -89,7 +82,7 @@ Public Class UC_SélecteurDeProduit
 
     Public Shared ReadOnly CritèreMotsClésChangedEvent As RoutedEvent =
                   EventManager.RegisterRoutedEvent("CritèreMotsClésChangedEvent", RoutingStrategy.Bubble,
-                                                                                      GetType(RoutedPropertyChangedEventHandler(Of String)), GetType(UC_SélecteurDeProduit))
+                                                                                      GetType(RoutedPropertyChangedEventHandler(Of String)), GetType(UC_SélecteurDOuvrage))
 
     Custom Event CritèreMotsClésChanged As RoutedEventHandler
         AddHandler(ByVal value As RoutedEventHandler)
@@ -110,7 +103,7 @@ Public Class UC_SélecteurDeProduit
 
     Private Shared Sub OnCritèreMotsClésInvalidated(ByVal d As DependencyObject, ByVal e As DependencyPropertyChangedEventArgs)
 
-        Dim Sender As UC_SélecteurDeProduit = d
+        Dim Sender As UC_SélecteurDOuvrage = d
         Dim OldValue As String = e.OldValue
         Dim NewValue As String = e.NewValue
 
@@ -123,10 +116,10 @@ Public Class UC_SélecteurDeProduit
         If Object.Equals(NewValue, OldValue) Then Exit Sub
 
         Dim args As New RoutedPropertyChangedEventArgs(Of String)(OldValue, NewValue)
-        args.RoutedEvent = UC_SélecteurDeProduit.CritèreMotsClésChangedEvent
+        args.RoutedEvent = UC_SélecteurDOuvrage.CritèreMotsClésChangedEvent
 
         'Insérer ici le code spécifique à la gestion du changement de la propriété "CritèreMotsClés"
-        If Not Me.RechercheSurDemande Then FiltrerLesProduits()
+        If Not Me.RechercheSurDemande Then FiltrerLesOuvrages()
 
         'Signalement de l'évennement au framework
         If args IsNot Nothing Then Me.RaiseEvent(args)
@@ -137,13 +130,34 @@ Public Class UC_SélecteurDeProduit
 
 #End Region
 
+#Region "Critères produit"
+
+#Region "CritèreMotsClésProduits (String)"
+
+    Public Shared ReadOnly CritèreMotsClésProduitsProperty As DependencyProperty =
+            DependencyProperty.Register("CritèreMotsClésProduits", GetType(String), GetType(UC_SélecteurDOuvrage), New UIPropertyMetadata(Nothing, New PropertyChangedCallback(Sub(Sender As UC_SélecteurDOuvrage, e As DependencyPropertyChangedEventArgs)
+                                                                                                                                                                                   Sender.FiltrerLesOuvrages()
+                                                                                                                                                                               End Sub)))
+
+    Public Property CritèreMotsClésProduits As String
+        Get
+            Return DirectCast(GetValue(CritèreMotsClésProduitsProperty), String)
+        End Get
+
+        Set(ByVal value As String)
+            SetValue(CritèreMotsClésProduitsProperty, value)
+        End Set
+    End Property
+
+#End Region
+
 #Region "CritèreCodeLydic (String)"
 
 #Region "Déclaration et registration de CritèreCodeLydicProperty"
 
     Private Shared FlagsMDCritèreCodeLydic As FrameworkPropertyMetadataOptions = 0
     Private Shared MDCritèreCodeLydic As New FrameworkPropertyMetadata(Nothing, FlagsMDCritèreCodeLydic, New PropertyChangedCallback(AddressOf OnCritèreCodeLydicInvalidated))
-    Public Shared CritèreCodeLydicProperty As DependencyProperty = DependencyProperty.Register("CritèreCodeLydic", GetType(String), GetType(UC_SélecteurDeProduit), MDCritèreCodeLydic)
+    Public Shared CritèreCodeLydicProperty As DependencyProperty = DependencyProperty.Register("CritèreCodeLydic", GetType(String), GetType(UC_SélecteurDOuvrage), MDCritèreCodeLydic)
 
 #End Region
 
@@ -164,7 +178,7 @@ Public Class UC_SélecteurDeProduit
 
     Public Shared ReadOnly CritèreCodeLydicChangedEvent As RoutedEvent =
                   EventManager.RegisterRoutedEvent("CritèreCodeLydicChangedEvent", RoutingStrategy.Bubble,
-                                                                                      GetType(RoutedPropertyChangedEventHandler(Of String)), GetType(UC_SélecteurDeProduit))
+                                                                                      GetType(RoutedPropertyChangedEventHandler(Of String)), GetType(UC_SélecteurDOuvrage))
 
     Custom Event CritèreCodeLydicChanged As RoutedEventHandler
         AddHandler(ByVal value As RoutedEventHandler)
@@ -185,7 +199,7 @@ Public Class UC_SélecteurDeProduit
 
     Private Shared Sub OnCritèreCodeLydicInvalidated(ByVal d As DependencyObject, ByVal e As DependencyPropertyChangedEventArgs)
 
-        Dim Sender As UC_SélecteurDeProduit = d
+        Dim Sender As UC_SélecteurDOuvrage = d
         Dim OldValue As String = e.OldValue
         Dim NewValue As String = e.NewValue
 
@@ -198,10 +212,10 @@ Public Class UC_SélecteurDeProduit
         If Object.Equals(NewValue, OldValue) Then Exit Sub
 
         Dim args As New RoutedPropertyChangedEventArgs(Of String)(OldValue, NewValue)
-        args.RoutedEvent = UC_SélecteurDeProduit.CritèreCodeLydicChangedEvent
+        args.RoutedEvent = UC_SélecteurDOuvrage.CritèreCodeLydicChangedEvent
 
         'Insérer ici le code spécifique à la gestion du changement de la propriété "CritèreCodeLydic"
-        If Not Me.RechercheSurDemande Then FiltrerLesProduits()
+        If Not Me.RechercheSurDemande Then FiltrerLesOuvrages()
 
         'Signalement de l'évennement au framework
         If args IsNot Nothing Then Me.RaiseEvent(args)
@@ -218,7 +232,7 @@ Public Class UC_SélecteurDeProduit
 
     Private Shared FlagsMDCritèreRefFournisseur As FrameworkPropertyMetadataOptions = 0
     Private Shared MDCritèreRefFournisseur As New FrameworkPropertyMetadata(Nothing, FlagsMDCritèreRefFournisseur, New PropertyChangedCallback(AddressOf OnCritèreRefFournisseurInvalidated))
-    Public Shared CritèreRefFournisseurProperty As DependencyProperty = DependencyProperty.Register("CritèreRefFournisseur", GetType(String), GetType(UC_SélecteurDeProduit), MDCritèreRefFournisseur)
+    Public Shared CritèreRefFournisseurProperty As DependencyProperty = DependencyProperty.Register("CritèreRefFournisseur", GetType(String), GetType(UC_SélecteurDOuvrage), MDCritèreRefFournisseur)
 
 #End Region
 
@@ -239,7 +253,7 @@ Public Class UC_SélecteurDeProduit
 
     Public Shared ReadOnly CritèreRefFournisseurChangedEvent As RoutedEvent =
                   EventManager.RegisterRoutedEvent("CritèreRefFournisseurChangedEvent", RoutingStrategy.Bubble,
-                                                                                      GetType(RoutedPropertyChangedEventHandler(Of String)), GetType(UC_SélecteurDeProduit))
+                                                                                      GetType(RoutedPropertyChangedEventHandler(Of String)), GetType(UC_SélecteurDOuvrage))
 
     Custom Event CritèreRefFournisseurChanged As RoutedEventHandler
         AddHandler(ByVal value As RoutedEventHandler)
@@ -260,7 +274,7 @@ Public Class UC_SélecteurDeProduit
 
     Private Shared Sub OnCritèreRefFournisseurInvalidated(ByVal d As DependencyObject, ByVal e As DependencyPropertyChangedEventArgs)
 
-        Dim Sender As UC_SélecteurDeProduit = d
+        Dim Sender As UC_SélecteurDOuvrage = d
         Dim OldValue As String = e.OldValue
         Dim NewValue As String = e.NewValue
 
@@ -276,7 +290,7 @@ Public Class UC_SélecteurDeProduit
         args.RoutedEvent = CritèreRefFournisseurChangedEvent
 
         'Insérer ici le code spécifique à la gestion du changement de la propriété "CritèreRefFournisseur"
-        If Not Me.RechercheSurDemande Then FiltrerLesProduits()
+        If Not Me.RechercheSurDemande Then FiltrerLesOuvrages()
 
         'Signalement de l'évennement au framework
         If args IsNot Nothing Then Me.RaiseEvent(args)
@@ -289,64 +303,106 @@ Public Class UC_SélecteurDeProduit
 
 #End Region
 
-#Region "Source produits"
+#End Region
 
-#Region "VueSourceProduits"
-    Public ReadOnly Property VueSourceProduits() As ICollectionView
+#Region "Source ouvrages"
+
+#Region "ViewSourceOuvrages"
+    Public ReadOnly Property ViewSourceOuvrages() As ICollectionView
         Get
             Return CollectionViewSource.GetDefaultView(Me.SLtr_RésultatRecherche.ItemsSource)
         End Get
     End Property
 #End Region
 
-#Region "SourceProduits"
+#Region "SourceOuvrages"
 
-    Private WithEvents _SourceProduits As CollectionViewSource
-    Public ReadOnly Property SourceProduits() As CollectionViewSource
+    Public ReadOnly Property SourceOuvrages As IEnumerable(Of Ouvrage_Base)
         Get
-            Return _SourceProduits
+            If Me.LaSourceEstLeRéférentiel Then
+                Return Ref.PatronsDOuvrage
+            Else
+                Return WorkSpace.Instance.EtudeCourante.Ouvrages
+            End If
         End Get
     End Property
-#End Region
 
-#End Region
-
-#Region "ProduitSélectionné (Produit)"
-
-#Region "Déclaration et registration de ProduitSélectionnéProperty"
-
-    Private Shared FlagsMDProduitSélectionné As FrameworkPropertyMetadataOptions = FrameworkPropertyMetadataOptions.BindsTwoWayByDefault
-    Private Shared MDProduitSélectionné As New FrameworkPropertyMetadata(Nothing, FlagsMDProduitSélectionné, New PropertyChangedCallback(AddressOf OnProduitSélectionnéInvalidated))
-    Public Shared ProduitSélectionnéProperty As DependencyProperty = DependencyProperty.Register("ProduitSélectionné", GetType(Produit), GetType(UC_SélecteurDeProduit), MDProduitSélectionné)
-
-#End Region
-
-#Region "Wrapper CLR de ProduitSélectionnéProperty"
-    Public Property ProduitSélectionné() As Produit
+    Private WithEvents _CollectionViewSourceOuvrages As CollectionViewSource
+    Public ReadOnly Property CollectionViewSourceOuvrages() As CollectionViewSource
         Get
-            Return GetValue(ProduitSélectionnéProperty)
+            Return _CollectionViewSourceOuvrages
         End Get
-        Set(ByVal value As Produit)
-            SetValue(ProduitSélectionnéProperty, value)
+    End Property
+
+    Private Sub SetCollectionViewSourceOuvrages()
+        _CollectionViewSourceOuvrages = New CollectionViewSource()
+        _CollectionViewSourceOuvrages.Source = Me.SourceOuvrages
+    End Sub
+
+#End Region
+
+#Region "LaSourceEstLeRéférentiel (Boolean)"
+
+    Public Shared ReadOnly LaSourceEstLeRéférentielProperty As DependencyProperty =
+            DependencyProperty.Register("LaSourceEstLeRéférentiel", GetType(Boolean), GetType(UC_SélecteurDOuvrage),
+                                        New UIPropertyMetadata(True, New PropertyChangedCallback(
+                                                               Sub(Sender As UC_SélecteurDOuvrage, e As DependencyPropertyChangedEventArgs)
+                                                                   Ouvrage_Base.SetMotsPourTousLesOuvrages(Sender.LaSourceEstLeRéférentiel, Not Sender.LaSourceEstLeRéférentiel)
+
+                                                                   Sender.SetCollectionViewSourceOuvrages()
+                                                               End Sub))
+                                                               )
+
+    Public Property LaSourceEstLeRéférentiel As Boolean
+        Get
+            Return DirectCast(GetValue(LaSourceEstLeRéférentielProperty), Boolean)
+        End Get
+
+        Set(ByVal value As Boolean)
+            SetValue(LaSourceEstLeRéférentielProperty, value)
+        End Set
+    End Property
+
+#End Region
+
+#End Region
+
+#Region "OuvrageSélectionné (Ouvrage_Base)"
+
+#Region "Déclaration et registration de OuvrageSélectionnéProperty"
+
+    Private Shared FlagsMDOuvrageSélectionné As FrameworkPropertyMetadataOptions = FrameworkPropertyMetadataOptions.BindsTwoWayByDefault
+    Private Shared MDOuvrageSélectionné As New FrameworkPropertyMetadata(Nothing, FlagsMDOuvrageSélectionné, New PropertyChangedCallback(AddressOf OnOuvrageSélectionnéInvalidated))
+    Public Shared OuvrageSélectionnéProperty As DependencyProperty = DependencyProperty.Register("OuvrageSélectionné", GetType(Ouvrage_Base), GetType(UC_SélecteurDOuvrage), MDOuvrageSélectionné)
+
+#End Region
+
+#Region "Wrapper CLR de OuvrageSélectionnéProperty"
+    Public Property OuvrageSélectionné() As Ouvrage_Base
+        Get
+            Return GetValue(OuvrageSélectionnéProperty)
+        End Get
+        Set(ByVal value As Ouvrage_Base)
+            SetValue(OuvrageSélectionnéProperty, value)
         End Set
     End Property
 #End Region
 
-#Region "Gestion évennementielle de la mise à jour de ProduitSélectionnéProperty"
+#Region "Gestion évennementielle de la mise à jour de OuvrageSélectionnéProperty"
 
-#Region "Evènnement ProduitSélectionnéChangedEvent et son Wrapper CLR (Non testé !!!)"
+#Region "Evènnement OuvrageSélectionnéChangedEvent et son Wrapper CLR (Non testé !!!)"
 
-    Public Shared ReadOnly ProduitSélectionnéChangedEvent As RoutedEvent =
-                  EventManager.RegisterRoutedEvent("ProduitSélectionnéChangedEvent", RoutingStrategy.Bubble,
-                                                                                      GetType(RoutedPropertyChangedEventHandler(Of Produit)), GetType(UC_SélecteurDeProduit))
+    Public Shared ReadOnly OuvrageSélectionnéChangedEvent As RoutedEvent =
+                  EventManager.RegisterRoutedEvent("OuvrageSélectionnéChangedEvent", RoutingStrategy.Bubble,
+                                                                                      GetType(RoutedPropertyChangedEventHandler(Of Ouvrage)), GetType(UC_SélecteurDOuvrage))
 
-    Custom Event ProduitSélectionnéChanged As RoutedEventHandler
+    Custom Event OuvrageSélectionnéChanged As RoutedEventHandler
         AddHandler(ByVal value As RoutedEventHandler)
-            Me.AddHandler(ProduitSélectionnéChangedEvent, value)
+            Me.AddHandler(OuvrageSélectionnéChangedEvent, value)
         End AddHandler
 
         RemoveHandler(ByVal value As RoutedEventHandler)
-            Me.RemoveHandler(ProduitSélectionnéChangedEvent, value)
+            Me.RemoveHandler(OuvrageSélectionnéChangedEvent, value)
         End RemoveHandler
 
         RaiseEvent(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs)
@@ -357,24 +413,24 @@ Public Class UC_SélecteurDeProduit
 
 #End Region
 
-    Private Shared Sub OnProduitSélectionnéInvalidated(ByVal d As DependencyObject, ByVal e As DependencyPropertyChangedEventArgs)
+    Private Shared Sub OnOuvrageSélectionnéInvalidated(ByVal d As DependencyObject, ByVal e As DependencyPropertyChangedEventArgs)
 
-        Dim Sender As UC_SélecteurDeProduit = d
-        Dim OldValue As Produit = e.OldValue
-        Dim NewValue As Produit = e.NewValue
+        Dim Sender As UC_SélecteurDOuvrage = d
+        Dim OldValue As Ouvrage_Base = e.OldValue
+        Dim NewValue As Ouvrage_Base = e.NewValue
 
-        Sender.OnProduitSélectionnéChanged(OldValue, NewValue)
+        Sender.OnOuvrageSélectionnéChanged(OldValue, NewValue)
 
     End Sub
 
-    Private Sub OnProduitSélectionnéChanged(ByVal OldValue As Produit, ByVal NewValue As Produit)
+    Private Sub OnOuvrageSélectionnéChanged(ByVal OldValue As Ouvrage_Base, ByVal NewValue As Ouvrage_Base)
 
         If Object.Equals(NewValue, OldValue) Then Exit Sub
 
-        Dim args As New RoutedPropertyChangedEventArgs(Of Produit)(OldValue, NewValue)
-        args.RoutedEvent = UC_SélecteurDeProduit.ProduitSélectionnéChangedEvent
+        Dim args As New RoutedPropertyChangedEventArgs(Of Ouvrage_Base)(OldValue, NewValue)
+        args.RoutedEvent = UC_SélecteurDOuvrage.OuvrageSélectionnéChangedEvent
 
-        'Insérer ici le code spécifique à la gestion du changement de la propriété "ProduitSélectionné"
+        'Insérer ici le code spécifique à la gestion du changement de la propriété "OuvrageSélectionné"
 
         'Signalement de l'évennement au framework
         If args IsNot Nothing Then Me.RaiseEvent(args)
@@ -390,7 +446,7 @@ Public Class UC_SélecteurDeProduit
 #Region "Déclaration et registration de InfosResultatProperty"
 
     Private Shared MDInfosResultat As New FrameworkPropertyMetadata(Nothing)
-    Public Shared InfosResultatPropertyKey As DependencyPropertyKey = DependencyProperty.RegisterReadOnly("InfosResultat", GetType(String), GetType(UC_SélecteurDeProduit), MDInfosResultat)
+    Public Shared InfosResultatPropertyKey As DependencyPropertyKey = DependencyProperty.RegisterReadOnly("InfosResultat", GetType(String), GetType(UC_SélecteurDOuvrage), MDInfosResultat)
     Public Shared InfosResultatProperty As DependencyProperty = InfosResultatPropertyKey.DependencyProperty
 
 #End Region
@@ -410,7 +466,7 @@ Public Class UC_SélecteurDeProduit
 #Region "NbRésultats"
     Public ReadOnly Property NbRésultats() As Integer
         Get
-            Return Me.VueSourceProduits.OfType(Of Produit).Count()
+            Return Me.ViewSourceOuvrages.OfType(Of Ouvrage_Base).Count()
         End Get
     End Property
 #End Region
@@ -418,7 +474,7 @@ Public Class UC_SélecteurDeProduit
 #Region "EntêteRésultats"
     Public ReadOnly Property EntêteRésultats() As String
         Get
-            Return Produit.ProductsListHeader
+            Return Ouvrage_Base.OuvragesListHeader
         End Get
     End Property
 #End Region
@@ -431,60 +487,50 @@ Public Class UC_SélecteurDeProduit
 
 #Region "Filtre"
 
-    Private Sub FiltrerLesProduits()
-        'Dim r = From p In Ref.Produits Where MatcheCritères(p)
-        'Me.SetValue(InfosResultatPropertyKey, r.Count & " produit(s)")
-        'Exit Sub
-        Me.VueSourceProduits.Filter = Function(p As Produit) MatcheCritères(p, Me.CritèreMotsClés, Me.CritèreCodeLydic, Me.CritèreRefFournisseur)
-        Me.SetValue(InfosResultatPropertyKey, $"{Me.NbRésultats} produit(s) trouvé(s)")
+    Private Sub FiltrerLesOuvrages()
+        'Dim r = From o In Me.SourceOuvrages Where MatcheCritères(o)
+        'Me.SetValue(InfosResultatPropertyKey, r.Count & " ouvrage(s)")
+        Me.ViewSourceOuvrages.Filter = Function(o As Ouvrage_Base) MatcheCritères(o)
+        Me.SetValue(InfosResultatPropertyKey, $"{Me.NbRésultats} ouvrage(s) trouvé(s)")
     End Sub
 
-    Private Sub _SourceProduits_Filter(sender As Object, e As FilterEventArgs) Handles _SourceProduits.Filter
-        Dim p As Produit = e.Item
-        If p IsNot Nothing Then
-            e.Accepted = MatcheCritères(e.Item, Me.CritèreMotsClés, Me.CritèreCodeLydic, Me.CritèreRefFournisseur)
+    Private Sub _SourceProduits_Filter(sender As Object, e As FilterEventArgs) Handles _CollectionViewSourceOuvrages.Filter
+        Dim O As Ouvrage_Base = e.Item
+        If O IsNot Nothing Then
+            e.Accepted = MatcheCritères(e.Item)
         End If
     End Sub
 
 #Region "MatcheCritères"
 
-    Friend Shared Function MatcheCritères(P As Produit, CritèreMotsClés As String, CritèreCodeLydic As String, CritèreRefFournisseur As String) As Boolean
+    Private Function MatcheCritères(O As Ouvrage_Base) As Boolean
 
         'Return True
 
-        Dim MatchMotsClés, MatchCodeLydic, MatchCodeFournisseur As Boolean
+        Dim MatchMotsClés, MatchProduits As Boolean
 
-        MatchMotsClés = MatcheCritèresMotsClés(P, CritèreMotsClés)
+        MatchMotsClés = MatcheCritèresMotsClés(O, Me.CritèreMotsClés)
+
         If MatchMotsClés Then
-            MatchCodeLydic = MatcheCritèresCodeLydic(P, CritèreCodeLydic)
-            If MatchCodeLydic Then
-                MatchCodeFournisseur = MatcheCritèresNumFournisseur(P, CritèreRefFournisseur)
-            End If
+            MatchProduits = MatcheCritèresProduits(O, Me.CritèreMotsClésProduits, Me.CritèreCodeLydic, Me.CritèreRefFournisseur)
         End If
 
-        Dim r = MatchMotsClés AndAlso MatchCodeLydic AndAlso MatchCodeFournisseur
+        Dim r = MatchMotsClés AndAlso MatchProduits
         Return r
 
     End Function
 
-    Private Shared Function MatcheCritèresCodeLydic(P As Produit, C As String) As Boolean
-        Dim r = String.IsNullOrEmpty(C)
-        r = r OrElse P.CodeLydic?.StartsWith(C, StringComparison.CurrentCultureIgnoreCase)
-        Return r
-    End Function
-
-    Private Shared Function MatcheCritèresNumFournisseur(P As Produit, C As String) As Boolean
-        Dim r = String.IsNullOrEmpty(C)
-        r = r OrElse P.RéférenceFournisseur.Contains(C)
-        Return r
-    End Function
-
-    Private Shared Function MatcheCritèresMotsClés(P As Produit, C As String) As Boolean
+    Private Function MatcheCritèresMotsClés(O As Ouvrage_Base, C As String) As Boolean
         Dim r = String.IsNullOrEmpty(C)
         If Not r Then
             Dim TabMotsClés = C.Split({" "c, "'"c}, StringSplitOptions.RemoveEmptyEntries)
-            r = P.Mots.ContainsList_String(TabMotsClés, True, True)
+            r = O.Mots.ContainsList_String(TabMotsClés, True, True)
         End If
+        Return r
+    End Function
+
+    Private Function MatcheCritèresProduits(o As Ouvrage_Base, CritèreMotsClés As String, critèreCodeLydic As String, critèreRefFournisseur As String) As Boolean
+        Dim r = (From up In o.UsagesDeProduit Where UC_SélecteurDeProduit.MatcheCritères(up.Produit, CritèreMotsClés, critèreCodeLydic, critèreRefFournisseur)).Any()
         Return r
     End Function
 
@@ -494,22 +540,22 @@ Public Class UC_SélecteurDeProduit
 
 #Region "Tri"
 
-    Private Sub TrierLesProduitsParFournisseurEtParRéférence()
-        With Me.VueSourceProduits
-            If?.CanSort Then
-                .SortDescriptions.Clear()
-                .SortDescriptions.Add(New SortDescription(NameOf(Produit.CodeLydic), ListSortDirection.Ascending))
-                .SortDescriptions.Add(New SortDescription(NameOf(Produit.RéférenceFournisseur), ListSortDirection.Ascending))
-            End If
-        End With
-    End Sub
+    'Private Sub TrierLesProduitsParFournisseurEtParRéférence()
+    '    With Me.ViewSourceOuvrages
+    '        If?.CanSort Then
+    '            .SortDescriptions.Clear()
+    '            .SortDescriptions.Add(New SortDescription(NameOf(Produit.CodeLydic), ListSortDirection.Ascending))
+    '            .SortDescriptions.Add(New SortDescription(NameOf(Produit.RéférenceFournisseur), ListSortDirection.Ascending))
+    '        End If
+    '    End With
+    'End Sub
 
 #End Region
 
 #Region "Regroupements"
 
     Private Sub GrouperLesProduitsParFournisseur()
-        With Me.VueSourceProduits
+        With Me.ViewSourceOuvrages
             If?.CanGroup Then
                 '.GroupDescriptions.Clear()
                 .GroupDescriptions.Add(New PropertyGroupDescription(NameOf(Produit.CodeLydic)))
@@ -518,7 +564,7 @@ Public Class UC_SélecteurDeProduit
     End Sub
 
     Private Sub GrouperLesProduitsParUnité()
-        With Me.VueSourceProduits
+        With Me.ViewSourceOuvrages
             If?.CanGroup Then
                 .GroupDescriptions.Add(New PropertyGroupDescription("Unité"))
                 '.GroupDescriptions.Add(New PropertyGroupDescription("Complete"))
@@ -547,15 +593,15 @@ Public Class UC_SélecteurDeProduit
 
 #End Region
 
-    Private Sub UC_SélecteurDeProduit_KeyDown(sender As Object, e As KeyEventArgs) Handles TBx_CritèreCodeLydic.KeyDown, TBx_CritèreMotsClés.KeyDown, TBx_CritèreRefFournisseur.KeyDown
+    Private Sub UC_SélecteurDOuvrage_KeyDown(sender As Object, e As KeyEventArgs) Handles TBx_CritèreCodeLydic.KeyDown, TBx_CritèreMotsClés.KeyDown, TBx_CritèreRefFournisseur.KeyDown
         If e.Key = Key.Return Then
-            Me.FiltrerLesProduits()
+            Me.FiltrerLesOuvrages()
             Me.SLtr_RésultatRecherche.Focus()
         End If
     End Sub
 
     Private Sub Btn_Chercher_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Chercher.Click
-        Me.FiltrerLesProduits()
+        Me.FiltrerLesOuvrages()
     End Sub
 
 #End Region
@@ -564,9 +610,9 @@ Public Class UC_SélecteurDeProduit
 
     Public Sub Show()
 
-        Produit.SetMotsPourTousLesProduits()
+        Ouvrage_Base.SetMotsPourTousLesOuvrages(Me.LaSourceEstLeRéférentiel, Not Me.LaSourceEstLeRéférentiel)
 
-        Me._FenêtreParente = New Windows.Window With {.Title = "Recherche de produit"}
+        Me._FenêtreParente = New Windows.Window With {.Title = "Recherche d'ouvrage"}
 
         Dim aw = XL.ActiveWindow
         Dim OpenModal = aw IsNot Nothing
@@ -615,15 +661,15 @@ Public Class UC_SélecteurDeProduit
         Me.TBx_CritèreRefFournisseur.Clear()
         Me.TBx_CritèreMotsClés.Focus()
         Me.RechercheSurDemande = bckup
-        Me.FiltrerLesProduits()
+        Me.FiltrerLesOuvrages()
     End Sub
 
 #End Region
 
 #Region "ValiderLeChoix"
     Private Sub ValiderLeChoix()
-        If (Me.ProduitSélectionné IsNot Nothing) Then
-            RaiseEvent ProduitTrouvé(Me.ProduitSélectionné)
+        If (Me.OuvrageSélectionné IsNot Nothing) Then
+            RaiseEvent OuvrageTrouvé(Me.OuvrageSélectionné)
             Me.FenêtreParente?.Close()
         End If
     End Sub
@@ -633,9 +679,9 @@ Public Class UC_SélecteurDeProduit
 
 #Region "Events"
 
-#Region "ProduitTrouvé"
+#Region "OuvrageTrouvé"
 
-    Public Event ProduitTrouvé(P As Produit)
+    Public Event OuvrageTrouvé(P As Ouvrage)
 
 #End Region
 

@@ -105,9 +105,11 @@ Public Class ThisAddIn
 #If DEBUG Then
     Public Sub Test()
 
-
         'Dim PS As New UC_SélecteurDeProduit
         'PS.Show()
+
+        Dim SO As New UC_SélecteurDOuvrage
+        SO.Show()
     End Sub
 #End If
 
