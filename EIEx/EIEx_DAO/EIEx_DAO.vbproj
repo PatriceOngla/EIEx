@@ -78,6 +78,7 @@
     <Compile Include="Code\Workspace\Items\Bordereau_DAO.vb" />
     <Compile Include="Code\Workspace\Items\ClasseurExcel_DAO.vb" />
     <Compile Include="Code\Workspace\Items\Paramètres_DAO.vb" />
+    <Compile Include="Code\Workspace\Items\Ouvrage_DAO.vb" />
     <Compile Include="Code\Workspace\Workspace_DAO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

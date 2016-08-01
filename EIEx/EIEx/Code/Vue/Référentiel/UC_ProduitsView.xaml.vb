@@ -1,8 +1,15 @@
 ﻿Imports System.Windows
+Imports System.Windows.Input
 Imports Model
 Imports Utils
 
 Public Class UC_ProduitsView
+
+#Region "Champs privés"
+
+    Private WithEvents UCSP As New UC_SélecteurDeProduit()
+
+#End Region
 
 #Region "Constructeurs"
 
@@ -84,6 +91,28 @@ Public Class UC_ProduitsView
         Dim UsageAssociés = From po In Ref.PatronsDOuvrage From up In po.UsagesDeProduit Where up.Produit Is Pdt Select up
         Dim UPASupprimer = New List(Of UsageDeProduit)(UsageAssociés)
         UPASupprimer.DoForAll(Sub(up) up.Parent.UsagesDeProduit.Remove(up))
+    End Sub
+
+#End Region
+
+#Region "Recherche"
+
+    Private Sub UC_ProduitsView_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Try
+            If e.Key = Key.F AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
+                UCSP.Show()
+            End If
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+    Private Sub UCSP_ProduitTrouvé(P As Produit) Handles UCSP.ProduitTrouvé
+        Try
+            Me.ProduitCourant = P
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
     End Sub
 
 #End Region

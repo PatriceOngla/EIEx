@@ -518,14 +518,14 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 #Region "Créer les ouvrages"
 
     Public Sub CréerLesOuvrages(ByRef NbOK As Integer, ByRef NbKO As Integer)
-        Dim NewOuvrage As PatronDOuvrage
+        Dim NewOuvrage As Ouvrage
         NbOK = 0 : NbKO = 0
         Dim NbTraité As Integer = 0, NbATraiter = Me.NbLibellésRetenus
 
         Dim LibellésDesOuvragesACréer As New List(Of LibelléDouvrage)(Me.LibellésRetenus)
         For Each L In LibellésDesOuvragesACréer
             Try
-                NewOuvrage = Ref.GetNewOuvrage()
+                NewOuvrage = L.Bordereau.AjouterOuvrage(L.PremierRange.Row)
                 NewOuvrage.Nom = L.Libellé
                 NewOuvrage.ComplémentDeNom = L.ComplémentDeNom
                 NbOK += 1

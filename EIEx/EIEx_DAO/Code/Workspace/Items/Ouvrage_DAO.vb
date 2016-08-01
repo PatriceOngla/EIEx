@@ -2,18 +2,23 @@
 Imports Utils
 
 <Serializable>
-Public Class PatronDOuvrage_DAO
-    Inherits AgregateRoot_DAO(Of PatronDOuvrage)
+Public Class Ouvrage_DAO
+    Inherits SystèmesItems_DAO(Of Ouvrage)
+    'TODO : factoriser le code entre Ouvrage_DAO et PatronDOuvrage_DAO (commun sauf complément de nom)
 
 #Region "Constructeurs"
 
     Public Sub New()
     End Sub
 
-    Public Sub New(O As PatronDOuvrage)
+    Public Sub New(O As Ouvrage)
         MyBase.New(O)
 
+        Me.ComplémentDeNom = O.ComplémentDeNom
+
         Me.Libellés = New List(Of String)(O.Libellés)
+
+        Me.NuméroLignePlageExcel = O.NuméroLignePlageExcel
 
         Dim UsagesDeProduit_DAO = From up In O.UsagesDeProduit Select New UsageDeProduit_DAO(up)
         Me.UsagesDeProduit = New List(Of UsageDeProduit_DAO)(UsagesDeProduit_DAO)
@@ -44,6 +49,10 @@ Public Class PatronDOuvrage_DAO
 
     Public Property Libellés() As List(Of String)
 
+    Public Property ComplémentDeNom() As String
+
+    Public Property NuméroLignePlageExcel() As Integer
+
     Public Property UsagesDeProduit() As List(Of UsageDeProduit_DAO)
 
     Public Property MotsClés() As List(Of String)
@@ -58,9 +67,11 @@ Public Class PatronDOuvrage_DAO
 
 #Region "Méthodes"
 
-    Protected Overrides Sub UnSerialized_Ex_Ex(NouvelOuvrage As PatronDOuvrage)
-        'NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
+    Protected Overrides Sub UnSerialized_Ex(NouvelOuvrage As Ouvrage)
+
+        NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
         NouvelOuvrage.Libellés.AddRange(Me.Libellés)
+        'NouvelOuvrage.NuméroLignePlageExcel = Me.NuméroLignePlageExcel
 
         Me.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit_DAO)
                                         Dim Produit = If(up.ProduitId Is Nothing, Nothing, Ref.GetProduitById(up.ProduitId))

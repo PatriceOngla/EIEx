@@ -16,8 +16,8 @@ Public Class ClasseurExcel_DAO
 
         Me.CheminFichier = C.CheminFichier
 
-        Dim SBordereaux = From b In C.Bordereaux Select New Bordereau_DAO(b)
-        Me.Bordereaux = New List(Of Bordereau_DAO)(SBordereaux)
+        Dim Bordereaux = From b In C.Bordereaux Select New Bordereau_DAO(b)
+        Me.Bordereaux = New List(Of Bordereau_DAO)(Bordereaux)
         Me.MêmeStructurePourTousLesBordereaux = C.MêmeStructurePourTousLesBordereaux
 
     End Sub

@@ -8,7 +8,6 @@ Imports Utils
 ''' </summary>
 Public MustInherit Class Ouvrage_Base
     Inherits Entité
-    Implements ICloneable
 
 #Region "Constructeurs"
 
@@ -39,29 +38,6 @@ Public MustInherit Class Ouvrage_Base
     End Property
 #End Region
 
-#Region "ComplémentDeNom"
-    Private _ComplémentDeNom As String
-    Public Property ComplémentDeNom() As String
-        Get
-            Return _ComplémentDeNom
-        End Get
-        Set(ByVal value As String)
-            If Object.Equals(value, Me._ComplémentDeNom) Then Exit Property
-            _ComplémentDeNom = value
-            NotifyPropertyChanged(NameOf(ComplémentDeNom))
-        End Set
-    End Property
-#End Region
-
-#Region "NomComplet"
-    ''' <summary>Le nom saisi + le complément de nom s'il y a en a un. </summary>
-    Public ReadOnly Property NomComplet() As String
-        Get
-            Return Me.Nom & If(String.IsNullOrEmpty(ComplémentDeNom), "", " - " & ComplémentDeNom)
-        End Get
-    End Property
-#End Region
-
 #Region "Libellés"
 
     Private WithEvents _Libellés As ObservableCollection(Of String)
@@ -89,15 +65,6 @@ Public MustInherit Class Ouvrage_Base
 
 #End Region
 
-#End Region
-
-#Region "Bordereau"
-    Private _Bordereau As Bordereau
-    Public ReadOnly Property Bordereau() As Bordereau
-        Get
-            Return _Bordereau
-        End Get
-    End Property
 #End Region
 
 #Region "UsagesDeProduit "
@@ -298,26 +265,19 @@ Public MustInherit Class Ouvrage_Base
 
 #Region "Gestion du templating"
 
-    Public Function Clone() As Object Implements ICloneable.Clone
-        Return Me.Copie
-    End Function
+    Public Sub Copier(Modèle As Ouvrage_Base)
+        Me.Init()
+        Me.Libellés.AddRange(Modèle.Libellés)
+        Me.MotsClés.AddRange(Modèle.MotsClés)
+        If Modèle.PrixUnitaireForcé Then Me.PrixUnitaire = Modèle.PrixUnitaire
+        If Modèle.TempsDePauseForcé Then Me.TempsDePauseUnitaire = Modèle.TempsDePauseUnitaire
 
-    Public Function Copie() As Ouvrage_Base
-        'TODO: implémenter
-        Throw New NotImplementedException()
-        'Dim r = Ref.GetNewOuvrage()
-        'r.Nom = Me.NomComplet
-        'r.ComplémentDeNom = "?"
-        'r.Libellés.AddRange(Me.Libellés)
-        'r.MotsClés.AddRange(Me.MotsClés)
-        'If Me.PrixUnitaireForcé Then r.PrixUnitaire = Me.PrixUnitaire
-        'If Me.TempsDePauseForcé Then r.TempsDePauseUnitaire = Me.TempsDePauseUnitaire
+        Modèle.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit)
+                                            Me.AjouterProduit(up.Produit, up.Nombre)
+                                        End Sub)
+    End Sub
 
-        'Me.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit)
-        '                                r.AjouterProduit(up.Produit, up.Nombre)
-        '                            End Sub)
-        'Return r
-    End Function
+    Protected MustOverride Sub Copier_Ex(Modèle As Ouvrage_Base)
 
 #End Region
 

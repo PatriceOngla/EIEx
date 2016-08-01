@@ -89,9 +89,10 @@ Public Class Bordereau
         Me.NotifyPropertyChanged(NameOf(Paramètres))
     End Sub
 
-    Public Sub AjouterOuvrage(NumLignePlageExcel As Integer)
+    Public Function AjouterOuvrage(NumLignePlageExcel As Integer) As Ouvrage
         Dim NouvelOuvrage = New Ouvrage(Me, NumLignePlageExcel)
-    End Sub
+        Return NouvelOuvrage
+    End Function
 
 #End Region
 

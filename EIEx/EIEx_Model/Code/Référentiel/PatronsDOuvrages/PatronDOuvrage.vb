@@ -8,7 +8,7 @@ Imports Utils
 ''' </summary>
 Public Class PatronDOuvrage
     Inherits Ouvrage_Base
-    Implements ICloneable, IAgregateRoot, IEntitéDuRéférentiel
+    Implements IAgregateRoot, IEntitéDuRéférentiel
 
 #Region "Constructeurs"
 
@@ -116,6 +116,10 @@ Public Class PatronDOuvrage
 #End Region
 
 #Region "Méthodes"
+
+    Protected Overrides Sub Copier_Ex(Modèle As Ouvrage_Base)
+        Me.Nom = Modèle.Nom & " (copie)"
+    End Sub
 
 #Region "ToString"
     Public Overrides Function ToString() As String

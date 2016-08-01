@@ -1,9 +1,16 @@
 ﻿Imports System.Windows
 Imports System.Windows.Controls
+Imports System.Windows.Input
 Imports Model
 Imports Utils
 
 Public Class UC_OuvragesView
+
+#Region "Champs privés"
+
+    Private WithEvents UCSO As New UC_SélecteurDOuvrage()
+
+#End Region
 
 #Region "Constructeurs"
 
@@ -79,6 +86,8 @@ Public Class UC_OuvragesView
 #End Region
 
 #End Region
+
+#Region "Méthodes"
 
 #Region "Gestionnaires d'évennements"
 
@@ -203,7 +212,29 @@ Public Class UC_OuvragesView
         End If
     End Sub
 
+#Region "Recherche"
 
+    Private Sub UC_OuvragesView_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Try
+            If e.Key = Key.F AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
+                UCSO.Show()
+            End If
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+    Private Sub UCSO_OuvrageTrouvé(O As Ouvrage_Base) Handles UCSO.OuvrageTrouvé
+        Try
+            Me.OuvrageCourant = O
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+#End Region
+
+#End Region
 
 #End Region
 

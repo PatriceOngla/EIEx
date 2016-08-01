@@ -681,7 +681,7 @@ Public Class UC_SélecteurDOuvrage
 
 #Region "OuvrageTrouvé"
 
-    Public Event OuvrageTrouvé(P As Ouvrage)
+    Public Event OuvrageTrouvé(O As Ouvrage_Base)
 
 #End Region
 
