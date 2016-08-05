@@ -36,23 +36,6 @@ Public Class UC_SélecteurDOuvrage
     End Property
 #End Region
 
-#Region "RechercheSurDemande (Boolean)"
-
-    Public Shared ReadOnly RechercheSurDemandeProperty As DependencyProperty =
-            DependencyProperty.Register("RechercheSurDemande", GetType(Boolean), GetType(UC_SélecteurDOuvrage), New UIPropertyMetadata(False))
-
-    Public Property RechercheSurDemande As Boolean
-        Get
-            Return DirectCast(GetValue(RechercheSurDemandeProperty), Boolean)
-        End Get
-
-        Set(ByVal value As Boolean)
-            SetValue(RechercheSurDemandeProperty, value)
-        End Set
-    End Property
-
-#End Region
-
 #Region "Critères"
 
 #Region "CritèreMotsClés (String)"
@@ -305,6 +288,25 @@ Public Class UC_SélecteurDOuvrage
 
 #End Region
 
+#Region "Options de recherche"
+
+#Region "RechercheSurDemande (Boolean)"
+
+    Public Shared ReadOnly RechercheSurDemandeProperty As DependencyProperty =
+            DependencyProperty.Register("RechercheSurDemande", GetType(Boolean), GetType(UC_SélecteurDOuvrage), New UIPropertyMetadata(False))
+
+    Public Property RechercheSurDemande As Boolean
+        Get
+            Return DirectCast(GetValue(RechercheSurDemandeProperty), Boolean)
+        End Get
+
+        Set(ByVal value As Boolean)
+            SetValue(RechercheSurDemandeProperty, value)
+        End Set
+    End Property
+
+#End Region
+
 #Region "Source ouvrages"
 
 #Region "ViewSourceOuvrages"
@@ -360,6 +362,33 @@ Public Class UC_SélecteurDOuvrage
 
         Set(ByVal value As Boolean)
             SetValue(LaSourceEstLeRéférentielProperty, value)
+        End Set
+    End Property
+
+#End Region
+
+#End Region
+
+#Region "DistanceTolérée (short)"
+
+    Public Shared ReadOnly DistanceToléréeProperty As DependencyProperty =
+            DependencyProperty.Register("DistanceTolérée", GetType(Short), GetType(UC_SélecteurDOuvrage),
+                                        New UIPropertyMetadata(CShort(0), New PropertyChangedCallback(
+                                                               Sub(Sender As UC_SélecteurDOuvrage,
+                                                                   e As DependencyPropertyChangedEventArgs)
+                                                                   If e.NewValue > 0 Then
+                                                                       Sender.RechercheSurDemande = True
+                                                                   End If
+                                                               End Sub)
+                                                               ))
+
+    Public Property DistanceTolérée As Short
+        Get
+            Return DirectCast(GetValue(DistanceToléréeProperty), Short)
+        End Get
+
+        Set(ByVal value As Short)
+            SetValue(DistanceToléréeProperty, value)
         End Set
     End Property
 
@@ -509,7 +538,7 @@ Public Class UC_SélecteurDOuvrage
 
         Dim MatchMotsClés, MatchProduits As Boolean
 
-        MatchMotsClés = MatcheCritèresMotsClés(O, Me.CritèreMotsClés)
+        MatchMotsClés = MatcheCritèresMotsClés(O, Me.CritèreMotsClés, Me.DistanceTolérée)
 
         If MatchMotsClés Then
             MatchProduits = MatcheCritèresProduits(O, Me.CritèreMotsClésProduits, Me.CritèreCodeLydic, Me.CritèreRefFournisseur)
@@ -520,11 +549,13 @@ Public Class UC_SélecteurDOuvrage
 
     End Function
 
-    Private Function MatcheCritèresMotsClés(O As Ouvrage_Base, C As String) As Boolean
+    ''' <param name="DistanceTolérée">Distance de Levenstein tolérée.</param>
+    ''' <returns></returns>
+    Private Shared Function MatcheCritèresMotsClés(O As Ouvrage_Base, C As String, DistanceTolérée As Short) As Boolean
         Dim r = String.IsNullOrEmpty(C)
         If Not r Then
             Dim TabMotsClés = C.Split({" "c, "'"c}, StringSplitOptions.RemoveEmptyEntries)
-            r = O.Mots.ContainsList_String(TabMotsClés, True, True)
+            r = O.Mots.ContainsList_String(TabMotsClés, True, True, DistanceTolérée)
         End If
         Return r
     End Function

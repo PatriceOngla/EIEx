@@ -69,16 +69,21 @@ Imports Utils
         XC.Nom = "Classeur " & i
         For j = 1 To i
             Dim Bd = XC.AjouterNouveauBordereau()
-            FillBordereau(Bd, i)
+            FillBordereau(Bd, i, j)
         Next
     End Sub
 
-    Private Sub FillBordereau(B As Bordereau, i As Integer)
+    Private Sub FillBordereau(B As Bordereau, i As Integer, j As Integer)
         B.NomFeuille = "Feuille " & i
-        B.Nom = "Bordereau " & i
+        B.Nom = "Bordereau " & i & " - " & j
         B.Paramètres.AdresseRangeLibelleOuvrage = $"A{i}L{i}"
         B.Paramètres.AdresseRangeUnité = $"A{i}U{i}"
         B.Paramètres.AdresseRangePrixUnitaire = $"A{i}P{i}"
+        Dim NO As Ouvrage
+        For k = 1 To j
+            NO = B.AjouterOuvrage(i * 10 + k)
+            NO.Nom = $"Ouvrage {i}-{j}-{k}"
+        Next
     End Sub
 
 #Region "Test & debug"

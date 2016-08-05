@@ -64,6 +64,7 @@ Public Class GestionnaireDeBordereaux
         End Get
     End Property
 #End Region
+
 #Region "Plages sources"
 
 #Region "PlageDeRechercheDesLibellés"
@@ -131,7 +132,8 @@ Public Class GestionnaireDeBordereaux
             If Object.Equals(value, Me._LibelléEnDoublonCourant) Then Exit Property
             _LibelléEnDoublonCourant = value
             NotifyPropertyChanged(NameOf(LibelléEnDoublonCourant))
-            SélectionnerLesRangesAssociés(value)
+            'SélectionnerLesRangesAssociés(value)
+            SélectionnerLeRangesAssociéCourant(XL, value)
         End Set
     End Property
 #End Region
@@ -171,7 +173,7 @@ Public Class GestionnaireDeBordereaux
             If Object.Equals(value, Me._LibelléEnTransitCourant) Then Exit Property
             _LibelléEnTransitCourant = value
             NotifyPropertyChanged(NameOf(LibelléEnTransitCourant))
-            SélectionnerLesRangesAssociés(value)
+            SélectionnerLeRangesAssociéCourant(XL, value)
         End Set
     End Property
 #End Region
@@ -199,7 +201,7 @@ Public Class GestionnaireDeBordereaux
             If Object.Equals(value, Me._LibelléRetenuCourant) Then Exit Property
             _LibelléRetenuCourant = value
             NotifyPropertyChanged(NameOf(LibelléRetenuCourant))
-            SélectionnerLesRangesAssociés(value)
+            SélectionnerLeRangesAssociéCourant(XL, value)
         End Set
     End Property
 #End Region
@@ -467,7 +469,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     Public Sub RépartirLesLibellésDOuvrages(b As Bordereau)
         Try
             Dim LesDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.Bordereau Is b AndAlso l.NbOccurrences > 1 Order By l.NbOccurrences Descending
-            Dim LesPasDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.Bordereau Is b AndAlso l.NbOccurrences = 1 Order By l.PremierRange.Row Ascending
+            Dim LesPasDoublons As IEnumerable(Of LibelléDouvrage) = From l In TousLesLibellés Where l.Bordereau Is b AndAlso l.NbOccurrences = 1 Order By l.LignePremierRange Ascending
 
             Me.LibellésEnDoublonEncoreATraiter.AddRange(LesDoublons)
             Me.LibellésRetenus.AddRange(LesPasDoublons)
@@ -525,7 +527,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
         Dim LibellésDesOuvragesACréer As New List(Of LibelléDouvrage)(Me.LibellésRetenus)
         For Each L In LibellésDesOuvragesACréer
             Try
-                NewOuvrage = L.Bordereau.AjouterOuvrage(L.PremierRange.Row)
+                NewOuvrage = L.Bordereau.AjouterOuvrage(L.LignePremierRange)
                 NewOuvrage.Nom = L.Libellé
                 NewOuvrage.ComplémentDeNom = L.ComplémentDeNom
                 NbOK += 1
@@ -581,26 +583,46 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
 #Region "Pilotage Excel"
 
-    Private Sub SélectionnerLesRangesAssociés(L As LibelléDouvrage)
+    'Private Sub SélectionnerLesRangesAssociés(L As LibelléDouvrage)
+    '    Try
+    '        XL.ScreenUpdating = False
+    '        Dim OriginWS As Excel.Worksheet = XL.ActiveSheet
+    '        If L Is Nothing Then Exit Sub
+    '        Dim previousWs As Excel.Worksheet = Nothing '= Selection.Worksheet
+    '        'TODO: Provisoire. On fera autrement que précédemment (sélection multiple), ça plante quand on est sur plusieurs classeurs. 
+    '        For Each rng As Excel.Range In L.Ranges
+    '            'XL.Union(Selection, rng)
+    '            If rng.Worksheet IsNot previousWs Then
+    '                rng.Worksheet.Activate()
+    '                previousWs = rng.Worksheet
+    '            End If
+    '            rng.Select()
+    '            Exit For
+    '        Next
+    '        'OriginWS.Activate()
+    '    Catch ex As Exception
+    '        ManageErreur(ex, "Echec de la sélection des cellules Excel.")
+    '    Finally
+    '        XL.ScreenUpdating = True
+    '    End Try
+    'End Sub
+
+    Public Shared Sub SélectionnerLeRangesAssociéCourant(XL As Excel.Application, L As LibelléDouvrage)
         Try
-            Dim OriginWS As Excel.Worksheet = XL.ActiveSheet
-            If L Is Nothing Then Exit Sub
-            Dim previousWs As Excel.Worksheet = Nothing '= Selection.Worksheet
-            'TODO: Provisoire. On fera autrement que précédemment (sélection multiple), ça plante quand on est sur plusieurs classeurs. 
-            For Each rng As Excel.Range In L.Ranges
-                'XL.Union(Selection, rng)
-                If rng.Worksheet IsNot previousWs Then
-                    rng.Worksheet.Activate()
-                    rng.Select()
-                    previousWs = rng.Worksheet
-                End If
-            Next
-            OriginWS.Activate()
+            XL.Goto(L.SelectedRange)
+            'XL.ScreenUpdating = False
+            'If L Is Nothing Then Exit Sub
+            'Dim rng = L.SelectedRange
+            'rng.Worksheet.Activate()
+            'rng.Activate()
+            'rng.Select()
+            'XL.ScreenUpdating = True
         Catch ex As Exception
-            ManageErreur(ex, "Echec de la sélection des cellules Excel.")
+            ManageErreur(ex, "Echec de la sélection de la plage Excel.")
+        Finally
+            'XL.ScreenUpdating = True
         End Try
     End Sub
-
 
 #End Region
 

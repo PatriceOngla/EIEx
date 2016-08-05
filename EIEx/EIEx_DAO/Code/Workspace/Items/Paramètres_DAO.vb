@@ -14,6 +14,7 @@ Public Class Paramètres_DAO
         Me.AdresseRangeLibelleOuvrage = P.AdresseRangeLibelleOuvrage
         Me.AdresseRangePrixUnitaire = P.AdresseRangePrixUnitaire
         Me.AdresseRangeUnité = P.AdresseRangeUnité
+        Me.AdresseRangeXYZ = P.AdresseRangeXYZ
     End Sub
 
 #End Region
@@ -37,6 +38,8 @@ Public Class Paramètres_DAO
 
     Public Property AdresseRangePrixUnitaire() As String
 
+    Public Property AdresseRangeXYZ() As String
+
 #End Region
 
 #End Region
@@ -47,6 +50,7 @@ Public Class Paramètres_DAO
         NouveauxParamètres.AdresseRangeLibelleOuvrage = AdresseRangeLibelleOuvrage
         NouveauxParamètres.AdresseRangePrixUnitaire = AdresseRangePrixUnitaire
         NouveauxParamètres.AdresseRangeUnité = AdresseRangeUnité
+        NouveauxParamètres.AdresseRangeXYZ = AdresseRangeXYZ
     End Sub
 
 #End Region

@@ -292,6 +292,21 @@ Public Class UC_EtudesView
 
 #End Region
 
+    Private UC_Ouvrages As New UC_OuvragesView
+    Private Sub Btn_GotoOuvrages_Click(sender As Object, e As RoutedEventArgs) Handles Btn_GotoOuvrages.Click
+        Try
+            With Me.EtudeCourante
+                If .Ouvrages.Count = 0 Then
+                    Message("Aucun ouvrage pour cette étude.", vbInformation)
+                Else
+                    UC_Ouvrages.Show($"Ouvrages de l'étude ""{Me.EtudeCourante.Nom}""", Me.BordereauCourant.Ouvrages)
+                End If
+            End With
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
 #End Region
 
 #Region "Excel events"

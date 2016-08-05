@@ -13,6 +13,8 @@ Public Class PatronDOuvrage_DAO
     Public Sub New(O As PatronDOuvrage)
         MyBase.New(O)
 
+        Me.ComplémentDeNom = O.ComplémentDeNom
+
         Me.Libellés = New List(Of String)(O.Libellés)
 
         Dim UsagesDeProduit_DAO = From up In O.UsagesDeProduit Select New UsageDeProduit_DAO(up)
@@ -42,6 +44,8 @@ Public Class PatronDOuvrage_DAO
 
 #Region "Données"
 
+    Public Property ComplémentDeNom() As String
+
     Public Property Libellés() As List(Of String)
 
     Public Property UsagesDeProduit() As List(Of UsageDeProduit_DAO)
@@ -59,7 +63,9 @@ Public Class PatronDOuvrage_DAO
 #Region "Méthodes"
 
     Protected Overrides Sub UnSerialized_Ex_Ex(NouvelOuvrage As PatronDOuvrage)
-        'NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
+
+        NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
+
         NouvelOuvrage.Libellés.AddRange(Me.Libellés)
 
         Me.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit_DAO)

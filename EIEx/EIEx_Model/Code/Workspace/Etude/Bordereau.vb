@@ -91,6 +91,7 @@ Public Class Bordereau
 
     Public Function AjouterOuvrage(NumLignePlageExcel As Integer) As Ouvrage
         Dim NouvelOuvrage = New Ouvrage(Me, NumLignePlageExcel)
+        Me._Ouvrages.Add(NouvelOuvrage)
         Return NouvelOuvrage
     End Function
 

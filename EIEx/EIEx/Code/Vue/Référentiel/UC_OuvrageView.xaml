@@ -57,7 +57,12 @@
                   ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True"
                   SelectedItem="{Binding ElementName=UC_OuvragesView, Path=OuvrageCourant, Mode=TwoWay}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="N°" Binding="{Binding Id}" IsReadOnly="True" />
+                <DataGridTextColumn Header="N°" 
+                                    Binding="{Binding Id}" IsReadOnly="True" 
+                                    Visibility="{Binding ElementName=UC_OuvragesView, 
+                                                         Path=CanModify,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    />
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
                 <DataGridTextColumn Header="Complément de nom" Binding="{Binding ComplémentDeNom}" />
                 <DataGridTextColumn Header="Libellés" IsReadOnly="True" Binding="{Binding NbLibellés}"/>
@@ -90,9 +95,11 @@
                 <Label Content="Nom : " />
                 <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=Nom}"/>
 
-                <!--Nom-->
+                <!--Complément de Nom-->
                 <Label Grid.Row="1" Content="Complément de nom : " />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ComplémentDeNom, FallbackValue=ComplémentDeNom}"/>
+                <TextBox x:Name="TBx_ComplémentDeNom" Grid.Row="1" Grid.Column="1" 
+                         Text="{Binding ComplémentDeNom, FallbackValue=ComplémentDeNom}"
+                         />
 
                 <!--Libellés-->
                 <Label Grid.Row="2" Content="Libellés : " />
@@ -191,7 +198,9 @@
 
         <GridSplitter />
 
-        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" Grid.Row="2" />
+        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" Grid.Row="2"  
+                                Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        
     </Grid>
 
 </UserControl>

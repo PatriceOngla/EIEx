@@ -8,9 +8,12 @@ Public Class LibelléDouvrage
 
 #Region "Constructeurs"
 
-    Public Sub New(b As Bordereau, ByVal r As Excel.Range)
+    Public Sub New(b As Bordereau, ByVal premierRange As Excel.Range)
         Me.Bordereau = b
-        Me._Ranges = New List(Of Excel.Range)({r})
+        Me._Ranges = New List(Of Excel.Range)({premierRange})
+        Me.Feuille = premierRange.Worksheet
+        Me.LignePremierRange = premierRange.Row
+        Me.LibelléSource = premierRange.Value
     End Sub
 
 #End Region
@@ -25,10 +28,6 @@ Public Class LibelléDouvrage
 
 #Region "LibelléSource"
     Public ReadOnly Property LibelléSource() As String
-        Get
-            Return Me.PremierRange?.Value
-        End Get
-    End Property
 #End Region
 
 #Region "Libellé"
@@ -68,12 +67,12 @@ Public Class LibelléDouvrage
 
 #Region "Ranges infos"
 
+#Region "LignePremierRange"
+    Public ReadOnly Property LignePremierRange() As Integer
+#End Region
+
 #Region "Feuille"
     Public ReadOnly Property Feuille() As Excel.Worksheet
-        Get
-            Return Me.PremierRange.Parent
-        End Get
-    End Property
 #End Region
 
 #Region "Ranges"
@@ -87,12 +86,51 @@ Public Class LibelléDouvrage
     End Property
 #End Region
 
-#Region "PremierRange"
-    Public ReadOnly Property PremierRange() As Excel.Range
+#Region "Range sélectionné"
+
+#Region "SelectedRangeIndex"
+    Private _SelectedRangeIndex As Integer
+    Public Property SelectedRangeIndex() As Integer
         Get
-            Return Me.Ranges.FirstOrDefault()
+            Return _SelectedRangeIndex
+        End Get
+        Private Set(ByVal value As Integer)
+            If Object.Equals(value, Me._SelectedRangeIndex) Then Exit Property
+            If value > _SelectedRangeIndex Then
+                Me.IncrémenteSelectedRange(True)
+            ElseIf value < _SelectedRangeIndex Then
+                Me.IncrémenteSelectedRange(False)
+            End If
+        End Set
+    End Property
+
+    Private Sub IncrémenteSelectedRange(Avancer As Boolean)
+        If Avancer Then
+            _SelectedRangeIndex = ((Me.SelectedRangeIndex + 1) Mod Me.NbOccurrences)
+        Else
+            If SelectedRangeIndex = 0 Then
+                _SelectedRangeIndex = Me.NbOccurrences - 1
+            Else
+                _SelectedRangeIndex = ((Me.SelectedRangeIndex - 1) Mod Me.NbOccurrences)
+            End If
+        End If
+        NotifyPropertyChanged(NameOf(SelectedRangeIndex))
+        NotifyPropertyChanged(NameOf(SelectedRange))
+        'Diagnostics.Debug.Print($"_SelectedRangeIndex : {_SelectedRangeIndex}")
+    End Sub
+
+#End Region
+
+#Region "SelectedRange"
+
+    Public ReadOnly Property SelectedRange() As Excel.Range
+        Get
+            Return Me.Ranges(Me.SelectedRangeIndex)
         End Get
     End Property
+
+#End Region
+
 #End Region
 
 #End Region
@@ -100,7 +138,7 @@ Public Class LibelléDouvrage
 #Region "SourceRangeInfo"
     Public ReadOnly Property SourceRangeInfo() As String
         Get
-            Dim r = $"{Me.Bordereau.Nom} - {Me.PremierRange.Address}"
+            Dim r = $"{Me.Bordereau.Nom} - {Me.SelectedRange.Address}"
             Return r
         End Get
     End Property
@@ -152,10 +190,6 @@ Public Class LibelléDouvrage
 
 #Region "Méthodes"
 
-    Public Sub AjouterRange(r As Excel.Range)
-        Me._Ranges.Add(r)
-    End Sub
-
     Friend Function EstAssociéA(range As Range) As Boolean
         Dim r = Ranges.Contains(range)
         Return r
@@ -174,6 +208,23 @@ Public Class LibelléDouvrage
             Return MyBase.ToString()
         End Try
     End Function
+
+#Region "Gestion des ranges"
+
+    Public Sub AjouterRange(r As Excel.Range)
+        Me._Ranges.Add(r)
+    End Sub
+
+    Public Sub SelectNextRange()
+        Me.IncrémenteSelectedRange(True)
+    End Sub
+
+    Public Sub SelectPreviousRange()
+        Me.IncrémenteSelectedRange(False)
+    End Sub
+
+#End Region
+
 #End Region
 
 #Region "Events"

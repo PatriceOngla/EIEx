@@ -8,7 +8,7 @@ Public Class UC_OuvragesView
 
 #Region "Champs privés"
 
-    Private WithEvents UCSO As New UC_SélecteurDOuvrage()
+    Friend WithEvents UCSO As UC_SélecteurDOuvrage = UC_EIEx_Manager_UI.UCSO
 
 #End Region
 
@@ -59,14 +59,14 @@ Public Class UC_OuvragesView
 #Region "OuvrageCourant (Ouvrage)"
 
     Public Shared ReadOnly OuvrageCourantProperty As DependencyProperty =
-            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(PatronDOuvrage), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing))
+            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage_Base), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing))
 
-    Public Property OuvrageCourant As PatronDOuvrage
+    Public Property OuvrageCourant As Ouvrage_Base
         Get
-            Return DirectCast(GetValue(OuvrageCourantProperty), PatronDOuvrage)
+            Return DirectCast(GetValue(OuvrageCourantProperty), Ouvrage_Base)
         End Get
 
-        Set(ByVal value As PatronDOuvrage)
+        Set(ByVal value As Ouvrage_Base)
             SetValue(OuvrageCourantProperty, value)
         End Set
     End Property
@@ -83,6 +83,50 @@ Public Class UC_OuvragesView
             Return _SélecteurDeProduit
         End Get
     End Property
+#End Region
+
+    '#Region "EditeUnOuvrage"
+    '    Public ReadOnly Property EditeUnOuvrage() As Boolean
+    '        Get
+    '            Return TypeOf Me.OuvrageCourant Is Ouvrage
+    '        End Get
+    '    End Property
+    '#End Region
+
+#Region "FenêtreParente"
+    Private _FenêtreParente As Window
+    Public ReadOnly Property FenêtreParente() As Window
+        Get
+            Return _FenêtreParente
+        End Get
+    End Property
+#End Region
+
+    'Attention ! Ce snippet est une ébauche !!! 
+#Region "CanModify (Boolean)"
+
+#Region "Déclaration et registration de CanModifyProperty"
+
+    Private Shared MDCanModify As New FrameworkPropertyMetadata(True)
+    Public Shared CanModifyPropertyKey As DependencyPropertyKey = DependencyProperty.RegisterReadOnly(NameOf(CanModify), GetType(Boolean), GetType(UC_OuvragesView), MDCanModify)
+    Public Shared CanModifyProperty As DependencyProperty = CanModifyPropertyKey.DependencyProperty
+
+#End Region
+
+#Region "Wrapper CLR de CanModifyProperty"
+
+    Public ReadOnly Property CanModify() As Boolean
+        Get
+            Return GetValue(CanModifyProperty)
+        End Get
+    End Property
+
+#End Region
+
+#Region "Gestion évennementielle de la mise à jour de CanModifyProperty"
+
+#End Region
+
 #End Region
 
 #End Region
@@ -105,7 +149,7 @@ Public Class UC_OuvragesView
 
     Private Sub UC_CmdesCRUD_DemandeSuppression() Handles UC_CmdesCRUD_Ouvrages.DemandeSuppression
         Try
-            Dim Ouvrage As PatronDOuvrage = Me.DG_Master.SelectedItem
+            Dim Ouvrage As Ouvrage_Base = Me.DG_Master.SelectedItem
             Ref.PatronsDOuvrage.Remove(Ouvrage)
         Catch ex As Exception
             ManageErreur(ex)
@@ -237,6 +281,49 @@ Public Class UC_OuvragesView
 #End Region
 
 #End Region
+
+#Region "Show"
+
+    Public Sub Show(Titre As String, Source As IEnumerable(Of Ouvrage_Base))
+
+        Me.SetValue(CanModifyPropertyKey, False)
+
+        Me.DataContext = Source
+
+        SetParentWindow(Titre)
+
+    End Sub
+
+    Private Sub SetParentWindow(Titre As String)
+
+        Me._FenêtreParente = New Windows.Window With {.Title = Titre}
+
+        Dim hwndHelper = New Interop.WindowInteropHelper(_FenêtreParente)
+        hwndHelper.Owner = New IntPtr(CLng(Globals.ThisAddIn.Application.ActiveWindow?.Hwnd))
+        'hwndHelper.Owner = New IntPtr(CLng(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle))
+
+        With _FenêtreParente
+            LoadResourceDict()
+            .Padding = New Thickness(5)
+            Me.Margin = New Thickness(0)
+            .Content = Me
+            .ShowDialog()
+        End With
+
+    End Sub
+
+    ''' <summary>Charge dynamiquement le dictionnaire de ressource pour la fenêtre créée. </summary>
+    Private Sub LoadResourceDict()
+        Application.ResourceAssembly = My.Application.GetType.Assembly 'la prop. est nulle sinon et ça plante après avec un msg qui demande explicitement de la définir.
+        'prefix to the relative Uri for resource (xaml file)
+        Dim _prefix = $"/{Globals.ThisAddIn.GetType.Namespace};component/"
+        Dim URIDico = New Uri(_prefix & "Code/Dico.xaml", UriKind.Relative)
+        Dim Dico = New ResourceDictionary With {.Source = URIDico}
+        Me.FenêtreParente.Resources.MergedDictionaries.Add(New ResourceDictionary With {.Source = URIDico})
+    End Sub
+
+#End Region
+
 
 #End Region
 

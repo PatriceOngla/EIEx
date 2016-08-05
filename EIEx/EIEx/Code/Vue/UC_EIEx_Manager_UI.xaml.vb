@@ -7,6 +7,13 @@ Imports Model
 
 Public Class UC_EIEx_Manager_UI
 
+#Region "Champs privés"
+
+    Friend Shared WithEvents UCSO As New UC_SélecteurDOuvrage()
+    Friend Shared WithEvents UCSP As New UC_SélecteurDeProduit()
+
+#End Region
+
 #Region "Constructeurs"
 
     Public Sub New()
@@ -115,6 +122,22 @@ Public Class UC_EIEx_Manager_UI
     End Sub
 
 #End Region
+
+    Private Sub UC_EIEx_Manager_UI_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Try
+            If e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
+                If e.Key = Key.F OrElse Keyboard.IsKeyDown(Key.F) Then
+                    If e.Key = Key.P OrElse Keyboard.IsKeyDown(Key.P) Then
+                        UCSP.Show()
+                    ElseIf e.Key = Key.O OrElse Keyboard.IsKeyDown(Key.O) Then
+                        UCSO.Show()
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
 
 #End Region
 

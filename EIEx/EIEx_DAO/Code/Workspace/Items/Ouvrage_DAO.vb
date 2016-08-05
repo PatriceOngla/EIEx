@@ -70,6 +70,7 @@ Public Class Ouvrage_DAO
     Protected Overrides Sub UnSerialized_Ex(NouvelOuvrage As Ouvrage)
 
         NouvelOuvrage.ComplémentDeNom = Me.ComplémentDeNom
+
         NouvelOuvrage.Libellés.AddRange(Me.Libellés)
         'NouvelOuvrage.NuméroLignePlageExcel = Me.NuméroLignePlageExcel
 

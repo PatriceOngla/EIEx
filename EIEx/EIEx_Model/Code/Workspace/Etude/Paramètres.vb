@@ -70,6 +70,20 @@ Public Class Paramètres
     End Property
 #End Region
 
+#Region "AdresseRangeXYZ"
+    Private _AdresseRangeXYZ As String
+    Public Property AdresseRangeXYZ() As String
+        Get
+            Return _AdresseRangeXYZ
+        End Get
+        Set(ByVal value As String)
+            If Object.Equals(value, Me._AdresseRangeXYZ) Then Exit Property
+            _AdresseRangeXYZ = value
+            NotifyPropertyChanged(NameOf(AdresseRangeXYZ))
+        End Set
+    End Property
+#End Region
+
 #End Region
 
 #Region "Méthodes"

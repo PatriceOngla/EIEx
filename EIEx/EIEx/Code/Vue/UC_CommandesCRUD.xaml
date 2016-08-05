@@ -33,7 +33,7 @@
                 />
         
         <!--<Button 
-                ContentTemplate="{StaticResource ASuivre}" 
+                ContentTemplate="{StaticResource Suivant}" 
                 Margin="4"  Width="20" Height="20"
                 ToolTip="{Binding ElementName=UC_CommandesCRUD, Path=TooltipSuppression}"
                 />-->

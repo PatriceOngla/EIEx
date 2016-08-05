@@ -108,8 +108,8 @@ Public Class ThisAddIn
         'Dim PS As New UC_SélecteurDeProduit
         'PS.Show()
 
-        Dim SO As New UC_SélecteurDOuvrage
-        SO.Show()
+        'Dim SO As New UC_SélecteurDOuvrage
+        'SO.Show()
     End Sub
 #End If
 

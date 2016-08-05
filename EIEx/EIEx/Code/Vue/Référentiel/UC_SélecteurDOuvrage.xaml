@@ -21,7 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--#region Template Ouvrage-->
-            
+
             <!--Template UsageProduit-->
             <DataTemplate x:Key="Tplt_UsageProduit" DataType="model:UsageProduit">
                 <StackPanel Orientation="Horizontal">
@@ -55,7 +55,7 @@
                     </TextBlock.ToolTip>
                 </TextBlock>
             </DataTemplate>
-            
+
             <!--#endregion-->
 
         </ResourceDictionary>
@@ -127,15 +127,38 @@
 
             <DockPanel x:Name="SP_CommandesRecherche" Grid.Row="3" Grid.ColumnSpan="2" 
                             Margin="0" LastChildFill="False" >
-                <GroupBox x:Name="Bdr_OptionSource" Header="Source" Padding="1" Margin="0,0,5,0" BorderBrush="{DynamicResource ContourLéger}">
+
+                <!--Option source-->
+                <GroupBox x:Name="Bdr_OptionSource" 
+                         Header="Source" 
+                         Padding="1" Margin="0,0,5,0" 
+                         BorderBrush="{DynamicResource ContourLéger}">
                     <StackPanel>
                         <RadioButton x:Name="RBtn_OptionRéférentiel" Content="Référentiel" IsChecked="{Binding ElementName=UC_SélecteurDOuvrage, Path=LaSourceEstLeRéférentiel}"/>
                         <RadioButton x:Name="RBtn_OptionEtudeCourante" Content="Etude courante"/>
                     </StackPanel>
                 </GroupBox>
-                <Label Content="Recherche sur demande :" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                <CheckBox x:Name="CBx_optionRecherche" DockPanel.Dock="Left"
+
+                <!--Option recherche-->
+                <Label Content="Recherche sur demande :" 
+                       DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <CheckBox x:Name="CBx_optionRecherche" 
+                          DockPanel.Dock="Left" Margin="0,0,15,0"
                           IsChecked="{Binding RechercheSurDemande}" VerticalAlignment="Center" />
+
+                <!--Option Levenstein-->
+                <Label Content="Tolérance :" 
+                       DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Slider x:Name="Sldr_DistanceTextuelle" 
+                        Width="102" Height="10"  VerticalAlignment="Center"
+                        Minimum="0" Maximum="3" Value="{Binding ElementName=UC_SélecteurDOuvrage, Path=DistanceTolérée, FallbackValue=2}"
+                        TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Ticks="0, 1, 2, 3"
+                        Foreground="Red"
+                        ToolTip="Distance de Levenstein tolérée (uniquement sur mots-clés ouvrage)"/>
+                <TextBox Text="{Binding ElementName=UC_SélecteurDOuvrage, Path=DistanceTolérée, FallbackValue=2}"  
+                         Margin="2,0,15,0" VerticalAlignment="Center"/>
+                
+                <!--Bouton recherche-->
                 <Button x:Name="Btn_Chercher" 
                         Height="30" Width="30" DockPanel.Dock="Right" Margin="35,0,0,0"
                         ContentTemplate ="{StaticResource GoTo}"

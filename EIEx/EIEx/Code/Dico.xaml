@@ -11,6 +11,8 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
+    <!--#region Template icônes (pour boutons ou autres) -->
+    
     <DataTemplate x:Key="Valider" >
         <Viewbox>
             <Canvas x:Name="Calque_1" Width="128" Height="128" Canvas.Left="0" Canvas.Top="0">
@@ -151,6 +153,31 @@
         </Viewbox>
     </DataTemplate>
 
+    <DataTemplate x:Key="Suivant" >
+        <DataTemplate.Resources>
+            <Style TargetType="Polygon">
+                <Setter Property="Stroke" Value="{Binding Foreground, FallbackValue=#FF9ACD32, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}"/>
+                <Setter Property="Fill" Value="{Binding Stroke, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="StrokeStartLineCap" Value="Round"/>
+                <Setter Property="StrokeEndLineCap" Value="Round"/>
+                <Setter Property="StrokeLineJoin" Value="Round"/>
+                <Setter Property="StrokeThickness" Value="20"/>
+            </Style>
+        </DataTemplate.Resources>
+        <Viewbox x:Name="Group" >
+            <Canvas x:Name="Calque_1" Width="128" Height="128" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Canvas Width="93" Height="93" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Polygon x:Name="Triangle" VerticalAlignment="Center" HorizontalAlignment="Center"
+                             Canvas.Left="40" Canvas.Top="17"
+                             Stretch="Fill"
+                             Points="0,0 45,36, 0,72"/>
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
+    <!--#endregion-->
+    
     <!--#endregion-->
 
     <!--#region Valeurs de base-->
@@ -170,6 +197,8 @@
     <!--#endregion-->
 
     <!--#region Couleurs générales-->
+
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DarkGray"/>
 
     <SolidColorBrush x:Key="WritableBkg" Color="#FFDFDFDF"/>
     <SolidColorBrush x:Key="WritableFocusBkgd" Color="White"/>
@@ -710,19 +739,6 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="ButtonStyle" TargetType="{x:Type ButtonBase}">
-        <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="1"/>
-        <Setter Property="Template" Value="{DynamicResource ButtonBaseControlTemplate1}"/>
-    </Style>
-
     <ControlTemplate x:Key="ButtonBaseControlTemplate1" TargetType="{x:Type ButtonBase}">
         <Border x:Name="border" 
                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
@@ -761,6 +777,19 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+
+    <Style x:Key="ButtonStyle" TargetType="{x:Type ButtonBase}">
+        <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template" Value="{DynamicResource ButtonBaseControlTemplate1}"/>
+    </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>

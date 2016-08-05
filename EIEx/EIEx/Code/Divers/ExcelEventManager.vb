@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Office.Interop
+Imports Microsoft.Office.Interop.Excel
 Imports Model
 
 Friend Class ExcelEventManager
@@ -107,9 +108,6 @@ Friend Class ExcelEventManager
 
 #End Region
 
-
-
-
     Public Shared Sub CleanUp()
         _XL = Nothing
     End Sub
@@ -120,6 +118,16 @@ Friend Class ExcelEventManager
 
     ''' <summary>Modification de la sélection dans l'une des feuille cibles.</summary>
     Public Shared Event TargetSelectedRangeChanged(newSelectedRange As Excel.Range)
+
+
+#End Region
+
+
+#Region "Debug et tests"
+
+    Private Shared Sub _XL_SheetChange(Sh As Object, Target As Excel.Range) Handles _XL.SheetChange
+
+    End Sub
 
 
 #End Region

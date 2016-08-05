@@ -168,6 +168,27 @@ Public Class UC_GestionnaireDeBordereau
         End Try
     End Sub
 
+#Region "Sélection des ranges"
+
+    Private Sub Btn_SélectionnerRangePrécédent(sender As Object, e As RoutedEventArgs)
+        Dim L = TryCast((CType(sender, System.Windows.Controls.Button)).DataContext, LibelléDouvrage)
+        If L IsNot Nothing Then
+            L.SelectPreviousRange()
+            GestionnaireDeBordereaux.SélectionnerLeRangesAssociéCourant(XL, L)
+        End If
+
+    End Sub
+
+    Private Sub Btn_SélectionnerRangeSuivant(sender As Object, e As RoutedEventArgs)
+        Dim L = TryCast((CType(sender, System.Windows.Controls.Button)).DataContext, LibelléDouvrage)
+        If L IsNot Nothing Then
+            L.SelectNextRange()
+            GestionnaireDeBordereaux.SélectionnerLeRangesAssociéCourant(XL, L)
+        End If
+    End Sub
+
+#End Region
+
 #End Region
 
 #End Region

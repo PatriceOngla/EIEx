@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EIEx"
              mc:Ignorable="d" 
-             d:DesignHeight="1200" d:DesignWidth="600">
+             d:DesignHeight="800" d:DesignWidth="600">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -190,6 +190,7 @@
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
 
@@ -213,6 +214,7 @@
                                                             <RowDefinition Height="Auto"/>
                                                             <RowDefinition Height="Auto"/>
                                                             <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
                                                         </Grid.RowDefinitions>
 
                                                         <Label Content="Libellé : "  />
@@ -225,12 +227,26 @@
                                                         <Label Grid.Row="2" Content="Prix unitaire : " />
                                                         <local:UC_ExcelRangeSelector Grid.Row="2" Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangePrixUnitaire, FallbackValue=AdresseRangePrixUnitaire}" />
 
+
+                                                        <Label Grid.Row="3" Content="XYZ : " />
+                                                        <local:UC_ExcelRangeSelector Grid.Row="3" Grid.Column="1" XLRange="{Binding Paramètres.AdresseRangeXYZ, FallbackValue=AdresseRangeXYZ}" />
+
                                                     </Grid>
                                                 </Border>
 
+                                                <!--Ouvrages-->
+                                                <Label Grid.Row="3" Content="Ouvrages : " />
+                                                <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
+                                                    
+                                                <TextBlock HorizontalAlignment="Left" Margin="{StaticResource DefaultMargin}"
+                                                           Text="{Binding Ouvrages.Count, FallbackValue=Nb ouvrages}" 
+                                                           VerticalAlignment="Center"/>
+                                                    <Button x:Name="Btn_GotoOuvrages" ContentTemplate="{StaticResource GoTo}"/>
+                                                </StackPanel>
+
                                                 <!--Commentaires-->
-                                                <Label Grid.Row="3" Content="Commentaires : " />
-                                                <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+                                                <Label Grid.Row="4" Content="Commentaires : " />
+                                                <TextBox Grid.Row="4"  Grid.Column="2" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
 
                                             </Grid>
                                         </ScrollViewer>

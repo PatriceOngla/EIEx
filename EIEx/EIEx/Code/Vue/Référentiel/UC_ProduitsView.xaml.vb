@@ -7,7 +7,7 @@ Public Class UC_ProduitsView
 
 #Region "Champs privés"
 
-    Private WithEvents UCSP As New UC_SélecteurDeProduit()
+    Private WithEvents UCSP As UC_SélecteurDeProduit = UC_EIEx_Manager_UI.UCSP
 
 #End Region
 
