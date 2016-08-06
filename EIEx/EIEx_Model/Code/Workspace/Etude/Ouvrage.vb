@@ -28,6 +28,14 @@ Public Class Ouvrage
 
 #Region "Propriétés"
 
+#Region "EstRoot"
+    Public Overrides ReadOnly Property EstRoot() As Boolean
+        Get
+            Return False
+        End Get
+    End Property
+#End Region
+
 #Region "Système"
 
     Public ReadOnly Property WS As WorkSpace Implements IEntitéDuWorkSpace.WS

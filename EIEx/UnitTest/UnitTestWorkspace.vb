@@ -79,6 +79,7 @@ Imports Utils
         B.Paramètres.AdresseRangeLibelleOuvrage = $"A{i}L{i}"
         B.Paramètres.AdresseRangeUnité = $"A{i}U{i}"
         B.Paramètres.AdresseRangePrixUnitaire = $"A{i}P{i}"
+        B.Paramètres.AdresseRangeXYZ = $"A{i}P{i}"
         Dim NO As Ouvrage
         For k = 1 To j
             NO = B.AjouterOuvrage(i * 10 + k)

@@ -152,6 +152,7 @@ Public Class ClasseurExcel
                                                b.Paramètres.AdresseRangeLibelleOuvrage = .AdresseRangeLibelleOuvrage
                                                b.Paramètres.AdresseRangePrixUnitaire = .AdresseRangePrixUnitaire
                                                b.Paramètres.AdresseRangeUnité = .AdresseRangeUnité
+                                               b.Paramètres.AdresseRangeXYZ = .AdresseRangeXYZ
                                            End With
                                        End If
                                    End Sub)

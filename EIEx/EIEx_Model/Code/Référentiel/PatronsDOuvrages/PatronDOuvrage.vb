@@ -24,6 +24,14 @@ Public Class PatronDOuvrage
 
 #Region "Propriétés"
 
+#Region "EstRoot"
+    Public Overrides ReadOnly Property EstRoot() As Boolean
+        Get
+            Return True
+        End Get
+    End Property
+#End Region
+
 #Region "Système"
 
     Public ReadOnly Property Ref As Référentiel Implements IEntitéDuRéférentiel.Ref

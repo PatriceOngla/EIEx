@@ -219,6 +219,10 @@ Public MustInherit Class Ouvrage_Base
 
 #End Region
 
+#Region "EstRoot"
+    Public MustOverride ReadOnly Property EstRoot() As Boolean
+#End Region
+
 #End Region
 
 #Region "Méthodes"

@@ -386,7 +386,7 @@ Public Class GestionnaireDeBordereaux
     Private Sub CheckPrérequis(b As Bordereau)
 
         Dim IncomplétudeParamètres = String.IsNullOrEmpty(b.Paramètres?.AdresseRangeLibelleOuvrage) OrElse
-        String.IsNullOrEmpty(b.Paramètres?.AdresseRangePrixUnitaire) OrElse String.IsNullOrEmpty(b.Paramètres?.AdresseRangeUnité)
+        String.IsNullOrEmpty(b.Paramètres?.AdresseRangePrixUnitaire) OrElse String.IsNullOrEmpty(b.Paramètres?.AdresseRangeUnité) OrElse String.IsNullOrEmpty(b.Paramètres?.AdresseRangeXYZ)
 
         If IncomplétudeParamètres Then Throw New Exception("Les paramètres sont incomplets (champs adresse).")
     End Sub

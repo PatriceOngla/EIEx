@@ -53,15 +53,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!--#region Binding proxy-->
+        <!--Elément bidon créé juste pour contourner l'impossibiliter de binder la visibilité de la DataGridTextColumn "N°"-->
+        <FrameworkElement x:Name="FE_BindingProxy" Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify,
+                                                         Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <!--#endregion-->
+
         <DataGrid x:Name="DG_Master" 
                   ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True"
                   SelectedItem="{Binding ElementName=UC_OuvragesView, Path=OuvrageCourant, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="N°" 
                                     Binding="{Binding Id}" IsReadOnly="True" 
-                                    Visibility="{Binding ElementName=UC_OuvragesView, 
-                                                         Path=CanModify,
-                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Visibility="{Binding Source={x:Reference Name=FE_BindingProxy}, Path=Visibility}"
                                     />
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="150" />
                 <DataGridTextColumn Header="Complément de nom" Binding="{Binding ComplémentDeNom}" />
@@ -200,7 +204,9 @@
 
         <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" Grid.Row="2"  
                                 Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        
+
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="{Binding ElementName=UC_OuvragesView, Path=CanModify, FallbackValue=KO}"/>
+
     </Grid>
 
 </UserControl>
