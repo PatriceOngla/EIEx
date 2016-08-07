@@ -125,6 +125,34 @@ Public Class PatronDOuvrage
 
 #Region "Méthodes"
 
+    Public ReadOnly Property ToStringForListDisplay() As String
+        Get
+            Dim r = DisplayWithFixedColumn(Me.Id, Me.Nom, Me.MotsClés, Me.UsagesDeProduit.Count())
+            Return r
+        End Get
+    End Property
+
+#Region "ToString pour affichage en list (colonnage fixe)"
+
+    Public Shared ReadOnly Property OuvragesListHeader() As String
+        Get
+            Dim r = DisplayWithFixedColumn("Id", "Nom", "Mots-clés", "Prdts")
+            Return r
+        End Get
+    End Property
+
+    Private Shared Function DisplayWithFixedColumn(Id As String, nom As String, motsClés As List(Of String), Produits As String) As String
+        Dim r = DisplayWithFixedColumn(Id, nom, Join(motsClés.ToArray(), ", "), Produits)
+        Return r
+    End Function
+
+    Private Shared Function DisplayWithFixedColumn(Id As String, nom As String, motsClés As String, Produits As String) As String
+        Dim r As String = FormateForColumn(Id, 5) & FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False) & FormateForColumn(Produits, 5, False)
+        Return r
+    End Function
+
+#End Region
+
     Protected Overrides Sub Copier_Ex(Modèle As Ouvrage_Base)
         Me.Nom = Modèle.Nom & " (copie)"
     End Sub

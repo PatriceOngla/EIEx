@@ -47,20 +47,20 @@
         Me.Grp_Workspace = Me.Factory.CreateRibbonGroup
         Me.Btn_SaveWorkspace = Me.Factory.CreateRibbonButton
         Me.Btn_RechargerWorkspace = Me.Factory.CreateRibbonButton
+        Me.Separator1 = Me.Factory.CreateRibbonSeparator
+        Me.Box_Classeurs = Me.Factory.CreateRibbonBox
+        Me.Label1 = Me.Factory.CreateRibbonLabel
         Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante = Me.Factory.CreateRibbonButton
         Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante = Me.Factory.CreateRibbonButton
         Me.Grp_Référentiel = Me.Factory.CreateRibbonGroup
         Me.Btn_EnregistrerRéférentiel = Me.Factory.CreateRibbonButton
         Me.Btn_RechargerRéférentiel = Me.Factory.CreateRibbonButton
         Me.Btn_ImporterProduitsDepuisExcel = Me.Factory.CreateRibbonButton
-        Me.Box_Classeurs = Me.Factory.CreateRibbonBox
-        Me.Separator1 = Me.Factory.CreateRibbonSeparator
-        Me.Label1 = Me.Factory.CreateRibbonLabel
         Me.Tab1.SuspendLayout()
         Me.Grp_Unic.SuspendLayout()
         Me.Grp_Workspace.SuspendLayout()
-        Me.Grp_Référentiel.SuspendLayout()
         Me.Box_Classeurs.SuspendLayout()
+        Me.Grp_Référentiel.SuspendLayout()
         Me.SuspendLayout()
         '
         'Tab1
@@ -103,6 +103,23 @@
         Me.Btn_RechargerWorkspace.Label = "Recharger l'espace de travail"
         Me.Btn_RechargerWorkspace.Name = "Btn_RechargerWorkspace"
         '
+        'Separator1
+        '
+        Me.Separator1.Name = "Separator1"
+        '
+        'Box_Classeurs
+        '
+        Me.Box_Classeurs.BoxStyle = Microsoft.Office.Tools.Ribbon.RibbonBoxStyle.Vertical
+        Me.Box_Classeurs.Items.Add(Me.Label1)
+        Me.Box_Classeurs.Items.Add(Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante)
+        Me.Box_Classeurs.Items.Add(Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante)
+        Me.Box_Classeurs.Name = "Box_Classeurs"
+        '
+        'Label1
+        '
+        Me.Label1.Label = "Classeurs de l'étude courante :"
+        Me.Label1.Name = "Label1"
+        '
         'Btn_InitialiserLesClasseursExcelDeLEtudeCourante
         '
         Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante.Label = "Initialiser tous"
@@ -137,23 +154,6 @@
         Me.Btn_ImporterProduitsDepuisExcel.Label = "Importer des produits"
         Me.Btn_ImporterProduitsDepuisExcel.Name = "Btn_ImporterProduitsDepuisExcel"
         '
-        'Box_Classeurs
-        '
-        Me.Box_Classeurs.BoxStyle = Microsoft.Office.Tools.Ribbon.RibbonBoxStyle.Vertical
-        Me.Box_Classeurs.Items.Add(Me.Label1)
-        Me.Box_Classeurs.Items.Add(Me.Btn_InitialiserLesClasseursExcelDeLEtudeCourante)
-        Me.Box_Classeurs.Items.Add(Me.Btn_ChargerLesClasseursExcelDeLEtudeCourante)
-        Me.Box_Classeurs.Name = "Box_Classeurs"
-        '
-        'Separator1
-        '
-        Me.Separator1.Name = "Separator1"
-        '
-        'Label1
-        '
-        Me.Label1.Label = "Classeurs de l'étude courante :"
-        Me.Label1.Name = "Label1"
-        '
         'EIExRibbon
         '
         Me.Name = "EIExRibbon"
@@ -165,10 +165,10 @@
         Me.Grp_Unic.PerformLayout()
         Me.Grp_Workspace.ResumeLayout(False)
         Me.Grp_Workspace.PerformLayout()
-        Me.Grp_Référentiel.ResumeLayout(False)
-        Me.Grp_Référentiel.PerformLayout()
         Me.Box_Classeurs.ResumeLayout(False)
         Me.Box_Classeurs.PerformLayout()
+        Me.Grp_Référentiel.ResumeLayout(False)
+        Me.Grp_Référentiel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

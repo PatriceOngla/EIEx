@@ -5,12 +5,13 @@ Imports System.Windows.Input
 Imports System.Windows.Media
 Imports Model
 
+'Attention : pas proprement implémenté comme un singleton mais une seule instance doit être créée (accessible via la propriété shared <seealso cref="UC_EIEx_Manager_UI.Instance"/>).
 Public Class UC_EIEx_Manager_UI
 
 #Region "Champs privés"
 
-    Friend Shared WithEvents UCSO As New UC_SélecteurDOuvrage()
-    Friend Shared WithEvents UCSP As New UC_SélecteurDeProduit()
+    Friend WithEvents UCSO As New UC_SélecteurDOuvrage()
+    Friend WithEvents UCSP As New UC_SélecteurDeProduit()
 
 #End Region
 
@@ -18,14 +19,25 @@ Public Class UC_EIEx_Manager_UI
 
     Public Sub New()
         ' Cet appel est requis par le concepteur.
+        _Instance = Me
+
         InitializeComponent()
-        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
+
         ExcelEventManager.UCSC = Me
     End Sub
 
 #End Region
 
 #Region "Properties"
+
+#Region "Instance"
+    Private Shared _Instance As UC_EIEx_Manager_UI
+    Public Shared ReadOnly Property Instance() As UC_EIEx_Manager_UI
+        Get
+            Return _Instance
+        End Get
+    End Property
+#End Region
 
 #Region "Ref"
     Public ReadOnly Property Ref() As Référentiel
@@ -108,6 +120,8 @@ Public Class UC_EIEx_Manager_UI
         Select Case TypeCible
             Case GetType(Produit)
                 AccéderAuProduit(Cible)
+            Case GetType(PatronDOuvrage)
+                AccéderAuPatronDOuvrage(Cible)
             Case Else
                 MsgBox($"En route pour {Cible.ToString()}.")
         End Select
@@ -118,10 +132,18 @@ Public Class UC_EIEx_Manager_UI
             .TBt_Produits.IsSelected = True
             .UC_ProduitsView.ProduitCourant = P
         End With
+    End Sub
 
+    Private Sub AccéderAuPatronDOuvrage(PO As PatronDOuvrage)
+        With Me.UC_RéférentielView
+            .TBt_PatronsDOuvrage.IsSelected = True
+            .UC_OuvragesView.OuvrageCourant = PO
+        End With
     End Sub
 
 #End Region
+
+#Region "Gestion des recherches"
 
     Private Sub UC_EIEx_Manager_UI_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         Try
@@ -138,6 +160,14 @@ Public Class UC_EIEx_Manager_UI
             ManageErreur(ex)
         End Try
     End Sub
+    Private Sub UCSO_OuvrageTrouvé(O As Ouvrage_Base) Handles UCSO.OuvrageTrouvé
+        NaviguerVers(O)
+    End Sub
+    Private Sub UCSP_ProduitTrouvé(P As Produit) Handles UCSP.ProduitTrouvé
+        NaviguerVers(P)
+    End Sub
+
+#End Region
 
 #End Region
 

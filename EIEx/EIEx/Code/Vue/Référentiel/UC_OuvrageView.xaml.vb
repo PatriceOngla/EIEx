@@ -8,13 +8,16 @@ Public Class UC_OuvragesView
 
 #Region "Champs privés"
 
-    Friend WithEvents UCSO As UC_SélecteurDOuvrage = UC_EIEx_Manager_UI.UCSO
+    Friend WithEvents UCSO As UC_SélecteurDOuvrage
 
 #End Region
 
 #Region "Constructeurs"
 
     Private Sub UC_OuvragesView_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+
+        'UCSO = ThisAddIn.UC_Container.EIEx_Manager_UI.UCSO
+        UCSO = UC_EIEx_Manager_UI.Instance.UCSO
 
         With UC_CmdesCRUD_Ouvrages
 

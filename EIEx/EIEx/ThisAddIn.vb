@@ -19,6 +19,15 @@ Public Class ThisAddIn
     End Property
 #End Region
 
+    '#Region "UC_Container"
+    '    Private Shared _UC_Container As UC_Container
+    '    Public Shared ReadOnly Property UC_Container() As UC_Container
+    '        Get
+    '            Return _UC_Container
+    '        End Get
+    '    End Property
+    '#End Region
+
 #End Region
 
 #Region "Méthodes"
@@ -29,6 +38,7 @@ Public Class ThisAddIn
 
     Private Sub ThisAddIn_Startup() Handles Me.Startup
         Try
+            '_UC_Container = New UC_Container()
             ChargerLesDonnées()
             DémarrerGestionGlobaleDesException()
         Catch ex As ArgumentException

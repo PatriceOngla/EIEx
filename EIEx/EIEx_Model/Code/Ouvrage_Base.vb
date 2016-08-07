@@ -309,34 +309,6 @@ Public MustInherit Class Ouvrage_Base
 
 #End Region
 
-#Region "ToString pour affichage en list (colonnage fixe)"
-
-    Public ReadOnly Property ToStringForListDisplay() As String
-        Get
-            Dim r = DisplayWithFixedColumn(Me.Nom, Me.MotsClés, Me.UsagesDeProduit.Count())
-            Return r
-        End Get
-    End Property
-
-    Public Shared ReadOnly Property OuvragesListHeader() As String
-        Get
-            Dim r = DisplayWithFixedColumn("Nom", "Mots-clés", "Prdts")
-            Return r
-        End Get
-    End Property
-
-    Private Shared Function DisplayWithFixedColumn(nom As String, motsClés As List(Of String), Produits As String) As String
-        Dim r = DisplayWithFixedColumn(nom, Join(motsClés.ToArray(), ", "), Produits)
-        Return r
-    End Function
-
-    Private Shared Function DisplayWithFixedColumn(nom As String, motsClés As String, Produits As String) As String
-        Dim r As String = FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False) & FormateForColumn(Produits, 5, False)
-        Return r
-    End Function
-
-#End Region
-
 #End Region
 
 #Region "Tests et debuggage"

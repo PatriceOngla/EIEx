@@ -60,6 +60,7 @@ Public Class UC_SélecteurDeProduit
     End Property
 
 #End Region
+
 #Region "Critères"
 
 #Region "CritèreMotsClés (String)"

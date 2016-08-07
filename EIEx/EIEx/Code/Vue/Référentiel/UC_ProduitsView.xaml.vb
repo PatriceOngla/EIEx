@@ -7,13 +7,17 @@ Public Class UC_ProduitsView
 
 #Region "Champs privés"
 
-    Private WithEvents UCSP As UC_SélecteurDeProduit = UC_EIEx_Manager_UI.UCSP
+    Private WithEvents UCSP As UC_SélecteurDeProduit
 
 #End Region
 
 #Region "Constructeurs"
 
     Private Sub UC_FamillesProduitView_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+
+        'UCSP = ThisAddIn.UC_Container.EIEx_Manager_UI.UCSP
+        UCSP = UC_EIEx_Manager_UI.Instance.UCSP
+
         With UC_CmdesCRUD_Produits
 
             .MsgAlerteCohérenceSuppression = "Attention, ce produit est associé à au moins un patron d'ouvrage. En cas de suppression, ce(s) patron(s) predra(ont) leur référence à ce produit."
@@ -29,7 +33,6 @@ Public Class UC_ProduitsView
                                      End Function
         End With
     End Sub
-
 
 #End Region
 

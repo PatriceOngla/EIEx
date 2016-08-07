@@ -205,25 +205,25 @@ Public Class Produit
 
     Public ReadOnly Property ToStringForListDisplay() As String
         Get
-            Dim r = DisplayWithFixedColumn(Me.RéférenceProduit, Me.Nom, Me.MotsClés)
+            Dim r = DisplayWithFixedColumn(Me.Id, Me.RéférenceProduit, Me.Nom, Me.MotsClés)
             Return r
         End Get
     End Property
 
     Public Shared ReadOnly Property ProductsListHeader() As String
         Get
-            Dim r = DisplayWithFixedColumn("Référence", "Nom", "Mots-clés")
+            Dim r = DisplayWithFixedColumn("Id", "Référence", "Nom", "Mots-clés")
             Return r
         End Get
     End Property
 
-    Private Shared Function DisplayWithFixedColumn(référenceProduit As String, nom As String, motsClés As List(Of String)) As String
-        Dim r = DisplayWithFixedColumn(référenceProduit, nom, Join(motsClés.ToArray(), ", "))
+    Private Shared Function DisplayWithFixedColumn(Id As String, référenceProduit As String, nom As String, motsClés As List(Of String)) As String
+        Dim r = DisplayWithFixedColumn(Id, référenceProduit, nom, Join(motsClés.ToArray(), ", "))
         Return r
     End Function
 
-    Private Shared Function DisplayWithFixedColumn(référenceProduit As String, nom As String, motsClés As String) As String
-        Dim r As String = FormateForColumn(référenceProduit, 10) & FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False)
+    Private Shared Function DisplayWithFixedColumn(Id As String, référenceProduit As String, nom As String, motsClés As String) As String
+        Dim r As String = FormateForColumn(Id, 5) & FormateForColumn(référenceProduit, 10) & FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False)
         Return r
     End Function
 

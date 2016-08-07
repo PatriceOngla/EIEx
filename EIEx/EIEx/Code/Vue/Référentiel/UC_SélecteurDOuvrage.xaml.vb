@@ -503,7 +503,7 @@ Public Class UC_SélecteurDOuvrage
 #Region "EntêteRésultats"
     Public ReadOnly Property EntêteRésultats() As String
         Get
-            Return Ouvrage_Base.OuvragesListHeader
+            Return PatronDOuvrage.OuvragesListHeader()
         End Get
     End Property
 #End Region

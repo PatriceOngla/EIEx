@@ -82,6 +82,7 @@ Public Class EIExRibbon
             MsgBox("Aucune fenêtre active.")
         Else
             If EIExTaskPane Is Nothing Then
+                'Dim c = ThisAddIn.UC_Container
                 Dim c = New UC_Container()
                 EIExTaskPane = EIExAddin.CustomTaskPanes.Add(c, "EIEx", ExcelEventManager.TargetWindow)
                 _UC_EIEx_Manager_UI = c.EIEx_Manager_UI

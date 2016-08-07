@@ -28,8 +28,8 @@
                 </Style>-->
             </TabControl.Resources>
             
-            <TabItem Header="Patrons d'ouvrage">
-                <local:UC_OuvragesView DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.PatronsDOuvrage}"/>
+            <TabItem x:Name="TBt_PatronsDOuvrage" Header="Patrons d'ouvrage">
+                <local:UC_OuvragesView x:Name="UC_OuvragesView" DataContext="{Binding ElementName=UC_RéférentielView, Path=Ref.PatronsDOuvrage}"/>
             </TabItem>
             
             <TabItem x:Name="TBt_Produits" Header="Produits">
