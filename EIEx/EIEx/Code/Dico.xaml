@@ -778,7 +778,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="ButtonStyle" TargetType="{x:Type ButtonBase}">
+    <Style x:Key="BoutonCarré" TargetType="{x:Type ButtonBase}">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
@@ -791,7 +791,7 @@
         <Setter Property="Template" Value="{DynamicResource ButtonBaseControlTemplate1}"/>
     </Style>
 
-    <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+    <Style TargetType="Button" BasedOn="{StaticResource BoutonCarré}">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="Padding" Value="1"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -811,7 +811,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="ToggleButton" BasedOn="{StaticResource ButtonStyle}">
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource BoutonCarré}">
         <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
         <Setter Property="Padding" Value="1"/>
         <!--<Setter Property="Foreground" Value="Orange"/>-->

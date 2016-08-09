@@ -77,7 +77,7 @@ Friend Class ExcelEventManager
     Private Shared Sub _XL_SheetSelectionChange(Sh As Object, Target As Excel.Range) Handles _XL.SheetSelectionChange
         Try
             UCSC.SelectedRange = Target.Address
-            If LaFeuilleAffichéeEstCelleDuBordereauCourant() Then
+            If LaFeuilleActiveEstCelleDeLUnDesBordereauxDuClasseurCourant() Then
                 RaiseEvent TargetSelectedRangeChanged(Target)
             End If
         Catch ex As ArgumentException
@@ -86,24 +86,35 @@ Friend Class ExcelEventManager
 
     End Sub
 
-    Private Shared Function LaFeuilleAffichéeEstCelleDuBordereauCourant() As Boolean
+    'Private Shared Function LaFeuilleAffichéeEstCelleDuBordereauCourant() As Boolean
+
+    '    Dim awb = XL.ActiveWorkbook
+    '    Dim ash As Excel.Worksheet = XL.ActiveSheet
+    '    Dim awbPath = awb.FullName.Replace("""", "")
+    '    Dim ashName = ash.Name
+    '    Dim NomFicherBordereauCourant = WS?.ClasseurExcelCourant?.CheminFichier
+    '    Dim NomFeuilleCourante = WS?.BordereauCourant?.NomFeuille
+    '    Dim r As Boolean
+    '    If (String.IsNullOrEmpty(NomFicherBordereauCourant)) Or String.IsNullOrEmpty(NomFeuilleCourante) Then
+    '        r = False
+    '    Else
+    '        NomFicherBordereauCourant = NomFicherBordereauCourant.Replace("""", "")
+    '        Dim OKFichier = Object.Equals(awbPath, NomFicherBordereauCourant)
+    '        Dim OKFeuille = Object.Equals(ashName, NomFeuilleCourante)
+    '        r = OKFichier AndAlso OKFeuille
+    '    End If
+    '    Return r
+    'End Function
+
+    Private Shared Function LaFeuilleActiveEstCelleDeLUnDesBordereauxDuClasseurCourant() As Boolean
 
         Dim awb = XL.ActiveWorkbook
         Dim ash As Excel.Worksheet = XL.ActiveSheet
-        Dim awbPath = awb.FullName.Replace("""", "")
-        Dim ashName = ash.Name
-        Dim NomFicherBordereauCourant = WS?.ClasseurExcelCourant?.CheminFichier
-        Dim NomFeuilleCourante = WS?.BordereauCourant?.NomFeuille
-        Dim r As Boolean
-        If (String.IsNullOrEmpty(NomFicherBordereauCourant)) Or String.IsNullOrEmpty(NomFeuilleCourante) Then
-            r = False
-        Else
-            NomFicherBordereauCourant = NomFicherBordereauCourant.Replace("""", "")
-            Dim OKFichier = Object.Equals(awbPath, NomFicherBordereauCourant)
-            Dim OKFeuille = Object.Equals(ashName, NomFeuilleCourante)
-            r = OKFichier AndAlso OKFeuille
-        End If
+        Dim cc = WS?.ClasseurExcelCourant
+
+        Dim r = (From b In cc.Bordereaux Where b.Worksheet Is ash).Any()
         Return r
+
     End Function
 
 #End Region

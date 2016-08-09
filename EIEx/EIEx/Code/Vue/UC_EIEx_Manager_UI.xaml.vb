@@ -2,7 +2,6 @@
 Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
-Imports System.Windows.Media
 Imports Model
 
 'Attention : pas proprement implémenté comme un singleton mais une seule instance doit être créée (accessible via la propriété shared <seealso cref="UC_EIEx_Manager_UI.Instance"/>).
@@ -84,7 +83,7 @@ Public Class UC_EIEx_Manager_UI
         If FESource IsNot Nothing Then
             Dim DonnéeNavigationCible = TryCast(FESource.DataContext, IAgregateRoot)
             If DonnéeNavigationCible Is Nothing Then
-                Dim CBxParent = GetPrentCombobox(FESource)
+                Dim CBxParent = GetParentCombobox(FESource)
 
                 If CBxParent IsNot Nothing Then
                     DonnéeNavigationCible = TryCast(CBxParent.SelectedItem, Entité)
@@ -97,12 +96,13 @@ Public Class UC_EIEx_Manager_UI
 
     End Sub
 
-    Private Function GetPrentCombobox(fe As FrameworkElement) As ComboBox
-        Dim Parent = VisualTreeHelper.GetParent(fe)
-        Do While Parent IsNot Nothing AndAlso TypeOf Parent IsNot ComboBox
-            Parent = VisualTreeHelper.GetParent(Parent)
-        Loop
-        Return Parent
+    Private Function GetParentCombobox(fe As FrameworkElement) As ComboBox
+        'Dim Parent = VisualTreeHelper.GetParent(fe)
+        'Do While Parent IsNot Nothing AndAlso TypeOf Parent IsNot ComboBox
+        '    Parent = VisualTreeHelper.GetParent(Parent)
+        'Loop
+        'Return Parent
+        Return GetParentControl(Of ComboBox)(fe)
     End Function
 
     Private Sub NaviguerVers(donnéeNavigationCible As Entité)

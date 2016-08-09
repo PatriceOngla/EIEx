@@ -1,4 +1,5 @@
 ﻿Imports System.Windows
+Imports System.Windows.Media
 
 Module WPF_Utils
 
@@ -15,5 +16,12 @@ Module WPF_Utils
 
     End Class
 
+    Public Function GetParentControl(Of T As FrameworkElement)(fe As FrameworkElement) As T
+        Dim Parent = VisualTreeHelper.GetParent(fe)
+        Do While Parent IsNot Nothing AndAlso TypeOf Parent IsNot T
+            Parent = VisualTreeHelper.GetParent(Parent)
+        Loop
+        Return Parent
+    End Function
 
 End Module

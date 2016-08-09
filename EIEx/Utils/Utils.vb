@@ -222,6 +222,33 @@ Public Module Utils
         Return True
     End Function
 
+    '''<summary>
+    '''Returns the item following or preceding <paramref name="Item"/> according to the value of <paramref name="[Next]"/>.
+    '''</summary>
+    ''' <param name="[Next]">If true, returns the item following <paramref name="Item"/>, otherwise returns the item preceding <paramref name="Item"/>.</param>
+    ''' <returns></returns>
+    <Extension> Public Function GetNextOrPrevious(Of T)(L As IEnumerable(Of T), Item As T, [Next] As Boolean) As T
+        Dim r = GetNextForIEnumerable(L, Item, [Next])
+        Return r
+    End Function
+
+    'Private Function GetNextForIList(Of T)(L As IList(Of T), Item As T, [Next] As Boolean) As T
+    '    Dim i = L.IndexOf(Item)
+    '    If (i = 0 And [Next]) OrElse (i = L.Count - 1 And Not [Next]) Then
+    '        Throw New IndexOutOfRangeException()
+    '    Else
+    '        Dim ir = If([Next], i + 1, i - 1)
+    '        Return L(ir)
+    '    End If
+    'End Function
+
+    Private Function GetNextForIEnumerable(Of T)(L As IEnumerable(Of T), Item As T, [Next] As Boolean) As T
+        Dim L_loc = If([Next], L, L.Reverse)
+        Dim L_skipped = L_loc.SkipWhile(Function(it As T) Not (Object.Equals(it, Item)))
+        Dim r = L_skipped.Skip(1).First()
+        Return r
+    End Function
+
 #End Region
 
 #Region "Text processing"

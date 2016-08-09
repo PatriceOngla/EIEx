@@ -55,6 +55,39 @@ Public Class GestionnaireDeBordereaux
         End Get
     End Property
 
+#Region "SynchronizeWithExcelSelections_To"
+    Private _SynchronizeWithExcelSelections_To As Boolean = True
+    Public Property SynchronizeWithExcelSelections_To() As Boolean
+        Get
+            Return _SynchronizeWithExcelSelections_To
+        End Get
+        Set(ByVal value As Boolean)
+            If Object.Equals(value, Me._SynchronizeWithExcelSelections_To) Then Exit Property
+            _SynchronizeWithExcelSelections_To = value
+            NotifyPropertyChanged(NameOf(SynchronizeWithExcelSelections_To))
+        End Set
+    End Property
+#End Region
+
+#Region "SynchronizeWithExcelSelections_From"
+    Private _SynchronizeWithExcelSelections_From As Boolean
+    Public Property SynchronizeWithExcelSelections_From() As Boolean
+        Get
+            Return _SynchronizeWithExcelSelections_From
+        End Get
+        Set(ByVal value As Boolean)
+            If Object.Equals(value, Me._SynchronizeWithExcelSelections_From) Then Exit Property
+            _SynchronizeWithExcelSelections_From = value
+            If value Then
+                AddExcelSelectionChangedEventHandler()
+            Else
+                RemoveExcelSelectionChangedEventHandler()
+            End If
+            NotifyPropertyChanged(NameOf(SynchronizeWithExcelSelections_From))
+        End Set
+    End Property
+#End Region
+
 #End Region
 
 #Region "Ref"
@@ -133,7 +166,7 @@ Public Class GestionnaireDeBordereaux
             _LibelléEnDoublonCourant = value
             NotifyPropertyChanged(NameOf(LibelléEnDoublonCourant))
             'SélectionnerLesRangesAssociés(value)
-            SélectionnerLeRangesAssociéCourant(XL, value)
+            If value IsNot Nothing Then SélectionnerLeRangesAssociéCourant(XL, value)
         End Set
     End Property
 #End Region
@@ -326,6 +359,19 @@ Public Class GestionnaireDeBordereaux
 
 #End Region
 
+#Region "IsRunnig"
+    Private _IsRunnig As Boolean
+    Public Property IsRunnig() As Boolean
+        Get
+            Return _IsRunnig
+        End Get
+        Private Set(ByVal value As Boolean)
+            If Object.Equals(value, Me._IsRunnig) Then Exit Property
+            _IsRunnig = value
+        End Set
+    End Property
+#End Region
+
 #End Region
 
 #Region "Méthodes"
@@ -339,23 +385,31 @@ Public Class GestionnaireDeBordereaux
         _LibellésEnTransit.Clear()
         _LibellésRetenus.Clear()
     End Sub
-
     Public Sub RécupérerLesLibellésDOuvrages()
         Try
-            IncrémenteAvancementOpération(2)
-
-            RécupérerTousLesLibellésDOuvrages()
-            IncrémenteAvancementOpération()
-
-            RépartirLesLibellésDOuvrages()
-            IncrémenteAvancementOpération()
-
-            Me.NotifyPropertyChanged(NameOf(NbLignesLibelléDétéctées))
-            Me.NotifyPropertyChanged(NameOf(NbLibellésUniques))
-
+            Me.IsRunnig = True
+            Me.RemoveExcelSelectionChangedEventHandler()
+            RécupérerLesLibellésDOuvrages_Core()
+            If Me.SynchronizeWithExcelSelections_From Then Me.AddExcelSelectionChangedEventHandler()
         Catch ex As Exception
             ManageErreur(ex, , True, False)
+        Finally
+            IsRunnig = False
         End Try
+
+    End Sub
+
+    Private Sub RécupérerLesLibellésDOuvrages_Core()
+        IncrémenteAvancementOpération(2)
+
+        RécupérerTousLesLibellésDOuvrages()
+        IncrémenteAvancementOpération()
+
+        RépartirLesLibellésDOuvrages()
+        IncrémenteAvancementOpération()
+
+        Me.NotifyPropertyChanged(NameOf(NbLignesLibelléDétéctées))
+        Me.NotifyPropertyChanged(NameOf(NbLibellésUniques))
     End Sub
 
 #Region "RécupérerTousLesLibellésDOuvrages"
@@ -491,7 +545,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
 #Region "GérerLaQualificationDuDoublon"
 
-    Friend Sub GérerLaQualificationDuDoublon(VraiDoublon As Boolean, L As LibelléDouvrage)
+    Friend Sub GérerLaQualificationDuDoublon(L As LibelléDouvrage, VraiDoublon As Boolean)
         Me.LibellésEnDoublonEncoreATraiter.Remove(L)
         If VraiDoublon Then
             Me.LibellésRetenus.Add(L)
@@ -547,6 +601,30 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
 #End Region
 
+#Region "Handler pour synchrnisation des sélections depuis Excel"
+
+    Private Sub AddExcelSelectionChangedEventHandler()
+        If Not Me.IsRunnig Then
+            AddHandler ExcelEventManager.TargetSelectedRangeChanged, AddressOf XLSelectionChangeHandling
+        End If
+    End Sub
+
+    Private Sub RemoveExcelSelectionChangedEventHandler()
+        RemoveHandler ExcelEventManager.TargetSelectedRangeChanged, AddressOf XLSelectionChangeHandling
+    End Sub
+
+    Private Sub XLSelectionChangeHandling(newSelectedRange As Range)
+        Try
+            If Not Me.IsRunnig Then
+                Sélectionner(newSelectedRange)
+            End If
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+#End Region
+
 #Region "Divers"
 
     Private Sub NotifyPropertyChanged(v As String)
@@ -574,7 +652,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
             If LibelléAssociéAuRange IsNot Nothing Then
                 Me.LibelléEnDoublonCourant = LibelléAssociéAuRange
             Else
-                Message($"Le libellé ""{Range.Value}"" est introuvable. Cette situation est anormale.", MsgBoxStyle.Exclamation)
+                'Message($"Le libellé ""{Range.Value}"" est introuvable. Cette situation est anormale.", MsgBoxStyle.Exclamation)
             End If
         End If
     End Sub

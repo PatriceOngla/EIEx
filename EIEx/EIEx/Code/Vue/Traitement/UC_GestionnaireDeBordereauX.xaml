@@ -69,40 +69,44 @@
 
                         <DataGrid x:Name="DG_LibellésOuvrages" Grid.Row="3" AutoGenerateColumns="False" 
                               ItemsSource="{Binding LibellésEnDoublonEncoreATraiter}"
-                              SelectedItem="{Binding LibelléEnDoublonCourant}">
+                              SelectedItem="{Binding LibelléEnDoublonCourant}"
+                                  MouseDoubleClick="DG_LibellésOuvrages_MouseDoubleClick"
+                                  >
 
                             <DataGrid.Resources>
                                 <Style TargetType="{x:Type DataGridCell}">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGrid.Resources>
-                            
+
                             <DataGrid.Columns>
 
                                 <DataGridTemplateColumn Header="Type" 
                                                         ToolTipService.ToolTip="Type de doublon">
-                                    
+
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate >
                                             <StackPanel x:Name="SP"
                                                         Orientation="Horizontal" ToolTip="Type de doublon (vrai ou faux)" 
                                                         Margin="1"
-                                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=DataGridCell}, Path=Background}"                                                                                                    >
-                                                <RadioButton Content="V" 
-                                                             ToolTip="Vrai doublon (un seul ouvrage généré)" IsChecked="{x:Null}" 
-                                                             Foreground="Black" 
-                                                             Margin="3,0,7,0" VerticalAlignment="Center"
-                                                             Tag="true"/>
-                                                <RadioButton Content="F" 
-                                                             ToolTip="Faux doublon (Plusieurs ouvrages générés)" 
-                                                             IsChecked="{x:Null}" 
-                                                             Foreground="Black" 
-                                                             Margin="0,0,3,0" VerticalAlignment="Center"
-                                                             Tag="false"/>
+                                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=DataGridCell}, Path=Background}"    
+                                                        >
+                                                <Button Style="{StaticResource BoutonCarré}" 
+                                                        Margin="3,0,1,0" VerticalAlignment="Center"
+                                                        Content="V" 
+                                                        ToolTip="Vrai doublon (un seul patron pour tous les ouvrages générés)" 
+                                                        Click="ChoixVraiDoublon"
+                                                        />
+                                                <Button Style="{StaticResource BoutonCarré}" 
+                                                        Margin="0,0,3,0" VerticalAlignment="Center"
+                                                        Content="F" 
+                                                        ToolTip="Faux doublon (au plus un patron pour chaque ouvrage généré)" 
+                                                        Click="ChoixFauxDoublon"
+                                                        />
                                             </StackPanel>
 
                                             <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridCell}, Path=IsMouseOver}" Value="False">
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridCell}, Path=IsSelected}" Value="False">
                                                     <Setter TargetName="SP" Property="Opacity" Value="0.1"/>
                                                 </DataTrigger>
                                             </DataTemplate.Triggers>
@@ -128,8 +132,10 @@
                                         <DataTemplate >
                                             <StackPanel Margin="1" Orientation="Horizontal" ToolTip="Sélectionner les plages correspondantes" 
                                                         Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=DataGridCell}, Path=Background}" >
+                                                <TextBlock Text="{Binding NbOccurrences, StringFormat='Nb : {0}'}" VerticalAlignment="Center" 
+                                                           Margin="0,0,3,0"/>
                                                 <Button Width="14" Height="14"
-                                                        Style="{StaticResource ButtonStyle}"
+                                                        Style="{StaticResource BoutonCarré}"
                                                         ContentTemplate="{StaticResource Suivant}" ToolTip="Plage précédente" 
                                                         Click="Btn_SélectionnerRangePrécédent"
                                                         Margin="3,0,0,0"
@@ -144,7 +150,7 @@
                                                            ToolTip="Ligne de la plage sélectionnnée." HorizontalAlignment="Center" TextAlignment="Center"
                                                            />
                                                 <Button Width="14" Height="14"
-                                                        Style="{StaticResource ButtonStyle}"
+                                                        Style="{StaticResource BoutonCarré}"
                                                         ContentTemplate="{StaticResource Suivant}" ToolTip="Plage suivante" 
                                                         Margin="0,0,3,0" 
                                                         Click="Btn_SélectionnerRangeSuivant"
@@ -152,14 +158,13 @@
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-                                    
+
                                 </DataGridTemplateColumn>
 
-                                <DataGridTextColumn Header="Ligne" Binding="{Binding LignePremierRange}" IsReadOnly="True"/>
+                                <!--<DataGridTextColumn Header="Ligne" Binding="{Binding LignePremierRange}" IsReadOnly="True"/>-->
                                 <DataGridTextColumn Header="Libellé" Binding="{Binding LibelléSource}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Nb" Binding="{Binding NbOccurrences}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Classeur" MaxWidth="200" Binding="{Binding SourceFileInfo}" IsReadOnly="True" ToolTipService.ToolTip="Nom du fichier d'origine"/>
-                                <DataGridTextColumn Header="Cellule"  Binding="{Binding SourceRangeInfo}" IsReadOnly="True" ToolTipService.ToolTip="Adresse de la cellul d'origine"/>
+                                <!--<DataGridTextColumn Header="Cellule"  Binding="{Binding SourceRangeInfo}" IsReadOnly="True" ToolTipService.ToolTip="Adresse de la cellul d'origine"/>-->
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -217,13 +222,21 @@
                     </DockPanel>
 
                     <DockPanel x:Name="DP_Commandes" LastChildFill="False" Grid.Row="4">
-                        <CheckBox Content="Synchronisation avec les sélection Excel : " 
-                                  IsChecked="{Binding RelativeSource= {StaticResource ThisControl}, Path = TrackExcelEvent}"/>
+                        <StackPanel x:Name="SP_SynchroExcel" Orientation="Horizontal">
+                            <Label Content="Synchronisation avec les sélection Excel : "/>
+                            <CheckBox x:Name="CBx_SynchroExcelFrom" Content="Depuis" 
+                                      VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                      IsChecked="{Binding SynchronizeWithExcelSelections_From}"/>
+                            <CheckBox x:Name="CBx_SynchroExcelTo" Content="Vers" 
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding SynchronizeWithExcelSelections_To}"/>
+
+                        </StackPanel>
                         <Button x:Name="Btn_Go" 
-                                DockPanel.Dock="Right"  Style="{StaticResource ButtonStyle}"
+                                DockPanel.Dock="Right"  Style="{StaticResource BoutonCarré}"
                                 Content="Créer les ouvrages"/>
                         <Button x:Name="Btn_Start" 
-                                DockPanel.Dock="Right" Style="{StaticResource ButtonStyle}"
+                                DockPanel.Dock="Right" Style="{StaticResource BoutonCarré}"
                                 Content="Démarrer"/>
                     </DockPanel>
 

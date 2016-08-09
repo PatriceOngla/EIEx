@@ -63,7 +63,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -80,6 +82,7 @@
     <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UtilsTests.vb" />
     <Compile Include="UnitTestWorkspace.vb" />
     <Compile Include="UnitTestRéférentiel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

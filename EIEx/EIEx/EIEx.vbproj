@@ -229,6 +229,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Code\Divers\ExcelCommander.vb" />
+    <Compile Include="Code\Divers\ExcelCommander_Part2.vb" />
     <Compile Include="Code\Divers\ExcelEventManager.vb" />
     <Compile Include="Code\Divers\WPF_Utils.vb" />
     <Compile Include="Code\Vue\Référentiel\UC_SélecteurDOuvrage.xaml.vb">
