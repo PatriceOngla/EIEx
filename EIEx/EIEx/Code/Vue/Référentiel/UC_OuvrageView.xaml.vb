@@ -62,7 +62,18 @@ Public Class UC_OuvragesView
 #Region "OuvrageCourant (Ouvrage)"
 
     Public Shared ReadOnly OuvrageCourantProperty As DependencyProperty =
-            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage_Base), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing))
+            DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage_Base), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing, New PropertyChangedCallback(
+                                            Sub(ucov As UC_OuvragesView, e As DependencyPropertyChangedEventArgs)
+                                                Dim o = TryCast(ucov.OuvrageCourant, Ouvrage)
+                                                If o IsNot Nothing Then
+                                                    Dim r As Excel.Range
+                                                    r = o.GetCelluleExcelAssociée
+                                                    If r IsNot Nothing Then
+                                                        SélectionnerPlageExcel(r)
+                                                    End If
+                                                End If
+                                            End Sub)))
+
 
     Public Property OuvrageCourant As Ouvrage_Base
         Get

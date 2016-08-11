@@ -648,7 +648,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     Private Sub XLSelectionChangeHandling(newSelectedRange As Range)
         Try
             If Not Me.IsRunnig Then
-                Sélectionner(newSelectedRange)
+                SélectionnerLeLibelléAssocié(newSelectedRange)
             End If
         Catch ex As Exception
             ManageErreur(ex)
@@ -664,7 +664,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     End Sub
 
     ''' <summary>Sélectionne le <see cref="LibelléDouvrage"/> associé à <param name="AssociatedRange"/> dans la liste où il se trouve.</summary>
-    Friend Sub Sélectionner(AssociatedRange As Range)
+    Friend Sub SélectionnerLeLibelléAssocié(AssociatedRange As Range)
 
         'TODO : ne traiter que si on est dans la plage libellé de l'un des bordereau (ou du courant)
 
@@ -725,20 +725,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     'End Sub
 
     Public Sub SélectionnerLeRangeAssociéCourant(L As LibelléDouvrage)
-        Try
-            XL.Goto(L.SelectedRange)
-            'XL.ScreenUpdating = False
-            'If L Is Nothing Then Exit Sub
-            'Dim rng = L.SelectedRange
-            'rng.Worksheet.Activate()
-            'rng.Activate()
-            'rng.Select()
-            'XL.ScreenUpdating = True
-        Catch ex As Exception
-            ManageErreur(ex, "Echec de la sélection de la plage Excel.")
-        Finally
-            'XL.ScreenUpdating = True
-        End Try
+        SélectionnerPlageExcel(L.SelectedRange)
     End Sub
 
     'Friend Sub GérerSélectionChanges(L As LibelléDouvrage)

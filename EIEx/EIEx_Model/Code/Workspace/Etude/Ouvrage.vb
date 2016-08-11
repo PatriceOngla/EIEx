@@ -55,7 +55,7 @@ Public Class Ouvrage
     Public ReadOnly Property BordereauParent() As Bordereau
 #End Region
 
-#Region "NuméroLignePlageExccel"
+#Region "NuméroLignePlageExcel"
     Public ReadOnly Property NuméroLignePlageExcel() As Integer
 #End Region
 

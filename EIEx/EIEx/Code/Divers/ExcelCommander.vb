@@ -295,6 +295,23 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
 
     '#End Region
 
+    Public Sub SélectionnerPlageExcel(R As Range)
+        Try
+            XL.Goto(R)
+        Catch ex As Exception
+            ManageErreur(ex, "Echec de la sélection de la plage Excel.")
+        End Try
+    End Sub
+
+
+    <Extension> Public Function GetCelluleExcelAssociée(O As Ouvrage) As Range
+        Dim B = O.BordereauParent
+        Dim ws = B.Worksheet
+        Dim NumColonneLibellé = ws.Range(B.Paramètres.AdresseRangeLibelleOuvrage).Column
+        Dim r = ws.Cells(O.NuméroLignePlageExcel, NumColonneLibellé)
+        Return r
+    End Function
+
 #End Region
 
 End Module
