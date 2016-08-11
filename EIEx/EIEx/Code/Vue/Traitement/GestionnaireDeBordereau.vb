@@ -18,6 +18,7 @@ Public Class GestionnaireDeBordereaux
         _LibellésEnDoublonEncoreATraiter = New ObservableCollection(Of LibelléDouvrage)
         _LibellésEnTransit = New ObservableCollection(Of LibelléDouvrage)
         _LibellésRetenus = New ObservableCollection(Of LibelléDouvrage)
+        _LibellésEnDoublonSélectionnés = New ObservableCollection(Of LibelléDouvrage)()
     End Sub
 
 #End Region
@@ -154,20 +155,35 @@ Public Class GestionnaireDeBordereaux
     End Property
 #End Region
 
-#Region "LibelléEnDoublonCourant"
-    Private _LibelléEnDoublonCourant As LibelléDouvrage
+    '#Region "LibelléEnDoublonCourant"
+    '    Private _LibelléEnDoublonCourant As LibelléDouvrage
 
-    Public Property LibelléEnDoublonCourant() As LibelléDouvrage
+    '    ''' <summary>Le plus récemment sélectionné des <see cref="LibelléDouvrage"/> <see cref="LibellésEnDoublonSélectionnés"/>.</summary>
+    '    Public Property LibelléEnDoublonCourant() As LibelléDouvrage
+    '        Get
+    '            Return _LibelléEnDoublonCourant
+    '            'Return Me.LibellésEnDoublonSélectionnés.FirstOrDefault()
+    '        End Get
+    '        Set(ByVal value As LibelléDouvrage)
+    '            'If Object.Equals(value, Me.LibelléEnDoublonCourant) Then Exit Property
+    '            Me.LibellésEnDoublonSélectionnés.DoForAll(Sub(l) If l IsNot Me Then l.SetEstSélectionnéPourQualification(False, False))
+    '            '_LibelléEnDoublonCourant = value
+    '            If value IsNot Nothing AndAlso Not value.EstSélectionnéPourQualification Then value.SetEstSélectionnéPourQualification(True, False)
+    '            NotifyPropertyChanged(NameOf(LibelléEnDoublonCourant))
+    '            If value IsNot Nothing AndAlso Me.SynchronizeWithExcelSelections_To Then SélectionnerLeRangeAssociéCourant(value)
+    '        End Set
+    '    End Property
+
+    '#End Region
+
+#Region "LibellésEnDoublonSélectionnés"
+    Private _LibellésEnDoublonSélectionnés As ObservableCollection(Of LibelléDouvrage)
+
+    Public ReadOnly Property LibellésEnDoublonSélectionnés() As IEnumerable(Of LibelléDouvrage)
         Get
-            Return _LibelléEnDoublonCourant
+            Dim r = (From l In Me.LibellésEnDoublonEncoreATraiter Where l.EstSélectionnéPourQualification)
+            Return r
         End Get
-        Set(ByVal value As LibelléDouvrage)
-            If Object.Equals(value, Me._LibelléEnDoublonCourant) Then Exit Property
-            _LibelléEnDoublonCourant = value
-            NotifyPropertyChanged(NameOf(LibelléEnDoublonCourant))
-            'SélectionnerLesRangesAssociés(value)
-            If value IsNot Nothing Then SélectionnerLeRangesAssociéCourant(XL, value)
-        End Set
     End Property
 #End Region
 
@@ -206,7 +222,7 @@ Public Class GestionnaireDeBordereaux
             If Object.Equals(value, Me._LibelléEnTransitCourant) Then Exit Property
             _LibelléEnTransitCourant = value
             NotifyPropertyChanged(NameOf(LibelléEnTransitCourant))
-            SélectionnerLeRangesAssociéCourant(XL, value)
+            SélectionnerLeRangeAssociéCourant(value)
         End Set
     End Property
 #End Region
@@ -234,7 +250,7 @@ Public Class GestionnaireDeBordereaux
             If Object.Equals(value, Me._LibelléRetenuCourant) Then Exit Property
             _LibelléRetenuCourant = value
             NotifyPropertyChanged(NameOf(LibelléRetenuCourant))
-            SélectionnerLeRangesAssociéCourant(XL, value)
+            If value IsNot Nothing Then SélectionnerLeRangeAssociéCourant(value)
         End Set
     End Property
 #End Region
@@ -535,7 +551,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     End Sub
 
     Private Function ToLibellé(b As Bordereau, rng As Range) As LibelléDouvrage
-        Dim r As New LibelléDouvrage(b, rng)
+        Dim r As New LibelléDouvrage(b, rng, LibelléDouvrage.StatutDeLibellé.AQualifier)
         Return r
     End Function
 
@@ -543,10 +559,25 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
 #End Region
 
-#Region "GérerLaQualificationDuDoublon"
+#Region "GérerLaQualificationDesDoublonsSélectionnés"
 
-    Friend Sub GérerLaQualificationDuDoublon(L As LibelléDouvrage, VraiDoublon As Boolean)
+    Public Sub GérerLaQualificationDesDoublonsSélectionnés(VraiDoublon As Boolean)
+        Dim LibellésATraiter = New List(Of LibelléDouvrage)(Me.LibellésEnDoublonSélectionnés)
+        'LibellésATraiter.DoForAll(Sub(L)
+        '                              GérerLaQualificationDuDoublon(L, VraiDoublon)
+        '                              L.SetEstSélectionnéPourQualification(False, False)
+        '                          End Sub)
+        LibellésATraiter.DoForAll(Sub(L)
+                                      GérerLaQualificationDuDoublon(L, VraiDoublon)
+                                      L.EstSélectionnéPourQualification = False
+                                  End Sub)
+        Dim LibelléATraiterSuivant = Me.LibellésEnDoublonEncoreATraiter.FirstOrDefault
+        If LibelléATraiterSuivant IsNot Nothing Then LibelléATraiterSuivant.EstSélectionnéPourQualification = True
+    End Sub
+
+    Private Sub GérerLaQualificationDuDoublon(L As LibelléDouvrage, VraiDoublon As Boolean)
         Me.LibellésEnDoublonEncoreATraiter.Remove(L)
+        L.Statut = LibelléDouvrage.StatutDeLibellé.Traité
         If VraiDoublon Then
             Me.LibellésRetenus.Add(L)
         Else
@@ -557,13 +588,14 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     Private Sub GénérerLesAvatars(L As LibelléDouvrage)
         Dim Avatar As LibelléDouvrage
         For Each rng In L.Ranges
-            Avatar = New LibelléDouvrage(L.Bordereau, rng)
+            Avatar = New LibelléDouvrage(L.Bordereau, rng, LibelléDouvrage.StatutDeLibellé.ACompléter)
             Me.LibellésEnTransit.Add(Avatar)
         Next
     End Sub
 
     Public Sub PurgerLeTransit()
         For Each L In Me.LibellésEnTransit
+            L.Statut = LibelléDouvrage.StatutDeLibellé.Traité
             Me.LibellésRetenus.Add(L)
         Next
         Me.LibellésEnTransit.Clear()
@@ -631,12 +663,12 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(v))
     End Sub
 
-    ''' <summary>Sélectionne le <see cref="LibelléDouvrage"/> associé au <param name="Range"/> dans la liste où il se trouve.</summary>
-    Friend Sub Sélectionner(Range As Range)
+    ''' <summary>Sélectionne le <see cref="LibelléDouvrage"/> associé à <param name="AssociatedRange"/> dans la liste où il se trouve.</summary>
+    Friend Sub Sélectionner(AssociatedRange As Range)
 
         'TODO : ne traiter que si on est dans la plage libellé de l'un des bordereau (ou du courant)
 
-        Dim V As String = TryCast(Range.Value, String)
+        Dim V As String = TryCast(AssociatedRange.Value, String)
 
         If V Is Nothing Then Exit Sub
 
@@ -650,11 +682,18 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
         Else
             LibelléAssociéAuRange = (Me.LibellésEnDoublonEncoreATraiter.Where(EstAssociéAuRange)).FirstOrDefault
             If LibelléAssociéAuRange IsNot Nothing Then
-                Me.LibelléEnDoublonCourant = LibelléAssociéAuRange
+                SélectionnerLeLibelléUniquementParmiLesLibellésEnDoublonEncoreATraiter(LibelléAssociéAuRange)
+                'Me.LibelléEnDoublonCourant = LibelléAssociéAuRange
             Else
                 'Message($"Le libellé ""{Range.Value}"" est introuvable. Cette situation est anormale.", MsgBoxStyle.Exclamation)
             End If
         End If
+    End Sub
+
+    Private Sub SélectionnerLeLibelléUniquementParmiLesLibellésEnDoublonEncoreATraiter(L As LibelléDouvrage)
+        'Me.LibellésEnDoublonSélectionnés.DoForAll(Sub(l2) If l2 IsNot Me Then l2.SetEstSélectionnéPourQualification(False, False))
+        Me.LibellésEnDoublonSélectionnés.DoForAll(Sub(l2) If l2 IsNot Me Then l2.EstSélectionnéPourQualification = False)
+        L.EstSélectionnéPourQualification = True
     End Sub
 
 #End Region
@@ -685,7 +724,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     '    End Try
     'End Sub
 
-    Public Shared Sub SélectionnerLeRangesAssociéCourant(XL As Excel.Application, L As LibelléDouvrage)
+    Public Sub SélectionnerLeRangeAssociéCourant(L As LibelléDouvrage)
         Try
             XL.Goto(L.SelectedRange)
             'XL.ScreenUpdating = False
@@ -701,6 +740,12 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
             'XL.ScreenUpdating = True
         End Try
     End Sub
+
+    'Friend Sub GérerSélectionChanges(L As LibelléDouvrage)
+    '    'Nécessaire car il semble qu'en sélection multiple, les événnement Datagrid.SelectionChanged ne soient pas déclenchés comme je m'y attendais. Contournement (il y a sûrement mieux à faire). 
+    '    'Après recherche, c'est évidemment à cause de la virtualisation. On est à la En tout cas, c'est un comportement dégueulasse (par défaut sur la DataGrid VirtualizingStackPanel.VirtualizationMode est en Recycle, ce qui casse les bindings avec IsSelected et stoppe la génération d'event SelectionChanged dès qu'on a scrollé). 
+    '    Me.LibelléEnDoublonCourant = L
+    'End Sub
 
 #End Region
 

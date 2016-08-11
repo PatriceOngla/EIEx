@@ -8,7 +8,10 @@ Public Class LibelléDouvrage
 
 #Region "Constructeurs"
 
-    Public Sub New(b As Bordereau, ByVal premierRange As Excel.Range)
+    'Public Sub New(Parent As GestionnaireDeBordereaux, b As Bordereau, ByVal premierRange As Excel.Range, statut As StatutDeLibellé)
+    Public Sub New(b As Bordereau, ByVal premierRange As Excel.Range, statut As StatutDeLibellé)
+        'Me.Parent = Parent
+        Me.Statut = statut
         Me.Bordereau = b
         Me._Ranges = New List(Of Excel.Range)({premierRange})
         Me.Feuille = premierRange.Worksheet
@@ -19,6 +22,10 @@ Public Class LibelléDouvrage
 #End Region
 
 #Region "Propriétés"
+
+    '#Region "Parent"
+    '    Public ReadOnly Property Parent() As GestionnaireDeBordereaux
+    '#End Region
 
 #Region "Bordereau"
     Public ReadOnly Property Bordereau() As Bordereau
@@ -116,11 +123,20 @@ Public Class LibelléDouvrage
         End If
         NotifyPropertyChanged(NameOf(SelectedRangeIndex))
         NotifyPropertyChanged(NameOf(SelectedRange))
+        Me.NotifyPropertyChanged(NameOf(SelectedRangeIndex_Base1))
         'Diagnostics.Debug.Print($"_SelectedRangeIndex : {_SelectedRangeIndex}")
     End Sub
 
 #End Region
 
+#Region "SelectedRangeIndex_Base1"
+    Private _SelectedRangeIndex_Base1 As Integer
+    Public ReadOnly Property SelectedRangeIndex_Base1() As Integer
+        Get
+            Return Me.SelectedRangeIndex + 1
+        End Get
+    End Property
+#End Region
 #Region "SelectedRange"
 
     Public ReadOnly Property SelectedRange() As Excel.Range
@@ -186,6 +202,67 @@ Public Class LibelléDouvrage
     End Property
 #End Region
 
+#Region "EstSélectionnéPourQualification"
+    Private _EstSélectionnéPourQualification As Boolean
+    ''' <summary>
+    ''' Indique que le <see cref="LibelléDouvrage"/> est sélectionné pour être qualifié en tant que vrai ou faux doublon (seulement dans la première liste pour traitement multiple). 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property EstSélectionnéPourQualification() As Boolean
+        Get
+            If Me.Statut <> StatutDeLibellé.AQualifier Then
+                Return False
+            Else
+                Return _EstSélectionnéPourQualification
+            End If
+        End Get
+        Set(ByVal value As Boolean)
+            ''System.Diagnostics.Debug.Print($"{Me.Libellé} : {value}")
+            'SetEstSélectionnéPourQualification(value, True)
+            If Object.Equals(value, Me._EstSélectionnéPourQualification) Then Exit Property
+            If (value AndAlso Me.Statut <> StatutDeLibellé.AQualifier) Then Throw New InvalidOperationException($"Un {NameOf(LibelléDouvrage)} ne peut être sélectionné que s'il a le statut ""{StatutDeLibellé.AQualifier}"".")
+            _EstSélectionnéPourQualification = value
+            NotifyPropertyChanged(NameOf(EstSélectionnéPourQualification))
+        End Set
+    End Property
+
+    'Friend Sub SetEstSélectionnéPourQualification(value As Boolean, NotifierParent As Boolean)
+    '    If Object.Equals(value, Me._EstSélectionnéPourQualification) Then Exit Sub
+    '    If (value AndAlso Me.Statut <> StatutDeLibellé.AQualifier) Then Throw New InvalidOperationException($"Un {NameOf(LibelléDouvrage)} ne peut être sélectionné que s'il a le statut ""{StatutDeLibellé.AQualifier}"".")
+    '    _EstSélectionnéPourQualification = value
+    '    NotifyPropertyChanged(NameOf(EstSélectionnéPourQualification))
+    '    'If NotifierParent Then Me.Parent.GérerSélectionChanges(Me)
+    'End Sub
+
+#End Region
+
+#Region "Statut"
+
+    Private _Statut As StatutDeLibellé = StatutDeLibellé.AQualifier
+    Public Property Statut() As StatutDeLibellé
+        Get
+            Return _Statut
+        End Get
+        Set(ByVal value As StatutDeLibellé)
+            If Object.Equals(value, Me._Statut) Then Exit Property
+            'If value <> StatutDeLibellé.AQualifier Then Me.SetEstSélectionnéPourQualification(False, False)
+            If value <> StatutDeLibellé.AQualifier Then Me.EstSélectionnéPourQualification = False
+            _Statut = value
+            NotifyPropertyChanged(NameOf(Statut))
+        End Set
+    End Property
+
+    Public Enum StatutDeLibellé
+        ''' <summary>Le libellé est dans la première liste et doit être qualifié en tant que vrai ou faux doublon.</summary>
+        AQualifier
+
+        ''' <summary>Le libellé est un faux doublon, il est donc dans la deuxième liste et doit être complété (complément de nom).</summary>
+        ACompléter
+
+        ''' <summary>Le libellé est traité et prêt pour génération d'un <see cref="Ouvrage"/>.</summary>
+        Traité
+    End Enum
+#End Region
 #End Region
 
 #Region "Méthodes"
