@@ -155,27 +155,6 @@ Public Class GestionnaireDeBordereaux
     End Property
 #End Region
 
-    '#Region "LibelléEnDoublonCourant"
-    '    Private _LibelléEnDoublonCourant As LibelléDouvrage
-
-    '    ''' <summary>Le plus récemment sélectionné des <see cref="LibelléDouvrage"/> <see cref="LibellésEnDoublonSélectionnés"/>.</summary>
-    '    Public Property LibelléEnDoublonCourant() As LibelléDouvrage
-    '        Get
-    '            Return _LibelléEnDoublonCourant
-    '            'Return Me.LibellésEnDoublonSélectionnés.FirstOrDefault()
-    '        End Get
-    '        Set(ByVal value As LibelléDouvrage)
-    '            'If Object.Equals(value, Me.LibelléEnDoublonCourant) Then Exit Property
-    '            Me.LibellésEnDoublonSélectionnés.DoForAll(Sub(l) If l IsNot Me Then l.SetEstSélectionnéPourQualification(False, False))
-    '            '_LibelléEnDoublonCourant = value
-    '            If value IsNot Nothing AndAlso Not value.EstSélectionnéPourQualification Then value.SetEstSélectionnéPourQualification(True, False)
-    '            NotifyPropertyChanged(NameOf(LibelléEnDoublonCourant))
-    '            If value IsNot Nothing AndAlso Me.SynchronizeWithExcelSelections_To Then SélectionnerLeRangeAssociéCourant(value)
-    '        End Set
-    '    End Property
-
-    '#End Region
-
 #Region "LibellésEnDoublonSélectionnés"
     Private _LibellésEnDoublonSélectionnés As ObservableCollection(Of LibelléDouvrage)
 
@@ -183,14 +162,6 @@ Public Class GestionnaireDeBordereaux
         Get
             Dim r = (From l In Me.LibellésEnDoublonEncoreATraiter Where l.EstSélectionnéPourQualification)
             Return r
-        End Get
-    End Property
-#End Region
-
-#Region "NbLibellésEnDoublonEncoreATraiter"
-    Public ReadOnly Property NbLibellésEnDoublonEncoreATraiter() As Integer
-        Get
-            Return LibellésEnDoublonEncoreATraiter.Count()
         End Get
     End Property
 #End Region
@@ -255,14 +226,6 @@ Public Class GestionnaireDeBordereaux
     End Property
 #End Region
 
-#Region "NbLibellésRetenus"
-    Public ReadOnly Property NbLibellésRetenus() As Integer
-        Get
-            Return LibellésRetenus.Count()
-        End Get
-    End Property
-#End Region
-
     Private Sub _LibellésRetenus_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _LibellésRetenus.CollectionChanged
         Me.NotifyPropertyChanged(NameOf(NbLibellésRetenus))
     End Sub
@@ -272,6 +235,14 @@ Public Class GestionnaireDeBordereaux
 #End Region
 
 #Region "Décomptes"
+
+#Region "NbLibellésRetenus"
+    Public ReadOnly Property NbOuvragesDéjàCréés() As Integer
+        Get
+            Return WS.EtudeCourante.Ouvrages.Count()
+        End Get
+    End Property
+#End Region
 
 #Region "NbLignesLibelléDétéctées"
     Public ReadOnly Property NbLignesLibelléDétéctées() As Integer
@@ -291,6 +262,22 @@ Public Class GestionnaireDeBordereaux
 
             If LesUniques.Count <> r Then MsgBox("On a un problème.")
             Return r
+        End Get
+    End Property
+#End Region
+
+#Region "NbLibellésEnDoublonEncoreATraiter"
+    Public ReadOnly Property NbLibellésEnDoublonEncoreATraiter() As Integer
+        Get
+            Return LibellésEnDoublonEncoreATraiter.Count()
+        End Get
+    End Property
+#End Region
+
+#Region "NbLibellésRetenus"
+    Public ReadOnly Property NbLibellésRetenus() As Integer
+        Get
+            Return LibellésRetenus.Count()
         End Get
     End Property
 #End Region
@@ -401,6 +388,7 @@ Public Class GestionnaireDeBordereaux
         _LibellésEnTransit.Clear()
         _LibellésRetenus.Clear()
     End Sub
+
     Public Sub RécupérerLesLibellésDOuvrages()
         Try
             Me.IsRunnig = True
@@ -435,6 +423,9 @@ Public Class GestionnaireDeBordereaux
         Dim OffsetChampUnité As Short
 
         Me.Purger()
+        Me.NotifyPropertyChanged(NameOf(NbOuvragesDéjàCréés))
+
+        RecencerLesOuvragesDéjàCréés()
 
         IncrémenteAvancementClasseur(Ec.ClasseursExcel.Count)
 
@@ -452,6 +443,48 @@ Public Class GestionnaireDeBordereaux
         IncrémenteAvancementOpération()
 
     End Sub
+
+#Region "RecencerLesOuvragesDéjàCréés"
+
+#Region "KeyForOuvrage"
+
+    Private Shared Function KeyForOuvrage(o As Ouvrage) As String
+        Return KeyForOuvrage(o.BordereauParent.Parent.Nom, o.BordereauParent.Nom, o.NuméroLignePlageExcel)
+    End Function
+
+    Private Shared Function KeyForOuvrage(cell As Range) As String
+        Return KeyForOuvrage(cell.Worksheet.Parent.Name, cell.Worksheet.Name, cell.Row)
+    End Function
+
+    Private Shared Function KeyForOuvrage(NomClasseur As String, NomFeuille As String, NumLigne As Integer) As String
+        Return $"{NomClasseur}/{NomFeuille}/{NumLigne}"
+    End Function
+
+#End Region
+
+    Private Class DictionnaireDOuvrages
+        Inherits KeyedCollection(Of String, Ouvrage)
+
+        Public Sub New()
+        End Sub
+
+        Public Sub New(ouvrages As IEnumerable(Of Ouvrage))
+            Me.AddRange(ouvrages)
+        End Sub
+
+        Protected Overrides Function GetKeyForItem(item As Ouvrage) As String
+            Return KeyForOuvrage(item)
+        End Function
+
+    End Class
+
+    Private DictionnaireDesOuvragesDéjàTraités As DictionnaireDOuvrages
+
+    Private Sub RecencerLesOuvragesDéjàCréés()
+        DictionnaireDesOuvragesDéjàTraités = New DictionnaireDOuvrages(WS.EtudeCourante.Ouvrages)
+    End Sub
+
+#End Region
 
     Private Sub CheckPrérequis(b As Bordereau)
 
@@ -473,7 +506,7 @@ Public Class GestionnaireDeBordereaux
             IncrémenteAvancementCellule(NbcellsATraiter)
 
             For Each cell As Excel.Range In PlageRechercheDesLibellés.Cells
-                If EstUneCelluleDeLibellé(cell, OffsetChampsUnité) Then
+                If EstUneCelluleDeLibellé(cell, OffsetChampsUnité) AndAlso Not EstDéjàTraitée(cell) Then
                     _TousLesRangesDeLibellés.Add(cell)
                     LibelléCandidatALajout = cell.Value
                     If _TousLesLibellés.Contains(LibelléCandidatALajout) Then
@@ -513,6 +546,16 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
     Private Function EstUnitéValide(Unité As String) As Boolean
         Dim U As Unités
         Dim r = [Enum].TryParse(Unité, True, U)
+        Return r
+    End Function
+
+#End Region
+
+#Region "NEstPasDéjàTraitée"
+
+    Private Function EstDéjàTraitée(cell As Range) As Boolean
+        Dim Clé = KeyForOuvrage(cell)
+        Dim r = DictionnaireDesOuvragesDéjàTraités.Contains(Clé)
         Return r
     End Function
 
@@ -629,6 +672,7 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
             End Try
         Next
         XL.StatusBar = ""
+        Me.NotifyPropertyChanged(NameOf(NbOuvragesDéjàCréés))
     End Sub
 
 #End Region

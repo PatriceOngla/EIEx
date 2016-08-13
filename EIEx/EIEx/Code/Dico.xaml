@@ -932,7 +932,7 @@
     </Style>
 
     <Style TargetType="local:UC_CommandesCRUD">
-        <Setter Property="Margin" Value="{StaticResource DefaultMargin}"/>
+        <Setter Property="Margin" Value="0"/>
     </Style>
 
     <!--#endregion-->

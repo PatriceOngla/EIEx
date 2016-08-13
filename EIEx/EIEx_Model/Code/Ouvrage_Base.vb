@@ -13,8 +13,13 @@ Public MustInherit Class Ouvrage_Base
 
     Protected Overrides Sub Init()
         _Libellés = New ObservableCollection(Of String)
+        Me.NotifyPropertyChanged(NameOf(Libellés))
+
         _UsagesDeProduit = New ObservableCollection(Of UsageDeProduit)
+        Me.NotifyPropertyChanged(NameOf(UsagesDeProduit))
+
         _MotsClés = New List(Of String)
+        Me.NotifyPropertyChanged(NameOf(MotsClés))
     End Sub
 
 #End Region
@@ -63,7 +68,8 @@ Public MustInherit Class Ouvrage_Base
 #End Region
 
 #Region "Libellés"
-
+    ''' <summary>Pour éviter les erreurs de réentrance dans la gestion évennemenbtielle de la modif de la collection des libellés</summary>
+    Private _ModifLibelléEnCours As Boolean
     Private WithEvents _Libellés As ObservableCollection(Of String)
     Public ReadOnly Property Libellés() As ObservableCollection(Of String)
         Get
@@ -78,9 +84,10 @@ Public MustInherit Class Ouvrage_Base
     End Property
 
     Private Sub _Libellés_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs) Handles _Libellés.CollectionChanged
-        ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
+        If Not _ModifLibelléEnCours Then
+            ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
+        End If
         Me.NotifyPropertyChanged(NameOf(NbLibellés))
-
     End Sub
 
     Private Sub ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
@@ -123,37 +130,40 @@ Public MustInherit Class Ouvrage_Base
 
 #End Region
 
-#Region "TempsDePauseUnitaire (Integer)"
-    Private _TempsDePauseUnitaire As Integer?
+#Region "TempsDePoseUnitaire (Integer)"
+    Private _TempsDePoseUnitaire As Integer?
 
     ''' <summary>Le temps de pause en minutes.</summary>
-    Public Property TempsDePauseUnitaire() As Integer?
+    Public Property TempsDePoseUnitaire() As Integer?
         Get
-            If _TempsDePauseUnitaire Is Nothing Then
-                Return TempsDePauseCalculé
+            If _TempsDePoseUnitaire Is Nothing Then
+                Return TempsDePoseCalculé
             Else
-                Return _TempsDePauseUnitaire
+                Return _TempsDePoseUnitaire
             End If
         End Get
         Set(ByVal value As Integer?)
-            If Object.Equals(value, Me._TempsDePauseUnitaire) Then Exit Property
-            _TempsDePauseUnitaire = value
-            NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
-            NotifyPropertyChanged(NameOf(TempsDePauseForcé))
+            If Object.Equals(value, Me._TempsDePoseUnitaire) Then Exit Property
+            _TempsDePoseUnitaire = value
+            NotifierModifInfosCalcul()
         End Set
     End Property
 
-
-    Public ReadOnly Property TempsDePauseCalculé As Single
+    Public ReadOnly Property TempsDePoseCalculé As Single?
         Get
-            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit?.TempsDePauseUnitaire).Sum()
+            Dim r As Single?
+            If Me.UsagesDeProduit.Count > 0 Then
+                r = (From up In UsagesDeProduit Select up.Nombre * up.Produit?.TempsDePoseUnitaire).Sum()
+            Else
+                r = Nothing
+            End If
             Return r
         End Get
     End Property
 
-    Public ReadOnly Property TempsDePauseForcé() As Boolean
+    Public ReadOnly Property TempsDePoseForcé() As Boolean
         Get
-            Return _TempsDePauseUnitaire IsNot Nothing
+            Return _TempsDePoseUnitaire IsNot Nothing
         End Get
     End Property
 
@@ -174,14 +184,18 @@ Public MustInherit Class Ouvrage_Base
         Set(ByVal value As Single?)
             If Object.Equals(value, Me._PrixUnitaire) Then Exit Property
             _PrixUnitaire = value
-            NotifyPropertyChanged(NameOf(PrixUnitaire))
-            NotifyPropertyChanged(NameOf(PrixUnitaireForcé))
+            NotifierModifInfosCalcul()
         End Set
     End Property
 
-    Public ReadOnly Property PrixUnitaireCalculé As Single
+    Public ReadOnly Property PrixUnitaireCalculé As Single?
         Get
-            Dim r = (From up In UsagesDeProduit Select up.Nombre * up.Produit?.Prix).Sum()
+            Dim r As Single?
+            If Me.UsagesDeProduit.Count > 0 Then
+                r = (From up In UsagesDeProduit Select up.Nombre * up.Produit?.Prix).Sum()
+            Else
+                r = Nothing
+            End If
             Return r
         End Get
     End Property
@@ -192,6 +206,15 @@ Public MustInherit Class Ouvrage_Base
         End Get
     End Property
 
+#End Region
+
+#Region "LesDonnéesDeCalculSontRenseignées"
+    Public ReadOnly Property LesDonnéesDeCalculSontRenseignées() As Boolean
+        Get
+            Dim r = Me.PrixUnitaire IsNot Nothing AndAlso Me.TempsDePoseUnitaire IsNot Nothing
+            Return r
+        End Get
+    End Property
 #End Region
 
 #Region "Mots"
@@ -223,9 +246,21 @@ Public MustInherit Class Ouvrage_Base
     Public MustOverride ReadOnly Property EstRoot() As Boolean
 #End Region
 
+#Region "ToStringForListDisplay"
+    Public MustOverride ReadOnly Property ToStringForListDisplay() As String
+#End Region
+
 #End Region
 
 #Region "Méthodes"
+
+    Private Sub NotifierModifInfosCalcul()
+        NotifyPropertyChanged(NameOf(TempsDePoseUnitaire))
+        NotifyPropertyChanged(NameOf(PrixUnitaire))
+        NotifyPropertyChanged(NameOf(PrixUnitaireForcé))
+        NotifyPropertyChanged(NameOf(TempsDePoseForcé))
+        NotifyPropertyChanged(NameOf(LesDonnéesDeCalculSontRenseignées))
+    End Sub
 
 #Region "AjouterProduit"
 
@@ -244,8 +279,7 @@ Public MustInherit Class Ouvrage_Base
             End If
         End If
         Me.NotifyPropertyChanged(NameOf(NbProduits))
-        NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
-        NotifyPropertyChanged(NameOf(PrixUnitaire))
+        Me.NotifierModifInfosCalcul()
 
     End Sub
 
@@ -295,10 +329,16 @@ Public MustInherit Class Ouvrage_Base
 
     Public Sub Copier(Modèle As Ouvrage_Base)
         Me.Init()
-        Me.Libellés.AddRange(Modèle.Libellés)
+        Try
+            _ModifLibelléEnCours = True
+            Me.Libellés.AddRange(Modèle.Libellés)
+            ForcerLaCohérenceEntreLibelléPrincipalEtLaCollection()
+        Finally
+            _ModifLibelléEnCours = False
+        End Try
         Me.MotsClés.AddRange(Modèle.MotsClés)
         If Modèle.PrixUnitaireForcé Then Me.PrixUnitaire = Modèle.PrixUnitaire
-        If Modèle.TempsDePauseForcé Then Me.TempsDePauseUnitaire = Modèle.TempsDePauseUnitaire
+        If Modèle.TempsDePoseForcé Then Me.TempsDePoseUnitaire = Modèle.TempsDePoseUnitaire
 
         Modèle.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit)
                                             Me.AjouterProduit(up.Produit, up.Nombre)

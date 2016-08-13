@@ -4,6 +4,7 @@ Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports EIEx_DAO
 Imports Model
+Imports Utils
 
 Public Class UC_EtudesView
 
@@ -324,6 +325,17 @@ Public Class UC_EtudesView
                 ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.")
             End Try
         End If
+    End Sub
+
+    Private Sub Btn_UpdateExcel_Click(sender As Object, e As RoutedEventArgs) Handles Btn_UpdateExcel.Click
+        Try
+            WS.EtudeCourante.Ouvrages.DoForAll(Sub(o)
+                                                   o.MAJExcel()
+                                               End Sub)
+            Message("Mise à jour effectuée.")
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
     End Sub
 
     'Private Sub XLSelectionChangeHandling(NewSelection As Excel.Range)

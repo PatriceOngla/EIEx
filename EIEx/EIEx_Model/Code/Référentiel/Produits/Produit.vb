@@ -133,18 +133,18 @@ Public Class Produit
 
 #End Region
 
-#Region "TempsDePauseUnitaire (Single)"
-    Private _TempsDePauseUnitaire As Single
+#Region "TempsDePoseUnitaire (Single)"
+    Private _TempsDePoseUnitaire As Single
 
     ''' <summary>Le temps de pause en minutes.</summary>
-    Public Property TempsDePauseUnitaire() As Single
+    Public Property TempsDePoseUnitaire() As Single
         Get
-            Return _TempsDePauseUnitaire
+            Return _TempsDePoseUnitaire
         End Get
         Set(ByVal value As Single)
-            If Object.Equals(value, Me._TempsDePauseUnitaire) Then Exit Property
-            _TempsDePauseUnitaire = value
-            NotifyPropertyChanged(NameOf(TempsDePauseUnitaire))
+            If Object.Equals(value, Me._TempsDePoseUnitaire) Then Exit Property
+            _TempsDePoseUnitaire = value
+            NotifyPropertyChanged(NameOf(TempsDePoseUnitaire))
         End Set
     End Property
 #End Region

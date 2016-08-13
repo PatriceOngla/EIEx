@@ -36,6 +36,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -46,6 +47,7 @@
                                 <Label Content="Nb lignes libellé reconnues : "/>
                                 <TextBlock Text="{Binding NbLignesLibelléDétéctées, FallbackValue=0}" VerticalAlignment="Center" />
                             </StackPanel>
+                            
                             <StackPanel Grid.Column="1"  Orientation="Horizontal">
                                 <Label Content="Nb Libellés uniques : "/>
                                 <TextBlock Text="{Binding NbLibellésUniques, FallbackValue=0}" VerticalAlignment="Center"/>
@@ -55,9 +57,15 @@
                                 <Label Content="Libellés en doublon restant à traiter : "/>
                                 <TextBlock Text="{Binding NbLibellésEnDoublonEncoreATraiter, FallbackValue=0}" VerticalAlignment="Center" />
                             </StackPanel>
+
                             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                                 <Label Content="Libellés retenus pour création : "/>
                                 <TextBlock Text="{Binding NbLibellésRetenus, FallbackValue=0}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Label Content="Ouvrages déjà créés pour l'étude : "/>
+                                <TextBlock Text="{Binding NbOuvragesDéjàCréés, FallbackValue=0}" VerticalAlignment="Center"/>
                             </StackPanel>
 
                         </Grid>

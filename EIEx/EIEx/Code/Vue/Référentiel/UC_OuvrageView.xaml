@@ -61,7 +61,23 @@
 
         <DataGrid x:Name="DG_Master" 
                   ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True"
-                  SelectedItem="{Binding ElementName=UC_OuvragesView, Path=OuvrageCourant, Mode=TwoWay}">
+                  SelectedItem="{Binding ElementName=UC_OuvragesView, Path=OuvrageCourant, Mode=TwoWay}"
+                  >
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LesDonnéesDeCalculSontRenseignées}" Value="false">
+                            <Setter Property="Background" >
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{StaticResource CouleurActionRequise}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="N°" 
                                     Binding="{Binding Id}" IsReadOnly="True" 
@@ -71,9 +87,10 @@
                 <DataGridTextColumn Header="Complément de nom" Binding="{Binding ComplémentDeNom}" />
                 <DataGridTextColumn Header="Libellés" IsReadOnly="True" Binding="{Binding NbLibellés}"/>
                 <DataGridTextColumn Header="Produits" IsReadOnly="True" Binding="{Binding NbProduits}"/>
-                <DataGridTextColumn Header="Tps pause u." Binding="{Binding TempsDePauseUnitaire}"/>
+                <DataGridTextColumn Header="Tps pause u." Binding="{Binding TempsDePoseUnitaire}"/>
                 <DataGridTextColumn Header="Prix u." Binding="{Binding PrixUnitaire}"/>
             </DataGrid.Columns>
+            
         </DataGrid>
 
         <ScrollViewer x:Name="SV_Detail" Grid.Row="1" Margin="0,10,5,5">
@@ -170,15 +187,15 @@
                 <!--Temps de pause unitaire-->
                 <Label Grid.Row="5" Content="Tps de pause unitaire : " />
                 <DockPanel Grid.Row="5" Grid.Column="1">
-                    <Button x:Name="Btn_ResetTempsDePause" 
+                    <Button x:Name="Btn_ResetTempsDePose" 
                             Width="20" Height="20" 
                             DockPanel.Dock="Right" ContentTemplate="{StaticResource Reset}" ToolTip="Supprimer la valeur forcée"
-                            IsEnabled="{Binding TempsDePauseForcé}"/>
-                    <TextBox Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire,UpdateSourceTrigger=PropertyChanged}" />
+                            IsEnabled="{Binding TempsDePoseForcé}"/>
+                    <TextBox Text="{Binding TempsDePoseUnitaire, FallbackValue=TempsDePoseUnitaire,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <Polygon Grid.Row="5" Grid.Column="1" Margin="1,1,0,0"
                          Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
-                         Visibility="{Binding TempsDePauseForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                         Visibility="{Binding TempsDePoseForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <!--Prix unitaire-->
                 <Label Grid.Row="6" Content="Prix unitaire : " />
@@ -202,10 +219,20 @@
 
         <GridSplitter />
 
-        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" Grid.Row="2"  
+        <DockPanel x:Name="DP_Commandes" Grid.Row="2" >
+
+            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" 
+                                DockPanel.Dock="Right"
                                 Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="{Binding ElementName=UC_OuvragesView, Path=CanModify, FallbackValue=KO}"/>
+            <Button x:Name="Btn_AppliquerModèle" DockPanel.Dock="Right"
+                    Style="{StaticResource BoutonCarré}" 
+                    Content="Appliquer modèle" 
+                    />
+
+            <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=UC_OuvragesView, Path=CanModify, FallbackValue=KO}"/>
+            
+        </DockPanel>
 
     </Grid>
 

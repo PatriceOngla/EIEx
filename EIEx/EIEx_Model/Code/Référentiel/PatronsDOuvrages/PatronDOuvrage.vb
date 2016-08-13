@@ -121,16 +121,18 @@ Public Class PatronDOuvrage
 
     '#End Region
 
-#End Region
-
-#Region "Méthodes"
-
-    Public ReadOnly Property ToStringForListDisplay() As String
+#Region "ToStringForListDisplay"
+    Public Overrides ReadOnly Property ToStringForListDisplay() As String
         Get
             Dim r = DisplayWithFixedColumn(Me.Id, Me.Nom, Me.MotsClés, Me.UsagesDeProduit.Count())
             Return r
         End Get
     End Property
+#End Region
+
+#End Region
+
+#Region "Méthodes"
 
 #Region "ToString pour affichage en list (colonnage fixe)"
 

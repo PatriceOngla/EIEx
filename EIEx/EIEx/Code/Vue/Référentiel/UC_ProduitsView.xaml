@@ -145,7 +145,7 @@
                 <!--Tps de pause unitaire-->
                 <Label Grid.Row="6" Content="Tps de pause unitaire : " />
                 <TextBox Grid.Row="6" Grid.Column="1" 
-                         Text="{Binding TempsDePauseUnitaire, FallbackValue=TempsDePauseUnitaire}" HorizontalAlignment="Left" MinWidth="100"/>
+                         Text="{Binding TempsDePoseUnitaire, FallbackValue=TempsDePoseUnitaire}" HorizontalAlignment="Left" MinWidth="100"/>
 
                 <!--MotsClés-->
                 <Label Grid.Row="7" Content="MotsClés : " />

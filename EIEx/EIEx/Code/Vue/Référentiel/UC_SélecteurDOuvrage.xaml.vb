@@ -19,6 +19,28 @@ Public Class UC_SélecteurDOuvrage
 
 #Region "Propriétés"
 
+#Region "Titre (String)"
+
+#Region "Déclaration et registration de TitreProperty"
+
+    Private Shared MDTitre As New FrameworkPropertyMetadata("Recherche d'ouvrage ou de patron d'ouvrage")
+    Public Shared TitrePropertyKey As DependencyPropertyKey = DependencyProperty.RegisterReadOnly(NameOf(Titre), GetType(String), GetType(UC_SélecteurDOuvrage), MDTitre)
+    Public Shared TitreProperty As DependencyProperty = TitrePropertyKey.DependencyProperty
+
+#End Region
+
+#Region "Wrapper CLR de TitreProperty"
+
+    Public ReadOnly Property Titre() As String
+        Get
+            Return GetValue(TitreProperty)
+        End Get
+    End Property
+
+#End Region
+
+#End Region
+
 #Region "FenêtreParente"
     Private _FenêtreParente As Window
     Public ReadOnly Property FenêtreParente() As Window
@@ -339,6 +361,7 @@ Public Class UC_SélecteurDOuvrage
     Private Sub SetCollectionViewSourceOuvrages()
         _CollectionViewSourceOuvrages = New CollectionViewSource()
         _CollectionViewSourceOuvrages.Source = Me.SourceOuvrages
+        Me.SLtr_RésultatRecherche.ItemsSource = CollectionViewSourceOuvrages.View
     End Sub
 
 #End Region
@@ -347,12 +370,19 @@ Public Class UC_SélecteurDOuvrage
 
     Public Shared ReadOnly LaSourceEstLeRéférentielProperty As DependencyProperty =
             DependencyProperty.Register("LaSourceEstLeRéférentiel", GetType(Boolean), GetType(UC_SélecteurDOuvrage),
-                                        New UIPropertyMetadata(True, New PropertyChangedCallback(
-                                                               Sub(Sender As UC_SélecteurDOuvrage, e As DependencyPropertyChangedEventArgs)
-                                                                   Ouvrage_Base.SetMotsPourTousLesOuvrages(Sender.LaSourceEstLeRéférentiel, Not Sender.LaSourceEstLeRéférentiel)
+                                        New UIPropertyMetadata(True,
+                                                               New PropertyChangedCallback(
+                        Sub(Sender As UC_SélecteurDOuvrage, e As DependencyPropertyChangedEventArgs)
+                            Ouvrage_Base.SetMotsPourTousLesOuvrages(Sender.LaSourceEstLeRéférentiel, Not Sender.LaSourceEstLeRéférentiel)
 
-                                                                   Sender.SetCollectionViewSourceOuvrages()
-                                                               End Sub))
+                            Sender.SetCollectionViewSourceOuvrages()
+                            Dim BaseTitre = "Recherche "
+                            If Sender.LaSourceEstLeRéférentiel Then
+                                Sender.SetValue(TitrePropertyKey, BaseTitre & "de patron d'ouvrage")
+                            Else
+                                Sender.SetValue(TitrePropertyKey, BaseTitre & "d'ouvrage")
+                            End If
+                        End Sub))
                                                                )
 
     Public Property LaSourceEstLeRéférentiel As Boolean
@@ -458,7 +488,13 @@ Public Class UC_SélecteurDOuvrage
 
         Dim args As New RoutedPropertyChangedEventArgs(Of Ouvrage_Base)(OldValue, NewValue)
         args.RoutedEvent = UC_SélecteurDOuvrage.OuvrageSélectionnéChangedEvent
-
+        If TypeOf NewValue Is Ouvrage Then
+            Dim o As Ouvrage = NewValue
+            Dim r = o.GetCelluleExcelAssociée
+            If r IsNot Nothing Then
+                ExcelCommander.SélectionnerPlageExcel(r)
+            End If
+        End If
         'Insérer ici le code spécifique à la gestion du changement de la propriété "OuvrageSélectionné"
 
         'Signalement de l'évennement au framework
@@ -504,6 +540,15 @@ Public Class UC_SélecteurDOuvrage
     Public ReadOnly Property EntêteRésultats() As String
         Get
             Return PatronDOuvrage.OuvragesListHeader()
+        End Get
+    End Property
+#End Region
+
+#Region "Résultat"
+    Private _Résultat As Ouvrage_Base
+    Public ReadOnly Property Résultat() As Ouvrage_Base
+        Get
+            Return _Résultat
         End Get
     End Property
 #End Region
@@ -561,7 +606,13 @@ Public Class UC_SélecteurDOuvrage
     End Function
 
     Private Function MatcheCritèresProduits(o As Ouvrage_Base, CritèreMotsClés As String, critèreCodeLydic As String, critèreRefFournisseur As String) As Boolean
-        Dim r = (From up In o.UsagesDeProduit Where UC_SélecteurDeProduit.MatcheCritères(up.Produit, CritèreMotsClés, critèreCodeLydic, critèreRefFournisseur)).Any()
+        Dim AucunCritère = String.IsNullOrEmpty(CritèreMotsClés) OrElse String.IsNullOrEmpty(critèreCodeLydic) OrElse String.IsNullOrEmpty(critèreRefFournisseur)
+        Dim r As Boolean
+        If AucunCritère Then
+            r = True
+        Else
+            r = (From up In o.UsagesDeProduit Where UC_SélecteurDeProduit.MatcheCritères(up.Produit, CritèreMotsClés, critèreCodeLydic, critèreRefFournisseur)).Any()
+        End If
         Return r
     End Function
 
@@ -639,11 +690,15 @@ Public Class UC_SélecteurDOuvrage
 
 #Region "Show"
 
-    Public Sub Show()
+    Public Function Show() As Ouvrage_Base
 
         Ouvrage_Base.SetMotsPourTousLesOuvrages(Me.LaSourceEstLeRéférentiel, Not Me.LaSourceEstLeRéférentiel)
 
         Me._FenêtreParente = New Windows.Window With {.Title = "Recherche d'ouvrage"}
+
+        Dim BindingTitre = New Binding(NameOf(Titre))
+        BindingTitre.Source = Me
+        Me._FenêtreParente.SetBinding(Window.TitleProperty, BindingTitre)
 
         Dim aw = XL.ActiveWindow
         Dim OpenModal = aw IsNot Nothing
@@ -672,7 +727,9 @@ Public Class UC_SélecteurDOuvrage
             End If
         End With
 
-    End Sub
+        Return Me.Résultat
+
+    End Function
 
     ''' <summary>Charge dynamiquement le dictionnaire de ressource pour la fenêtre créée. </summary>
     Private Sub LoadResourceDict()
@@ -685,6 +742,7 @@ Public Class UC_SélecteurDOuvrage
     End Sub
 
     Private Sub Reset()
+        Me._Résultat = Nothing
         Dim bckup = Me.RechercheSurDemande
         Me.RechercheSurDemande = True
         Me.TBx_CritèreMotsClés.Clear()
@@ -700,6 +758,7 @@ Public Class UC_SélecteurDOuvrage
 #Region "ValiderLeChoix"
     Private Sub ValiderLeChoix()
         If (Me.OuvrageSélectionné IsNot Nothing) Then
+            Me._Résultat = Me.OuvrageSélectionné
             RaiseEvent OuvrageTrouvé(Me.OuvrageSélectionné)
             Me.FenêtreParente?.Close()
         End If

@@ -110,7 +110,7 @@ Module ExcelCommander
                 .Unité = U2
 
                 .Prix = Rg.Cells(8).value
-                .TempsDePauseUnitaire = Rg.Cells(9).value
+                .TempsDePoseUnitaire = Rg.Cells(9).value
 
                 MotsClés = Rg.Cells(10).value : TabMotsClés = MotsClés?.Split(" ")
                 If TabMotsClés IsNot Nothing Then .MotsClés.AddRange(TabMotsClés)
@@ -173,6 +173,24 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
         End Try
     End Function
 
+#Region "MAJExcel"
+
+    <Extension>
+    Public Sub MAJExcel(o As Ouvrage)
+        If o.LesDonnéesDeCalculSontRenseignées Then
+            Dim f = GetFormuleExcelDeCalculDuPrix(o)
+            Dim c = o.GetCelluleExcelCalculPrix()
+            c.Formula = f
+        End If
+    End Sub
+
+    Private Function GetFormuleExcelDeCalculDuPrix(o As Ouvrage) As String
+        Dim r As String = $"={o.PrixUnitaire}*2"
+
+        Return r
+    End Function
+
+#End Region
     ''' <summary>
     ''' Retourne le <paramref name="rng"/> limité à la dernière cellule utilisée de sa feuille.
     ''' </summary>
@@ -306,8 +324,20 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
 
     <Extension> Public Function GetCelluleExcelAssociée(O As Ouvrage) As Range
         Dim B = O.BordereauParent
+        Dim r = GetCelluleExcelAssociée(O, B.Paramètres.AdresseRangeLibelleOuvrage)
+        Return r
+    End Function
+
+    <Extension> Public Function GetCelluleExcelCalculPrix(O As Ouvrage) As Range
+        Dim B = O.BordereauParent
+        Dim r = GetCelluleExcelAssociée(O, B.Paramètres.AdresseRangeXYZ)
+        Return r
+    End Function
+
+    Private Function GetCelluleExcelAssociée(O As Ouvrage, ParamAdresse As String) As Range
+        Dim B = O.BordereauParent
         Dim ws = B.Worksheet
-        Dim NumColonneLibellé = ws.Range(B.Paramètres.AdresseRangeLibelleOuvrage).Column
+        Dim NumColonneLibellé = ws.Range(ParamAdresse).Column
         Dim r = ws.Cells(O.NuméroLignePlageExcel, NumColonneLibellé)
         Return r
     End Function

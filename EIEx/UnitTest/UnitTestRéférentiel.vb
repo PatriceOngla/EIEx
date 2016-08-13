@@ -64,7 +64,7 @@ Imports Utils
     Private Function NewProduit(i As Integer) As Produit
         Dim r = Ref.GetNewProduit()
         Dim f = Ref.GetFamilleById(i)
-        r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.RéférenceFournisseur = "100" & i : r.CodeLydic = "CONS" & i : r.Famille = f : r.TempsDePauseUnitaire = i
+        r.Nom = "Produit " & i : r.Unité = Unités.U : r.Prix = 100 + i : r.RéférenceFournisseur = "100" & i : r.CodeLydic = "CONS" & i : r.Famille = f : r.TempsDePoseUnitaire = i
         r.MotsClés.AddRange({"keyWord " & i, "keyWord " & i + 1})
         Return r
     End Function
@@ -77,7 +77,7 @@ Imports Utils
 
     Private Function NewOuvrage(i As Integer) As PatronDOuvrage
         Dim r = Ref.GetNewOuvrage
-        r.Nom = "Ouvrage " & i : r.TempsDePauseUnitaire = i : r.PrixUnitaire = i : r.Libellés.Add("Libellé supplémentaire " & i)
+        r.Nom = "Ouvrage " & i : r.TempsDePoseUnitaire = i : r.PrixUnitaire = i : r.Libellés.Add("Libellé supplémentaire " & i)
         AjouterProduitsALouvrage(r, i)
         Return r
     End Function

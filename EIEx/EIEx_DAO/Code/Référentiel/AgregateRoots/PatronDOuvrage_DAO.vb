@@ -22,7 +22,7 @@ Public Class PatronDOuvrage_DAO
 
         Me.MotsClés = New List(Of String)(O.MotsClés)
 
-        If O.TempsDePauseForcé Then Me.TempsDePauseUnitaire = O.TempsDePauseUnitaire
+        If O.TempsDePoseForcé Then Me.TempsDePoseUnitaire = O.TempsDePoseUnitaire
 
         If O.PrixUnitaireForcé Then Me.PrixUnitaire = O.PrixUnitaire
 
@@ -52,7 +52,7 @@ Public Class PatronDOuvrage_DAO
 
     Public Property MotsClés() As List(Of String)
 
-    Public Property TempsDePauseUnitaire() As Integer?
+    Public Property TempsDePoseUnitaire() As Integer?
 
     Public Property PrixUnitaire() As Single?
 
@@ -74,7 +74,7 @@ Public Class PatronDOuvrage_DAO
                                     End Sub)
 
         NouvelOuvrage.MotsClés.AddRange(Me.MotsClés)
-        NouvelOuvrage.TempsDePauseUnitaire = TempsDePauseUnitaire
+        NouvelOuvrage.TempsDePoseUnitaire = TempsDePoseUnitaire
         NouvelOuvrage.PrixUnitaire = Me.PrixUnitaire
 
     End Sub

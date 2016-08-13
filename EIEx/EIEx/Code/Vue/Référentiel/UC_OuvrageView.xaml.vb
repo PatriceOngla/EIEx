@@ -64,14 +64,18 @@ Public Class UC_OuvragesView
     Public Shared ReadOnly OuvrageCourantProperty As DependencyProperty =
             DependencyProperty.Register(NameOf(OuvrageCourant), GetType(Ouvrage_Base), GetType(UC_OuvragesView), New UIPropertyMetadata(Nothing, New PropertyChangedCallback(
                                             Sub(ucov As UC_OuvragesView, e As DependencyPropertyChangedEventArgs)
-                                                Dim o = TryCast(ucov.OuvrageCourant, Ouvrage)
-                                                If o IsNot Nothing Then
-                                                    Dim r As Excel.Range
-                                                    r = o.GetCelluleExcelAssociée
-                                                    If r IsNot Nothing Then
-                                                        SélectionnerPlageExcel(r)
+                                                Try
+                                                    Dim o = TryCast(ucov.OuvrageCourant, Ouvrage)
+                                                    If o IsNot Nothing Then
+                                                        Dim r As Excel.Range
+                                                        r = o.GetCelluleExcelAssociée
+                                                        If r IsNot Nothing Then
+                                                            SélectionnerPlageExcel(r)
+                                                        End If
                                                     End If
-                                                End If
+                                                Catch ex As Exception
+                                                    ManageErreur(ex, "Echec de la sélection de la cellule Excel associée.")
+                                                End Try
                                             End Sub)))
 
 
@@ -258,9 +262,9 @@ Public Class UC_OuvragesView
 
 #Region "Divers"
 
-    Private Sub Btn_ResetTempsDePause_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ResetTempsDePause.Click
+    Private Sub Btn_ResetTempsDePose_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ResetTempsDePose.Click
         If Me.OuvrageCourant IsNot Nothing Then
-            Me.OuvrageCourant.TempsDePauseUnitaire = Nothing
+            Me.OuvrageCourant.TempsDePoseUnitaire = Nothing
         End If
     End Sub
 
@@ -275,22 +279,35 @@ Public Class UC_OuvragesView
     Private Sub UC_OuvragesView_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         Try
             If e.Key = Key.F AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
-                UCSO.Show()
+                Dim result = RechercheOuvrage()
+                If result IsNot Nothing Then Me.OuvrageCourant = UCSO.Résultat
             End If
         Catch ex As Exception
             ManageErreur(ex)
         End Try
     End Sub
 
-    Private Sub UCSO_OuvrageTrouvé(O As Ouvrage_Base) Handles UCSO.OuvrageTrouvé
-        Try
-            Me.OuvrageCourant = O
-        Catch ex As Exception
-            ManageErreur(ex)
-        End Try
-    End Sub
+    Private Function RechercheOuvrage() As Ouvrage_Base
+        Dim result = UCSO.Show()
+        Return result
+    End Function
+
+    'Private Sub UCSO_OuvrageTrouvé(O As Ouvrage_Base) Handles UCSO.OuvrageTrouvé
+    '    Try
+    '        Me.OuvrageCourant = O
+    '    Catch ex As Exception
+    '        ManageErreur(ex)
+    '    End Try
+    'End Sub
 
 #End Region
+
+    Private Sub Btn_AppliquerModèle_Click(sender As Object, e As RoutedEventArgs) Handles Btn_AppliquerModèle.Click
+        Dim Modèle = RechercheOuvrage()
+        If Modèle IsNot Nothing Then
+            Me.OuvrageCourant.Copier(Modèle)
+        End If
+    End Sub
 
 #End Region
 

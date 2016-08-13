@@ -16,7 +16,7 @@ Public Class Produit_DAO
         Me.Prix = P.Prix
         Me.CodeLydic = P.CodeLydic
         Me.RéférenceFournisseur = P.RéférenceFournisseur
-        Me.TempsDePauseUnitaire = P.TempsDePauseUnitaire
+        Me.TempsDePoseUnitaire = P.TempsDePoseUnitaire
         Me.MotsClés = New List(Of String)(P.MotsClés)
         If P.Famille IsNot Nothing Then Me.FamilleId = P.Famille.Id
     End Sub
@@ -50,7 +50,7 @@ Public Class Produit_DAO
     Public Property RéférenceFournisseur() As String
 
     <XmlAttribute>
-    Public Property TempsDePauseUnitaire() As Single
+    Public Property TempsDePoseUnitaire() As Single
 
     Public Property MotsClés() As List(Of String)
 
@@ -67,7 +67,7 @@ Public Class Produit_DAO
         NouveauProduit.Prix = Prix
         NouveauProduit.CodeLydic = CodeLydic
         NouveauProduit.RéférenceFournisseur = RéférenceFournisseur
-        NouveauProduit.TempsDePauseUnitaire = TempsDePauseUnitaire
+        NouveauProduit.TempsDePoseUnitaire = TempsDePoseUnitaire
         NouveauProduit.MotsClés.AddRange(MotsClés)
         NouveauProduit.Famille = Ref.GetFamilleById(Me.FamilleId)
     End Sub

@@ -14,7 +14,9 @@ Public Class Ouvrage
     Public Sub New(Bordereau As Bordereau, NumLignePlageExcel As Integer, modèle As PatronDOuvrage)
         Me.New(Bordereau, NumLignePlageExcel)
         Me.Modèle = modèle
+        Me.Copier(modèle)
     End Sub
+
     Public Sub New(Bordereau As Bordereau, NumLignePlageExcel As Integer)
         Me.BordereauParent = Bordereau
         Me.NuméroLignePlageExcel = NumLignePlageExcel
@@ -61,6 +63,26 @@ Public Class Ouvrage
 
 #Region "Modèle"
     Public ReadOnly Property Modèle() As PatronDOuvrage
+#End Region
+
+#Region "ToStringForListDisplay"
+    Public Overrides ReadOnly Property ToStringForListDisplay() As String
+        Get
+            Dim r = DisplayWithFixedColumn(Me.Nom, Me.MotsClés, Me.UsagesDeProduit.Count())
+            Return r
+        End Get
+    End Property
+
+    Private Shared Function DisplayWithFixedColumn(nom As String, motsClés As List(Of String), Produits As String) As String
+        Dim r = DisplayWithFixedColumn(nom, Join(motsClés.ToArray(), ", "), Produits)
+        Return r
+    End Function
+
+    Private Shared Function DisplayWithFixedColumn(nom As String, motsClés As String, Produits As String) As String
+        Dim r As String = FormateForColumn(nom, 100) & FormateForColumn(motsClés, 25, False) & FormateForColumn(Produits, 5, False)
+        Return r
+    End Function
+
 #End Region
 
 #End Region

@@ -109,7 +109,7 @@ Public Class UC_EIEx_Manager_UI
         If TypeOf donnéeNavigationCible Is UsageDeProduit Then
             donnéeNavigationCible = TryCast(donnéeNavigationCible, UsageDeProduit).Produit
         End If
-        If donnéeNavigationCible IsNot Nothing Then
+        If TypeOf donnéeNavigationCible Is IAgregateRoot Then
             AccéderALaVueRéférentiel(donnéeNavigationCible)
         End If
     End Sub

@@ -237,8 +237,8 @@
                                                 <!--Ouvrages-->
                                                 <Label Grid.Row="3" Content="Ouvrages : " />
                                                 <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
-                                                    
-                                                <TextBlock HorizontalAlignment="Left" Margin="{StaticResource DefaultMargin}"
+
+                                                    <TextBlock HorizontalAlignment="Left" Margin="{StaticResource DefaultMargin}"
                                                            Text="{Binding Ouvrages.Count, FallbackValue=Nb ouvrages}" 
                                                            VerticalAlignment="Center"/>
                                                     <Button x:Name="Btn_GotoOuvrages" ContentTemplate="{StaticResource GoTo}"/>
@@ -285,6 +285,13 @@
         <!--</ScrollViewer>-->
 
         <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" Grid.Row="3" DockPanel.Dock="Right"/>
+
+        <DockPanel x:Name="DP_Commandes" Grid.Row="3" LastChildFill="False">
+
+            <Button x:Name="Btn_UpdateExcel" DockPanel.Dock="Left"
+                Style="{StaticResource BoutonCarré}"
+                Content="Reporter dans Excel" Margin="2" Padding="2"/>
+        </DockPanel>
 
     </Grid>
 
