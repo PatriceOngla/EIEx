@@ -161,7 +161,7 @@ Public MustInherit Class Ouvrage_Base
         End Get
     End Property
 
-    Public ReadOnly Property TempsDePoseForcé() As Boolean
+    Public ReadOnly Property LeTempsDePoseEstForcé() As Boolean
         Get
             Return _TempsDePoseUnitaire IsNot Nothing
         End Get
@@ -200,7 +200,7 @@ Public MustInherit Class Ouvrage_Base
         End Get
     End Property
 
-    Public ReadOnly Property PrixUnitaireForcé() As Boolean
+    Public ReadOnly Property LePrixUnitaireEstForcé() As Boolean
         Get
             Return _PrixUnitaire IsNot Nothing
         End Get
@@ -257,8 +257,8 @@ Public MustInherit Class Ouvrage_Base
     Private Sub NotifierModifInfosCalcul()
         NotifyPropertyChanged(NameOf(TempsDePoseUnitaire))
         NotifyPropertyChanged(NameOf(PrixUnitaire))
-        NotifyPropertyChanged(NameOf(PrixUnitaireForcé))
-        NotifyPropertyChanged(NameOf(TempsDePoseForcé))
+        NotifyPropertyChanged(NameOf(LePrixUnitaireEstForcé))
+        NotifyPropertyChanged(NameOf(LeTempsDePoseEstForcé))
         NotifyPropertyChanged(NameOf(LesDonnéesDeCalculSontRenseignées))
     End Sub
 
@@ -337,8 +337,8 @@ Public MustInherit Class Ouvrage_Base
             _ModifLibelléEnCours = False
         End Try
         Me.MotsClés.AddRange(Modèle.MotsClés)
-        If Modèle.PrixUnitaireForcé Then Me.PrixUnitaire = Modèle.PrixUnitaire
-        If Modèle.TempsDePoseForcé Then Me.TempsDePoseUnitaire = Modèle.TempsDePoseUnitaire
+        If Modèle.LePrixUnitaireEstForcé Then Me.PrixUnitaire = Modèle.PrixUnitaire
+        If Modèle.LeTempsDePoseEstForcé Then Me.TempsDePoseUnitaire = Modèle.TempsDePoseUnitaire
 
         Modèle.UsagesDeProduit.DoForAll(Sub(up As UsageDeProduit)
                                             Me.AjouterProduit(up.Produit, up.Nombre)

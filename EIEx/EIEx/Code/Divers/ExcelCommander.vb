@@ -185,8 +185,22 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
     End Sub
 
     Private Function GetFormuleExcelDeCalculDuPrix(o As Ouvrage) As String
-        Dim r As String = $"={o.PrixUnitaire}*2"
+        Dim r As String
+        If o.LePrixUnitaireEstForcé Then
+            r = $"={o.PrixUnitaire}"
+        Else
+            r = GetFormuleExcelDeCalculDuPrixSiCalculé(o)
+        End If
+        Return r
+    End Function
 
+    Private Function GetFormuleExcelDeCalculDuPrixSiCalculé(o As Ouvrage) As String
+        Dim r = ""
+        Dim formulePrixProduit As String
+        For Each up In o.UsagesDeProduit
+            formulePrixProduit = $"{up.Produit.Prix} * {up.Nombre}"
+            r = $"{If(String.IsNullOrEmpty(r), "=", " +")} {formulePrixProduit}"
+        Next
         Return r
     End Function
 

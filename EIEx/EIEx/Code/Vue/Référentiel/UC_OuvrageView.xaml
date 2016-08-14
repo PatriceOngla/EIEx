@@ -190,12 +190,12 @@
                     <Button x:Name="Btn_ResetTempsDePose" 
                             Width="20" Height="20" 
                             DockPanel.Dock="Right" ContentTemplate="{StaticResource Reset}" ToolTip="Supprimer la valeur forcée"
-                            IsEnabled="{Binding TempsDePoseForcé}"/>
+                            IsEnabled="{Binding LeTempsDePoseEstForcé}"/>
                     <TextBox Text="{Binding TempsDePoseUnitaire, FallbackValue=TempsDePoseUnitaire,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <Polygon Grid.Row="5" Grid.Column="1" Margin="1,1,0,0"
                          Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
-                         Visibility="{Binding TempsDePoseForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                         Visibility="{Binding LeTempsDePoseEstForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <!--Prix unitaire-->
                 <Label Grid.Row="6" Content="Prix unitaire : " />
@@ -203,12 +203,12 @@
                     <Button x:Name="Btn_ResetPrixUnitaire" 
                             Width="20" Height="20" 
                             DockPanel.Dock="Right" ContentTemplate="{StaticResource Reset}" ToolTip="Supprimer la valeur forcée"
-                            IsEnabled="{Binding PrixUnitaireForcé}"/>
+                            IsEnabled="{Binding LePrixUnitaireEstForcé}"/>
                     <TextBox Text="{Binding PrixUnitaire, FallbackValue=Prix,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <Polygon Grid.Row="6" Grid.Column="1" Margin="1,1,0,0"
                          Points="0,0 7,0, 0,7" Fill="#7FFF0000" 
-                         Visibility="{Binding PrixUnitaireForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                         Visibility="{Binding LePrixUnitaireEstForcé, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                 <Label Grid.Row="7" Content="Commentaire : " />
                 <TextBox Grid.Row="7"  Grid.Column="1" Text="{Binding Commentaires, FallbackValue=Commentaires}" />

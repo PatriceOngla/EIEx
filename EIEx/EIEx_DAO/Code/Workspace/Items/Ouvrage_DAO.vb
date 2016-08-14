@@ -25,9 +25,9 @@ Public Class Ouvrage_DAO
 
         Me.MotsClés = New List(Of String)(O.MotsClés)
 
-        If O.TempsDePoseForcé Then Me.TempsDePoseUnitaire = O.TempsDePoseUnitaire
+        If O.LeTempsDePoseEstForcé Then Me.TempsDePoseUnitaire = O.TempsDePoseUnitaire
 
-        If O.PrixUnitaireForcé Then Me.PrixUnitaire = O.PrixUnitaire
+        If O.LePrixUnitaireEstForcé Then Me.PrixUnitaire = O.PrixUnitaire
 
     End Sub
 
