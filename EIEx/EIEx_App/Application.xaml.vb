@@ -18,6 +18,7 @@ Class Application
 #Region "Nom"
     Public Shared ReadOnly Property Nom() As String
         Get
+
             Return My.Application.Info.Title
         End Get
     End Property
@@ -33,7 +34,6 @@ Class Application
 
     Private Sub Application_Startup() Handles Me.Startup
         Try
-            '_UC_Container = New UC_Container()
             ChargerLesDonnées()
             DémarrerGestionGlobaleDesException()
         Catch ex As ArgumentException
