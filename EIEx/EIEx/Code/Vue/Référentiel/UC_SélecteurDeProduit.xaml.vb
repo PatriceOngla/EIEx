@@ -581,8 +581,6 @@ Public Class UC_SélecteurDeProduit
 
 #End Region
 
-    'TODO: J'ai tenté d'appliquer http://stackoverflow.com/questions/5869359/wpf-modeless-dialog-from-ms-excel-add-in mais sans succès car on se retrouve dans une situation bancale où la fenêtre doit être impérativement créée dans l'autre thread (pour le pb de keyboard focus) mais ou son content (le UserControl) est créé dans le thread appelant. Y'a aussi http://stackoverflow.com/questions/19458721/cant-type-on-a-wpf-window-in-a-vsto-addin mais je le sens pas. On abandonne plutôt le principe de l'addin qui n'est finalement pas pertinent. 
-
 
 #Region "Show"
 

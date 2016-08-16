@@ -15,8 +15,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EIEx_DAO", "EIEx_DAO\EIEx_D
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EIEx_App", "EIEx_App\EIEx_App.vbproj", "{B24BDBB6-7283-462A-8E2E-FEE1423679B9}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ExccelCommander", "ExccelCommander\ExccelCommander.vbproj", "{1BAB2AC4-7495-4944-8B09-1D14BDF7DCC2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{B24BDBB6-7283-462A-8E2E-FEE1423679B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B24BDBB6-7283-462A-8E2E-FEE1423679B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B24BDBB6-7283-462A-8E2E-FEE1423679B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BAB2AC4-7495-4944-8B09-1D14BDF7DCC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BAB2AC4-7495-4944-8B09-1D14BDF7DCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BAB2AC4-7495-4944-8B09-1D14BDF7DCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BAB2AC4-7495-4944-8B09-1D14BDF7DCC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
