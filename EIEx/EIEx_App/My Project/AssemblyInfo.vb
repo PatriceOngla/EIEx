@@ -11,10 +11,10 @@ Imports System.Windows
 
 ' Vérifiez les valeurs des attributs de l'assembly
 
-<Assembly: AssemblyTitle("EIEx_App")>
+<Assembly: AssemblyTitle("EIEx")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("EIEx_App")>
+<Assembly: AssemblyProduct("EIEx")>
 <Assembly: AssemblyCopyright("Copyright ©  2016")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: ComVisible(false)>

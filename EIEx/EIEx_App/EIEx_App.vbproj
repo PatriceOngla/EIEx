@@ -49,7 +49,17 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=2.0.19309.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.0.0-beta04\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System" />
@@ -68,7 +78,51 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Code\Vue\Référentiel\UC_FamillesProduitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Communs\Ouvrages\UC_OuvrageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Référentiel\UC_ProduitsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Référentiel\UC_Référentiel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Communs\Win_SélecteurDeProduit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Communs\Ouvrages\Win_Ouvrages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Communs\Ouvrages\Win_SélecteurDOuvrage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Traitement\UC_GestionnaireDeBordereaux.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Communs\UC_CommandesCRUD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Win_Main.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Workspace\UC_EtudesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Code\Vue\Workspace\UC_ExcelRangeSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -76,9 +130,52 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.vb">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Code\Divers\Common.vb" />
+    <Compile Include="Code\Excel management\ExcelCommander.vb" />
+    <Compile Include="Code\Excel management\ExcelCommander_Part2.vb" />
+    <Compile Include="Code\Excel management\ExcelEventManager.vb" />
+    <Compile Include="Code\Vue\WPF_Utils.vb" />
+    <Compile Include="Code\Excel management\ExcelInfoBag.vb" />
+    <Compile Include="Code\Excel management\UtilityRoutines.vb" />
+    <Compile Include="Code\Vue\Référentiel\ListToStringConverter.vb" />
+    <Compile Include="Code\Vue\Référentiel\UC_FamillesProduitView.xaml.vb">
+      <DependentUpon>UC_FamillesProduitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Communs\Ouvrages\UC_OuvrageView.xaml.vb">
+      <DependentUpon>UC_OuvrageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Référentiel\UC_ProduitsView.xaml.vb">
+      <DependentUpon>UC_ProduitsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Référentiel\UC_Référentiel.xaml.vb">
+      <DependentUpon>UC_Référentiel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Communs\Win_SélecteurDeProduit.xaml.vb">
+      <DependentUpon>Win_SélecteurDeProduit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Communs\Ouvrages\Win_Ouvrages.xaml.vb">
+      <DependentUpon>Win_Ouvrages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Communs\Ouvrages\Win_SélecteurDOuvrage.xaml.vb">
+      <DependentUpon>Win_SélecteurDOuvrage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Référentiel\XXX.vb" />
+    <Compile Include="Code\Vue\Traitement\GestionnaireDeBordereau.vb" />
+    <Compile Include="Code\Vue\Traitement\LibelléDouvrage.vb" />
+    <Compile Include="Code\Vue\Traitement\UC_GestionnaireDeBordereaux.xaml.vb">
+      <DependentUpon>UC_GestionnaireDeBordereaux.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Communs\UC_CommandesCRUD.xaml.vb">
+      <DependentUpon>UC_CommandesCRUD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Win_Main.xaml.vb">
+      <DependentUpon>Win_Main.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Workspace\UC_EtudesView.xaml.vb">
+      <DependentUpon>UC_EtudesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Code\Vue\Workspace\UC_ExcelRangeSelector.xaml.vb">
+      <DependentUpon>UC_ExcelRangeSelector.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +225,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <AppDesigner Include="My Project\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -141,14 +239,13 @@
       <Project>{2e479322-7d9f-48fd-8dff-f452317662be}</Project>
       <Name>EIEx_Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExccelCommander\ExccelCommander.vbproj">
-      <Project>{1bab2ac4-7495-4944-8b09-1d14bdf7dcc2}</Project>
-      <Name>ExccelCommander</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.vbproj">
       <Project>{dd23da99-ca52-4876-a3b7-4b154e5b981f}</Project>
       <Name>Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Données\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

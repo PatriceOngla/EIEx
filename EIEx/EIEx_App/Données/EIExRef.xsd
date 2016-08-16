@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xsd:element name="Référentiel_DAO">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="DateModif" type="xsd:dateTime" />
+        <xsd:element name="Produits">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="Produit_DAO">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="TempsDePauseUnitaire" type="xsd:decimal" />
+                    <xsd:element name="MotsClés">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element maxOccurs="unbounded" name="string" type="xsd:string" />
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="FamilleId" type="xsd:unsignedByte" />
+                  </xsd:sequence>
+                  <xsd:attribute name="Id" type="xs:unsignedInt" use="required" />
+                  <xsd:attribute name="Nom" type="xsd:string" use="required" />
+                  <xsd:attribute name="Unité" type="xsd:string" use="required" />
+                  <xsd:attribute name="Prix" type="xsd:decimal" use="required" />
+                  <xsd:attribute name="CodeLydic" type="xsd:string" use="required" />
+                  <xsd:attribute name="ReférenceFournisseur" type="xsd:unsignedShort" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="FamillesDeProduit">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="FamilleDeProduit_DAO">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Marge" type="xsd:unsignedByte" />
+                  </xsd:sequence>
+                  <xsd:attribute name="Nom" type="xsd:string" use="required" />
+                  <xsd:attribute name="Id" type="xsd:unsignedByte" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Ouvrages">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="PatronDOuvrage_DAO">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Libellés">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element maxOccurs="unbounded" name="string" type="xsd:string" />
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="UsagesDeProduit">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element maxOccurs="unbounded" name="UsageDeProduit_DAO">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="ProduitId" type="xsd:unsignedByte" />
+                              </xsd:sequence>
+                              <xsd:attribute name="ParentId" type="xsd:unsignedByte" use="required" />
+                              <xsd:attribute name="Nombre" type="xsd:unsignedByte" use="required" />
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="MotsClés" />
+                    <xsd:element name="TempsDePauseUnitaire" type="xsd:unsignedByte" />
+                    <xsd:element name="PrixUnitaire" type="xsd:unsignedByte" />
+                  </xsd:sequence>
+                  <xsd:attribute name="Nom" type="xsd:string" use="required" />
+                  <xsd:attribute name="Id" type="xsd:unsignedByte" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xs:schema>

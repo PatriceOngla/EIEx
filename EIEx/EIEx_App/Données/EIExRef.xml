@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Référentiel_DAO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DateModif>2016-07-10T13:47:11.0103732+02:00</DateModif>
+  <Produits>
+    <Produit_DAO Nom="Produit 1" Id="1" Unité="U" Prix="101" CodeLydic="CONS1" ReférenceFournisseur="1001">
+      <TempsDePauseUnitaire>1</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 1</string>
+        <string>keyWord 2</string>
+      </MotsClés>
+      <FamilleId>1</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 2" Id="2" Unité="U" Prix="102" CodeLydic="CONS2" ReférenceFournisseur="1002">
+      <TempsDePauseUnitaire>2</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 2</string>
+        <string>keyWord 3</string>
+      </MotsClés>
+      <FamilleId>2</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 3" Id="3" Unité="U" Prix="103" CodeLydic="CONS3" ReférenceFournisseur="1003">
+      <TempsDePauseUnitaire>3</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 3</string>
+        <string>keyWord 4</string>
+      </MotsClés>
+      <FamilleId>3</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 4" Id="4" Unité="U" Prix="104" CodeLydic="CONS4" ReférenceFournisseur="1004">
+      <TempsDePauseUnitaire>4</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 4</string>
+        <string>keyWord 5</string>
+      </MotsClés>
+      <FamilleId>4</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 5" Id="5" Unité="U" Prix="105" CodeLydic="CONS5" ReférenceFournisseur="1005">
+      <TempsDePauseUnitaire>5</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 5</string>
+        <string>keyWord 6</string>
+      </MotsClés>
+      <FamilleId>5</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 6" Id="6" Unité="U" Prix="106" CodeLydic="CONS6" ReférenceFournisseur="1006">
+      <TempsDePauseUnitaire>6</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 6</string>
+        <string>keyWord 7</string>
+      </MotsClés>
+      <FamilleId>6</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 7" Id="7" Unité="U" Prix="107" CodeLydic="CONS7" ReférenceFournisseur="1007">
+      <TempsDePauseUnitaire>7</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 7</string>
+        <string>keyWord 8</string>
+      </MotsClés>
+      <FamilleId>7</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 8" Id="8" Unité="U" Prix="108" CodeLydic="CONS8" ReférenceFournisseur="1008">
+      <TempsDePauseUnitaire>8</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 8</string>
+        <string>keyWord 9</string>
+      </MotsClés>
+      <FamilleId>8</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 9" Id="9" Unité="U" Prix="109" CodeLydic="CONS9" ReférenceFournisseur="1009">
+      <TempsDePauseUnitaire>9</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 9</string>
+        <string>keyWord 10</string>
+      </MotsClés>
+      <FamilleId>9</FamilleId>
+    </Produit_DAO>
+    <Produit_DAO Nom="Produit 10" Id="10" Unité="U" Prix="110" CodeLydic="CONS10" ReférenceFournisseur="10010">
+      <TempsDePauseUnitaire>10</TempsDePauseUnitaire>
+      <MotsClés>
+        <string>keyWord 10</string>
+        <string>keyWord 11</string>
+      </MotsClés>
+      <FamilleId>10</FamilleId>
+    </Produit_DAO>
+  </Produits>
+  <FamillesDeProduit>
+    <FamilleDeProduit_DAO Nom="Famille 1" Id="1">
+      <Marge>1</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 2" Id="2">
+      <Marge>2</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 3" Id="3">
+      <Marge>3</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 4" Id="4">
+      <Marge>4</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 5" Id="5">
+      <Marge>5</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 6" Id="6">
+      <Marge>6</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 7" Id="7">
+      <Marge>7</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 8" Id="8">
+      <Marge>8</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 9" Id="9">
+      <Marge>9</Marge>
+    </FamilleDeProduit_DAO>
+    <FamilleDeProduit_DAO Nom="Famille 10" Id="10">
+      <Marge>10</Marge>
+    </FamilleDeProduit_DAO>
+  </FamillesDeProduit>
+  <Ouvrages>
+    <Ouvrage_DAO Nom="Ouvrage 1" Id="1">
+      <Libellés>
+        <string>Ouvrage 1</string>
+        <string>Libellé supplémentaire 1</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="1" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>1</TempsDePauseUnitaire>
+      <PrixUnitaire>1</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 2" Id="2">
+      <Libellés>
+        <string>Ouvrage 2</string>
+        <string>Libellé supplémentaire 2</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="2" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="2" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>2</TempsDePauseUnitaire>
+      <PrixUnitaire>2</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 3" Id="3">
+      <Libellés>
+        <string>Ouvrage 3</string>
+        <string>Libellé supplémentaire 3</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="3" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="3" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="3" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>3</TempsDePauseUnitaire>
+      <PrixUnitaire>3</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 4" Id="4">
+      <Libellés>
+        <string>Ouvrage 4</string>
+        <string>Libellé supplémentaire 4</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="4" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="4" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="4" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="4" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>4</TempsDePauseUnitaire>
+      <PrixUnitaire>4</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 5" Id="5">
+      <Libellés>
+        <string>Ouvrage 5</string>
+        <string>Libellé supplémentaire 5</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="5" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="5" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="5" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="5" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="5" Nombre="5">
+          <ProduitId>5</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>5</TempsDePauseUnitaire>
+      <PrixUnitaire>5</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 6" Id="6">
+      <Libellés>
+        <string>Ouvrage 6</string>
+        <string>Libellé supplémentaire 6</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="6" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="6" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="6" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="6" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="6" Nombre="5">
+          <ProduitId>5</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="6" Nombre="6">
+          <ProduitId>6</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>6</TempsDePauseUnitaire>
+      <PrixUnitaire>6</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 7" Id="7">
+      <Libellés>
+        <string>Ouvrage 7</string>
+        <string>Libellé supplémentaire 7</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="7" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="7" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="7" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="7" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="7" Nombre="5">
+          <ProduitId>5</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="7" Nombre="6">
+          <ProduitId>6</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="7" Nombre="7">
+          <ProduitId>7</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>7</TempsDePauseUnitaire>
+      <PrixUnitaire>7</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 8" Id="8">
+      <Libellés>
+        <string>Ouvrage 8</string>
+        <string>Libellé supplémentaire 8</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="8" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="5">
+          <ProduitId>5</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="6">
+          <ProduitId>6</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="7">
+          <ProduitId>7</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="8" Nombre="8">
+          <ProduitId>8</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>8</TempsDePauseUnitaire>
+      <PrixUnitaire>8</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 9" Id="9">
+      <Libellés>
+        <string>Ouvrage 9</string>
+        <string>Libellé supplémentaire 9</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="9" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="5">
+          <ProduitId>5</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="6">
+          <ProduitId>6</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="7">
+          <ProduitId>7</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="8">
+          <ProduitId>8</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="9" Nombre="9">
+          <ProduitId>9</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>9</TempsDePauseUnitaire>
+      <PrixUnitaire>9</PrixUnitaire>
+    </Ouvrage_DAO>
+    <Ouvrage_DAO Nom="Ouvrage 10" Id="10">
+      <Libellés>
+        <string>Ouvrage 10</string>
+        <string>Libellé supplémentaire 10</string>
+      </Libellés>
+      <UsagesDeProduit>
+        <UsageDeProduit_DAO ParentId="10" Nombre="1">
+          <ProduitId>1</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="2">
+          <ProduitId>2</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="3">
+          <ProduitId>3</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="4">
+          <ProduitId>4</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="5">
+          <ProduitId>5</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="6">
+          <ProduitId>6</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="7">
+          <ProduitId>7</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="8">
+          <ProduitId>8</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="9">
+          <ProduitId>9</ProduitId>
+        </UsageDeProduit_DAO>
+        <UsageDeProduit_DAO ParentId="10" Nombre="10">
+          <ProduitId>10</ProduitId>
+        </UsageDeProduit_DAO>
+      </UsagesDeProduit>
+      <MotsClés />
+      <TempsDePauseUnitaire>10</TempsDePauseUnitaire>
+      <PrixUnitaire>10</PrixUnitaire>
+    </Ouvrage_DAO>
+  </Ouvrages>
+</Référentiel_DAO>
