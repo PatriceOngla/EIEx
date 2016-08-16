@@ -145,34 +145,6 @@ Module ExcelCommander
 
 #End Region
 
-#Region "Divers"
-
-    <Extension>
-    Public Function ClasseurRéel(C As ClasseurExcel) As Excel.Workbook
-        Dim r = (From wb As Workbook In XL.Workbooks Where wb.FullName.Equals(C.CheminFichier)).FirstOrDefault()
-        'Debug.Print(XL.Workbooks.Count())
-        Return r
-    End Function
-
-    <Extension>
-    Public Function Worksheet(B As Bordereau) As Excel.Worksheet
-        Try
-            Dim cp = B.Parent
-            Dim wb = cp.ClasseurRéel
-            If wb Is Nothing Then
-                Throw New Exception($"Le classeur ""{cp.CheminFichier}"" n'est pas ouvert.")
-            End If
-            If String.IsNullOrEmpty(B.NomFeuille) Then
-                Throw New Exception($"Le nom de la feuille Excel n'est pas renseigné pour le bordereau ""{B.Nom}"".")
-            End If
-            Dim r As Excel.Worksheet = wb.Worksheets(B.NomFeuille)
-            Return r
-        Catch ex As Exception
-            Throw New Exception($"Impossible de récupérer la feuille Excel pour le bordereau ""{B.Nom}"". 
-Vérifier que le nom de la feuille est défini par le bordereau correspond à un nom de feuille existante dans le fichier Excel associé.", ex)
-        End Try
-    End Function
-
 #Region "MAJExcel"
 
     <Extension>
@@ -205,6 +177,35 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
     End Function
 
 #End Region
+
+#Region "Divers"
+
+    <Extension>
+    Public Function ClasseurRéel(C As ClasseurExcel) As Excel.Workbook
+        Dim r = (From wb As Workbook In XL.Workbooks Where wb.FullName.Equals(C.CheminFichier)).FirstOrDefault()
+        'Debug.Print(XL.Workbooks.Count())
+        Return r
+    End Function
+
+    <Extension>
+    Public Function Worksheet(B As Bordereau) As Excel.Worksheet
+        Try
+            Dim cp = B.Parent
+            Dim wb = cp.ClasseurRéel
+            If wb Is Nothing Then
+                Throw New Exception($"Le classeur ""{cp.CheminFichier}"" n'est pas ouvert.")
+            End If
+            If String.IsNullOrEmpty(B.NomFeuille) Then
+                Throw New Exception($"Le nom de la feuille Excel n'est pas renseigné pour le bordereau ""{B.Nom}"".")
+            End If
+            Dim r As Excel.Worksheet = wb.Worksheets(B.NomFeuille)
+            Return r
+        Catch ex As Exception
+            Throw New Exception($"Impossible de récupérer la feuille Excel pour le bordereau ""{B.Nom}"". 
+Vérifier que le nom de la feuille est défini par le bordereau correspond à un nom de feuille existante dans le fichier Excel associé.", ex)
+        End Try
+    End Function
+
     ''' <summary>
     ''' Retourne le <paramref name="rng"/> limité à la dernière cellule utilisée de sa feuille.
     ''' </summary>
@@ -223,110 +224,6 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
         Return r
     End Function
 
-    '#Region "Gestion des classeurs assoxciés à l'étude courante"
-
-    '    Private WS As WorkSpace = WorkSpace.Instance
-
-    '    Private Function CheckEtudeCourante() As Boolean
-    '        If WS.EtudeCourante Is Nothing Then
-    '            Message("Aucune étude n'est sélectionnée.")
-    '            Return False
-    '        Else
-    '            Return True
-    '        End If
-    '    End Function
-
-    '#Region "OuvrirLesClasseurDeLEtudeCourante"
-
-    '    Public Sub OuvrirLesClasseurDeLEtudeCourante()
-
-    '        If Not CheckEtudeCourante() Then Exit Sub
-
-    '        Dim EC = WS.EtudeCourante
-
-    '        If EC Is Nothing Then
-    '            Message("Aucune étude n'est sélectionnée.")
-    '            Exit Sub
-    '        End If
-
-    '        Try
-    '            With EC
-    '                For Each c In .ClasseursExcel
-    '                    Try
-    '                        If IO.File.Exists(c.CheminFichier) Then
-    '                            XL.Workbooks.Open(c.CheminFichier)
-    '                        Else
-    '                            Message($"Le classeur ""{c.CheminFichier}"" est introuvable.)", MsgBoxStyle.Exclamation)
-    '                        End If
-    '                    Catch ex As Exception
-    '                        ManageErreur(ex, $"Echec de la tentative d'ouverture du classeur ""{c.CheminFichier}""", True, False)
-    '                    End Try
-    '                Next
-    '            End With
-    '        Catch ex As Exception
-    '            ManageErreur(ex, , True, False)
-    '        End Try
-    '    End Sub
-
-    '#End Region
-
-    '#Region "InitiliaserLesClasseursDeLEtudeCourante"
-
-    '    Private Sub InitiliaserLesClasseursDeLEtudeCourante()
-
-    '        If Not CheckEtudeCourante() Then Exit Sub
-
-    '        Dim EC = WS.EtudeCourante
-
-    '        Try
-    '            Dim NewC As ClasseurExcel
-
-    '            If EC Is Nothing Then Throw New Exception("Pas d'étude courante.")
-    '            With EC
-    '                For Each wb As Excel.Workbook In XL.Workbooks
-    '                    If Not ContientLeClasseur(EC, wb.FullName) Then
-    '                        NewC = .AjouterNouveauClasseur()
-    '                        NewC.CheminFichier = wb.FullName
-    '                        AjouterLesFeuilles(NewC)
-    '                        NewC.Nom = wb.Name
-    '                    End If
-    '                Next
-
-    '                If Me.ClasseurExcelCourant Is Nothing Then
-    '                    Me.ClasseurExcelCourant = EC.ClasseursExcel.FirstOrDefault
-    '                End If
-    '            End With
-    '        Catch ex As Exception
-    '            ManageErreur(ex, , True, False)
-    '        End Try
-    '    End Sub
-
-    '    Private Sub AjouterLesFeuilles(C As ClasseurExcel)
-    '        Dim WShts As Microsoft.Office.Interop.Excel.Sheets = C.ClasseurRéel?.Worksheets
-    '        'Dim WShts2 As Microsoft.Office.Tools.Excel.Worksheet.Worksheets = C.ClasseurRéel?.Worksheets
-    '        'Dim WShts As Excel.Worksheets = C.ClasseurRéel?.Worksheets
-    '        Dim B As Bordereau
-    '        Debug.Print(WShts.Count())
-    '        If WShts IsNot Nothing Then
-    '            For Each Wsht In WShts
-    '                B = C.AjouterNouveauBordereau()
-    '                B.Nom = Wsht.Name
-    '                B.NomFeuille = B.Nom
-    '            Next
-    '        End If
-
-    '    End Sub
-
-    '    Private Function ContientLeClasseur(EC As Etude, Chemin As String) As Boolean
-    '        Dim r As Boolean
-    '        r = (From c In EC.ClasseursExcel Where Object.Equals(c.CheminFichier, Chemin)).Any()
-    '        Return r
-    '    End Function
-
-    '#End Region
-
-    '#End Region
-
     Public Sub SélectionnerPlageExcel(R As Range)
         Try
             XL.Goto(R)
@@ -334,7 +231,6 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
             ManageErreur(ex, "Echec de la sélection de la plage Excel.")
         End Try
     End Sub
-
 
     <Extension> Public Function GetCelluleExcelAssociée(O As Ouvrage) As Range
         Dim B = O.BordereauParent

@@ -115,8 +115,10 @@ Public Class ThisAddIn
 #If DEBUG Then
     Public Sub Test()
 
-        'Dim PS As New UC_SélecteurDeProduit
-        'PS.Show()
+        'Dim SP As New UC_SélecteurDeProduit
+        'SP.Show()
+        UC_SélecteurDeProduit.Show2()
+
 
         'Dim SO As New UC_SélecteurDOuvrage
         'SO.Show()

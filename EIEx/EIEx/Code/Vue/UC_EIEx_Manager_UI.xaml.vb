@@ -10,7 +10,8 @@ Public Class UC_EIEx_Manager_UI
 #Region "Champs privés"
 
     Friend WithEvents UCSO As New UC_SélecteurDOuvrage()
-    Friend WithEvents UCSP As New UC_SélecteurDeProduit()
+    'Friend WithEvents UCSP As New UC_SélecteurDeProduit()
+    Friend WithEvents UCSP As UC_SélecteurDeProduit = UC_SélecteurDeProduit.Instance
 
 #End Region
 
