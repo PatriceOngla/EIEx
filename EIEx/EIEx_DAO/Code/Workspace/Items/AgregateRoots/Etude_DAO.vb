@@ -14,6 +14,8 @@ Public Class Etude_DAO
     Public Sub New(E As Etude)
         MyBase.New(E)
 
+        Me.Client = E.Client
+
         Me.EstOuverte = E.EstOuverte
 
         Dim ClasseursExcel = From c In E.ClasseursExcel Select New ClasseurExcel_DAO(c)
@@ -38,6 +40,9 @@ Public Class Etude_DAO
 #Region "Données"
 
     <XmlAttribute>
+    Public Property Client() As String
+
+    <XmlAttribute>
     Public Property EstOuverte() As Boolean
 
     Public Property ClasseursExcel() As List(Of ClasseurExcel_DAO)
@@ -51,6 +56,7 @@ Public Class Etude_DAO
 
     Protected Overrides Sub UnSerialized_Ex_Ex(NouvelleEtude As Etude)
 
+        NouvelleEtude.Client = Me.Client
         NouvelleEtude.EstOuverte = Me.EstOuverte
 
         Me.ClasseursExcel.DoForAll(Sub(CDAO As ClasseurExcel_DAO)

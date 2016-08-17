@@ -42,6 +42,20 @@ Public Class Etude
     Public ReadOnly Property Id() As Integer? Implements IAgregateRoot.Id
 #End Region
 
+#Region "Client"
+    Private _Client As String
+    Public Property Client() As String
+        Get
+            Return _Client
+        End Get
+        Set(ByVal value As String)
+            If Object.Equals(value, Me._Client) Then Exit Property
+            _Client = value
+            NotifyPropertyChanged(NameOf(Client))
+        End Set
+    End Property
+#End Region
+
 #Region "EstOuverte"
 
     Private _EstOuverte As Boolean = False
