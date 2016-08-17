@@ -10,6 +10,10 @@
              d:DesignHeight="600" d:DesignWidth="600">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
             <RelativeSource x:Key="ThisControl" Mode="FindAncestor" AncestorType="{x:Type local:UC_GestionnaireDeBordereau}"/>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -44,7 +48,7 @@
                                 <Label Content="Nb lignes libellé reconnues : "/>
                                 <TextBlock Text="{Binding NbLignesLibelléDétéctées, FallbackValue=0}" VerticalAlignment="Center" />
                             </StackPanel>
-                            
+
                             <StackPanel Grid.Column="1"  Orientation="Horizontal">
                                 <Label Content="Nb Libellés uniques : "/>
                                 <TextBlock Text="{Binding NbLibellésUniques, FallbackValue=0}" VerticalAlignment="Center"/>
@@ -79,8 +83,8 @@
                                   MouseDoubleClick="DG_LibellésOuvrages_MouseDoubleClick"
                                   EnableRowVirtualization="False"
                                   >
-                                  <!--VirtualizingStackPanel.VirtualizationMode ="Standard"-->
-                                  <!--SelectedItem="{Binding LibelléEnDoublonCourant}"-->
+                            <!--VirtualizingStackPanel.VirtualizationMode ="Standard"-->
+                            <!--SelectedItem="{Binding LibelléEnDoublonCourant}"-->
 
                             <DataGrid.Resources>
                                 <Style TargetType="DataGridRow">
@@ -144,7 +148,7 @@
                                         <DataTemplate >
                                             <StackPanel Margin="1" Orientation="Horizontal" ToolTip="Sélectionner les plages correspondantes" 
                                                         Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=DataGridCell}, Path=Background}" >
-                                                                                                <Button Width="14" Height="14"
+                                                <Button Width="14" Height="14"
                                                         Style="{StaticResource BoutonCarré}"
                                                         ContentTemplate="{StaticResource Suivant}" ToolTip="Plage précédente" 
                                                         Click="Btn_SélectionnerRangePrécédent"
@@ -174,7 +178,7 @@
                                                         Margin="0,0,3,0" 
                                                         Click="Btn_SélectionnerRangeSuivant"
                                                         />
-<!--<TextBlock Text="{Binding NbOccurrences, StringFormat='Nb : {0}'}" VerticalAlignment="Center" 
+                                                <!--<TextBlock Text="{Binding NbOccurrences, StringFormat='Nb : {0}'}" VerticalAlignment="Center" 
                                                            Margin="3,0,0,0"/>-->
                                             </StackPanel>
                                         </DataTemplate>

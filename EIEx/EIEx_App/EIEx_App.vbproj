@@ -78,6 +78,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Code\00_Tests and Debug\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\BaseValues.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Code\Vue\Dico.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Code\Vue\Référentiel\UC_FamillesProduitView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -129,6 +141,9 @@
     <Compile Include="Application.xaml.vb">
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\00_Tests and Debug\Window1.xaml.vb">
+      <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Code\Divers\Common.vb" />
     <Compile Include="Code\Excel management\ExcelCommander.vb" />

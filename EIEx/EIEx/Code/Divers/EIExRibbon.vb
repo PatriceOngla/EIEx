@@ -155,7 +155,7 @@ Public Class EIExRibbon
         ImporterProduitsDepuisExcel()
     End Sub
 
-#Region "Gestion des classeurs assoxciés à l'étude courante"
+#Region "Gestion des classeurs associés à l'étude courante"
 
     Private Sub Btn_InitialiserLesClasseursExcelDeLEtudeCourante_Click(sender As Object, e As RibbonControlEventArgs) Handles Btn_InitialiserLesClasseursExcelDeLEtudeCourante.Click
         Me.UC_EIEx_Manager_UI?.UC_Etude.InitialiserLesClasseursExcelDeLEtudeCopurante()

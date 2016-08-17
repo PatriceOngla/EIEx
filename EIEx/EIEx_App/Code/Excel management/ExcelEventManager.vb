@@ -8,27 +8,29 @@ Friend Class ExcelEventManager
 
 #Region "XL"
     Private Shared WithEvents _XL As Excel.Application
-    Public Shared ReadOnly Property XL() As Excel.Application
+    Public Shared Property XL() As Excel.Application
         Get
-            If _XL Is Nothing Then _XL = ExcelCommander.XL
             Return _XL
         End Get
+        Set(value As Excel.Application)
+            _XL = value
+        End Set
     End Property
 #End Region
 
-#Region "TargetWindow"
-    'Private Shared _TargetWindow As Excel.Window
-    Public Shared ReadOnly Property TargetWindow() As Excel.Window
-        Get
-            'If _TargetWindow Is Nothing Then _TargetWindow = XL.ActiveWindow
-            'Return _TargetWindow
-            Return XL.ActiveWindow
-        End Get
-        'Set(ByVal value As Excel.Window)
-        '    _TargetWindow = value
-        'End Set
-    End Property
-#End Region
+    '#Region "TargetWindow"
+    '    'Private Shared _TargetWindow As Excel.Window
+    '    Public Shared ReadOnly Property TargetWindow() As Excel.Window
+    '        Get
+    '            'If _TargetWindow Is Nothing Then _TargetWindow = XL.ActiveWindow
+    '            'Return _TargetWindow
+    '            Return XL.ActiveWindow
+    '        End Get
+    '        'Set(ByVal value As Excel.Window)
+    '        '    _TargetWindow = value
+    '        'End Set
+    '    End Property
+    '#End Region
 
 #Region "TargetSheet"
     Private Shared WithEvents _TargetSheet As Excel.Worksheet
@@ -49,7 +51,7 @@ Friend Class ExcelEventManager
 #Region "UCSC"
 
     Private Shared _UCSC As Win_Main
-    Public Shared Property UCSC() As Win_Main
+    Public Shared Property WinMain() As Win_Main
         Get
             Return _UCSC
         End Get
@@ -76,14 +78,32 @@ Friend Class ExcelEventManager
 
     Private Shared Sub _XL_SheetSelectionChange(Sh As Object, Target As Excel.Range) Handles _XL.SheetSelectionChange
         Try
-            UCSC.SelectedRange = Target.Address
-            If LaFeuilleActiveEstCelleDeLUnDesBordereauxDuClasseurCourant() Then
-                RaiseEvent TargetSelectedRangeChanged(Target)
-            End If
+            WinMain.Dispatcher.BeginInvoke(Sub()
+                                               WinMain.SelectedRange = Target.Address
+                                               If LaFeuilleActiveEstCelleDeLUnDesBordereauxDuClasseurCourant() Then
+
+                                                   HighLight(Target, True)
+
+                                                   RaiseEvent TargetSelectedRangeChanged(Target)
+                                               End If
+                                           End Sub)
         Catch ex As ArgumentException
             ManageErreur(ex, , True, False)
         End Try
 
+    End Sub
+
+    Private Shared Sub HighLight(r As Range, YesNo As Boolean)
+        Static PreviousSelectedCell As Range = Nothing
+        Static PreviousInteriorIndex As Integer
+        If YesNo Then
+            If PreviousSelectedCell IsNot Nothing Then HighLight(PreviousSelectedCell, False)
+            PreviousInteriorIndex = r.Interior.ColorIndex
+            r.Interior.ColorIndex = 34
+            PreviousSelectedCell = r
+        Else
+            PreviousSelectedCell.Interior.ColorIndex = PreviousInteriorIndex
+        End If
     End Sub
 
     'Private Shared Function LaFeuilleAffichéeEstCelleDuBordereauCourant() As Boolean

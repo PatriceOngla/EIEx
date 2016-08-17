@@ -8,8 +8,14 @@
              xmlns:local="clr-namespace:EIEx_App"
              xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300">
-
+             d:DesignHeight="600" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.Resources>
 

@@ -2,6 +2,7 @@
 Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
+Imports EIEx_DAO
 Imports Model
 
 'Attention : pas proprement implémenté comme un singleton mais une seule instance doit être créée (accessible via la propriété shared <seealso cref="Win_EIEx_Manager_UI.Instance"/>).
@@ -11,11 +12,12 @@ Public Class Win_Main
 
     Public Sub New()
         ' Cet appel est requis par le concepteur.
-        _Instance = Me
-
         InitializeComponent()
 
-        ExcelEventManager.UCSC = Me
+        SetTitle()
+
+        ExcelEventManager.WinMain = Me
+        _Instance = Me
     End Sub
 
 #End Region
@@ -40,9 +42,10 @@ Public Class Win_Main
 #End Region
 
 #Region "WS"
+    Private WithEvents _WS As WorkSpace = WorkSpace.Instance
     Public ReadOnly Property WS() As WorkSpace
         Get
-            Return WorkSpace.Instance
+            Return _WS
         End Get
     End Property
 #End Region
@@ -60,6 +63,77 @@ Public Class Win_Main
 #Region "Methods"
 
 #Region "UI event handlers"
+
+#Region "SetTitle"
+
+    Private Sub _WS_EtudeCouranteChanged(OldEtude As Etude, NewEtude As Etude) Handles _WS.EtudeCouranteChanged
+        SetTitle()
+    End Sub
+
+    Private Sub SetTitle()
+        Me.Title = $"{Application.Nom}{If(EtudeCourante Is Nothing, "", " - " & EtudeCourante.Nom)}"
+    End Sub
+
+#End Region
+
+#Region "Menu"
+
+#Region "Gestion des enregistrements"
+    Private Sub EnregistrerRéférentiel() Handles MIt_Ref_Save.Click
+        Try
+            PersistancyManager.EnregistrerLeRéférentiel()
+            Message("Enregistrement effectué.")
+        Catch ex As Exception
+            ManageErreur(ex, "Echec de l'enregistrement du référentiel.", True, False)
+        End Try
+    End Sub
+
+    Private Sub RechargerRéférentiel() Handles MIt_Ref_Reload.Click
+        Try
+            PersistancyManager.ChargerLeRéférentiel()
+            Message("Rechargement effectué.")
+        Catch ex As Exception
+            ManageErreur(ex, "Echec du chargement du référentiel.", True, False)
+        End Try
+    End Sub
+
+    Private Sub SaveWorkspace() Handles MIt_WS_Save.Click
+        Try
+            PersistancyManager.EnregistrerLeWorkspace()
+            Message("Enregistrement effectué.")
+        Catch ex As Exception
+            ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.", True, False)
+        End Try
+    End Sub
+
+    Private Sub RechargerWorkspace() Handles MIt_WS_Reload.Click
+        Try
+            PersistancyManager.ChargerLeWorkspace()
+            Message("Rechargement effectué.")
+        Catch ex As Exception
+            ManageErreur(ex, "Echec du chargement de l'espace de travail.", True, False)
+        End Try
+    End Sub
+
+#End Region
+
+    Private Sub ChargerDepuisExcel() Handles MIt_Prdts_Import.Click
+        ImporterProduitsDepuisExcel()
+    End Sub
+
+#Region "Gestion des classeurs associés à l'étude courante"
+
+    Private Sub InitialiserLesClasseursExcelDeLEtudeCourante() Handles MIt_WBks_Init.Click
+        Me.UC_Etude.InitialiserLesClasseursExcelDeLEtudeCopurante()
+    End Sub
+    Private Sub ChargerLesClasseursExcelDeLEtudeCourante() Handles MIt_WBks_Open.Click
+        Me.UC_Etude.ChargerLesClasseursExcelDeLEtudeCopurante()
+    End Sub
+
+#End Region
+
+
+#End Region
 
 #Region "Navigation"
 
@@ -143,9 +217,11 @@ Public Class Win_Main
             If e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
                 If e.Key = Key.F OrElse Keyboard.IsKeyDown(Key.F) Then
                     If e.Key = Key.P OrElse Keyboard.IsKeyDown(Key.P) Then
-                        Win_SélecteurDeProduit.Cherche()
+                        Dim P = Win_SélecteurDeProduit.Cherche()
+                        If P IsNot Nothing Then Me.NaviguerVers(P)
                     ElseIf e.Key = Key.O OrElse Keyboard.IsKeyDown(Key.O) Then
-                        Win_SélecteurDOuvrage.Cherche()
+                        Dim O = Win_SélecteurDOuvrage.Cherche()
+                        If O IsNot Nothing Then Me.NaviguerVers(O)
                     End If
                 End If
             End If
@@ -182,6 +258,9 @@ Public Class Win_Main
 #End Region
 
     Private Sub UC_SubContainer_MouseRightButtonUp(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseRightButtonUp
+#If DEBUG Then
+        My.Application.Test()
+#End If
 
     End Sub
 

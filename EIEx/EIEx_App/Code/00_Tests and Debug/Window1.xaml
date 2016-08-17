@@ -1,21 +1,21 @@
-﻿<Window x:Class="Win_Ouvrages"
+﻿<Window x:Class="Window1"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EIEx_App"
         mc:Ignorable="d"
-        Title="Win_Ouvrages" Height="600" Width="800"
-        Style="{StaticResource DefaultWindowStyle}"
-        >
+        Title="Window1" Height="300" Width="300"
+        Style="{StaticResource DefaultWindowStyle}">
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries> 
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <local:UC_OuvragesView x:Name="UC_OuvragesView" CanModify="False"/>
+        <GroupBox Header="Test" Background="Red"/>
     </Grid>
 </Window>

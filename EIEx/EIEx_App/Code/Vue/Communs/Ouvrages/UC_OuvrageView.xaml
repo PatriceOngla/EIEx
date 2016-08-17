@@ -11,6 +11,13 @@
              d:DesignHeight="600" d:DesignWidth="600"
              Padding="{StaticResource DefaultFullPadding}">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.Resources>
 
@@ -212,10 +219,11 @@
 
         <GridSplitter />
 
-        <Grid x:Name="DP_Commandes" Grid.Row="2" >
+        <DockPanel x:Name="DP_Commandes" Grid.Row="2" Background="#4C000000" LastChildFill="False" >
 
-            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" 
-                                Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" DockPanel.Dock="Right"
+                                    Background="Transparent" VerticalAlignment="Center"
+                                    Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
             <Button x:Name="Btn_AppliquerModèle" 
                     HorizontalAlignment="Left"
@@ -223,10 +231,8 @@
                     Style="{StaticResource BoutonCarré}" 
                     Content="Appliquer modèle" 
                     />
-
-            <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=UC_OuvragesView, Path=CanModify, FallbackValue=KO}"/>
             
-        </Grid>
+        </DockPanel>
 
     </Grid>
 

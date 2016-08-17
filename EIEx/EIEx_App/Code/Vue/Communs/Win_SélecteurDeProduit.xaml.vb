@@ -589,6 +589,7 @@ Public Class Win_SélecteurDeProduit
 
 #Region "ValiderLeChoix"
     Private Sub ValiderLeChoix()
+        Me.DialogResult = True
         Me._Résultat = Me.ProduitSélectionné
         If (Me.Résultat IsNot Nothing) Then
             RaiseEvent ProduitTrouvé(Me.Résultat)

@@ -9,12 +9,42 @@
         xmlns:local="clr-namespace:EIEx_App"
         mc:Ignorable="d" 
         d:DesignHeight="350" d:DesignWidth="350"
-        Style="{StaticResource DefaultWindowStyle}"
+        Style="{StaticResource DefaultWindowStyle}" 
         >
 
-    <Grid >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
-        <TabControl Grid.Row="1" >
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu DockPanel.Dock="Top" Margin="-3,-3,-3,0">
+            <MenuItem Header="_Espace de travail" >
+                <MenuItem x:Name="MIt_WS_Save" Header="_Enregistrer" />
+                <MenuItem x:Name="MIt_WS_Reload" Header="_Recharger" />
+                <Separator />
+                <MenuItem Header="Classeurs de l'étude courante">
+                    <MenuItem x:Name="MIt_WBks_Init" Header="Initialiser tous"/>
+                    <MenuItem x:Name="MIt_WBks_Open" Header="Ouvrir tous"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Référentiel" >
+                <MenuItem x:Name="MIt_Ref_Save"  Header="_Enregistrer" />
+                <MenuItem x:Name="MIt_Ref_Reload" Header="_Recharger" />
+                <Separator />
+                <MenuItem x:Name="MIt_Prdts_Import" Header="_Importer les produits"/>
+            </MenuItem>
+        </Menu>
+
+        <TabControl Grid.Row="1" Margin="5" >
 
             <TabItem x:Name="TBt_Workspace" Header="Etudes" >
                 <local:UC_EtudesView x:Name="UC_Etude" DataContext="{Binding ElementName=Win_EIEx_Manager_UI, Path=WS.Etudes}"/>

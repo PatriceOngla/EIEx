@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.Threading
 Imports System.Windows
 Imports System.Windows.Data
 Imports System.Windows.Input
@@ -9,15 +8,6 @@ Imports Utils
 Public Class UC_SélecteurDeProduit
 
 #Region "Constructeurs"
-
-    Private Sub New()
-
-        ' Cet appel est requis par le concepteur.
-        InitializeComponent()
-
-        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-
-    End Sub
 
     Private Sub UC_SélecteurDeProduit_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
         'If Me.DataContext Is Nothing Then
@@ -36,16 +26,6 @@ Public Class UC_SélecteurDeProduit
 #End Region
 
 #Region "Propriétés"
-
-#Region "Instance"
-    Private Shared _Instance As UC_SélecteurDeProduit
-    Public Shared ReadOnly Property Instance As UC_SélecteurDeProduit
-        Get
-            Return _Instance
-        End Get
-    End Property
-
-#End Region
 
 #Region "FenêtreParente"
     Private _FenêtreParente As Window
@@ -581,109 +561,42 @@ Public Class UC_SélecteurDeProduit
 
 #End Region
 
-
 #Region "Show"
 
-    Private Shared Sub Show_Core()
-        'Pas d'erreur d'exécution mais ne montre rien ! Je pense que c'est du au STA qui isole complétement le thread. Après exécution, l'objet reste de toute façon innaccessible directement depuis le reste du code qui tourne dans le thread principal. Donc galère. 
-        Dim ShowTask As New Thread(Sub()
-                                       _Instance = New UC_SélecteurDeProduit()
-                                       _Instance.Margin = New Thickness(0)
-
-                                       Dim w = New Windows.Window With {.Title = "Recherche de produit"}
-                                       _Instance._FenêtreParente = w
-
-                                       Dim aw = XL.ActiveWindow
-                                       If aw IsNot Nothing Then
-                                           Dim hwndHelper = New Interop.WindowInteropHelper(w)
-                                           hwndHelper.Owner = New IntPtr(CLng(Globals.ThisAddIn.Application.ActiveWindow?.Hwnd))
-                                       End If
-
-                                       With w
-                                           w.Content = Instance
-                                           Instance._FenêtreParente = w
-                                           .Padding = New Thickness(5)
-                                           Instance.LoadResourceDict()
-                                       End With
-
-                                       AddHandler Instance._FenêtreParente.Closed,
-                                                    Sub(sender2, e2)
-                                                        w.Dispatcher.InvokeShutdown()
-                                                        Threading.Dispatcher.Run()
-                                                    End Sub
-                                       w.Show()
-                                   End Sub)
-        ShowTask.SetApartmentState(ApartmentState.STA)
-        ShowTask.Start()
-
-    End Sub
     Public Sub Show()
-        'Instance.Dispatcher.Invoke(Sub()
-        '                               Me._FenêtreParente = w
-        '                           End Sub)
-        'Dispatcher.Invoke(Sub()
-        '                      Me._FenêtreParente = w
-        '                  End Sub)
-
-    End Sub
-    Public Shared Sub Show2()
 
         Produit.SetMotsPourTousLesProduits()
 
-        Instance?.Reset()
+        Me._FenêtreParente = New Windows.Window With {.Title = "Recherche de produit"}
 
-        Show_Core()
-        'Me._FenêtreParente = New Windows.Window With {.Title = "Recherche de produit"}
+        Dim aw = XL.ActiveWindow
+        Dim OpenModal = aw IsNot Nothing
+        If OpenModal Then
+            Dim hwndHelper = New Interop.WindowInteropHelper(_FenêtreParente)
+            hwndHelper.Owner = New IntPtr(CLng(Globals.ThisAddIn.Application.ActiveWindow?.Hwnd))
+            'hwndHelper.Owner = New IntPtr(CLng(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle))
+        End If
+
+        Me.Reset()
+
+        With _FenêtreParente
+            LoadResourceDict()
+            .Padding = New Thickness(5)
+            Me.Margin = New Thickness(0)
+            .Content = Me
+            If OpenModal Then
+                .ShowDialog()
+            Else
+                .Show()
+                .AddHandler(Windows.Window.LostFocusEvent, New RoutedEventHandler(Sub(w2 As Window, e As RoutedEventArgs)
+                                                                                      w2.Topmost = True
+                                                                                      'xxx
+                                                                                  End Sub))
+                .Topmost = True
+            End If
+        End With
 
     End Sub
-
-    'Public Sub Show()
-
-    '    Produit.SetMotsPourTousLesProduits()
-
-    '    Me._FenêtreParente = New Windows.Window With {.Title = "Recherche de produit"}
-
-    '    Dim aw = XL.ActiveWindow
-    '    Dim OpenModal = aw IsNot Nothing
-    '    If OpenModal Then
-    '        Dim hwndHelper = New Interop.WindowInteropHelper(_FenêtreParente)
-    '        hwndHelper.Owner = New IntPtr(CLng(Globals.ThisAddIn.Application.ActiveWindow?.Hwnd))
-    '        'hwndHelper.Owner = New IntPtr(CLng(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle))
-    '    End If
-
-    '    Me.Reset()
-
-    '    With _FenêtreParente
-    '        LoadResourceDict()
-    '        .Padding = New Thickness(5)
-    '        Me.Margin = New Thickness(0)
-    '        .Content = Me
-    '        'If OpenModal Then
-    '        '    .ShowDialog()
-    '        'Else
-    '        '    .Show()
-    '        '    .AddHandler(Windows.Window.LostFocusEvent, New RoutedEventHandler(Sub(w2 As Window, e As RoutedEventArgs)
-    '        '                                                                          w2.Topmost = True
-    '        '                                                                          'xxx
-    '        '                                                                      End Sub))
-    '        '    .Topmost = True
-    '        'End If
-    '    End With
-    'End Sub
-
-    'Private Sub Show(w As Window)
-
-    '    Dim ShowTask As New Thread(Sub()
-    '                                   w.Show()
-    '                                   AddHandler w.Closed,
-    '                                                Sub(sender2, e2)
-    '                                                    w.Dispatcher.InvokeShutdown()
-    '                                                    Threading.Dispatcher.Run()
-    '                                                End Sub
-    '                               End Sub)
-    '    ShowTask.SetApartmentState(ApartmentState.STA)
-    '    ShowTask.Start()
-    'End Sub
 
     ''' <summary>Charge dynamiquement le dictionnaire de ressource pour la fenêtre créée. </summary>
     Private Sub LoadResourceDict()

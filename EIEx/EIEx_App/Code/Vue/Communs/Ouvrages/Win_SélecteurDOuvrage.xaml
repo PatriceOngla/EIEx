@@ -18,6 +18,9 @@
     <Window.Resources>
 
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
             <!--#region Template Ouvrage-->
 

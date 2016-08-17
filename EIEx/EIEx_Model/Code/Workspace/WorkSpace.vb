@@ -46,6 +46,9 @@ Public Class WorkSpace
 #End Region
 
 #Region "EtudeCourante"
+
+    Public Event EtudeCouranteChanged(OldEtude As Etude, NewEtude As Etude)
+
     Private _EtudeCourante As Etude
     Public Property EtudeCourante As Etude
         Get
@@ -61,9 +64,11 @@ Public Class WorkSpace
         Set(ByVal value As Etude)
             If value IsNot Nothing AndAlso Object.Equals(value, Me.EtudeCourante) Then Exit Property
             Try
+                Dim oldValue = Me._EtudeCourante
                 If Not (value Is Nothing OrElse Etudes.Contains(value)) Then Throw New InvalidOperationException("L'étude n'appartient pas à l'espace de travail.")
                 _EtudeCourante = value
                 NotifyPropertyChanged(NameOf(EtudeCourante))
+                RaiseEvent EtudeCouranteChanged(oldValue, value)
             Catch ex As Exception
                 Me.RaiseExceptionRaisedEvent(ex, True)
             End Try

@@ -8,6 +8,10 @@
              d:DesignHeight="25" d:DesignWidth="300" Background="{x:Null}">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
             <RelativeSource x:Key="ThisControl" 
                         Mode="FindAncestor" 
                         AncestorType="{x:Type local:UC_ExcelRangeSelector}"

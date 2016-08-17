@@ -115,13 +115,14 @@ Public Class ThisAddIn
 #If DEBUG Then
     Public Sub Test()
 
-        'Dim SP As New UC_SélecteurDeProduit
-        'SP.Show()
-        UC_SélecteurDeProduit.Show2()
-
-
+        'Dim w = New Window1
+        'w.ShowDialog()
         'Dim SO As New UC_SélecteurDOuvrage
         'SO.Show()
+
+        'Dim PS As New UC_SélecteurDeProduit
+        'PS.Show()
+
     End Sub
 #End If
 

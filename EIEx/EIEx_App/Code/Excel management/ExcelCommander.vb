@@ -183,9 +183,12 @@ Module ExcelCommander
 
     <Extension>
     Public Function ClasseurRéel(C As ClasseurExcel) As Excel.Workbook
-        Dim r = (From wb As Workbook In XL.Workbooks Where wb.FullName.Equals(C.CheminFichier)).FirstOrDefault()
-        'Debug.Print(XL.Workbooks.Count())
-        Return r
+        If XL() Is Nothing Then
+            Return Nothing
+        Else
+            Dim r = (From wb As Workbook In XL.Workbooks Where wb.FullName.Equals(C.CheminFichier)).FirstOrDefault()
+            Return r
+        End If
     End Function
 
     <Extension>
@@ -232,6 +235,8 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
             ManageErreur(ex, "Echec de la sélection de la plage Excel.")
         End Try
     End Sub
+
+
 
     <Extension> Public Function GetCelluleExcelAssociée(O As Ouvrage) As Range
         Dim B = O.BordereauParent

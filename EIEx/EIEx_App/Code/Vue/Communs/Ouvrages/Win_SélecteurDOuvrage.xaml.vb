@@ -461,15 +461,17 @@ Public Class Win_SélecteurDOuvrage
         args.RoutedEvent = Win_SélecteurDOuvrage.OuvrageSélectionnéChangedEvent
         If TypeOf NewValue Is Ouvrage Then
             Dim o As Ouvrage = NewValue
-            Dim r = o.GetCelluleExcelAssociée
-            If r IsNot Nothing Then
-                ExcelCommander.SélectionnerPlageExcel(r)
+            If o.BordereauParent.Parent.ClasseurRéel IsNot Nothing Then
+                Dim r = o.GetCelluleExcelAssociée
+                If r IsNot Nothing Then
+                    ExcelCommander.SélectionnerPlageExcel(r)
+                End If
             End If
         End If
-        'Insérer ici le code spécifique à la gestion du changement de la propriété "OuvrageSélectionné"
+            'Insérer ici le code spécifique à la gestion du changement de la propriété "OuvrageSélectionné"
 
-        'Signalement de l'évennement au framework
-        If args IsNot Nothing Then Me.RaiseEvent(args)
+            'Signalement de l'évennement au framework
+            If args IsNot Nothing Then Me.RaiseEvent(args)
 
     End Sub
 
@@ -688,6 +690,7 @@ Public Class Win_SélecteurDOuvrage
 #Region "ValiderLeChoix"
     Private Sub ValiderLeChoix()
         Me._Résultat = Me.OuvrageSélectionné
+        Me.DialogResult = True
         If (Me.Résultat IsNot Nothing) Then
             RaiseEvent OuvrageTrouvé(Me.Résultat)
             Me.Close()

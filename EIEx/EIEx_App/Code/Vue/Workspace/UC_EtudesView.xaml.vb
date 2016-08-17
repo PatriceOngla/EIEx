@@ -92,6 +92,8 @@ Public Class UC_EtudesView
         End Set
     End Property
 
+#End Region
+
 #Region "BordereauCourant"
     Public Property BordereauCourant() As Bordereau
         Get
@@ -99,10 +101,22 @@ Public Class UC_EtudesView
         End Get
         Set(ByVal value As Bordereau)
             WS.BordereauCourant = value
+            ActiverLaWorksheetDuBordereauCourant()
         End Set
     End Property
-#End Region
 
+    Private Sub ActiverLaWorksheetDuBordereauCourant()
+        Try
+            With Me.BordereauCourant
+                If .Parent.ClasseurRéel IsNot Nothing Then
+                    .Parent.ClasseurRéel.Activate()
+                    .Worksheet.Activate()
+                End If
+            End With
+        Catch ex As Exception
+            Debug.Print("ActiverLaWorksheetDuBordereauCourant a échoué" & vbCr & ex.ToString)
+        End Try
+    End Sub
 #End Region
 
 #End Region
@@ -294,20 +308,24 @@ Public Class UC_EtudesView
 
 #End Region
 
-    Private UC_Ouvrages As New UC_OuvragesView
+#Region "GotoOuvrages"
+
     Private Sub Btn_GotoOuvrages_Click(sender As Object, e As RoutedEventArgs) Handles Btn_GotoOuvrages.Click
         Try
             With Me.EtudeCourante
                 If .Ouvrages.Count = 0 Then
                     Message("Aucun ouvrage pour cette étude.", vbInformation)
                 Else
-                    Win_Ouvrages.Show($"Ouvrages de l'étude ""{Me.EtudeCourante.Nom}""", Me.BordereauCourant.Ouvrages)
+                    Dim wo = New Win_Ouvrages
+                    wo.ShowDialog($"Ouvrages de l'étude ""{Me.EtudeCourante.Nom}""", Me.BordereauCourant.Ouvrages)
                 End If
             End With
         Catch ex As Exception
             ManageErreur(ex)
         End Try
     End Sub
+
+#End Region
 
 #End Region
 

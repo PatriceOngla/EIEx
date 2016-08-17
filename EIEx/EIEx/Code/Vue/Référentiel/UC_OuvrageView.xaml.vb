@@ -92,13 +92,12 @@ Public Class UC_OuvragesView
 #End Region
 
 #Region "SélecteurDeProduit"
-    Private WithEvents _SélecteurDeProduit As UC_SélecteurDeProduit = UC_SélecteurDeProduit.Instance
-
+    Private WithEvents _SélecteurDeProduit As UC_SélecteurDeProduit
     Public ReadOnly Property SélecteurDeProduit() As UC_SélecteurDeProduit
         Get
-            'If _SélecteurDeProduit Is Nothing Then
-            '    _SélecteurDeProduit = New UC_SélecteurDeProduit
-            'End If
+            If _SélecteurDeProduit Is Nothing Then
+                _SélecteurDeProduit = New UC_SélecteurDeProduit
+            End If
             Return _SélecteurDeProduit
         End Get
     End Property

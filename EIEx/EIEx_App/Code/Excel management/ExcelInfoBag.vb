@@ -12,10 +12,10 @@ Public Class ExcelInfoBag
 
 #Region "Constructeurs"
 
-    Public Sub New()
-        _ExcelInstance = TryCast(Marshal.GetActiveObject("Excel.application"), Excel.Application)
-        If _ExcelInstance Is Nothing Then _ExcelInstance = New Excel.Application
-    End Sub
+    'Shared Sub New()
+    '    _ExcelInstance = TryCast(Marshal.GetActiveObject("Excel.application"), Excel.Application)
+    '    If _ExcelInstance Is Nothing Then _ExcelInstance = New Excel.Application
+    'End Sub
 
     ''' <summary>File to get information from.</summary>
     ''' <param name="FileName"></param>
@@ -34,6 +34,11 @@ Public Class ExcelInfoBag
     Private Shared _ExcelInstance As Excel.Application
     Public Shared ReadOnly Property ExcelInstance() As Excel.Application
         Get
+            If _ExcelInstance Is Nothing Then
+                _ExcelInstance = Marshal.GetActiveObject("Excel.application")
+                ExcelEventManager.XL = _ExcelInstance
+                'If _ExcelInstance Is Nothing Then _ExcelInstance = New Excel.Application
+            End If
             Return _ExcelInstance
         End Get
     End Property

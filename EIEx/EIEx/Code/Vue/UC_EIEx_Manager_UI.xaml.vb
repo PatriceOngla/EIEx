@@ -10,8 +10,7 @@ Public Class UC_EIEx_Manager_UI
 #Region "Champs privés"
 
     Friend WithEvents UCSO As New UC_SélecteurDOuvrage()
-    'Friend WithEvents UCSP As New UC_SélecteurDeProduit()
-    Friend WithEvents UCSP As UC_SélecteurDeProduit = UC_SélecteurDeProduit.Instance
+    Friend WithEvents UCSP As New UC_SélecteurDeProduit()
 
 #End Region
 
@@ -196,7 +195,9 @@ Public Class UC_EIEx_Manager_UI
 #End Region
 
     Private Sub UC_SubContainer_MouseRightButtonUp(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseRightButtonUp
-
+#If DEBUG Then
+        Globals.ThisAddIn.Test()
+#End If
     End Sub
 
 #End Region

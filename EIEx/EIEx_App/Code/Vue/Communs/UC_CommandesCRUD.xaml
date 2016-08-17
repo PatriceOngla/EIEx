@@ -7,16 +7,16 @@
              xmlns:local="clr-namespace:EIEx_App"
              mc:Ignorable="d" 
              d:DesignWidth="300" Background="#4C000000"
-             Margin="0"
              >
     <UserControl.Resources>
         <ResourceDictionary>
-
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
     </UserControl.Resources>
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
         <Button x:Name="Btn_Ajouter" 
                 ContentTemplate="{StaticResource Ajouter}" 
                 Margin="4" Width="20" Height="20"

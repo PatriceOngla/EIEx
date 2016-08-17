@@ -84,9 +84,6 @@ Class Application
         Try
             PersistancyManager.ChargerLeWorkspace()
             PersistancyManager.ChargerLeRéférentiel()
-#If DEBUG Then
-            Test()
-#End If
         Catch ex As Exception
             ManageErreur(ex, $"Echec du chargement des données.")
         End Try
@@ -111,10 +108,12 @@ Class Application
 
 #If DEBUG Then
     Public Sub Test()
-
-        Win_SélecteurDOuvrage.Cherche()
+        'Dim w = New Window1
+        'w.ShowDialog()
 
         Win_SélecteurDeProduit.Cherche()
+
+        Win_SélecteurDOuvrage.Cherche()
 
     End Sub
 #End If

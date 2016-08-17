@@ -2,19 +2,17 @@
 
 Public Class Win_Ouvrages
 
-
 #Region "Méthodes"
-    Private Shared _DefaultInstance As Win_Ouvrages
 
-    Public Overloads Shared Sub Show(Titre As String, Source As IEnumerable(Of Ouvrage_Base))
+    Public Overloads Function ShowDialog(Titre As String, Source As IEnumerable(Of Ouvrage_Base)) As Boolean?
         Try
-            If _DefaultInstance Is Nothing Then _DefaultInstance = New Win_Ouvrages
-            _DefaultInstance.DataContext = Source
-            _DefaultInstance.Title = Titre
+            Me.DataContext = Source
+            Me.Title = Titre
+            Return Me.ShowDialog()
         Catch ex As Exception
             ManageErreur(ex)
         End Try
-    End Sub
+    End Function
 
 #End Region
 

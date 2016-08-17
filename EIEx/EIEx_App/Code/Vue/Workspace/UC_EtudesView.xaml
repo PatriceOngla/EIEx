@@ -7,7 +7,13 @@
              xmlns:local="clr-namespace:EIEx_App"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600">
-
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,10 +22,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel x:Name="SP_Titre" >
-            <Label Content="Etude courante : " />
-            <TextBlock Text="{Binding ElementName=DG_Master, Path=SelectedItem.Nom, FallbackValue=NomEtudeCourante}" FontSize="24"/>
-        </DockPanel>
+        <TextBlock Text="{Binding ElementName=DG_Master, Path=SelectedItem.Nom, FallbackValue=NomEtudeCourante}" FontSize="24" HorizontalAlignment="Center"/>
 
         <Expander x:Name="Exp_Master" Grid.Row="1"  
                       Header="Etudes" IsExpanded="False">
@@ -33,8 +36,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Expander>
-
-        <!--<ScrollViewer x:Name="SV_Detail" Grid.Row="2">-->
 
         <Grid  x:Name="Grd_Detail" Grid.Row="2" DataContext="{Binding ElementName=DG_Master, Path=SelectedItem}">
             <Grid.RowDefinitions>
@@ -274,15 +275,15 @@
             <GridSplitter Grid.ColumnSpan="2" Grid.Row="1" />
 
         </Grid>
-        <!--</ScrollViewer>-->
 
-        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" Grid.Row="3" DockPanel.Dock="Right"/>
+        <DockPanel x:Name="DP_Commandes" Grid.Row="3" LastChildFill="False" Background="#4C000000">
 
-        <DockPanel x:Name="DP_Commandes" Grid.Row="3" LastChildFill="False">
+            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" DockPanel.Dock="Right" 
+                                    Background="Transparent" VerticalAlignment="Center"/>
 
             <Button x:Name="Btn_UpdateExcel" DockPanel.Dock="Left"
                 Style="{StaticResource BoutonCarré}"
-                Content="Reporter dans Excel" Margin="2" Padding="2"/>
+                Content="Reporter dans Excel" Margin="3" VerticalAlignment="Center" Padding="2"/>
         </DockPanel>
 
     </Grid>
