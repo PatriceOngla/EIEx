@@ -6,8 +6,10 @@ Imports EIEx_DAO
 Imports Excel = Microsoft.Office.Interop.Excel
 Imports Model
 Imports Utils
+Imports System.ComponentModel
 
 Public Class UC_EtudesView
+    Implements INotifyPropertyChanged
 
 #Region "Constructeurs"
 
@@ -78,6 +80,7 @@ Public Class UC_EtudesView
         End Get
         Set(ByVal value As Etude)
             WS.EtudeCourante = value
+            NotifyPropertyChanged(NameOf(EtudeCourante))
         End Set
     End Property
 #End Region
@@ -139,7 +142,10 @@ Public Class UC_EtudesView
 
     Private Sub Btn_OuvrirUneAutreEtude_Click(sender As Object, e As RoutedEventArgs) Handles Btn_OuvrirUneAutreEtude.Click
         Try
-            MsgBox("Btn_OuvrirUneAutreEtude_Click")
+            Dim resultat = Win_SélecteurDEtude.Cherche
+            If resultat IsNot Nothing Then
+                Me.EtudeCourante = resultat
+            End If
         Catch ex As Exception
             ManageErreur(ex)
         End Try
@@ -399,6 +405,16 @@ Public Class UC_EtudesView
     'End Sub
 
 #End Region
+
+#End Region
+
+#Region "INotifyPropertyChanged"
+
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+    Friend Sub NotifyPropertyChanged(PropertyName As String)
+        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(PropertyName))
+    End Sub
+
 
 #End Region
 

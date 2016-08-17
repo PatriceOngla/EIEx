@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:EIEx_App"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600">
-    
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,7 +26,8 @@
 
         <TextBlock Text="{Binding ElementName=DG_Master, Path=SelectedItem.Nom, FallbackValue=NomEtudeCourante}" FontSize="24" HorizontalAlignment="Center"/>
 
-        <Expander x:Name="Exp_Master" Grid.Row="1"  
+        <!--On masque l'expander avec la liste des études mais on le conserve juste pour aller vite et changer un minimum de choses en restant homogène avec les autres UI.-->
+        <Expander x:Name="Exp_Master" Grid.Row="1" Visibility="Collapsed" 
                       Header="Etudes" IsExpanded="False">
             <DataGrid x:Name="DG_Master" 
                       ItemsSource="{Binding}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True"
@@ -53,9 +54,9 @@
 
                 <!--Commentaires Etude-->
                 <RowDefinition Height="1*"/>
-                
+
             </Grid.RowDefinitions>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="100"/>
                 <ColumnDefinition Width="*"/>
@@ -281,7 +282,7 @@
                                     ToolTip="Initialiser tous les classeurs Excel de l'étude courante à partir des classeurs actuellement ouverts."/>
 
                             <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" DockPanel.Dock="Right"  Background="Transparent"/>
-                            
+
                         </DockPanel  >
 
                         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" />

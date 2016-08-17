@@ -11,7 +11,6 @@ Public Class Win_SélecteurDEtude
 
     Private Sub UC_SélecteurDEtude_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
         SetCollectionViewSourceEtudes()
-        Produit.SetMotsPourTousLesProduits()
         Me.SLtr_RésultatRecherche.ItemsSource = CollectionViewSourceEtudes.View
     End Sub
 
@@ -242,9 +241,11 @@ Public Class Win_SélecteurDEtude
                                         New UIPropertyMetadata(CShort(0), New PropertyChangedCallback(
                                                                Sub(Sender As Win_SélecteurDEtude,
                                                                    e As DependencyPropertyChangedEventArgs)
-                                                                   If e.NewValue > 0 Then
-                                                                       Sender.RechercheSurDemande = True
-                                                                   End If
+                                                                   Sender.FiltrerLesEtudes()
+
+                                                                   'If e.NewValue > 0 Then
+                                                                   '    Sender.RechercheSurDemande = True
+                                                                   'End If
                                                                End Sub)
                                                                ))
 
@@ -404,7 +405,7 @@ Public Class Win_SélecteurDEtude
 
         MatchNom = MatcheCritèresNoms(E, Me.CritèreNom, Me.DistanceTolérée)
         If MatchNom Then
-            MatchNom = MatcheCritèresClients(E, Me.CritèreClient, Me.DistanceTolérée)
+            MatchClient = MatcheCritèresClients(E, Me.CritèreClient, Me.DistanceTolérée)
         End If
 
         Dim r = MatchNom AndAlso MatchClient
@@ -417,8 +418,8 @@ Public Class Win_SélecteurDEtude
         Return r
     End Function
 
-    Private Function MatcheCritèresClients(E As Etude, CritèreClient As String, DistanceTolérée As Short) As Boolean
-        Dim r = MatcheCritères(E.Client, CritèreNom, DistanceTolérée)
+    Private Shared Function MatcheCritèresClients(E As Etude, CritèreClient As String, DistanceTolérée As Short) As Boolean
+        Dim r = MatcheCritères(E.Client, CritèreClient, DistanceTolérée)
         Return r
     End Function
 
@@ -430,9 +431,13 @@ Public Class Win_SélecteurDEtude
         If AucunCritère Then
             r = True
         Else
-            Dim Mots = TargetPropValue.Split({" "c, "'"c})
-            Dim TabMotsCherchés = Critère.Split({" "c, "'"c}, StringSplitOptions.RemoveEmptyEntries)
-            r = Mots.ContainsList_String(TabMotsCherchés, True, True, DistanceTolérée)
+            If String.IsNullOrEmpty(TargetPropValue) Then
+                r = False
+            Else
+                Dim Mots = TargetPropValue.Split({" "c, "'"c})
+                Dim TabMotsCherchés = Critère.Split({" "c, "'"c}, StringSplitOptions.RemoveEmptyEntries)
+                r = Mots.ContainsList_String(TabMotsCherchés, True, True, DistanceTolérée)
+            End If
         End If
         Return r
     End Function

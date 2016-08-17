@@ -1,11 +1,11 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
-Imports System.Xml.Serialization
 Imports Model
 
 ''' <summary>Singleton.</summary>
 Public Class WorkSpace
     Inherits Système
+
 
 #Region "Constructeurs"
 
@@ -49,24 +49,17 @@ Public Class WorkSpace
 
     Public Event EtudeCouranteChanged(OldEtude As Etude, NewEtude As Etude)
 
-    Private _EtudeCourante As Etude
     Public Property EtudeCourante As Etude
         Get
-            If _EtudeCourante Is Nothing Then
-                _EtudeCourante = (From e In Etudes Where e.EstOuverte).FirstOrDefault()
-                If _EtudeCourante Is Nothing Then
-                    _EtudeCourante = Me.Etudes.FirstOrDefault()
-                    If _EtudeCourante IsNot Nothing Then _EtudeCourante.EstOuverte = True
-                End If
-            End If
-            Return _EtudeCourante
+            Return GetEtudeCourante()
         End Get
         Set(ByVal value As Etude)
             If value IsNot Nothing AndAlso Object.Equals(value, Me.EtudeCourante) Then Exit Property
             Try
-                Dim oldValue = Me._EtudeCourante
                 If Not (value Is Nothing OrElse Etudes.Contains(value)) Then Throw New InvalidOperationException("L'étude n'appartient pas à l'espace de travail.")
-                _EtudeCourante = value
+                Dim oldValue = Me.GetEtudeCourante
+                If value IsNot Nothing Then value.EstOuverte = True
+                If (oldValue IsNot Nothing) AndAlso (oldValue IsNot value) Then oldValue.EstOuverte = False
                 NotifyPropertyChanged(NameOf(EtudeCourante))
                 RaiseEvent EtudeCouranteChanged(oldValue, value)
             Catch ex As Exception
@@ -75,6 +68,14 @@ Public Class WorkSpace
         End Set
     End Property
 
+    Private Function GetEtudeCourante()
+        Dim r = (From e In Etudes Where e.EstOuverte).FirstOrDefault()
+        If r Is Nothing Then
+            r = Me.Etudes.FirstOrDefault()
+            If r IsNot Nothing Then r.EstOuverte = True
+        End If
+        Return r
+    End Function
 
 #End Region
 
@@ -123,18 +124,6 @@ Public Class WorkSpace
 #End Region
 
 #Region "Méthodes"
-
-    '#Region "Persistance"
-
-    '    Public Overrides Sub Charger(Chemin As String)
-    '        If IO.File.Exists(Chemin) Then
-    '            Dim WS_DAO As Workspace_DAO
-    '            WS_DAO = Utils.DéSérialisation(Of Workspace_DAO)(Chemin)
-    '            WS_DAO.UnSerialize(Me)
-    '        End If
-    '    End Sub
-
-    '#End Region
 
 #Region "Plomberie"
 

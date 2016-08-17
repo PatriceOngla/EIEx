@@ -104,90 +104,36 @@
                            Text="{Binding InfosResultat, FallbackValue=NombreDeRésultats}"/>
 
                 <Grid Grid.Row="1" TextBlock.FontFamily="Consolas">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <!--<Rectangle Fill="#33000000"/>
-                    <TextBlock x:Name="Entête" Text="{Binding EntêteRésultats, FallbackValue=Entête}" Margin="6,3,0,3"/>-->
-
-                    <DataGrid x:Name="SLtr_RésultatRecherche" Grid.Row="1" Margin="0,3,0,0"
-                              AutoGenerateColumns="True"
-                              SelectedItem ="{Binding ElementName=Win_SélecteurDEtude, Path=EtudeSélectionné, Mode=TwoWay}"
-                              TabIndex="3" />
-
-                    <!--<ListBox x:Name="SLtr_RésultatRecherche" Grid.Row="1" Margin="0,3,0,0"
-                             SelectedItem ="{Binding ElementName=Win_SélecteurDEtude, Path=EtudeSélectionné, Mode=TwoWay}"
-                             ItemTemplate="{StaticResource Tplt_Etude}" TabIndex="3" >
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Padding" Value="1"/>
-                                <Setter Property="Margin" Value="0"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                                    Background="{TemplateBinding Background}" 
-                                                    Padding="{TemplateBinding Padding}" 
-                                                    SnapsToDevicePixels="true"
-                                                    >
-                                                <Grid>
-                                                    <ContentPresenter 
-                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                                    />
-                                                    <Button ContentTemplate="{StaticResource Valider}" 
-                                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
-                                                        Path=IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                            HorizontalAlignment="Right"
-                                                            Margin="1" Height="15" Width="15"
-                                                            Click="ValiderLeChoix">
-                                                        <Button.Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                                                <Setter Property="Foreground" Value="#FF9ACD32"/>
-                                                            </Style>
-                                                        </Button.Style>
-                                                    </Button>
-                                                </Grid>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="IsMouseOver" Value="True"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
-                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
-                                                </MultiTrigger>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="Selector.IsSelectionActive" Value="False"/>
-                                                        <Condition Property="IsSelected" Value="True"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
-                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
-                                                </MultiTrigger>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="Selector.IsSelectionActive" Value="True"/>
-                                                        <Condition Property="IsSelected" Value="True"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
-                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
-                                                </MultiTrigger>
-                                                <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>-->
-
+                    <DataGrid x:Name="SLtr_RésultatRecherche"
+                              AutoGenerateColumns="False"
+                              SelectedItem ="{Binding ElementName=Win_SélecteurDEtude, Path=EtudeSélectionnée, Mode=TwoWay}"
+                              TabIndex="3" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="250" />
+                            <DataGridTextColumn Header="Client" Binding="{Binding Client}" />
+                            <DataGridTextColumn Header="Classeurs Excel" Binding="{Binding NbClasseursExcel}" />
+                            <DataGridTextColumn Header="Ouvrages" Binding="{Binding NbOuvrages}" />
+                            <DataGridTemplateColumn Header="OK" 
+                                            ToolTipService.ToolTip="Validation du choix">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Button x:Name="Btn_Valider"
+                                                Margin="3,0,1,0" VerticalAlignment="Center"
+                                                Width="15" Height="15"
+                                                ContentTemplate="{StaticResource Valider}"  
+                                                ToolTip="Choisir cette étude" 
+                                                Click="ValiderLeChoix"
+                                        />
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Path=IsMouseOver}" Value="False">
+                                                <Setter TargetName="Btn_Valider" Property="Visibility" Value="Hidden"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
 
             </Grid>

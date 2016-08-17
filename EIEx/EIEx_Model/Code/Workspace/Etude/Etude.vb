@@ -60,6 +60,10 @@ Public Class Etude
 
     Private _EstOuverte As Boolean = False
 
+    ''' <summary>
+    ''' Indique qu'il s'agit de l'étude courante (cf. <see cref="WorkSpace.EtudeCourante"/>) . Il ne peut y en avoir qu'une. 
+    ''' </summary>
+    ''' <returns></returns>
     Public Property EstOuverte() As Boolean
         Get
             Return _EstOuverte
@@ -67,21 +71,10 @@ Public Class Etude
         Set(ByVal value As Boolean)
             If Object.Equals(value, Me._EstOuverte) Then Exit Property
             _EstOuverte = value
+            If value Then WS.EtudeCourante = Me
             NotifyPropertyChanged(NameOf(EstOuverte))
-            ManageEstOuverteChanged()
         End Set
     End Property
-
-    Private Sub ManageEstOuverteChanged()
-        If Me.EstOuverte Then
-            Dim WS = WorkSpace.Instance
-            Dim EC = WS.EtudeCourante
-            If EC IsNot Nothing AndAlso EC IsNot Me Then
-                EC.EstOuverte = False
-            End If
-            If EC IsNot Me Then WS.EtudeCourante = Me
-        End If
-    End Sub
 
 #End Region
 
@@ -116,6 +109,17 @@ Public Class Etude
             Return r
         End Get
     End Property
+
+#Region "NbOuvrages"
+
+    Public ReadOnly Property NbOuvrages() As Integer
+        Get
+            Return Me.Ouvrages.Count()
+        End Get
+    End Property
+
+#End Region
+
 #End Region
 
 #End Region
