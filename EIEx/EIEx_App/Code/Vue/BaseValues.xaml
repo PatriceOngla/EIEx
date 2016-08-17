@@ -50,6 +50,8 @@
     <!--Jaune-->
     <Color x:Key="CouleurActionRequise_Foncée">#D7AA03</Color>
     <!--Jaune-->
+    <Color x:Key="CouleurInfos">Magenta</Color>
+    <!--Jaune-->
 
     <Color x:Key="CouleurContourContainer">#FFFFFF98</Color>
 

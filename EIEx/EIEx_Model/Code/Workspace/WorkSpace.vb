@@ -6,7 +6,6 @@ Imports Model
 Public Class WorkSpace
     Inherits Système
 
-
 #Region "Constructeurs"
 
     Private Sub New()

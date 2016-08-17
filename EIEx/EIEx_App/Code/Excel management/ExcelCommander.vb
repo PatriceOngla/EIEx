@@ -227,6 +227,15 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
         Return r
     End Function
 
+    ''' <summary>Amener la fenêtre Excel au premier plan. </summary>
+    Friend Sub FocusExcel()
+        Try
+            BringAppToFront(XL.Caption)
+        Catch ex As Exception
+            ManageErreur(ex, , False)
+        End Try
+    End Sub
+
     Public Sub SélectionnerPlageExcel(R As Range)
         Try
             XL.Goto(R)
@@ -234,8 +243,6 @@ Vérifier que le nom de la feuille est défini par le bordereau correspond à un
             ManageErreur(ex, "Echec de la sélection de la plage Excel.")
         End Try
     End Sub
-
-
 
     <Extension> Public Function GetCelluleExcelAssociée(O As Ouvrage) As Range
         Dim B = O.BordereauParent

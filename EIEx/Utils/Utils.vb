@@ -339,4 +339,22 @@ Public Module Utils
 
 #End Region
 
+#Region "Gestion du shell"
+
+#Region "Déclarations des API"
+
+    Private Declare Function SetForegroundWindow Lib "user32" (ByVal hwnd As IntPtr) As Long
+
+    Private Declare Auto Function FindWindow Lib "user32.dll" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
+
+#End Region
+
+    Public Sub BringAppToFront(AppCaption As String)
+        Dim handler = FindWindow(Nothing, AppCaption)
+        SetForegroundWindow(handler)
+    End Sub
+
+
+#End Region
+
 End Module

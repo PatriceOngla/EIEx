@@ -880,7 +880,12 @@
 
     <!--<Style x:Key="GridSplitterStyle" BasedOn="{StaticResource {x:Type GridSplitter}}" TargetType="{x:Type GridSplitter}">-->
     <Style x:Key="GridSplitterStyle" TargetType="{x:Type GridSplitter}">
-        <Setter Property="Background" Value="#FFFA7575"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource CouleurActionPossible}"/>
+            </Setter.Value>
+        </Setter> 
+        <Setter Property="Opacity" Value="0.5"/>
     </Style>
 
     <Style x:Key="VerticalGridSplitter" BasedOn="{StaticResource GridSplitterStyle}" TargetType="{x:Type GridSplitter}">

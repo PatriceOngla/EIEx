@@ -109,26 +109,6 @@ Friend Class ExcelEventManager
         End If
     End Sub
 
-    'Private Shared Function LaFeuilleAffichéeEstCelleDuBordereauCourant() As Boolean
-
-    '    Dim awb = XL.ActiveWorkbook
-    '    Dim ash As Excel.Worksheet = XL.ActiveSheet
-    '    Dim awbPath = awb.FullName.Replace("""", "")
-    '    Dim ashName = ash.Name
-    '    Dim NomFicherBordereauCourant = WS?.ClasseurExcelCourant?.CheminFichier
-    '    Dim NomFeuilleCourante = WS?.BordereauCourant?.NomFeuille
-    '    Dim r As Boolean
-    '    If (String.IsNullOrEmpty(NomFicherBordereauCourant)) Or String.IsNullOrEmpty(NomFeuilleCourante) Then
-    '        r = False
-    '    Else
-    '        NomFicherBordereauCourant = NomFicherBordereauCourant.Replace("""", "")
-    '        Dim OKFichier = Object.Equals(awbPath, NomFicherBordereauCourant)
-    '        Dim OKFeuille = Object.Equals(ashName, NomFeuilleCourante)
-    '        r = OKFichier AndAlso OKFeuille
-    '    End If
-    '    Return r
-    'End Function
-
     Private Shared Function LaFeuilleActiveEstCelleDeLUnDesBordereauxDuClasseurCourant() As Boolean
 
         Dim awb = XL.ActiveWorkbook

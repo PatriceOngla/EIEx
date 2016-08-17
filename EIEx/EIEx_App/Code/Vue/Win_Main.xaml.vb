@@ -276,7 +276,7 @@ Public Class Win_Main
 
     Private Sub UC_SubContainer_MouseRightButtonUp(sender As Object, e As MouseButtonEventArgs) Handles Me.MouseRightButtonUp
 #If DEBUG Then
-        My.Application.Test()
+        'My.Application.Test()
 #End If
 
     End Sub

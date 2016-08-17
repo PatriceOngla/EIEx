@@ -36,7 +36,12 @@ Public Class UC_ExcelRangeSelector
 #Region "EstActif (Boolean)"
 
     Public Shared ReadOnly EstActifProperty As DependencyProperty =
-            DependencyProperty.Register("EstActif", GetType(Boolean), GetType(UC_ExcelRangeSelector), New UIPropertyMetadata(False))
+            DependencyProperty.Register("EstActif", GetType(Boolean), GetType(UC_ExcelRangeSelector),
+                                        New UIPropertyMetadata(False, New PropertyChangedCallback(
+                                                               Sub(sender As UC_ExcelRangeSelector, e As DependencyPropertyChangedEventArgs)
+                                                                   ExcelCommander.FocusExcel()
+                                                               End Sub))
+                                                               )
 
     Public Property EstActif As Boolean
         Get
@@ -57,8 +62,20 @@ Public Class UC_ExcelRangeSelector
         If Me.EstActif Then
             Me.XLRange = NewSelection?.Address
             Me.EstActif = False
+            ReFocusApplication()
         End If
     End Sub
 
+    ''' <summary>Parce que le focus a été transmis à Excel. </summary>
+    Private Sub ReFocusApplication()
+        Try
+            Dim w = Win_Main.Instance
+            w.Activate()
+            Me.Focus()
+        Catch ex As Exception
+            ManageErreur(ex, , False)
+        End Try
+
+    End Sub
 #End Region
 End Class

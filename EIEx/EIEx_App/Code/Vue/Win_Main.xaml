@@ -42,7 +42,12 @@
 
         </TabControl>
 
-        <TextBlock x:Name="TBx_MsgInfo" Grid.Row="1" Text="{Binding ElementName=Win_EIEx_Manager_UI, Path=MsgInfo, FallbackValue=Msg info}"/>
+        <TextBlock x:Name="TBx_MsgInfo" Grid.Row="1" 
+                   Text="{Binding ElementName=Win_EIEx_Manager_UI, Path=MsgInfo, FallbackValue=Msg info}">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{StaticResource CouleurInfos}"/>
+            </TextBlock.Foreground>
+        </TextBlock>
     </Grid>
 
 </Window>
