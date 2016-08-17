@@ -58,6 +58,23 @@ Public Class Win_Main
     End Property
 #End Region
 
+#Region "MsgInfo (String)"
+
+    Public Shared ReadOnly MsgInfoProperty As DependencyProperty =
+            DependencyProperty.Register("MsgInfo", GetType(String), GetType(Win_Main), New UIPropertyMetadata(Nothing))
+
+    Public Property MsgInfo As String
+        Get
+            Return DirectCast(GetValue(MsgInfoProperty), String)
+        End Get
+
+        Set(ByVal value As String)
+            SetValue(MsgInfoProperty, value)
+        End Set
+    End Property
+
+#End Region
+
 #End Region
 
 #Region "Methods"
@@ -78,17 +95,21 @@ Public Class Win_Main
 
 #Region "Menu"
 
-#Region "Gestion des enregistrements"
-    Private Sub EnregistrerRéférentiel() Handles MIt_Ref_Save.Click
+#Region "Gestion de la persistence"
+
+#Region "Référentiel"
+
+    Friend Shared Sub EnregistrerRéférentiel()
         Try
             PersistancyManager.EnregistrerLeRéférentiel()
+            Dim Msg = $"Référentiel {Application.Nom} enregistré à {Now().ToLongTimeString()}."
             Message("Enregistrement effectué.")
         Catch ex As Exception
             ManageErreur(ex, "Echec de l'enregistrement du référentiel.", True, False)
         End Try
     End Sub
 
-    Private Sub RechargerRéférentiel() Handles MIt_Ref_Reload.Click
+    Friend Shared Sub RechargerRéférentiel()
         Try
             PersistancyManager.ChargerLeRéférentiel()
             Message("Rechargement effectué.")
@@ -97,16 +118,22 @@ Public Class Win_Main
         End Try
     End Sub
 
-    Private Sub SaveWorkspace() Handles MIt_WS_Save.Click
+#End Region
+
+#Region "Workspace"
+
+    Friend Shared Sub SaveWorkspace()
         Try
             PersistancyManager.EnregistrerLeWorkspace()
+            Dim Msg = $"Espace de travail {Application.Nom} enregistré à {Now().ToLongTimeString()}."
+            AfficherMessage(Msg)
             Message("Enregistrement effectué.")
         Catch ex As Exception
             ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.", True, False)
         End Try
     End Sub
 
-    Private Sub RechargerWorkspace() Handles MIt_WS_Reload.Click
+    Friend Shared Sub RechargerWorkspace()
         Try
             PersistancyManager.ChargerLeWorkspace()
             Message("Rechargement effectué.")
@@ -117,21 +144,7 @@ Public Class Win_Main
 
 #End Region
 
-    Private Sub ChargerDepuisExcel() Handles MIt_Prdts_Import.Click
-        ImporterProduitsDepuisExcel()
-    End Sub
-
-#Region "Gestion des classeurs associés à l'étude courante"
-
-    Private Sub InitialiserLesClasseursExcelDeLEtudeCourante() Handles MIt_WBks_Init.Click
-        Me.UC_Etude.InitialiserLesClasseursExcelDeLEtudeCopurante()
-    End Sub
-    Private Sub ChargerLesClasseursExcelDeLEtudeCourante() Handles MIt_WBks_Open.Click
-        Me.UC_Etude.ChargerLesClasseursExcelDeLEtudeCopurante()
-    End Sub
-
 #End Region
-
 
 #End Region
 
@@ -233,6 +246,10 @@ Public Class Win_Main
 #End Region
 
 #End Region
+
+    Public Shared Sub AfficherMessage(Msg As String)
+        Instance.MsgInfo = Msg
+    End Sub
 
 #End Region
 

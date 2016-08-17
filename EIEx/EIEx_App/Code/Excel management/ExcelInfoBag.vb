@@ -31,15 +31,18 @@ Public Class ExcelInfoBag
 #Region "Propriétés"
 
 #Region "ExcelInstance"
-    Private Shared _ExcelInstance As Excel.Application
+    'Private Shared _ExcelInstance As Excel.Application
     Public Shared ReadOnly Property ExcelInstance() As Excel.Application
         Get
-            If _ExcelInstance Is Nothing Then
-                _ExcelInstance = Marshal.GetActiveObject("Excel.application")
-                ExcelEventManager.XL = _ExcelInstance
-                'If _ExcelInstance Is Nothing Then _ExcelInstance = New Excel.Application
-            End If
-            Return _ExcelInstance
+            'If _ExcelInstance Is Nothing Then
+            '_ExcelInstance = Marshal.GetActiveObject("Excel.application")
+            'ExcelEventManager.XL = _ExcelInstance
+            Dim r = Marshal.GetActiveObject("Excel.application")
+            ExcelEventManager.XL = r
+            'If _ExcelInstance Is Nothing Then _ExcelInstance = New Excel.Application
+            'End If
+            'Return _ExcelInstance
+            Return r
         End Get
     End Property
 #End Region
@@ -248,7 +251,7 @@ Public Class ExcelInfoBag
                                                 End If
                                             End Sub
 
-                FinalReleaseComObject(_ExcelInstance)
+                'FinalReleaseComObject(_ExcelInstance)
 
                 Me.WorkBooks.DoForAll(Sub(wb As Excel.Workbook)
                                           FinalReleaseComObject(wb)

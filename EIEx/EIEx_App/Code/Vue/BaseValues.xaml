@@ -62,6 +62,8 @@
 
     <SolidColorBrush x:Key="Fond" Color="#FF515151"/>
 
+    <SolidColorBrush x:Key="FondBarreCommande" Color="#4C000000"/>
+
     <!--#endregion-->
 
 </ResourceDictionary>

@@ -154,7 +154,7 @@ Public Class UC_GestionnaireDeBordereau
     Private Sub RécupérerLesOuvrages()
         Me.GdB.RécupérerLesLibellésDOuvrages()
         Message("Opération terminée.")
-        XL.StatusBar = ""
+        Win_Main.AfficherMessage("")
     End Sub
 
 #End Region

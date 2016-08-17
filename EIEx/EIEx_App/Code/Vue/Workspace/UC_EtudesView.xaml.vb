@@ -123,7 +123,37 @@ Public Class UC_EtudesView
 
 #End Region
 
+#Region "Méthodes"
+
 #Region "Gestionnaires d'évennements"
+
+#Region "Global"
+
+    Private Sub Btn_Save_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Save.Click
+        Win_Main.SaveWorkspace()
+    End Sub
+
+    Private Sub Btn_Reload_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Reload.Click
+        Win_Main.RechargerWorkspace()
+    End Sub
+
+    Private Sub Btn_OuvrirUneAutreEtude_Click(sender As Object, e As RoutedEventArgs) Handles Btn_OuvrirUneAutreEtude.Click
+        Try
+            MsgBox("Btn_OuvrirUneAutreEtude_Click")
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+    Private Sub Btn_Analyser_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Analyser.Click
+        Try
+            MsgBox("Btn_Analyser_Click")
+        Catch ex As Exception
+            ManageErreur(ex)
+        End Try
+    End Sub
+
+#End Region
 
 #Region "CRUD Etudes"
 
@@ -158,7 +188,7 @@ Public Class UC_EtudesView
 
 #Region "InitialiserLesClasseursExcelDeLEtudeCopurante"
 
-    Friend Sub InitialiserLesClasseursExcelDeLEtudeCopurante()
+    Friend Sub InitialiserLesClasseursExcelDeLEtudeCourante()
         Try
 
             If Not CheckEtudeCourante() Then Exit Sub
@@ -274,6 +304,14 @@ Public Class UC_EtudesView
         Message("Aucune étude sélectionnée.")
     End Sub
 
+    Private Sub Btn_OuvrirTousLesClasseurs_Click(sender As Object, e As RoutedEventArgs) Handles Btn_OuvrirTousLesClasseurs.Click
+        Me.ChargerLesClasseursExcelDeLEtudeCopurante()
+    End Sub
+
+    Private Sub Btn_InitialiserLesClasseurs_Click(sender As Object, e As RoutedEventArgs) Handles Btn_InitialiserLesClasseurs.Click
+        Me.InitialiserLesClasseursExcelDeLEtudeCourante()
+    End Sub
+
 #End Region
 
 #Region "CRUD Bordereaux"
@@ -329,8 +367,6 @@ Public Class UC_EtudesView
 
 #End Region
 
-#End Region
-
 #Region "Excel events"
 
     Private Sub AddExcelEventsHandlers()
@@ -341,7 +377,7 @@ Public Class UC_EtudesView
         If e.Key = Key.S AndAlso e.KeyboardDevice.Modifiers = ModifierKeys.Control Then
             Try
                 PersistancyManager.EnregistrerLeWorkspace()
-                XL.StatusBar = $"Espace de travail {Application.Nom} enregistré à {Now().ToLongTimeString()}."
+                Win_Main.AfficherMessage($"Espace de travail {Application.Nom} enregistré à {Now().ToLongTimeString()}.")
             Catch ex As Exception
                 ManageErreur(ex, "Echec de l'enregistrement de l'espace de travail.")
             End Try
@@ -361,6 +397,10 @@ Public Class UC_EtudesView
 
     'Private Sub XLSelectionChangeHandling(NewSelection As Excel.Range)
     'End Sub
+
+#End Region
+
+#End Region
 
 #End Region
 

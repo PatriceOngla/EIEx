@@ -95,8 +95,11 @@ Friend Class ExcelEventManager
 
     Private Shared Sub HighLight(r As Range, YesNo As Boolean)
         Static PreviousSelectedCell As Range = Nothing
-        Static PreviousInteriorIndex As Integer
+        Static PreviousInteriorIndex As Object 'c'est parfois un type "DBNull" (?)
+
+
         If YesNo Then
+            If r.Cells.Count > 1 Then Exit Sub
             If PreviousSelectedCell IsNot Nothing Then HighLight(PreviousSelectedCell, False)
             PreviousInteriorIndex = r.Interior.ColorIndex
             r.Interior.ColorIndex = 34

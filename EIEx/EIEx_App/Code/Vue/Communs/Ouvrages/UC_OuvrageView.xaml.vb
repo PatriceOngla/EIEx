@@ -237,6 +237,14 @@ Public Class UC_OuvragesView
 
 #Region "Divers"
 
+    Private Sub Btn_Load_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Load.Click
+        Win_Main.RechargerRéférentiel()
+    End Sub
+
+    Private Sub Btn_Save_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Save.Click
+        Win_Main.EnregistrerRéférentiel()
+    End Sub
+
     Private Sub Btn_ResetTempsDePose_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ResetTempsDePose.Click
         If Me.OuvrageCourant IsNot Nothing Then
             Me.OuvrageCourant.TempsDePoseUnitaire = Nothing

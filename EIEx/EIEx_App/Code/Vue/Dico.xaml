@@ -205,38 +205,6 @@
 
     --><!--#endregion-->
 
-    <!--#region Couleurs générales--><!--
-
-    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DarkGray"/>
-
-    <SolidColorBrush x:Key="WritableBkg" Color="#FFDFDFDF"/>
-    <SolidColorBrush x:Key="WritableFocusBkgd" Color="White"/>
-    <SolidColorBrush x:Key="ClearTextBrush" Color="#FFBDBCBC"/>
-    <SolidColorBrush x:Key="DarkTextBrush" Color="Black"/>
-    <SolidColorBrush x:Key="DarkBackground" Color="#FF434343"/>
-
-    <Color x:Key="CouleurActionPossible">#FF0088CC</Color>
-    --><!--Bleu--><!--
-    <Color x:Key="CouleurActionPossible_Foncée">#005A87</Color>
-    --><!--Bleu--><!--
-    <Color x:Key="CouleurActionRequise">#FCCD20</Color>
-    --><!--Jaune--><!--
-    <Color x:Key="CouleurActionRequise_Foncée">#D7AA03</Color>
-    --><!--Jaune--><!--
-
-    <Color x:Key="CouleurContourContainer">#FFFFFF98</Color>
-
-    <Color x:Key="SelectedItemBkgnd">Orange</Color>
-    --><!--Bleu--><!--
-
-    <SolidColorBrush x:Key="ContourContainer" Color="{StaticResource CouleurContourContainer}"/>
-    <SolidColorBrush x:Key="Contour" Color="#66000000"/>
-    <SolidColorBrush x:Key="ContourLéger" Color="#33FFFFFF"/>
-
-    <SolidColorBrush x:Key="Fond" Color="#FF515151"/>
-
-    --><!--#endregion-->
-
     <!--#region styles par défaut des contrôles-->
 
     <!--#region Containers-->
@@ -335,7 +303,7 @@
     </Style>
 
     <Style TargetType="{x:Type TabItem}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <!--<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>-->
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
@@ -948,6 +916,5 @@
     <!--#endregion-->
 
     <!--#endregion-->
-
 
 </ResourceDictionary>

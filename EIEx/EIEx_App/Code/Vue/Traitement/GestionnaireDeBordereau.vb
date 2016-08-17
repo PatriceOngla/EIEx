@@ -317,7 +317,7 @@ Public Class GestionnaireDeBordereaux
         NbcellsATraiter = Nothing
         NbCellsTraitées = Nothing
         NotifyPropertyChanged(NameOf(AvancementInfo))
-        XL.StatusBar = AvancementInfo
+        Win_Main.AfficherMessage(AvancementInfo)
     End Sub
 
     Private Sub IncrémenteAvancementClasseur(Optional NbATraiter As Integer? = Nothing)
@@ -332,7 +332,7 @@ Public Class GestionnaireDeBordereaux
         NbcellsATraiter = Nothing
         NbCellsTraitées = Nothing
         NotifyPropertyChanged(NameOf(AvancementInfo))
-        XL.StatusBar = AvancementInfo
+        Win_Main.AfficherMessage(AvancementInfo)
     End Sub
 
     Private Sub IncrémenteAvancementFeuille(Optional NbATraiter As Integer? = Nothing)
@@ -345,7 +345,7 @@ Public Class GestionnaireDeBordereaux
         NbcellsATraiter = Nothing
         NbCellsTraitées = Nothing
         NotifyPropertyChanged(NameOf(AvancementInfo))
-        XL.StatusBar = AvancementInfo
+        Win_Main.AfficherMessage(AvancementInfo)
     End Sub
 
     Private Sub IncrémenteAvancementCellule(Optional NbATraiter As Integer? = Nothing)
@@ -358,7 +358,7 @@ Public Class GestionnaireDeBordereaux
         NotifyPropertyChanged(NameOf(AvancementInfo))
 
         Dim Pas = If(NbcellsATraiter > 100000, 10000, If(NbcellsATraiter > 10000, 1000, 10))
-        If (NbCellsTraitées Mod Pas = 0) Then XL.StatusBar = AvancementInfo
+        If (NbCellsTraitées Mod Pas = 0) Then Win_Main.AfficherMessage(AvancementInfo)
     End Sub
 
 #End Region
@@ -669,10 +669,10 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
                 ManageErreur(ex, "Erreur en création d'ouvrage", False, False)
             Finally
                 NbTraité += 1
-                XL.StatusBar = $"Création des ouvrages en cours... {NbTraité}/{NbATraiter} ()"
+                Win_Main.AfficherMessage($"Création des ouvrages en cours... {NbTraité}/{NbATraiter} ()")
             End Try
         Next
-        XL.StatusBar = ""
+        Win_Main.AfficherMessage("")
         Me.NotifyPropertyChanged(NameOf(NbOuvragesDéjàCréés))
     End Sub
 

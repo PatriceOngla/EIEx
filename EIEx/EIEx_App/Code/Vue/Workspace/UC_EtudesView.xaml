@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:EIEx_App"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600">
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,6 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,6 +34,7 @@
                       >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" MinWidth="250" />
+                    <DataGridTextColumn Header="Client" Binding="{Binding Client}" />
                     <DataGridTextColumn Header="Classeurs Excel" Binding="{Binding NbClasseursExcel}" />
                 </DataGrid.Columns>
             </DataGrid>
@@ -42,12 +45,17 @@
                 <!--nom-->
                 <RowDefinition Height="Auto"/>
 
+                <!--Client-->
+                <RowDefinition Height="Auto"/>
+
                 <!--Classeur-->
                 <RowDefinition Height="3*"/>
 
                 <!--Commentaires Etude-->
                 <RowDefinition Height="1*"/>
+                
             </Grid.RowDefinitions>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="100"/>
                 <ColumnDefinition Width="*"/>
@@ -55,11 +63,15 @@
 
             <!--Nom-->
             <Label Content="Nom : " />
-            <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=NomEtude}"/>
+            <TextBox Grid.Column="1" Text="{Binding Nom, FallbackValue=nom l\'étude}"/>
+
+            <!--Nom-->
+            <Label Content="Client : " Grid.Row="1" />
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Client, FallbackValue=nom du client}"/>
 
             <!--Classeurs Excel -->
             <!--<Label Grid.Row="1" Content="Classeurs Excel : " />-->
-            <GroupBox x:Name="Gbx_ClasseursExcel" Grid.Row="1" Grid.ColumnSpan="2"
+            <GroupBox x:Name="Gbx_ClasseursExcel" Grid.Row="2" Grid.ColumnSpan="2"
                       Header="Classeurs Excel : "
                       DataContext="{Binding ElementName=DG_Master, Path=SelectedItem.ClasseursExcel}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -75,8 +87,7 @@
                         <DataGrid x:Name="DG_ClasseursExcel" 
                                   ItemsSource="{Binding}" AutoGenerateColumns="False" 
                                   IsSynchronizedWithCurrentItem="True"
-                                  SelectedItem="{Binding ElementName=UC_EtudesView, Path=ClasseurExcelCourant, Mode=TwoWay}"
-                                  Height="60">
+                                  SelectedItem="{Binding ElementName=UC_EtudesView, Path=ClasseurExcelCourant, Mode=TwoWay}">
 
                             <DataGrid.Columns>
 
@@ -257,7 +268,21 @@
 
                         </ScrollViewer>
 
-                        <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" Grid.Row="2"/>
+                        <DockPanel Grid.Row="2" LastChildFill="False" Background="{StaticResource FondBarreCommande}">
+
+                            <Button x:Name="Btn_OuvrirTousLesClasseurs" DockPanel.Dock="Left"
+                                    Style="{StaticResource BoutonCarré}"
+                                    Content="Ouvrir tous" Margin="3" VerticalAlignment="Center" Padding="2"
+                                    ToolTip="Ouvrir tous les classeurs Excel de l'étude courante."/>
+
+                            <Button x:Name="Btn_InitialiserLesClasseurs" DockPanel.Dock="Left"
+                                    Style="{StaticResource BoutonCarré}"
+                                    Content="Initialiser tous" Margin="3" VerticalAlignment="Center" Padding="2"
+                                    ToolTip="Initialiser tous les classeurs Excel de l'étude courante à partir des classeurs actuellement ouverts."/>
+
+                            <local:UC_CommandesCRUD x:Name="UC_CRUD_Classeurs" DockPanel.Dock="Right"  Background="Transparent"/>
+                            
+                        </DockPanel  >
 
                         <GridSplitter Grid.ColumnSpan="2" Grid.Row="0" />
 
@@ -268,22 +293,41 @@
             </GroupBox>
 
             <!--Commentaires-->
-            <Label Grid.Row="2" Content="Commentaires : " Margin="0,10,5,5" />
-            <TextBox Grid.Row="2"  Grid.Column="1" Margin="0,10,5,5" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
+            <Label Grid.Row="3" Content="Commentaires : " Margin="0,10,5,5" />
+            <TextBox Grid.Row="3"  Grid.Column="1" Margin="0,10,5,5" Text="{Binding Commentaires, FallbackValue=Commentaires}" />
 
             <!--GridSplitter-->
             <GridSplitter Grid.ColumnSpan="2" Grid.Row="1" />
 
         </Grid>
 
-        <DockPanel x:Name="DP_Commandes" Grid.Row="3" LastChildFill="False" Background="#4C000000">
+        <DockPanel x:Name="DP_Commandes" Grid.Row="3" LastChildFill="False" Background="{StaticResource FondBarreCommande}">
 
-            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" DockPanel.Dock="Right" 
-                                    Background="Transparent" VerticalAlignment="Center"/>
+            <Button x:Name="Btn_Analyser" DockPanel.Dock="Left"
+                    Style="{StaticResource BoutonCarré}"
+                    Content="Analyser" Margin="3" VerticalAlignment="Center" Padding="2"
+                    ToolTip="Extraire les ouvrages de l'étude"/>
 
             <Button x:Name="Btn_UpdateExcel" DockPanel.Dock="Left"
-                Style="{StaticResource BoutonCarré}"
-                Content="Reporter dans Excel" Margin="3" VerticalAlignment="Center" Padding="2"/>
+                    Style="{StaticResource BoutonCarré}"
+                    Content="MAJ Excel" Margin="3" VerticalAlignment="Center" Padding="2"
+                    ToolTip="Mettre à jour les formules Excel à partir des ouvrages renseignés."/>
+
+            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Etudes" DockPanel.Dock="Right" 
+                                    Background="Transparent" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+            <Button x:Name="Btn_Reload" DockPanel.Dock="Right"
+                    Content="R" Margin="3" VerticalAlignment="Center" 
+                    ToolTip="Recharger l'espace de travail."/>
+
+            <Button x:Name="Btn_Save" DockPanel.Dock="Right"
+                    Content="S" Margin="3" VerticalAlignment="Center" 
+                    ToolTip="Enregistrer l'espace de travail."/>
+
+            <Button x:Name="Btn_OuvrirUneAutreEtude" DockPanel.Dock="Right"
+                    Content="E" Margin="3" VerticalAlignment="Center" 
+                    ToolTip="Ouvrir une autre étude."/>
+
         </DockPanel>
 
     </Grid>

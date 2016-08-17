@@ -1,0 +1,198 @@
+﻿<Window x:Class="Win_SélecteurDEtude"
+        Name="Win_SélecteurDEtude"
+        Title="Recherche d'étude"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:EIEx_App"
+        xmlns:model="clr-namespace:Model;assembly=EIEx_Model"
+        mc:Ignorable="d" 
+        d:DesignHeight="800" d:DesignWidth="600"
+        Margin="5" Padding="5"
+        Style="{StaticResource DefaultWindowStyle}"
+>
+
+    <Window.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EIEx_App;component/Code/Vue/Dico.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid DataContext="{Binding ElementName=Win_SélecteurDEtude}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox x:Name="GBx_CritèresDeRecherche" 
+                  Header="Critères de recherche" >
+
+            <Grid x:Name="Grd_CritèresDeRecherche">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--Nom-->
+                <Label Content="Nom :"  />
+                <TextBox x:Name="TBx_CritèreNom" Grid.Column="1" Text="{Binding CritèreNom, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"/>
+
+                <!--Client-->
+                <Label Content="Client :" Grid.Row="1" />
+                <TextBox x:Name="TBx_CritèreClient" Grid.Row="1" Grid.Column="1"  Text="{Binding CritèreClient, UpdateSourceTrigger=PropertyChanged}" TabIndex="3"/>
+
+            </Grid>
+
+        </GroupBox>
+
+        <GroupBox x:Name="GBx_OptionsEtCommandes" Grid.Row="1" 
+                  Padding="1" Header="Options et commandes">
+
+            <DockPanel x:Name="SP_CommandesRecherche" Grid.Row="3" Grid.ColumnSpan="2" 
+                            Margin="0" LastChildFill="False" >
+
+                <!--Option recherche-->
+                <Label Content="Recherche sur demande :" 
+                       DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <CheckBox x:Name="CBx_optionRecherche" 
+                          DockPanel.Dock="Left" Margin="0,0,15,0"
+                          IsChecked="{Binding RechercheSurDemande}" VerticalAlignment="Center" />
+
+                <!--Option Levenstein-->
+                <Label Content="Tolérance :" 
+                       DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Slider x:Name="Sldr_DistanceTextuelle" 
+                        Width="102" Height="10"  VerticalAlignment="Center"
+                        Minimum="0" Maximum="3" Value="{Binding ElementName=Win_SélecteurDEtude, Path=DistanceTolérée, FallbackValue=2}"
+                        TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Ticks="0, 1, 2, 3"
+                        Foreground="Red"
+                        ToolTip="Distance de Levenstein tolérée (uniquement sur mots-clés ouvrage)"/>
+                <TextBox Text="{Binding ElementName=Win_SélecteurDEtude, Path=DistanceTolérée, FallbackValue=2}"  
+                         Margin="2,0,15,0" VerticalAlignment="Center"/>
+
+                <!--Bouton recherche-->
+                <Button x:Name="Btn_Chercher" 
+                        Height="30" Width="30" DockPanel.Dock="Right" Margin="35,0,0,0"
+                        ContentTemplate ="{StaticResource GoTo}"
+                        Visibility="{Binding RechercheSurDemande, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            </DockPanel>
+
+        </GroupBox>
+
+        <GroupBox x:Name="GBx_Résultats" Grid.Row="2" Header="Résultats">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="TBk_Résultat" Grid.ColumnSpan="2" Margin="0,0,0,10" 
+                           HorizontalAlignment="Right" FontWeight="Bold"
+                           Text="{Binding InfosResultat, FallbackValue=NombreDeRésultats}"/>
+
+                <Grid Grid.Row="1" TextBlock.FontFamily="Consolas">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!--<Rectangle Fill="#33000000"/>
+                    <TextBlock x:Name="Entête" Text="{Binding EntêteRésultats, FallbackValue=Entête}" Margin="6,3,0,3"/>-->
+
+                    <DataGrid x:Name="SLtr_RésultatRecherche" Grid.Row="1" Margin="0,3,0,0"
+                              AutoGenerateColumns="True"
+                              SelectedItem ="{Binding ElementName=Win_SélecteurDEtude, Path=EtudeSélectionné, Mode=TwoWay}"
+                              TabIndex="3" />
+
+                    <!--<ListBox x:Name="SLtr_RésultatRecherche" Grid.Row="1" Margin="0,3,0,0"
+                             SelectedItem ="{Binding ElementName=Win_SélecteurDEtude, Path=EtudeSélectionné, Mode=TwoWay}"
+                             ItemTemplate="{StaticResource Tplt_Etude}" TabIndex="3" >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Padding" Value="1"/>
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                                    Background="{TemplateBinding Background}" 
+                                                    Padding="{TemplateBinding Padding}" 
+                                                    SnapsToDevicePixels="true"
+                                                    >
+                                                <Grid>
+                                                    <ContentPresenter 
+                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                    />
+                                                    <Button ContentTemplate="{StaticResource Valider}" 
+                                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
+                                                        Path=IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                            HorizontalAlignment="Right"
+                                                            Margin="1" Height="15" Width="15"
+                                                            Click="ValiderLeChoix">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                                <Setter Property="Foreground" Value="#FF9ACD32"/>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
+                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                                        <Condition Property="IsSelected" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
+                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                                        <Condition Property="IsSelected" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
+                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
+                                                </MultiTrigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>-->
+
+                </Grid>
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+
+</Window>

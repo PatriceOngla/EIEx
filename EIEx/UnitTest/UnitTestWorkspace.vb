@@ -55,6 +55,7 @@ Imports Utils
     Private Function NewEtudes(i As Integer) As Etude
         Dim r = WS.GetNewEtude()
         r.Nom = $"Etude {i}"
+        r.Client = $"Client {i}"
         Dim Clsrs As New List(Of ClasseurExcel)
         Dim Clsr As ClasseurExcel
         For j = 1 To i

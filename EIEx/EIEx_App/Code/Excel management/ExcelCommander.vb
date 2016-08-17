@@ -11,9 +11,8 @@ Module ExcelCommander
 
 #Region "XL"
 
-    Private _XL As Excel.Application = ExcelInfoBag.ExcelInstance
     Function XL() As Excel.Application
-        Return _XL
+        Return ExcelInfoBag.ExcelInstance
     End Function
 
     Private Ref As Référentiel = Référentiel.Instance
@@ -48,7 +47,7 @@ Module ExcelCommander
                             NbErreurs += 1
                     End Select
                     NbTraités += 1
-                    XL.StatusBar = $"{NbTraités}/{NbATraiter}"
+                    Win_Main.AfficherMessage($"{NbTraités}/{NbATraiter}")
                 Next
             End With
             Dim Enregistrer = Message($"Import terminé. {NbProduitsImportés} produit(s) importé(s), {NbProduitsMisAJour} produit(s) mis à jour, {NbErreurs} erreur(s).{vbCr}Voulez-vous energistrer le référentiel ?", vbYesNo)
@@ -61,7 +60,7 @@ Module ExcelCommander
             ManageErreur(ex, $"Echec de l'import. {NbProduitsImportés} produits importés avant incident.", True, False)
         Finally
             XL.ScreenUpdating = True
-            XL.StatusBar = ""
+            Win_Main.AfficherMessage("")
         End Try
     End Sub
 

@@ -109,6 +109,18 @@ Public Class UC_ProduitsView
 
 #End Region
 
+    Private Sub Btn_ImporterProduits_Click(sender As Object, e As RoutedEventArgs) Handles Btn_ImporterProduits.Click
+        ExcelCommander.ImporterProduitsDepuisExcel()
+    End Sub
+
+    Private Sub Btn_Load_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Load.Click
+        Win_Main.RechargerRéférentiel()
+    End Sub
+
+    Private Sub Btn_Save_Click(sender As Object, e As RoutedEventArgs) Handles Btn_Save.Click
+        Win_Main.EnregistrerRéférentiel()
+    End Sub
+
 #End Region
 
 #End Region

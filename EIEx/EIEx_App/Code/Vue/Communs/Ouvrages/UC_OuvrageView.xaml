@@ -77,7 +77,7 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="N°" 
                                     Binding="{Binding Id}" IsReadOnly="True" 
@@ -90,7 +90,7 @@
                 <DataGridTextColumn Header="Tps pause u." Binding="{Binding TempsDePoseUnitaire}"/>
                 <DataGridTextColumn Header="Prix u." Binding="{Binding PrixUnitaire}"/>
             </DataGrid.Columns>
-            
+
         </DataGrid>
 
         <ScrollViewer x:Name="SV_Detail" Grid.Row="1" Margin="0,10,5,5">
@@ -219,11 +219,25 @@
 
         <GridSplitter />
 
-        <DockPanel x:Name="DP_Commandes" Grid.Row="2" Background="#4C000000" LastChildFill="False" >
+        <DockPanel x:Name="DP_Commandes" Grid.Row="2" Background="{StaticResource FondBarreCommande}" LastChildFill="False" >
 
-            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages" DockPanel.Dock="Right"
-                                    Background="Transparent" VerticalAlignment="Center"
-                                    Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right"
+                        Visibility="{Binding ElementName=UC_OuvragesView, Path=CanModify, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+
+                <Button x:Name="Btn_Save" DockPanel.Dock="Right"
+                                    Content="S" Margin="3" VerticalAlignment="Center"
+                                    ToolTip="Enregistrer le référentiel."/>
+
+
+                <Button x:Name="Btn_Load" DockPanel.Dock="Right"
+                                    Content="C" Margin="3" VerticalAlignment="Center"
+                                    ToolTip="Recharger le référentiel."/>
+                
+                <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Ouvrages"
+                                    Background="Transparent" VerticalAlignment="Center" Margin="9,0,0,0"
+                                     />
+            </StackPanel>
 
             <Button x:Name="Btn_AppliquerModèle" 
                     HorizontalAlignment="Left"
@@ -231,7 +245,7 @@
                     Style="{StaticResource BoutonCarré}" 
                     Content="Appliquer modèle" 
                     />
-            
+
         </DockPanel>
 
     </Grid>

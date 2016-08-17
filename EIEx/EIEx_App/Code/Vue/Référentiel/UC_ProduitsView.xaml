@@ -160,7 +160,24 @@
 
         <GridSplitter/>
 
-        <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Produits" Grid.Row="2" />
+        <DockPanel Grid.Row="2" LastChildFill="False" Background="{StaticResource FondBarreCommande}">
+            
+            <Button x:Name="Btn_ImporterProduits" DockPanel.Dock="Left"
+                                    Style="{StaticResource BoutonCarré}"
+                                    Content="Importer" Margin="3" VerticalAlignment="Center" Padding="2"
+                                    ToolTip="Importer des produits depuis un classeur Excel."/>
+            
+            <local:UC_CommandesCRUD x:Name="UC_CmdesCRUD_Produits" DockPanel.Dock="Right" Background="Transparent"/>
+
+            <Button x:Name="Btn_Save" DockPanel.Dock="Right"
+                                    Content="S" Margin="3" VerticalAlignment="Center"
+                                    ToolTip="Enregistrer le référentiel."/>
+
+
+            <Button x:Name="Btn_Load" DockPanel.Dock="Right"
+                                    Content="C" Margin="3" VerticalAlignment="Center"
+                                    ToolTip="Recharger le référentiel."/>
+        </DockPanel>
 
     </Grid>
 
