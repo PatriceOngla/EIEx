@@ -107,12 +107,14 @@ Public Class UC_EtudesView
 
     Private Sub ActiverLaWorksheetDuBordereauCourant()
         Try
-            With Me.BordereauCourant
-                If .Parent.ClasseurRéel IsNot Nothing Then
-                    .Parent.ClasseurRéel.Activate()
-                    .Worksheet.Activate()
-                End If
-            End With
+            If Me.BordereauCourant IsNot Nothing Then
+                With Me.BordereauCourant
+                    If .Parent.ClasseurRéel IsNot Nothing Then
+                        .Parent.ClasseurRéel.Activate()
+                        .Worksheet.Activate()
+                    End If
+                End With
+            End If
         Catch ex As Exception
             Debug.Print("ActiverLaWorksheetDuBordereauCourant a échoué" & vbCr & ex.ToString)
         End Try
@@ -317,7 +319,7 @@ Public Class UC_EtudesView
                     Message("Aucun ouvrage pour cette étude.", vbInformation)
                 Else
                     Dim wo = New Win_Ouvrages
-                    wo.ShowDialog($"Ouvrages de l'étude ""{Me.EtudeCourante.Nom}""", Me.BordereauCourant.Ouvrages)
+                    wo.ShowDialog($"Ouvrages du bordereau ""{Me.BordereauCourant.Nom}"" de l'étude ""{Me.EtudeCourante.Nom}""", Me.BordereauCourant.Ouvrages)
                 End If
             End With
         Catch ex As Exception

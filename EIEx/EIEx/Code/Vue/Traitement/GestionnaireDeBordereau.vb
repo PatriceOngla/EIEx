@@ -744,39 +744,9 @@ Vérifier que l'adresse de plage définie par le bordereau correspondant est cor
 
 #Region "Pilotage Excel"
 
-    'Private Sub SélectionnerLesRangesAssociés(L As LibelléDouvrage)
-    '    Try
-    '        XL.ScreenUpdating = False
-    '        Dim OriginWS As Excel.Worksheet = XL.ActiveSheet
-    '        If L Is Nothing Then Exit Sub
-    '        Dim previousWs As Excel.Worksheet = Nothing '= Selection.Worksheet
-    '        'TODO: Provisoire. On fera autrement que précédemment (sélection multiple), ça plante quand on est sur plusieurs classeurs. 
-    '        For Each rng As Excel.Range In L.Ranges
-    '            'XL.Union(Selection, rng)
-    '            If rng.Worksheet IsNot previousWs Then
-    '                rng.Worksheet.Activate()
-    '                previousWs = rng.Worksheet
-    '            End If
-    '            rng.Select()
-    '            Exit For
-    '        Next
-    '        'OriginWS.Activate()
-    '    Catch ex As Exception
-    '        ManageErreur(ex, "Echec de la sélection des cellules Excel.")
-    '    Finally
-    '        XL.ScreenUpdating = True
-    '    End Try
-    'End Sub
-
     Public Sub SélectionnerLeRangeAssociéCourant(L As LibelléDouvrage)
         SélectionnerPlageExcel(L.SelectedRange)
     End Sub
-
-    'Friend Sub GérerSélectionChanges(L As LibelléDouvrage)
-    '    'Nécessaire car il semble qu'en sélection multiple, les événnement Datagrid.SelectionChanged ne soient pas déclenchés comme je m'y attendais. Contournement (il y a sûrement mieux à faire). 
-    '    'Après recherche, c'est évidemment à cause de la virtualisation. On est à la En tout cas, c'est un comportement dégueulasse (par défaut sur la DataGrid VirtualizingStackPanel.VirtualizationMode est en Recycle, ce qui casse les bindings avec IsSelected et stoppe la génération d'event SelectionChanged dès qu'on a scrollé). 
-    '    Me.LibelléEnDoublonCourant = L
-    'End Sub
 
 #End Region
 
